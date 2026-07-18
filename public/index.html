@@ -1,822 +1,1202 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>eCura - Sicuri, vicini, ovunque</title>
-  <meta name="description" content="L'unico servizio di teleassistenza con bracciale certificato. Tranquillità per te, sicurezza per i tuoi cari. Scopri eCura">
+<!doctype html>
+  <html lang="it">
+      <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eCura - Sicuri, vicini, ovunque</title>
+<meta name="description" content="L'unico servizio di teleassistenza con bracciale certificato. Tranquillità per te, sicurezza per i tuoi cari. Scopri E-Cura">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+<!-- Icons -->  
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="js/minified/ScrollSmoother.min.js"></script>
+<script src="js/minified/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 
-  <!-- AOS animations -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
 
-  <!-- Cloudflare Turnstile -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="css/css.css" rel="stylesheet">
 
-  <!-- Custom CSS -->
-  <link href="css/style.css" rel="stylesheet">
-</head>
-<body>
+<!-- Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-<!-- ═══════════════════════════════════════════════
-     HEADER / NAV
-════════════════════════════════════════════════ -->
-<header>
-  <div class="container-fluid" id="full_top_nav">
-    <div class="row">
-      <div class="col-12">
-        <div class="full_top_nav_wrapper d-flex justify-content-between align-items-center">
-          <div class="mainlogo">
-            <a href="#heroSection">
-              <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="28" font-family="Roboto,sans-serif" font-size="28" font-weight="700" fill="#068D86">e</text>
-                <text x="18" y="28" font-family="Roboto,sans-serif" font-size="28" font-weight="300" fill="#000">Cura</text>
-              </svg>
-            </a>
-          </div>
-          <div class="top_nav_wrapper d-none d-md-block">
-            <ul class="top_Menu">
-              <li><a href="#heroSection">Cos'è</a></li>
-              <li><a href="#whyEcura">Perché eCura</a></li>
-              <li><a href="#ecuraSecurity">Sicurezza</a></li>
-              <li><a href="#functionality">Funzionalità</a></li>
-              <li><a href="#pricingPlan">Soluzioni</a></li>
-            </ul>
-          </div>
-          <div class="utility d-flex align-items-center gap-2">
-            <a href="#contattaci" class="cta-standard-green">Contattaci</a>
-            <div id="hamburgerWrap" class="d-md-none">
-              <div id="hamburger">
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="d-none">
-    <ul>
-      <li><a href="#heroSection" class="mobile-nav-link">Cos'è</a></li>
-      <li><a href="#whyEcura" class="mobile-nav-link">Perché eCura</a></li>
-      <li><a href="#ecuraSecurity" class="mobile-nav-link">Sicurezza</a></li>
-      <li><a href="#functionality" class="mobile-nav-link">Funzionalità</a></li>
-      <li><a href="#pricingPlan" class="mobile-nav-link">Soluzioni</a></li>
-      <li><a href="#contattaci" class="mobile-nav-link cta">Contattaci</a></li>
-    </ul>
-  </div>
+<!-- Form styles -->
+<style>
+.ecura-form label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 4px; color: #333; }
+.ecura-form input, .ecura-form select { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; font-family: var(--font1); }
+.ecura-form input:focus, .ecura-form select:focus { outline: none; border-color: #068D86; }
+.ecura-form .privacy-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.ecura-form .privacy-row input[type=checkbox] { width: auto; margin-top: 3px; flex-shrink: 0; }
+.ecura-form .privacy-row label { font-size: 13px; color: #555; margin: 0; }
+.ecura-form .form-success { background: #e9f7d9; border: 1px solid #39b43d; border-radius: 10px; padding: 16px; text-align: center; color: #1a6b1a; font-weight: 500; display: none; }
+.ecura-form .form-error { background: #ffeaea; border: 1px solid #ff0033; border-radius: 10px; padding: 12px; text-align: center; color: #cc0000; font-size: 14px; display: none; margin-bottom: 10px; }
+.ecura-form button[type=submit] { width: 100%; background: #068D86; color: #fff; border: 0; border-radius: 30px; padding: 12px 20px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.3s; }
+.ecura-form button[type=submit]:hover { background: #05B1A8; }
+.ecura-form button[type=submit]:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+       </head>
+    <body>
+
+      <div class="smooth-wrapper">
+        <div class="smooth-content">
+            <header class="">
+
+
+<div class="container-fluid" id="full_top_nav">
+	<div class="row">
+		<div class="col-md-12">
+		  <div class="full_top_nav_wrapper d-flex justify-content-between align-items-center">
+			<div class="mainlogo">
+				<a href="#heroSection"><img src="img/logo-ecura-trasp.png" alt="" width="120"></a>
+			</div>
+			<div class="top_nav_wrapper">
+				<div class="top_nav">
+						<ul class="top_Menu">
+							<li><a href="#heroSection" class="active">Cos'è</a></li>
+							<li><a href="#whyEcura">Perchè eCura</a></li>
+							<li><a href="#ecuraSecurity">Sicurezza</a></li>
+							<li><a href="#funcionality">Funzionalità</a></li>
+							<li><a href="#pricingPlan">Soluzioni</a></li>
+						</ul>
+				</div>	
+			</div>
+			<div class="utility">
+				<div class="ctaWdgt ms-2"><a href="#contattaci" class="cta-standard-green">Contattaci</a></div>
+
+				<!-- Hamburger -->
+				<div id="hamburgerWrap">
+					<div id="hamburger">
+						<div class="line"></div>
+						<div class="line"></div>
+					</div>
+				</div>
+
+			</div>
+			
+			
+		  </div>
+		</div>
+
+	</div>
+</div>
+
 </header>
 
-<main>
+            <!--/* -------------------------- START CONTENT ------------------------- /*-->
 
-<!-- ═══════════════════════════════════════════════
-     HERO SECTION
-════════════════════════════════════════════════ -->
-<section class="heroSection" id="heroSection">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Hero LEFT: immagine + testo -->
-      <div class="col-lg-8 g-0 hero-bg">
-        <div class="heroContent">
-          <div class="textOverlay">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-6">
-                  <h1 class="text-uppercase">La tranquillità che cercavi.<br>La sicurezza che serve ai tuoi cari.</h1>
-                  <div class="display-6 mt-3" data-aos="fade-up" data-aos-duration="1000">L'unico servizio di teleassistenza con bracciale certificato.</div>
-                  <p class="lead mt-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">Il bracciale intelligente e dispositivo medico che protegge chi ami 24/7: rilevamento cadute con AI, monitoraggio dei parametri vitali e assistenza immediata, ovunque si trovino.</p>
-                  <div class="d-block d-md-none mt-3">
-                    <a href="#contattaci" class="cta-standard">Ottienilo subito</a>
-                  </div>
+            <main>
+              <section class="heroSection" id="heroSection">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 g-0" style="background: url(img/hero-lg.jpg)no-repeat; background-size: cover; background-position: right center; min-height:800px">
+                <div class="heroContent">
+                    <div class="textOverlay">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5">
+                                    <h1 class="text-uppercase">La tranquillità che cercavi. La sicurezza che serve ai tuoi cari.</h1>
+                                    <div class="display-6" data-aos="fade-up" data-aos-duration="1000">L'unico servizio di teleassistenza con bracciale certificato.</div>
+                                    <p class="lead" data-aos="fade-up"  data-aos-delay="300" data-aos-duration="1200">Il bracciale intelligente e dispositivo medico che protegge chi ami 24/7: rilevamento cadute con AI, monitoraggio dei parametri vitali e assistenza immediata, ovunque si trovino.</p>
+                                    <div class="d-block d-md-none"><a href="#contattaci" class="cta-standard">Ottienilo subito</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+            <div class="col-md-4 d-none d-md-block heroContentDx p-5">
+                <h3>Richiedilo ora</h3>
+                <form class="ecura-form" id="ecura-form-hero">
+                  <input type="hidden" name="page_url" id="hero_page_url">
+                  <input type="hidden" name="referrer" id="hero_referrer">
+                  <input type="hidden" name="utm_source" id="hero_utm_source">
+                  <input type="hidden" name="utm_medium" id="hero_utm_medium">
+                  <input type="hidden" name="utm_campaign" id="hero_utm_campaign">
+                  <input type="hidden" name="utm_content" id="hero_utm_content">
+                  <input type="hidden" name="utm_term" id="hero_utm_term">
+
+                  <label>Nome e cognome *</label>
+                  <input type="text" name="full_name" placeholder="Es. Mario Rossi" required>
+
+                  <label>Telefono *</label>
+                  <input type="tel" name="phone" placeholder="Es. 333 1234567" required>
+
+                  <label>Email *</label>
+                  <input type="email" name="email" placeholder="Es. mario@email.it" required>
+
+                  <label>Piano di interesse</label>
+                  <select name="plan">
+                    <option value="">-- Seleziona --</option>
+                    <option value="FAMILY_BASE">Family Base</option>
+                    <option value="FAMILY_AVANZATO">Family Avanzato</option>
+                    <option value="PRO_BASE">Professional Base</option>
+                    <option value="PRO_AVANZATO">Professional Avanzato</option>
+                    <option value="PREMIUM_BASE">Premium Base</option>
+                    <option value="PREMIUM_AVANZATO">Premium Avanzato</option>
+                  </select>
+
+                  <div class="privacy-row">
+                    <input type="checkbox" name="privacy_consent" id="hero_privacy" required>
+                    <label for="hero_privacy">Ho letto e accetto la <a href="https://www.ecura.it/privacy-policy" target="_blank">Privacy Policy</a> *</label>
+                  </div>
+
+                  <div class="cf-turnstile mb-3" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light"></div>
+
+                  <div class="form-error" id="hero-form-error"></div>
+                  <div class="form-success" id="hero-form-success">
+                    ✅ Richiesta inviata! Ti contatteremo presto.
+                  </div>
+
+                  <button type="submit">Richiedilo ora →</button>
+                </form>
+            </div>
         </div>
-      </div>
-
-      <!-- Hero RIGHT: form -->
-      <div class="col-lg-4 d-none d-lg-block heroContentDx p-5">
-        <h3>Richiedilo ora</h3>
-        <div id="hero-form-wrap">
-          <!-- Form inline incluso direttamente -->
-          <form id="ecura-form-hero" class="ecura-form" novalidate>
-            <input type="hidden" name="landing_variant" value="hero">
-            <input type="hidden" name="page_url" id="hero_page_url">
-            <input type="hidden" name="referrer" id="hero_referrer">
-            <input type="hidden" name="utm_source" id="hero_utm_source">
-            <input type="hidden" name="utm_medium" id="hero_utm_medium">
-            <input type="hidden" name="utm_campaign" id="hero_utm_campaign">
-            <input type="hidden" name="utm_content" id="hero_utm_content">
-            <input type="hidden" name="utm_term" id="hero_utm_term">
-
-            <div class="mb-3">
-              <input type="text" class="form-control" name="full_name" placeholder="Nome e Cognome *" required>
-              <div class="invalid-feedback">Il nome è obbligatorio</div>
-            </div>
-            <div class="mb-3">
-              <input type="tel" class="form-control" name="phone" placeholder="Telefono *" required>
-              <div class="invalid-feedback">Il telefono è obbligatorio</div>
-            </div>
-            <div class="mb-3">
-              <input type="email" class="form-control" name="email" placeholder="Email *" required>
-              <div class="invalid-feedback">Email non valida</div>
-            </div>
-            <div class="mb-3">
-              <select class="form-select" name="plan">
-                <option value="">Piano di interesse (opzionale)</option>
-                <option value="eCura Family BASE">eCura Family BASE</option>
-                <option value="eCura Family AVANZATO">eCura Family AVANZATO</option>
-                <option value="eCura PRO BASE">eCura PRO BASE</option>
-                <option value="eCura PRO AVANZATO">eCura PRO AVANZATO</option>
-                <option value="eCura PREMIUM BASE">eCura PREMIUM BASE</option>
-                <option value="eCura PREMIUM AVANZATO">eCura PREMIUM AVANZATO</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <textarea class="form-control" name="message" placeholder="Messaggio (opzionale)" rows="2"></textarea>
-            </div>
-
-            <!-- Turnstile CAPTCHA -->
-            <div class="cf-turnstile mb-3" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light"></div>
-
-            <div class="mb-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="privacy_consent" id="hero_privacy" required>
-                <label class="form-check-label" for="hero_privacy">
-                  Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a> *
-                </label>
-                <div class="invalid-feedback">Il consenso alla privacy è obbligatorio</div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="marketing_consent" id="hero_marketing">
-                <label class="form-check-label" for="hero_marketing">
-                  Acconsento a ricevere comunicazioni commerciali e promozionali.
-                </label>
-              </div>
-            </div>
-
-            <button type="submit" class="cta-standard-green long">
-              <span class="btn-text">Invia richiesta</span>
-              <span class="btn-loading d-none"><i class="fas fa-spinner fa-spin me-2"></i>Invio in corso...</span>
-            </button>
-
-            <div class="form-success d-none mt-3">
-              <div class="alert alert-success">
-                <i class="fas fa-check-circle me-2"></i>
-                <strong>Grazie!</strong> Ti contatteremo presto.
-              </div>
-            </div>
-            <div class="form-error d-none mt-3">
-              <div class="alert alert-danger">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <span class="error-msg">Si è verificato un errore. Riprova.</span>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     WHY ECURA — Sicuri. Vicini. Ovunque.
-════════════════════════════════════════════════ -->
+
 <section class="py-md-5" id="whyEcura">
-  <div class="container-fluid">
-    <div class="row py-5">
-      <div class="col-12 text-center">
-        <h2 class="h1">Sicuri. Vicini. Ovunque.</h2>
-      </div>
+    <div class="container-fluid">
+        <div class="row py-5">
+            <div class="col-md-12 text-center">
+                    <!-- <h2 class="h1">Perchè e<span class="elettro"></span>Cura</h2> -->
+                    <h2 class="h1">Sicuri. Vicini. Ovunque.</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center mb-md-5">
+            <div class="col-md-8 text-center">
+                    <img src="img/set-smart-watch.jpg" class="img-fluid w-100" alt="Set smart watch SidLy" data-aos="zoom-in" data-aos-duration="1200">
+            </div>
+        </div>
     </div>
-    <div class="row d-flex justify-content-center mb-md-5">
-      <div class="col-md-8 text-center">
-        <img src="https://www.ecura.it/img/set-smart-watch.jpg" class="img-fluid w-100" alt="Set smart watch SiDLY" data-aos="zoom-in" data-aos-duration="1200">
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FEAT CARDS
-════════════════════════════════════════════════ -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                
+
+                <div class="row row-cols-1 row-cols-md-2 g-4" id="featCards">
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="100">
+                        <div class="card-body">
+                            <h5 class="card-title">Dispositivo Medico Certificato</h5>
+                            <p class="card-text">Misura parametri vitali con accuratezza clinica (Classe IIa)</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/award.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="200">
+                        <div class="card-body">
+                            <h5 class="card-title">Detraibile<br>Fiscalmente</h5>
+                            <p class="card-text">In modo semplice e sicuro.</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/hand-coins.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="300">
+                        <div class="card-body">
+                            <h5 class="card-title">Rileva automaticamente le cadute</h5>
+                            <p class="card-text">E avvisa subito i soccorsi.</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/activity.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="400">
+                        <div class="card-body">
+                            <h5 class="card-title">GPS avanzato indoor e outdoor</h5>
+                            <p class="card-text">Per sapere sempre dove si trova la persona che lo indossa.</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/map-pin.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="500">
+                        <div class="card-body">
+                            <h5 class="card-title">AI predittiva</h5>
+                            <p class="card-text">Per individuare situazioni di rischio prima che accadano.</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/ai.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100" data-aos="flip-left" data-aos-delay="600">
+                        <div class="card-body">
+                            <h5 class="card-title">Testato e sicuro</h5>
+                            <p class="card-text">Una tecnologia testata, sicura e scelta da oltre 60.000 utenti in Europa.</p>
+                            <div class="iconWrap"><div class="icoBox"><img src="img/shield-check.svg" width="24" alt=""></div></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                  <div class="card h-100 d-flex flex-column align-items-center justify-content-center" id="featCardsContent">
+                    <img src="img/SidLy.gif" alt="SidLy" class="img-fluid">
+                    <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Ottienilo subito</a>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 <section class="py-5" id="ecuraSecurity">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="row row-cols-1 row-cols-md-2 g-4" id="featCards">
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="100">
-              <div class="card-body">
-                <h5 class="card-title">Dispositivo Medico Certificato</h5>
-                <p class="card-text">Misura parametri vitali con accuratezza clinica (Classe IIa)</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-award fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="200">
-              <div class="card-body">
-                <h5 class="card-title">Detraibile<br>Fiscalmente</h5>
-                <p class="card-text">In modo semplice e sicuro.</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-hand-holding-usd fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="300">
-              <div class="card-body">
-                <h5 class="card-title">Rileva automaticamente le cadute</h5>
-                <p class="card-text">E avvisa subito i soccorsi.</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-heartbeat fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="400">
-              <div class="card-body">
-                <h5 class="card-title">GPS avanzato indoor e outdoor</h5>
-                <p class="card-text">Per sapere sempre dove si trova la persona che lo indossa.</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-map-marker-alt fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="500">
-              <div class="card-body">
-                <h5 class="card-title">AI predittiva</h5>
-                <p class="card-text">Per individuare situazioni di rischio prima che accadano.</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-brain fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100" data-aos="flip-left" data-aos-delay="600">
-              <div class="card-body">
-                <h5 class="card-title">Testato e sicuro</h5>
-                <p class="card-text">Una tecnologia testata, sicura e scelta da oltre 60.000 utenti in Europa.</p>
-                <div class="iconWrap"><div class="icoBox"><i class="fas fa-shield-alt fa-lg"></i></div></div>
-              </div>
-            </div>
-          </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="protectionBan">
+                    <div class="banner"></div>
+                        <div class="p-3">
+                            <div class="row">
+                            <div class="col-md-1"></div>    
+                            <div class="col-md-7 mb-3"><h3 class="h1 text-white" data-aos="fade-left">Quando non sei con loro...<br>chi si prende cura dei tuoi cari?</h3></div>
+                                <div class="col-md-4 mb-3 text-center"><img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" alt="eCura, sicuri, vicini, ovunque"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
         </div>
-      </div>
-
-      <!-- RIGHT: problema / soluzione -->
-      <div class="col-md-6 ps-md-5 mt-5 mt-md-0">
-        <h2 class="mb-4">Quando non sei con loro...<br>chi si prende cura dei tuoi cari?</h2>
-        <img src="https://www.ecura.it/img/ecura-sicuri-vicini-ovunque.png" class="img-fluid mb-4 r30" alt="eCura, sicuri, vicini, ovunque" data-aos="fade-left">
-        <p class="mb-3">In Italia, <strong>il 67% degli anziani passa molte ore da solo</strong> e <strong>il 28,6% cade almeno una volta all'anno.</strong><br>Eppure, l'85% continua a vivere nella propria casa.</p>
-        <div class="problem-quotes">
-          <p class="problem-quote">"E se cade e non riesce a chiamare aiuto?"</p>
-          <p class="problem-quote">"E se non risponde al telefono?"</p>
-          <p class="problem-quote">"Come faccio a monitorarlo senza invadere la sua privacy?"</p>
-          <p class="problem-quote">"Vorrei che fosse indipendente… ma al sicuro."</p>
-        </div>
-        <p class="mt-4 fw-bold fs-5 green">eCura ti permette di dare sicurezza a loro e serenità a te.</p>
-      </div>
     </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FUNZIONALITÀ PRINCIPALI
-════════════════════════════════════════════════ -->
-<section class="py-5 bg-light" id="functionality">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-12 text-center">
-        <h2>Funzionalità principali</h2>
-      </div>
-    </div>
-    <div class="row row-cols-2 row-cols-md-3 g-4">
-      <div class="col" data-aos="fade-up" data-aos-delay="100">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-pills fa-2x green"></i></div>
-          <h6>Promemoria medicine giornaliere da assumere</h6>
-        </div>
-      </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="150">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-map-pin fa-2x green"></i></div>
-          <h6>Rilevamento posizione con precisione assoluta</h6>
-        </div>
-      </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="200">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-cloud-sun fa-2x green"></i></div>
-          <h6>Meteo e temperature del giorno</h6>
-        </div>
-      </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="250">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-tachometer-alt fa-2x green"></i></div>
-          <h6>Misurazione pressione e parametri vitali</h6>
-        </div>
-      </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="300">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-lungs fa-2x green"></i></div>
-          <h6>Misurazione ossigeno e pulsazioni con valore medico</h6>
-        </div>
-      </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="350">
-        <div class="func-card text-center p-4">
-          <div class="func-icon mb-3"><i class="fas fa-running fa-2x green"></i></div>
-          <h6>Rilevamento cadute e valutazione collisioni accidentali</h6>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-12 text-center">
-        <h4 class="fw-light">Un servizio che porta benefici a <strong>tutta la famiglia</strong></h4>
-        <p class="text-muted">La serenità nasce da ciò che puoi prevenire.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════
-     TABELLA CONFRONTO
-════════════════════════════════════════════════ -->
+
 <section class="py-5">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-12 text-center">
-        <h2>Non tutti i bracciali sono uguali</h2>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <div class="table-responsive">
-          <table class="table table-comparison">
-            <thead>
-              <tr>
-                <th>Funzione</th>
-                <th class="text-center green">eCura</th>
-                <th class="text-center text-muted">Altri bracciali</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Dispositivo medico certificato</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>Classe IIA</small></td>
-                <td class="text-center"><span class="check-no">✗</span></td>
-              </tr>
-              <tr>
-                <td>Misurazioni parametri vitali cliniche</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>Accuratezza clinica</small></td>
-                <td class="text-center"><span class="check-no">Non clinici</span></td>
-              </tr>
-              <tr>
-                <td>Centrale Operativa H24</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>Operatori esperti</small></td>
-                <td class="text-center"><span class="check-no">✗</span></td>
-              </tr>
-              <tr>
-                <td>GPS preciso indoor</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>Multi-tecnologia</small></td>
-                <td class="text-center"><span class="check-no">Assente o limitato</span></td>
-              </tr>
-              <tr>
-                <td>Detraibile fiscalmente</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>19% come spesa sanitaria</small></td>
-                <td class="text-center"><span class="check-no">✗</span></td>
-              </tr>
-              <tr>
-                <td>Assistenza emergenze</td>
-                <td class="text-center"><span class="check-yes">✓</span><br><small>Coordinamento 118</small></td>
-                <td class="text-center"><span class="check-no">Solo chiamata diretta</span></td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <p class="display-6">In Italia, <strong>il 67% degli anziani passa molte ore da solo</strong> e
+                    <strong class="activecolor">il 28,6% cade almeno una volta all'anno.</strong><br>
+                    Eppure, l'85% continua a vivere nella propria casa.</p>
+           </div>
         </div>
-        <p class="text-center mt-3 text-muted fst-italic">Un piccolo investimento per una sicurezza enorme</p>
-        <div class="text-center mt-3">
-          <a href="#contattaci" class="cta-standard-green">Ottienilo subito</a>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <img src="img/anziano-in-difficolta.jpg" alt="Anziano in difficoltà? Ci pensa eCura!" class="img-fluid r140">
+           </div>
+            <div class="col-md-5">
+                <div class="question mb-3 mt-5" data-aos="zoom-in" data-aos-delay="100">"E se cade e non riesce a chiamare aiuto?"</div>
+                <div class="question mb-3" data-aos="zoom-in" data-aos-delay="150">"E se non risponde al telefono?"</div>
+                <div class="question mb-3" data-aos="zoom-in" data-aos-delay="200">"Come faccio a monitorarlo senza invadere la sua privacy?"</div>
+                <div class="question mb-3" data-aos="zoom-in" data-aos-delay="250">"Vorrei che fosse indipendente… ma al sicuo."</div>
+                <div class="theanswer mb-3" data-aos="zoom-in" data-aos-delay="300">eCura ti permette di dare sicurezza a loro e serenità a te</div>  
+           </div>
         </div>
-      </div>
+        <div class="row py-5">
+            <div class="col-md-12 d-flex justify-content-center">
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Ottienilo subito</a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     PRICING PLANS
-════════════════════════════════════════════════ -->
-<section class="py-5 bgevidence2" id="pricingPlan">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-12 text-center">
-        <h2>Scegli il tuo piano</h2>
-        <img src="https://www.ecura.it/img/ecura-sicuri-vicini-ovunque.png" alt="eCura" width="80" class="mt-3 opacity-50">
-      </div>
+
+
+<section class="" id="funcionality">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                    <h2 class="h1">Funzionalità principali</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+                <div class="owl-carousel owl-theme" id="functionCarousel">
+                    <!-- Item 1 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Ekran-leki-menu-EN.jpg" alt="Promemoria medicine">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Promemoria medicine giornaliere da assumere</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Lokalizacja-EN.jpg" alt="Rilavemento posizione">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Rilavemento posizione con precisione assoluta</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Pogoda-EN.jpg" alt="Meteo">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Meteo e temperature del giorno</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 4 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Ekran-leki-menu-EN.jpg" alt="Promemoria medicine">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Promemoria medicine giornaliere da assumere</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 5 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Pomiar-menu-EN.jpg" alt="Misurazione pressione">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Misurazione pressione e parametri vitali</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 6 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Pomiary-podsumowanie-EN.jpg" alt="Misurazione ossigeno">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Misurazione ossigeno e pulsazioni con valore medico</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 7 -->
+                    <div class="carousel-item-wrapper">
+                        <div class="carousel-item-image">
+                            <img src="img/screen/Wykryto-upadek-EN.jpg" alt="Rilevamento cadute">
+                        </div>
+                        <div class="carousel-item-content">
+                            <h4 class="carousel-item-title">Rilevamento cadute e valutazione collisioni accidentali</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="row" style="margin-top:-80px;position:relative;z-index:2;">
+            <div class="col-md-12 d-flex justify-content-center">
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Ottienilo subito</a>
+            </div>
+        </div>
     </div>
-    <div class="row g-4 justify-content-center">
-
-      <!-- Family -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="card pricing-card h-100">
-          <div class="card-body p-4">
-            <div class="price-badge">Il più economico</div>
-            <h3 class="plan-name">Family</h3>
-            <p class="text-muted">Protezione essenziale per tutta la famiglia.</p>
-            <ul class="checked">
-              <li>Pulsante SOS geolocalizzato</li>
-              <li>Rilevamento cadute automatico</li>
-              <li>GPS Localizzazione tempo reale</li>
-              <li>Comunicazione Vocale</li>
-              <li>App per familiari</li>
-              <li>Impermeabile IP67</li>
-            </ul>
-            <hr>
-            <div class="plan-option">
-              <div class="plan-tier">Piano BASE</div>
-              <div class="plan-price">€390<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €200</div>
-            </div>
-            <div class="plan-option mt-3">
-              <div class="plan-tier">Piano AVANZATO</div>
-              <div class="plan-price">€690<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €500</div>
-            </div>
-          </div>
-          <div class="card-footer bg-transparent border-0 p-4 pt-0">
-            <a href="#contattaci" class="cta-standard long text-center" onclick="setFormPlan('eCura Family')">Richiedi info</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Professional -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="card pricing-card bestseller h-100">
-          <div class="card-body p-4">
-            <div class="price-badge popular">Il più scelto</div>
-            <div class="certified-badge">Certificato Classe IIa</div>
-            <h3 class="plan-name">Professional</h3>
-            <p class="text-muted">Protezione avanzata con telemonitoraggio clinico.</p>
-            <ul class="checked">
-              <li>AI avanzata (14.000 cadute analizzate)</li>
-              <li>GPS multi-tech indoor/outdoor</li>
-              <li>Monitoraggio frequenza cardiaca</li>
-              <li>Monitoraggio dell'ossimetria</li>
-              <li>Promemoria farmaci vocali</li>
-              <li>Geofencing avanzato</li>
-              <li><strong>+ Tutte le funzioni Family</strong></li>
-            </ul>
-            <hr>
-            <div class="plan-option">
-              <div class="plan-tier">Piano BASE</div>
-              <div class="plan-price">€480<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €240</div>
-            </div>
-            <div class="plan-option mt-3">
-              <div class="plan-tier">Piano AVANZATO</div>
-              <div class="plan-price">€840<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €600</div>
-            </div>
-          </div>
-          <div class="card-footer bg-transparent border-0 p-4 pt-0">
-            <a href="#contattaci" class="cta-standard-green long text-center" onclick="setFormPlan('eCura PRO')">Richiedi info</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Premium -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-        <div class="card pricing-card h-100">
-          <div class="card-body p-4">
-            <div class="price-badge">Top di gamma</div>
-            <div class="certified-badge">Classe IIa + AI predittiva</div>
-            <h3 class="plan-name">Premium</h3>
-            <p class="text-muted">Il massimo della cura, il meglio della tecnologia.</p>
-            <ul class="checked">
-              <li>Saturazione ossigeno SpO2</li>
-              <li>Analisi completa del sonno</li>
-              <li>AI predittiva prevenzione rischi</li>
-              <li>Monitoraggio parametri vitali avanzato</li>
-              <li>Dashboard clinica professionale</li>
-              <li>Alert intelligenti personalizzati</li>
-              <li>Telemedicina integrata</li>
-              <li><strong>+ Tutte le funzioni Pro</strong></li>
-            </ul>
-            <hr>
-            <div class="plan-option">
-              <div class="plan-tier">Piano BASE</div>
-              <div class="plan-price">€590<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €300</div>
-            </div>
-            <div class="plan-option mt-3">
-              <div class="plan-tier">Piano AVANZATO</div>
-              <div class="plan-price">€990<span>/anno</span></div>
-              <div class="plan-renewal">Rinnovo €750</div>
-            </div>
-          </div>
-          <div class="card-footer bg-transparent border-0 p-4 pt-0">
-            <a href="#contattaci" class="cta-standard long text-center" onclick="setFormPlan('eCura PREMIUM')">Richiedi info</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <p class="text-center text-muted mt-4 small">Tutti i prezzi si intendono IVA esclusa (22%)</p>
-    <p class="text-center mt-2"><strong>Costa 10-40 volte in meno</strong> rispetto ai servizi tradizionali di badante, casa di riposo o RSA.</p>
-
-    <!-- Piano servizi -->
-    <div class="row mt-5 g-4">
-      <div class="col-12 text-center mb-3">
-        <h3>I Nostri Piani</h3>
-        <p class="text-muted">Soluzioni di TeleAssistenza personalizzate per ogni esigenza</p>
-      </div>
-      <div class="col-md-6" data-aos="fade-up">
-        <div class="service-plan-card p-4 h-100">
-          <h5>TeleAssistenza Base</h5>
-          <p class="text-muted">Soluzione per comunicazione con i familiari.</p>
-          <ul class="list-unstyled">
-            <li><i class="fas fa-check green me-2"></i>Configurazione da remoto</li>
-            <li><i class="fas fa-check green me-2"></i>Settaggio dei contatti dei familiari (caregiver)</li>
-            <li><i class="fas fa-check green me-2"></i>Inserimento iniziale dei promemoria farmaci</li>
-            <li><i class="fas fa-check green me-2"></i>Formazione una tantum per aggiornamenti in autonomia</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-plan-card p-4 h-100 featured">
-          <h5>TeleAssistenza Avanzata</h5>
-          <p class="text-muted">Tutto il piano Base più il supporto della Centrale Operativa H24 per 7 giorni su 7:</p>
-          <ul class="list-unstyled">
-            <li><i class="fas fa-check green me-2"></i>Supporto Centralizzato ai familiari</li>
-            <li><i class="fas fa-check green me-2"></i>Intervento Immediato H24</li>
-            <li><i class="fas fa-check green me-2"></i>Coordinamento Emergenze (chiamata mezzi di soccorso)</li>
-            <li><i class="fas fa-check green me-2"></i>Chiamata mensile di cortesia al caregiver</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FAQ
-════════════════════════════════════════════════ -->
+
+
 <section class="py-5">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-12 text-center">
-        <h2>Domande frequenti</h2>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="accordion" id="faqAccordion">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                È difficile da usare per un anziano?
-              </button>
-            </h2>
-            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">No: è pensato per anziani non abituati alla tecnologia, con display intuitivo, un solo pulsante per SOS, ricarica magnetica semplice.</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                Serve lo smartphone per farlo funzionare?
-              </button>
-            </h2>
-            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">No, il dispositivo funziona anche in totale autonomia, grazie alla SIM integrata. Inoltre l'app funziona ovunque ci sia copertura.</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                Cosa succede in caso di caduta?
-              </button>
-            </h2>
-            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">Nel giro di 3-5 secondi, il bracciale invia automaticamente l'allarme grazie all'AI studiata per riconoscere le cadute reali. La famiglia viene notificata e viene impostata una chiamata automatica.</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                È resistente all'acqua?
-              </button>
-            </h2>
-            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">Sì, con certificazione IP67.</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                Come funziona il GPS in casa?
-              </button>
-            </h2>
-            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">Sì: GPS + Wi-Fi beacon + BLE per localizzazione precisa anche indoor.</div>
-            </div>
-          </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="focusBan">
+                    <div class="banner" style="background:url(img/perche-ci-scelgono.jpg);  background-repeat: no-repeat; background-position: center; background-size: cover;">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="accordion" id="benefitsAccordion">
+                                        <!-- Accordion Item 1 -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Benefici per l'anziano
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#benefitsAccordion">
+                                                <div class="accordion-body">
+                                                    <ul class="benefits-list">
+                                                        <li>Più autonomia e libertà nei movimenti</li>
+                                                        <li>Un supporto immediato quando serve</li>
+                                                        <li>Nessuna complicazione tecnologica</li>
+                                                        <li>Monitoraggio discreto, non invasivo</li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Accordion Item 2 -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Benefici per i familiari
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#benefitsAccordion">
+                                                <div class="accordion-body">
+                                                    <ul class="benefits-list">
+                                                        <li>Serenità anche a distanza</li>
+                                                        <li>App mobile dedicata intuitiva per ricevere notifiche</li>
+                                                        <li>Storico completo disponibile per medici e caregiver</li>
+                                                        <li>Meno chiamate "di controllo", senza disturbare continuamente</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Accordion Item 3 -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                   Benefici per il portafoglio
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#benefitsAccordion">
+                                                <div class="accordion-body">
+                                                    <ul class="benefits-list">
+                                                        <li>Dispositivo medico detraibile al 19%</li>
+                                                        <li>Rimborsi INPS disponibili</li>
+                                                        <li>Evita costi ospedalieri, prevenendo complicazioni</li>
+                                                        <li>Un investimento che si ripaga</li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-md-1"></div>    
+                                <div class="col-md-7">
+                                    <h3 class="h1 text-white" data-aos="fade-left">Un servizio che porta benefici a tutta la famiglia</h3>
+                                    <p class="lead text-white" data-aos="fade-left" data-aos-delay="200">La serenità nasce da ciò che puoi prevenire.</p>
+                                </div>
+                                <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
+                                    <div><a href="#contattaci" class="cta-standard-green big">Ottienilo subito</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     RECENSIONI
-════════════════════════════════════════════════ -->
-<section class="py-5 bg-dark text-white">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-12 text-center">
-        <h2 class="text-white">Cosa dicono i nostri clienti</h2>
-      </div>
-    </div>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-5" data-aos="fade-up">
-        <div class="review-card p-4">
-          <div class="stars mb-3">★ ★ ★ ★ ★</div>
-          <p>"Mia madre vive sola a 400 km da me. Da quando ha eCura PRO Avanzata dormo tranquilla. Il mese scorso è caduta in bagno e la centrale ha chiamato subito i soccorsi. Senza eCura sarebbe rimasta a terra per ore."</p>
+
+
+<section class="mt-5 py-5" id="">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                    <h2 class="h1">Non tutti i bracciali sono uguali</h2>
+            </div>
         </div>
-      </div>
-      <div class="col-md-5" data-aos="fade-up" data-aos-delay="100">
-        <div class="review-card p-4">
-          <div class="stars mb-3">★ ★ ★ ★ ★</div>
-          <p>"All'inizio mia suocera non voleva 'quell'affare al polso'. Dopo la prima settimana non se lo toglie più neanche per dormire. È diventata più sicura di sé e esce anche da sola. Per noi è una liberazione."</p>
-          <div class="reviewer mt-3">
-            <strong>Francesca M., Roma</strong><br>
-            <small class="text-muted">eCura FAMILY Avanzata</small>
-          </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="compare-table-wrapper">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th class="feature-col">Funzione</th>
+                                <th class="ecura-col">
+                                    <img src="img/logo-ecura-trasp.png" alt="eCura" class="table-logo">
+                                </th>
+                                <th class="others-col">Altri bracciali</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="feature-col">Dispositivo medico certificato</td>
+                                <td class="ecura-col">
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>Classe IIA
+                                </td>
+                                <td class="others-col">NO</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-col">Misurazioni parametri vitali cliniche</td>
+                                <td class="ecura-col">
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>Accuratezza clinica
+                                </td>
+                                <td class="others-col">Non clinici</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-col">Centrale Operativa H24</td>
+                                <td class="ecura-col">
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>Operatori esperti
+                                </td>
+                                <td class="others-col">NO</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-col">GPS preciso indoor</td>
+                                <td class="ecura-col">
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>Multi-tecnologia
+                                </td>
+                                <td class="others-col">Assente o limitato</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-col">Detraibile fiscalmente</td>
+                                <td class="ecura-col">
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>19% come spesa sanitaria
+                                </td>
+                                <td class="others-col">NO</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-col">Assistenza emergenze</td>
+                                <td class="ecura-col">
+                                     <img src="img/check-green.svg" alt="Sì" class="check-icon"><br>Coordinamento 118
+                                </td>
+                                <td class="others-col">Solo chiamata diretta</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
+         <div class="row">
+            <div class="col-md-12 d-flex flex-column align-items-center">
+                <p class="lead activecolor">Un piccolo investimeno per una sicurezza enorme</p>
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Ottienilo subito</a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FORM CONTATTO PRINCIPALE
-════════════════════════════════════════════════ -->
-<section class="py-5 bgevidence2" id="contattaci">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6 text-center mb-4">
-        <h2>Richiedi informazioni ora</h2>
-        <p class="text-muted">Invieremo sulla mail indicata le informazioni richieste.</p>
-      </div>
+
+<section class="mb-5" id="pricingPlan">
+    <div class="lightGreyBg">
+
+
+        <div class="">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 blackPanel py-5">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-7">
+                                <h2 class="h1 text-white mt-4">Scegli il tuo piano</h2>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" alt="eCura, sicuri, vicini, ovunque">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4 p-4">
+                                        <div class="card h-100" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="0">
+                                            <div class="p-4">
+                                                <div class="promotitle mb-3">Il più economico</div>
+                                                <h3 class="text-white text-center h2">Family</h3>
+                                                <p class="text-center">Protezione essenziale per tutta la famiglia.</p>
+                                                
+                                            </div>
+                                            <div class="plan plan-check p-3">
+                                                <div class="d-flex justify-content-center">
+                                                    <ul class="checked">
+                                                        <li>Pulsante SOS geolocalizzato</li>
+                                                        <li>Rilevamento cadute automatico</li>
+                                                        <li>GPS Localizzazione tempo reale</li>
+                                                        <li>Comunicazione Vocale</li>
+                                                        <li>App per familiari</li>
+                                                        <li>Impermeabile IP67</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="plan py-3 text-center">
+                                                <h5 class="text-white">Piano BASE</h5>
+                                                <strong class="activeColor">€390/anno</strong>
+                                                <small> (Rinnovo €200)</small>
+                                            </div>
+                                            <div class="plan bgevidence py-3 text-center">
+                                                <h5 class="text-white">Piano AVANZATO</h5>
+                                                <strong class="activeColor">€690/anno</strong>
+                                                <small> (Rinnovo €500)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="col-md-4 p-4">
+                                        <div class="card  h-100 active"  data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="300">
+                                            <div class="p-4">
+                                                <div class="promotitle mb-3">Il più scelto</div>
+                                                <h3 class="text-white text-center h2">Professional</h3>
+                                                <p class="text-center">Protezione essenziale per tutta la famiglia.</p>
+                                                
+                                            </div>
+                                            <div class="plan plan-check p-3">
+                                                <div class="d-flex justify-content-center">
+                                                    <div>
+                                                        <ul class="checked">
+                                                            <li>AI avanzata (14.000 cadute analizzate)</li>
+                                                            <li>GPS multi-tech indoor/outdoor</li>
+                                                            <li>Monitoraggio frequenza cardiaca</li>
+                                                            <li>Monitoraggio dell'ossimetria </li>
+                                                            <li>Promemoria farmaci vocali</li>
+                                                            <li>Geofencing avanzato</li>
+                                                            <li><strong class="activeColor">+ Tutte le funzioni Family</strong></li>
+                                                        </ul>
+                                                        <div class="d-flex justify-content-center"><span class="tag">Certificato Classe Ila</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="plan py-3 text-center">
+                                                <h5 class="text-white">Piano BASE</h5>
+                                                <strong class="activeColor">€480/anno</strong>
+                                                <small> (Rinnovo €240)</small>
+                                            </div>
+                                            <div class="plan py-3 text-center">
+                                                <h5 class="text-white">Piano AVANZATO</h5>
+                                                <strong class="activeColor">€840/anno</strong>
+                                                <small> (Rinnovo €600)</small>
+                                                <div class="d-flex justify-content-center mt-3"><span class="tag">Il più popolare</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 p-4">
+                                        <div class="card h-100"  data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="600">
+                                            <div class="p-4">
+                                                <div class="promotitle mb-3">Top di gamma</div>
+                                                <h3 class="text-white text-center h2">Premium</h3>
+                                                <p class="text-center">Il massimo della cura, il meglio della tecnologia.</p>
+                                                
+                                            </div>
+                                            <div class="plan plan-check p-3">
+                                                <div class="d-flex justify-content-center">
+                                                    <div>
+                                                        <ul class="checked">
+                                                            <li>Saturazione ossigeno SpO2</li>
+                                                            <li>Analisi completa del sonno</li>
+                                                            <li>AI predittiva prevenzione rischi</li>
+                                                            <li>monitoraggio parametri vitali avanzato</li>
+                                                            <li>Dashboard clinica professionale</li>
+                                                            <li>Alert intelligenti personalizzati</li>
+                                                            <li>Telemedicina integrata</li>
+                                                            <li><strong class="activeColor">+ Tutte le funzioni Pro</strong></li>
+                                                        </ul>
+                                                        <div class="d-flex justify-content-center"><span class="tag">Classe Ila + AI predittiva</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="plan py-3 text-center">
+                                                <h5 class="text-white">Piano BASE</h5>
+                                                <strong class="activeColor">€590/anno</strong>
+                                                <small> (Rinnovo €300)</small>
+                                            </div>
+                                            <div class="plan py-3 text-center">
+                                                <h5 class="text-white">Piano AVANZATO</h5>
+                                                <strong class="activeColor">€990/anno</strong>
+                                                <small> (Rinnovo €750)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        Tutti i prezzi si intendono IVA esclusa (22%)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 d-flex justify-content-center">
+                                        <div class="theanswer mb-5 mt-5">
+                                            <strong>Costa 10-40 volte in meno</strong> rispetto ai servizi 
+                                            tradizionali di badante tradizionale, 
+                                            casa di riposo o RSA.
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h2 class="h1 mt-3">Domande frequenti</h2>
+                
+                <div class="accordion py-5" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">
+                                È difficile da usare?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No: è pensato per anziani non abituati alla tecnologia, con display intuitivo, un solo pulsante per SOS, ricarica magnetica semplice.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                                Serve lo smartphone?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No, il dispositivo funziona anche in totale autonomia, grazie alla SIM integrata. Inoltre l'app funziona ovunque ci sia copertura.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                                Cosa succede se cade e perde conoscenza?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nel giro di 3-5 secondi, il bracciale invia automaticamente l'allarme grazie all'AI studiata per riconoscere le cadute reali. La famiglia viene notificata e viene impostata una chiamata automatica.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                                È resistente all'acqua?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sì, con certificazione IP67.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                                La posizione è precisa anche in casa?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sì: GPS + Wi-Fi beacon + BLE.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
     </div>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form id="ecura-form-main" class="ecura-form" novalidate>
-          <input type="hidden" name="landing_variant" value="main">
-          <input type="hidden" name="page_url" id="main_page_url">
-          <input type="hidden" name="referrer" id="main_referrer">
-          <input type="hidden" name="utm_source" id="main_utm_source">
-          <input type="hidden" name="utm_medium" id="main_utm_medium">
-          <input type="hidden" name="utm_campaign" id="main_utm_campaign">
-          <input type="hidden" name="utm_content" id="main_utm_content">
-          <input type="hidden" name="utm_term" id="main_utm_term">
-
-          <div class="mb-3">
-            <input type="text" class="form-control form-control-lg" name="full_name" placeholder="Nome e Cognome *" required>
-            <div class="invalid-feedback">Il nome è obbligatorio</div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <input type="tel" class="form-control form-control-lg" name="phone" placeholder="Telefono *" required>
-              <div class="invalid-feedback">Il telefono è obbligatorio</div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <input type="email" class="form-control form-control-lg" name="email" placeholder="Email *" required>
-              <div class="invalid-feedback">Email non valida</div>
-            </div>
-          </div>
-          <div class="mb-3">
-            <select class="form-select form-select-lg" name="plan" id="main_plan">
-              <option value="">Piano di interesse (opzionale)</option>
-              <option value="eCura Family BASE">eCura Family BASE</option>
-              <option value="eCura Family AVANZATO">eCura Family AVANZATO</option>
-              <option value="eCura PRO BASE">eCura PRO BASE</option>
-              <option value="eCura PRO AVANZATO">eCura PRO AVANZATO</option>
-              <option value="eCura PREMIUM BASE">eCura PREMIUM BASE</option>
-              <option value="eCura PREMIUM AVANZATO">eCura PREMIUM AVANZATO</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <textarea class="form-control" name="message" placeholder="Messaggio (opzionale)" rows="3"></textarea>
-          </div>
-
-          <!-- Turnstile CAPTCHA -->
-          <div class="cf-turnstile mb-3" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light"></div>
-
-          <div class="mb-3">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="privacy_consent" id="main_privacy" required>
-              <label class="form-check-label" for="main_privacy">
-                Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a> *
-              </label>
-              <div class="invalid-feedback">Il consenso alla privacy è obbligatorio</div>
-            </div>
-          </div>
-          <div class="mb-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="marketing_consent" id="main_marketing">
-              <label class="form-check-label" for="main_marketing">
-                Acconsento a ricevere comunicazioni commerciali e promozionali.
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="cta-standard-green long big">
-            <span class="btn-text">Invia richiesta</span>
-            <span class="btn-loading d-none"><i class="fas fa-spinner fa-spin me-2"></i>Invio in corso...</span>
-          </button>
-
-          <div class="form-success d-none mt-4">
-            <div class="alert alert-success py-4 text-center">
-              <i class="fas fa-check-circle fa-2x mb-2 d-block"></i>
-              <strong>Grazie per la tua richiesta!</strong><br>
-              Ti contatteremo entro 24 ore.
-            </div>
-          </div>
-          <div class="form-error d-none mt-3">
-            <div class="alert alert-danger">
-              <i class="fas fa-exclamation-triangle me-2"></i>
-              <span class="error-msg">Si è verificato un errore. Riprova o chiamaci.</span>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 </section>
 
-</main>
+<section id="testimonial" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5">
+                <h2 class="h1">I Nostri Piani</h2>
+                <p class="lead">Soluzioni di TeleAssistenza personalizzate per ogni esigenza</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div class="card p-5 r30 bb2">
+                    <h4>TeleAssistenza Base</h4>
+                    <p>Soluzione per comunicazione con i familiari.<p>
+                    <ul class="nobullet blucheck">
+                        <li>Configurazione da remoto</li>
+                        <li>Settaggio dei contatti dei familiari (caregiver)</li>
+                        <li>Inserimento iniziale dei promemoria farmaci</li>
+                        <li>Formazione una tantum per aggiornamenti in autonomia (incluso il reporting)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card p-5 r30 bb2 bgevidence2 bestseller">
+                    <h4>TeleAssistenza Avanzata</h4>
+                    <p>Tutto il piano Base più il supporto della Centrale Operativa H24 per 7 giorni su 7 con i seguenti servizi aggiuntivi:<p>
+                    <ul class="nobullet blucheck">
+                        <li>Supporto Centralizzato ai familiari con filtro delle segnalazioni pervenute</li>
+                        <li>Intervento Immediato H24</li>
+                        <li>Coordinamento Emergenze (chiamata mezzi di soccorso)</li>
+                        <li>Chiamata mensile di cortesia al caregiver</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<!-- ═══════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════ -->
-<footer class="bg-dark text-white py-5">
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="24" font-family="Roboto,sans-serif" font-size="24" font-weight="700" fill="#068D86">e</text>
-          <text x="15" y="24" font-family="Roboto,sans-serif" font-size="24" font-weight="300" fill="#fff">Cura</text>
-        </svg>
-        <p class="mt-3 text-white-50 small">Sicuri, Vicini, Ovunque.<br>Medica GB S.r.l.</p>
-        <p class="text-white-50 small">📧 info@ecura.it</p>
-      </div>
-      <div class="col-md-4">
-        <h6 class="text-white-50 text-uppercase small mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li><a href="#heroSection" class="text-white-50 text-decoration-none small">Cos'è eCura</a></li>
-          <li><a href="#whyEcura" class="text-white-50 text-decoration-none small">Perché eCura</a></li>
-          <li><a href="#functionality" class="text-white-50 text-decoration-none small">Funzionalità</a></li>
-          <li><a href="#pricingPlan" class="text-white-50 text-decoration-none small">Soluzioni e prezzi</a></li>
-          <li><a href="#contattaci" class="text-white-50 text-decoration-none small">Contattaci</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h6 class="text-white-50 text-uppercase small mb-3">Legale</h6>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white-50 text-decoration-none small">Privacy Policy</a></li>
-          <li><a href="#" class="text-white-50 text-decoration-none small">Cookie Policy</a></li>
-          <li><a href="#" class="text-white-50 text-decoration-none small">Termini e Condizioni</a></li>
-        </ul>
-      </div>
+<section id="testimonial" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5">
+                <h2 class="h1">Cosa dicono i nostri clienti</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel owl-theme" id="testimonialCarousel">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="testimonial-text">
+                                "Mia madre vive sola a 400 km da me. Da quando ha eCura PRO Avanzata
+                                dormo tranquilla. Il mese scorso è caduta in bagno e la centrale ha chiamato
+                                subito i soccorsi. Senza eCura sarebbe rimasta a terra per ore."
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://i.pravatar.cc/80?img=1" alt="Maria G." class="testimonial-avatar">
+                                <div class="testimonial-info">
+                                    <strong>Maria G., Bologna</strong>
+                                    <span class="testimonial-plan">eCura PRO Avanzata</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="testimonial-text">
+                                "Avevo provato altri dispositivi ma erano complicati da usare per mio padre. eCura Family Base
+                                è semplicissimo: un bottone per l'SOS. In 3 anni ha già salvato una situazione critica grazie al GPS."
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://i.pravatar.cc/80?img=3" alt="Roberto F." class="testimonial-avatar">
+                                <div class="testimonial-info">
+                                    <strong>Roberto F., Torino</strong>
+                                    <span class="testimonial-plan">eCura Family Base</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 4 -->
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="testimonial-text">
+                                "Il servizio clienti è eccezionale. Hanno configurato tutto da remoto in 20 minuti.
+                                Mia nonna non si è nemmeno accorta che indossava un dispositivo medico."
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://i.pravatar.cc/80?img=5" alt="Laura M." class="testimonial-avatar">
+                                <div class="testimonial-info">
+                                    <strong>Laura M., Roma</strong>
+                                    <span class="testimonial-plan">eCura PRO Base</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <hr class="border-secondary mt-4">
-    <div class="row">
-      <div class="col-12 text-center">
-        <p class="text-white-50 small mb-0">© 2026 Medica GB S.r.l. — P.IVA IT02629330989 — Tutti i diritti riservati</p>
-      </div>
+</section>
+
+<section id="contattaci" class="py-5">
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-md-6">
+                <h2 class="h1">Richiedi informazioni ora</h2>
+                <p class="lead">Invieremo sulla mail indicata le informazioni richieste.</p>
+            </div>
+            <div class="col-md-6">
+                <form class="ecura-form" id="ecura-form-main">
+                  <input type="hidden" name="page_url" id="main_page_url">
+                  <input type="hidden" name="referrer" id="main_referrer">
+                  <input type="hidden" name="utm_source" id="main_utm_source">
+                  <input type="hidden" name="utm_medium" id="main_utm_medium">
+                  <input type="hidden" name="utm_campaign" id="main_utm_campaign">
+                  <input type="hidden" name="utm_content" id="main_utm_content">
+                  <input type="hidden" name="utm_term" id="main_utm_term">
+
+                  <label>Nome e cognome *</label>
+                  <input type="text" name="full_name" placeholder="Es. Mario Rossi" required>
+
+                  <label>Telefono *</label>
+                  <input type="tel" name="phone" placeholder="Es. 333 1234567" required>
+
+                  <label>Email *</label>
+                  <input type="email" name="email" placeholder="Es. mario@email.it" required>
+
+                  <label>Piano di interesse</label>
+                  <select name="plan">
+                    <option value="">-- Seleziona --</option>
+                    <option value="FAMILY_BASE">Family Base</option>
+                    <option value="FAMILY_AVANZATO">Family Avanzato</option>
+                    <option value="PRO_BASE">Professional Base</option>
+                    <option value="PRO_AVANZATO">Professional Avanzato</option>
+                    <option value="PREMIUM_BASE">Premium Base</option>
+                    <option value="PREMIUM_AVANZATO">Premium Avanzato</option>
+                  </select>
+
+                  <div class="privacy-row">
+                    <input type="checkbox" name="privacy_consent" id="main_privacy" required>
+                    <label for="main_privacy">Ho letto e accetto la <a href="https://www.ecura.it/privacy-policy" target="_blank">Privacy Policy</a> *</label>
+                  </div>
+
+                  <div class="cf-turnstile mb-3" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light"></div>
+
+                  <div class="form-error" id="main-form-error"></div>
+                  <div class="form-success" id="main-form-success">
+                    ✅ Richiesta inviata! Ti contatteremo presto.
+                  </div>
+
+                  <button type="submit">Invia richiesta →</button>
+                </form>
+            </div>
+        </div>
     </div>
+</section>            </main>
+
+
+            <!--/* --------------------------  END CONTENT  ------------------------- /*-->
+
+ 
+              <footer class="pt-5">
+
+  <div class="container">	
+        <div class="row pt-3">
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-6 text-center">
+            <img src="img/logo-ecura-trasp-w.png" alt="eCura" width="200">
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row py-5">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <p>
+              <strong>Medica GB Srl</strong><br>
+              Corso Giuseppe Garibaldi 34<br>
+              20121 Milano - Italy<br>
+              P. IVA: IT 12435130963
+            </p>
+          </div>
+          <div class="col-md-3">
+              <div><img src="img/phone.svg" alt="" class="me-2" width="20"><a href="tel:00393357301206">+39 335 730 1206</a></div>
+              <div><img src="img/at-sign.svg" alt="" class="me-2" width="20"><a href="mailto:info@medicagb.it">info@medicagb.it</a></div>
+          </div>
+          <div class="col-md-3 text-center">
+             <a href="https://www.facebook.com/profile.php?id=61585121784918" target="_blank" class="me-3"><img src="img/facebook.svg" alt="" width="25"></a>
+            <a href="https://www.instagram.com/ecura_it/ " target="_blank"><img src="img/instagram.svg" alt="" width="25"></a>
+          </div>
+        </div>
+        <div class="row pb-5">
+          <div class="col-md-12 text-center">
+            <small>© 2026 Medica GB Srl. All Rights Reserved</small>
+          </div>
+        </div> 
   </div>
+
 </footer>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="js/main.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
 
-</body>
-</html>
+<script>AOS.init();</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+       $("#hamburger").click(function(){
+          $(this).toggleClass("is-active");
+          $(".top_nav_wrapper").toggleClass("is-active");
+        });
+
+       $("#functionCarousel").owlCarousel({
+            loop: true,
+            center: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            margin: 20,
+            nav: false,
+            dots: true,
+            responsive: {
+                0: { items: 1 },
+                768: { items: 3 },
+                1200: { items: 5 }
+            }
+        });
+
+        $("#testimonialCarousel").owlCarousel({
+            items: 3,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            margin: 30,
+            nav: true,
+            dots: true,
+            navText: ['&#8592;', '&#8594;'],
+            responsive: {
+                0: { items: 1 },
+                768: { items: 2 },
+                1200: { items: 3 }
+            }
+        });
+
+    });
+
+</script>
+
+<!-- Form submit logic -->
+<script>
+(function() {
+
+  function getUrlParam(name) {
+    const u = new URLSearchParams(window.location.search);
+    return u.get(name) || '';
+  }
+
+  function fillUTM(prefix) {
+    document.getElementById(prefix + '_page_url').value = window.location.href;
+    document.getElementById(prefix + '_referrer').value = document.referrer;
+    document.getElementById(prefix + '_utm_source').value = getUrlParam('utm_source');
+    document.getElementById(prefix + '_utm_medium').value = getUrlParam('utm_medium');
+    document.getElementById(prefix + '_utm_campaign').value = getUrlParam('utm_campaign');
+    document.getElementById(prefix + '_utm_content').value = getUrlParam('utm_content');
+    document.getElementById(prefix + '_utm_term').value = getUrlParam('utm_term');
+  }
+
+  fillUTM('hero');
+  fillUTM('main');
+
+  function handleForm(formId, errorId, successId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const errEl = document.getElementById(errorId);
+      const succEl = document.getElementById(successId);
+      const btn = form.querySelector('button[type=submit]');
+
+      errEl.style.display = 'none';
+      succEl.style.display = 'none';
+
+      // Turnstile token
+      const tsToken = form.querySelector('[name="cf-turnstile-response"]');
+      const token = tsToken ? tsToken.value : '';
+
+      const data = {
+        full_name: form.querySelector('[name="full_name"]').value.trim(),
+        phone: form.querySelector('[name="phone"]').value.trim(),
+        email: form.querySelector('[name="email"]').value.trim(),
+        plan: form.querySelector('[name="plan"]').value,
+        privacy_consent: form.querySelector('[name="privacy_consent"]').checked,
+        turnstile_token: token,
+        page_url: form.querySelector('[name="page_url"]').value,
+        referrer: form.querySelector('[name="referrer"]').value,
+        utm_source: form.querySelector('[name="utm_source"]').value,
+        utm_medium: form.querySelector('[name="utm_medium"]').value,
+        utm_campaign: form.querySelector('[name="utm_campaign"]').value,
+        utm_content: form.querySelector('[name="utm_content"]').value,
+        utm_term: form.querySelector('[name="utm_term"]').value,
+      };
+
+      if (!data.full_name || !data.phone || !data.email) {
+        errEl.textContent = 'Compila tutti i campi obbligatori.';
+        errEl.style.display = 'block';
+        return;
+      }
+      if (!data.privacy_consent) {
+        errEl.textContent = 'Devi accettare la Privacy Policy.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Invio in corso...';
+
+      try {
+        const res = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+
+        if (res.ok && json.success) {
+          succEl.style.display = 'block';
+          form.reset();
+          fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
+        } else {
+          errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = formId === 'ecura-form-hero' ? 'Richiedilo ora →' : 'Invia richiesta →';
+        }
+      } catch(err) {
+        errEl.textContent = 'Errore di connessione. Riprova.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = formId === 'ecura-form-hero' ? 'Richiedilo ora →' : 'Invia richiesta →';
+      }
+    });
+  }
+
+  handleForm('ecura-form-hero', 'hero-form-error', 'hero-form-success');
+  handleForm('ecura-form-main', 'main-form-error', 'main-form-success');
+
+})();
+</script>
+
+        </div>
+      </div>
+      
+  </body>
