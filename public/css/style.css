@@ -1,0 +1,360 @@
+/* ═══════════════════════════════════════════════
+   eCura Landing — Custom CSS
+   Fedele al design originale ecura.it
+════════════════════════════════════════════════ */
+
+:root {
+  --activeColor: #068D86;
+  --activeColorHover: #05B1A8;
+  --white: #FFF;
+  --beige: #f7f4ef;
+  --black: #000;
+  --darkblue: #080E49;
+  --antracite: #3D3C3B;
+  --brandgrey: #E3DFDD;
+  --lightgrey: #F5F5F5;
+  --linegrey: #f0f0f0;
+  --grey: #666;
+  --green: #068D86;
+  --red: #ff0033;
+  --blu: #0059c7;
+  --font1: "Roboto", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--white);
+  font-family: var(--font1);
+  font-weight: 300;
+  font-size: 18px;
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 600;
+  color: var(--black);
+}
+
+a { color: var(--activeColor); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--activeColorHover); }
+
+.green { color: var(--activeColor) !important; }
+.bgevidence2 { background: rgb(241 255 254); }
+.r30 { border-radius: 30px; }
+
+/* ── CTA Buttons ── */
+.cta-standard,
+.cta-standard-green,
+.cta-standard-white {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 8px 22px;
+  border: 0;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: max-content;
+}
+.cta-standard { background: var(--black); color: var(--white); }
+.cta-standard:hover { background: var(--activeColor); color: var(--white); }
+.cta-standard-green { background: var(--activeColor); color: var(--white); }
+.cta-standard-green:hover { background: var(--activeColorHover); color: var(--white); }
+.cta-standard-white { background: var(--white); color: var(--black); }
+.cta-standard-white:hover { background: var(--activeColor); color: var(--white); }
+.cta-standard.long, .cta-standard-green.long { width: 100%; text-align: center; }
+.cta-standard-green.big, .cta-standard.big { font-size: 20px; padding: 12px 28px; }
+
+/* ── HEADER / NAV ── */
+#full_top_nav {
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.full_top_nav_wrapper { padding: 12px 20px; }
+
+.top_Menu {
+  margin: 0; padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+.top_Menu a {
+  color: var(--black);
+  font-weight: 400;
+  font-size: 15px;
+  transition: color 0.3s;
+}
+.top_Menu a:hover, .top_Menu a.active { color: var(--activeColor); }
+
+/* Hamburger */
+#hamburgerWrap { cursor: pointer; padding: 8px; }
+#hamburger { display: flex; flex-direction: column; gap: 5px; }
+#hamburger .line { width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: all 0.3s; }
+
+/* Mobile menu */
+#mobileMenu {
+  background: var(--white);
+  padding: 16px 20px;
+  border-top: 1px solid var(--linegrey);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#mobileMenu ul { list-style: none; margin: 0; padding: 0; }
+#mobileMenu ul li { border-bottom: 1px solid var(--linegrey); }
+#mobileMenu ul li:last-child { border-bottom: 0; }
+#mobileMenu ul li a { display: block; padding: 12px 0; color: var(--black); font-size: 16px; }
+#mobileMenu ul li a.cta { color: var(--activeColor); font-weight: 600; }
+
+/* ── HERO ── */
+.heroSection {
+  border-bottom-right-radius: 80px;
+  overflow: hidden;
+  box-shadow: 0 20px 100px -70px #088d86;
+}
+.hero-bg {
+  background: url('https://www.ecura.it/img/hero-lg.jpg') no-repeat right center;
+  background-size: cover;
+  min-height: 800px;
+}
+.heroContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.heroContent .textOverlay {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+.heroContent h1 {
+  color: var(--white);
+  font-size: clamp(24px, 3vw, 42px);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.heroContent .display-6, .heroContent .lead {
+  color: var(--white);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.heroContentDx {
+  background: linear-gradient(144deg, #fff 0%, #f2f2f2 100%);
+}
+.heroContentDx h3 { margin-bottom: 20px; }
+
+/* ── FEAT CARDS ── */
+#featCards .card {
+  background: var(--lightgrey);
+  border-radius: 30px;
+  border: 0;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27);
+  position: relative;
+}
+#featCards .card:hover {
+  background: var(--activeColor);
+  color: var(--white);
+}
+#featCards .card:hover h5, #featCards .card:hover p { color: var(--white); }
+#featCards .card .iconWrap {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: var(--activeColor);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  transition: background 0.3s;
+}
+#featCards .card:hover .iconWrap { background: rgba(255,255,255,0.2); }
+
+/* ── PROBLEM QUOTES ── */
+.problem-quote {
+  background: var(--lightgrey);
+  border-left: 4px solid var(--activeColor);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 16px;
+}
+
+/* ── FUNCTIONALITY CARDS ── */
+.func-card {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--linegrey);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.func-card:hover {
+  box-shadow: 0 8px 32px rgba(6,141,134,0.12);
+  transform: translateY(-4px);
+}
+.func-card h6 { font-size: 14px; margin: 0; }
+
+/* ── COMPARISON TABLE ── */
+.table-comparison { border-radius: 12px; overflow: hidden; }
+.table-comparison thead th { background: var(--activeColor); color: var(--white); font-weight: 600; }
+.table-comparison tbody tr:nth-child(even) { background: var(--lightgrey); }
+.check-yes { color: var(--activeColor); font-size: 20px; font-weight: 700; }
+.check-no { color: #dc2626; font-size: 18px; }
+
+/* ── PRICING CARDS ── */
+.pricing-card {
+  border-radius: 20px;
+  border: 1px solid var(--linegrey);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.pricing-card:hover {
+  box-shadow: 0 12px 40px rgba(6,141,134,0.15);
+  transform: translateY(-6px);
+}
+.pricing-card.bestseller {
+  border: 2px solid var(--activeColor);
+  position: relative;
+}
+.price-badge {
+  display: inline-block;
+  background: var(--lightgrey);
+  color: var(--grey);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.price-badge.popular {
+  background: var(--black);
+  color: var(--white);
+}
+.certified-badge {
+  display: inline-block;
+  background: rgba(6,141,134,0.1);
+  color: var(--activeColor);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.plan-name { font-size: 28px; margin: 8px 0; }
+.plan-option { }
+.plan-tier { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--grey); }
+.plan-price { font-size: 32px; font-weight: 700; color: var(--black); }
+.plan-price span { font-size: 16px; font-weight: 300; }
+.plan-renewal { font-size: 13px; color: var(--grey); }
+
+ul.checked {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+ul.checked li {
+  padding: 6px 0 6px 28px;
+  position: relative;
+  font-size: 15px;
+}
+ul.checked li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--activeColor);
+  font-weight: 700;
+}
+
+/* ── SERVICE PLAN CARDS ── */
+.service-plan-card {
+  background: var(--white);
+  border: 1px solid var(--linegrey);
+  border-radius: 16px;
+}
+.service-plan-card.featured {
+  border-color: var(--activeColor);
+  background: rgba(6,141,134,0.03);
+}
+.service-plan-card li { padding: 6px 0; font-size: 15px; }
+
+/* ── FAQ ── */
+.accordion-button:not(.collapsed) {
+  background: rgba(6,141,134,0.08);
+  color: var(--activeColor);
+  box-shadow: none;
+}
+.accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(6,141,134,0.25); }
+
+/* ── REVIEWS ── */
+.review-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+}
+.stars { color: #fbbf24; font-size: 20px; letter-spacing: 3px; }
+.reviewer strong { font-size: 15px; }
+
+/* ── FORM ── */
+.ecura-form .form-control,
+.ecura-form .form-select {
+  border-radius: 10px;
+  border: 1px solid var(--brandgrey);
+  padding: 10px 14px;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.ecura-form .form-control:focus,
+.ecura-form .form-select:focus {
+  border-color: var(--activeColor);
+  box-shadow: 0 0 0 3px rgba(6,141,134,0.15);
+}
+.ecura-form .form-control.is-invalid,
+.ecura-form .form-select.is-invalid {
+  border-color: var(--red);
+}
+.ecura-form .form-check-input:checked {
+  background-color: var(--activeColor);
+  border-color: var(--activeColor);
+}
+
+/* ── #whyEcura badge certificazione ── */
+#whyEcura { position: relative; }
+#whyEcura::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: calc(50% - 60px);
+  z-index: 2;
+  width: 120px;
+  height: 144px;
+  background: url('https://www.ecura.it/img/certification-full.png') no-repeat center;
+  background-size: contain;
+  pointer-events: none;
+}
+
+/* ── FOOTER ── */
+footer a:hover { color: var(--activeColor) !important; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 992px) {
+  .hero-bg { min-height: 500px; }
+  .heroContent .textOverlay { bottom: 40px; }
+  .heroSection { border-bottom-right-radius: 40px; }
+}
+
+@media (max-width: 768px) {
+  .hero-bg { min-height: 400px; background-position: center center; }
+  .heroContent .textOverlay { bottom: 20px; }
+  .heroContent h1 { font-size: 22px; }
+  #whyEcura::after { display: none; }
+  .plan-price { font-size: 26px; }
+}
