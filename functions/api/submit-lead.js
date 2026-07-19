@@ -93,14 +93,19 @@ export async function onRequestPost({ request, env }) {
   const nomeRichiedente = nameParts[0] || full_name
   const cognomeRichiedente = nameParts.slice(1).join(' ') || ''
 
-  // Mappa piano → servizio/piano CRM
-  const planRaw = (body.plan || '').toLowerCase()
-  let servizio = 'eCura PRO'
-  let piano = 'BASE'
-  if (planRaw.includes('family')) servizio = 'eCura Family'
-  else if (planRaw.includes('premium')) servizio = 'eCura PREMIUM'
-  else servizio = 'eCura PRO'
-  if (planRaw.includes('avanzato')) piano = 'AVANZATO'
+  // Mappa valore select → servizio/piano/prezzo CRM
+  // Valori select: FAMILY_BASE, FAMILY_AVANZATO, PRO_BASE, PRO_AVANZATO, PREMIUM_BASE, PREMIUM_AVANZATO
+  const PLAN_MAP = {
+    'FAMILY_BASE':     { servizio: 'eCura Family',  piano: 'BASE',     prezzo_anno: 390,  prezzo_rinnovo: 200 },
+    'FAMILY_AVANZATO': { servizio: 'eCura Family',  piano: 'AVANZATO', prezzo_anno: 690,  prezzo_rinnovo: 500 },
+    'PRO_BASE':        { servizio: 'eCura PRO',     piano: 'BASE',     prezzo_anno: 480,  prezzo_rinnovo: 240 },
+    'PRO_AVANZATO':    { servizio: 'eCura PRO',     piano: 'AVANZATO', prezzo_anno: 840,  prezzo_rinnovo: 600 },
+    'PREMIUM_BASE':    { servizio: 'eCura PREMIUM', piano: 'BASE',     prezzo_anno: 590,  prezzo_rinnovo: 300 },
+    'PREMIUM_AVANZATO':{ servizio: 'eCura PREMIUM', piano: 'AVANZATO', prezzo_anno: 990,  prezzo_rinnovo: 750 },
+  }
+  const planKey = (body.plan || '').toUpperCase().replace(/\s+/g, '_')
+  const planData = PLAN_MAP[planKey] || PLAN_MAP['PRO_BASE']
+  const { servizio, piano, prezzo_anno, prezzo_rinnovo } = planData
 
   const crmPayload = {
     // Dati richiedente
@@ -113,6 +118,8 @@ export async function onRequestPost({ request, env }) {
     servizio,
     piano,
     tipoServizio: piano === 'AVANZATO' ? 'AVANZATO' : 'BASE',
+    prezzo_anno,
+    prezzo_rinnovo,
 
     // Fonte fissa — identificativo landing proprietaria
     fonte: 'Form eCura',
