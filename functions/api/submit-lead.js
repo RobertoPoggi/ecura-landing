@@ -66,7 +66,9 @@ export async function onRequestPost({ request, env }) {
   }
 
   // ── Verifica Turnstile ────────────────────────
-  const turnstileToken = body['cf-turnstile-response']
+  // Il widget Turnstile invia il campo come 'cf-turnstile-response';
+  // il JS del form lo manda come 'turnstile_token' — accettiamo entrambi
+  const turnstileToken = body['cf-turnstile-response'] || body['turnstile_token']
   if (env.TURNSTILE_SECRET_KEY && turnstileToken) {
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
@@ -142,6 +144,7 @@ export async function onRequestPost({ request, env }) {
   const crmUrl = env.CRM_ENDPOINT || 'https://telemedcare-v12.pages.dev/api/leads/public'
   const crmApiKey = env.CRM_API_KEY || ''
 
+  console.log('[submit-lead] CRM call:', crmUrl, 'key present:', !!crmApiKey)
   try {
     const crmRes = await fetch(crmUrl, {
       method: 'POST',
@@ -153,6 +156,7 @@ export async function onRequestPost({ request, env }) {
     })
 
     const crmData = await crmRes.json().catch(() => ({}))
+    console.log('[submit-lead] CRM response:', crmRes.status, JSON.stringify(crmData))
 
     if (crmRes.ok && (crmData.success !== false)) {
       return new Response(JSON.stringify({ success: true, leadId: crmData.id || null }), {
@@ -162,7 +166,7 @@ export async function onRequestPost({ request, env }) {
       console.error('[submit-lead] CRM error:', crmRes.status, JSON.stringify(crmData))
       return new Response(JSON.stringify({
         success: false,
-        error: 'Errore durante la registrazione. Riprova o contattaci direttamente.'
+        error: `Errore CRM ${crmRes.status}: ${crmData.error || JSON.stringify(crmData)}`
       }), { status: 502, headers: corsHeaders })
     }
   } catch (e) {
