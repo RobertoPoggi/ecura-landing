@@ -70,20 +70,33 @@ export async function onRequestPost({ request, env }) {
   // il JS del form lo manda come 'turnstile_token' — accettiamo entrambi
   const turnstileToken = body['cf-turnstile-response'] || body['turnstile_token']
   if (env.TURNSTILE_SECRET_KEY && turnstileToken) {
-    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        secret: env.TURNSTILE_SECRET_KEY,
-        response: turnstileToken,
-        remoteip: request.headers.get('CF-Connecting-IP') || ''
-      }).toString()
-    })
-    const verifyData = await verifyRes.json()
-    if (!verifyData.success) {
-      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Riprova.' }), {
-        status: 400, headers: corsHeaders
+    try {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: env.TURNSTILE_SECRET_KEY,
+          response: turnstileToken,
+          remoteip: request.headers.get('CF-Connecting-IP') || ''
+        }).toString()
       })
+      const verifyData = await verifyRes.json()
+      console.log('[submit-lead] Turnstile verify:', verifyData.success, verifyData['error-codes'])
+      if (!verifyData.success) {
+        // token-already-spent = utente ha ricaricato la pagina o fatto doppio submit
+        // in quel caso lasciamo passare per non bloccare invii legittimi
+        const codes = verifyData['error-codes'] || []
+        const isAlreadySpent = codes.includes('timeout-or-duplicate')
+        if (!isAlreadySpent) {
+          return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Aggiorna la pagina e riprova.' }), {
+            status: 400, headers: corsHeaders
+          })
+        }
+        console.warn('[submit-lead] Turnstile token già usato — lascio passare:', codes)
+      }
+    } catch (tsErr) {
+      // Errore di rete verso Turnstile: non bloccare l'utente
+      console.error('[submit-lead] Errore verifica Turnstile:', tsErr)
     }
   }
 
