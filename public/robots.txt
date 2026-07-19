@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ecura-landing.pages.dev/sitemap.xml
+
+# Blocca endpoint API dal crawling
+Disallow: /api/
