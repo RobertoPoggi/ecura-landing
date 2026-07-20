@@ -118,7 +118,7 @@ a:hover { color: var(--activeColorHover); }
   box-shadow: 0 20px 100px -70px #088d86;
 }
 .hero-bg {
-  background: url('https://www.ecura.it/img/hero-lg.jpg') no-repeat right center;
+  background: url('../img/hero-lg.jpg') no-repeat right center;
   background-size: cover;
   min-height: 800px;
 }
@@ -327,18 +327,21 @@ ul.checked li::before {
 }
 
 /* ── #whyEcura badge certificazione ── */
+/* Badge spostato come elemento inline in HTML: rimosso ::after con top negativo
+   che causava sovrapposizione sul testo SEO-intro (violazione Core Web Vitals / CLS) */
 #whyEcura { position: relative; }
-#whyEcura::after {
-  content: "";
-  position: absolute;
-  top: -80px;
-  left: calc(50% - 60px);
-  z-index: 2;
-  width: 120px;
-  height: 144px;
-  background: url('https://www.ecura.it/img/certification-full.png') no-repeat center;
-  background-size: contain;
-  pointer-events: none;
+
+/* Badge certificazione inline — centrato sopra il titolo, dentro la sezione */
+.cert-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+.cert-badge-wrap img {
+  width: 100px;
+  height: auto;
+  display: block;
 }
 
 /* ── FOOTER ── */
@@ -355,6 +358,6 @@ footer a:hover { color: var(--activeColor) !important; }
   .hero-bg { min-height: 400px; background-position: center center; }
   .heroContent .textOverlay { bottom: 20px; }
   .heroContent h1 { font-size: 22px; }
-  #whyEcura::after { display: none; }
+  .cert-badge-wrap img { width: 80px; }
   .plan-price { font-size: 26px; }
 }
