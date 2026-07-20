@@ -313,9 +313,9 @@
       </tr>
       <tr>
         <td><strong>Layout overlap (CLS)</strong></td>
-        <td><code>#whyEcura::after</code> con <code>top:-80px</code> copriva visivamente la sezione #seo-intro; CTA con <code>margin-top:-80px</code> sovrapposta al carousel</td>
+        <td><code>#whyEcura::after</code> (in <code>css.css</code> + <code>style.css</code>) con <code>top:-80px/-130px</code> copriva visivamente la sezione #seo-intro; badge scudo duplicato sovrapposto al testo. CTA con <code>margin-top:-80px</code> sovrapposta al carousel.</td>
         <td style="color:var(--red)">⚠ Alta (CLS)</td>
-        <td><span class="badge-done">✓ Risolto</span></td>
+        <td><span class="badge-done">✓ Risolto (entrambi i file)</span></td>
       </tr>
       <tr>
         <td><strong>robots.txt</strong></td>
@@ -553,8 +553,8 @@
     </div>
     <div class="tl-item">
       <div class="tl-dot done"></div>
-      <h4>Fix overlap CLS critico</h4>
-      <p><code>#whyEcura::after</code> con <code>top:-80px</code> rimosso. Badge certificazione convertito in <code>&lt;img&gt;</code> inline con classe <code>.cert-badge-wrap</code>. CTA <code>margin-top:-80px</code> → <code>0</code>. Hero background URL → path locale.</p>
+      <h4>Fix overlap CLS critico (2 file)</h4>
+      <p><code>#whyEcura::after</code> rimosso da <strong>entrambi</strong> i file CSS: <code>style.css</code> (sessione 1) e <code>css.css</code> (sessione 2 — era rimasto il pseudo-elemento con <code>top:-130px</code> che generava uno scudo duplicato sovrapposto al blocco SEO testuale). Badge certificazione convertito in <code>&lt;img&gt;</code> inline con classe <code>.cert-badge-wrap</code>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-dot done"></div>
@@ -626,7 +626,9 @@
     <thead><tr><th>File</th><th>Tipo</th><th>Modifica</th><th>Impatto SEO</th></tr></thead>
     <tbody>
       <tr><td><code>public/index.html</code></td><td><span class="badge-done">Modificato</span></td><td>Completo rewrite SEO: title, canonical, H1, JSON-LD, FAQ microdata, blog section, nav</td><td>★★★★★ Critico</td></tr>
-      <tr><td><code>public/css/style.css</code></td><td><span class="badge-done">Modificato</span></td><td>Fix overlap CLS, hero URL locale, cert-badge-wrap inline</td><td>★★★★☆ Alto</td></tr>
+      <tr><td><code>public/css/style.css</code></td><td><span class="badge-done">Modificato</span></td><td>Fix overlap CLS (sessione 1), hero URL locale, cert-badge-wrap inline</td><td>★★★★☆ Alto</td></tr>
+      <tr><td><code>public/css/css.css</code></td><td><span class="badge-done">Modificato</span></td><td>Rimosso #whyEcura::after residuo (sessione 2) — scudo badge duplicato sovrapposto al testo SEO-intro</td><td>★★★★☆ Alto</td></tr>
+      <tr><td><code>public/index.html</code> (sess.2)</td><td><span class="badge-done">Modificato</span></td><td>foundingDate 2020→2026, datePublished 2024→2026-02-01, recensione "3 anni" corretta, copyright 2025→2026 su 15 file</td><td>★★★☆☆ Medio (E-E-A-T)</td></tr>
       <tr><td><code>public/css/blog.css</code></td><td><span class="badge-done">Creato</span></td><td>Stylesheet condiviso blog (692 righe)</td><td>★★★☆☆ Medio</td></tr>
       <tr><td><code>public/sitemap.xml</code></td><td><span class="badge-done">Modificato</span></td><td>16 URL totali, www.ecura.it, image sitemap, priority/changefreq</td><td>★★★★☆ Alto</td></tr>
       <tr><td><code>public/robots.txt</code></td><td><span class="badge-done">Modificato</span></td><td>Sitemap URL, crawl-delay, blocco MJ12bot</td><td>★★★☆☆ Medio</td></tr>
