@@ -118,8 +118,8 @@
 }
 .blog-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
 .blog-card-img {
-  width: 100%; aspect-ratio: 16/8; object-fit: cover;
-  background: linear-gradient(135deg, #068D86, #080E49);
+  width: 100%; aspect-ratio: 16/8;
+  background: linear-gradient(135deg, #068D86, #080E49) center/cover no-repeat;
   display: block;
 }
 .blog-card-body { padding: 22px; }
