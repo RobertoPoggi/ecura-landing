@@ -361,3 +361,101 @@ footer a:hover { color: var(--activeColor) !important; }
   .cert-badge-wrap img { width: 80px; }
   .plan-price { font-size: 26px; }
 }
+
+/* ── RESPONSIVE TABLET (≤768px) ── */
+@media (max-width: 768px) {
+  /* Hero: override inline min-height */
+  .hero-bg-col { min-height: 400px !important; }
+
+  /* Pricing cards: 1 per row */
+  #pricingCards .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; margin-bottom: 20px; }
+
+  /* Comparison table: horizontal scroll */
+  .table-comparison-wrap, .comp-table-outer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-comparison { min-width: 500px; }
+
+  /* FAQ: reduce padding */
+  #faqSection .accordion-button { padding: 14px 16px; font-size: 16px; }
+  #faqSection .accordion-body { padding: 0 16px 16px; }
+
+  /* Hero: remove bottom dead space */
+  .heroSection { border-bottom-right-radius: 24px; }
+
+  /* Buttons stacked */
+  .cta-standard.big, .cta-standard-green.big { font-size: 17px; padding: 10px 22px; }
+}
+
+/* ── RESPONSIVE MOBILE (≤576px) ── */
+@media (max-width: 576px) {
+  /* Hero: compact, image pushed back — overrides inline style */
+  .hero-bg,
+  .hero-bg-col {
+    min-height: 300px !important;
+    background-position: 65% center !important;
+  }
+  .heroSection { border-bottom-right-radius: 16px; }
+
+  /* Hero text overlay: flow naturally, no absolute bottom */
+  .heroContent .textOverlay {
+    position: relative !important;
+    bottom: auto !important;
+    padding: 28px 16px 20px;
+    background: linear-gradient(180deg, rgba(6,141,134,0.85) 0%, rgba(8,14,73,0.80) 100%);
+  }
+  .heroContent h1 { font-size: 1.3rem; margin-bottom: 10px; }
+  .heroContent .display-6 { font-size: 1rem; }
+  .heroContent .lead { font-size: 0.95rem; }
+
+  /* Body font reduce */
+  body { font-size: 16px; }
+
+  /* Nav: smaller padding */
+  .full_top_nav_wrapper { padding: 8px 16px; }
+
+  /* Footer: single-column stacking */
+  footer .row > [class*="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+  footer .row > [class*="col-"]:last-child { margin-bottom: 0; }
+
+  /* Pricing cards: full width, no transform on hover */
+  .pricing-card { margin-bottom: 16px; }
+  .pricing-card:hover { transform: none; }
+
+  /* Service plan cards */
+  #pricingPlan .card { margin-bottom: 16px; }
+
+  /* Section panels: reduce border-radius */
+  .lightGreyBg, .blackPanel { border-radius: 24px; }
+  #featCards .card { border-radius: 16px; }
+
+  /* Stat badges: 2-col */
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* CTA buttons: full width on xs */
+  .cta-standard.long, .cta-standard-green.long,
+  .hero-cta .cta-standard, .hero-cta .cta-standard-green { width: 100%; text-align: center; }
+
+  /* Buttons side by side → stacked */
+  .d-flex.gap-3.flex-wrap { flex-direction: column; gap: 10px !important; }
+
+  /* Comparison table: scroll */
+  .table-comparison-wrap, .comp-table-outer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -4px;
+    border-radius: 8px;
+  }
+  .table-comparison { min-width: 480px; font-size: 13px; }
+  .table-comparison th, .table-comparison td { padding: 10px 8px; }
+
+  /* h2 extra: reduce on mobile */
+  h2.extra, .h2.extra { font-size: 26px; }
+  h1.extra { font-size: 32px; }
+}

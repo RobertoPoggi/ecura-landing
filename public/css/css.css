@@ -51,6 +51,7 @@ body{
     font-weight: 300;
     font-size: 18px;
     color: var(--black);
+    overflow-x: hidden;
 }
 
 .h1,.h2,.h3,.h4,.h5,.h6,
@@ -1529,21 +1530,27 @@ ul.nobullets li{
 
 @media (max-width: 768px) {
 
+/* pricing plan: remove fixed height on mobile */
+#pricingPlan .card .plan.plan-check { min-height: auto; }
+
+/* pricingPlan section: reduce padding */
+#pricingPlan { padding-top: 40px; padding-bottom: 40px; }
+
 #whyEcura {
     padding-top: 60px;
 }
 
 /* Function Carousel Tablet */
 #functionCarousel .owl-stage-outer {
-  min-height: 600px;
+  min-height: 520px;
 }
 
 #functionCarousel .owl-item {
-  min-height: 600px;
+  min-height: 520px;
 }
 
 #functionCarousel .carousel-item-wrapper {
-  min-height: 600px;
+  min-height: 520px;
 }
 
 #functionCarousel .carousel-item-image {
@@ -1621,15 +1628,15 @@ ul.nobullets li{
   }
 
   #functionCarousel .owl-stage-outer {
-    min-height: 500px;
+    min-height: 460px;
   }
 
   #functionCarousel .owl-item {
-    min-height: 500px;
+    min-height: 460px;
   }
 
   #functionCarousel .carousel-item-wrapper {
-    min-height: 500px;
+    min-height: 460px;
   }
 
   #functionCarousel .carousel-item-image {
@@ -1639,8 +1646,8 @@ ul.nobullets li{
   }
 
   #functionCarousel .owl-item.active.center .carousel-item-image {
-    width: 286px;
-    height: 286px;
+    width: 240px;
+    height: 240px;
   }
 
   #functionCarousel .carousel-item-title {
@@ -1664,6 +1671,42 @@ ul.nobullets li{
   #functionCarousel .owl-nav button.owl-next {
     margin-right: 10px;
   }
+}
+
+/* ── RESPONSIVE MOBILE EXTRA (≤480px) ── */
+@media (max-width: 480px) {
+  /* functionCarousel: even more compact on small phones */
+  #functionCarousel { padding: 20px 0; }
+  #functionCarousel .owl-stage-outer,
+  #functionCarousel .owl-item,
+  #functionCarousel .carousel-item-wrapper { min-height: 400px; }
+  #functionCarousel .owl-item.active.center .carousel-item-image { width: 200px; height: 200px; }
+
+  /* pricingPlan: remove fixed height on plan-check so cards don't leave blank space */
+  #pricingPlan .card .plan.plan-check { min-height: auto; }
+
+  /* Nav mobile: tighter top offset */
+  .top_nav_wrapper.is-active { top: 60px; }
+  .top_nav_wrapper.is-active .top_nav { padding: 14px 16px; }
+  .top_nav_wrapper.is-active .top_nav ul.top_Menu > li > a { padding: 10px 0; display: block; border-bottom: 1px solid #f0f0f0; }
+  .top_nav_wrapper.is-active .top_nav ul.top_Menu > li:last-child > a { border-bottom: 0; }
+
+  /* Reduce large border-radius sections */
+  .lightGreyBg, .blackPanel { border-radius: 20px; }
+
+  /* FAQ accordion: smaller text */
+  #faqAccordion .accordion-button { font-size: 15px; padding: 16px 16px 16px 52px; }
+  #faqAccordion .accordion-button::before { width: 34px; height: 34px; font-size: 22px; }
+  #faqAccordion .accordion-body { padding: 0 16px 16px 52px; font-size: 14px; }
+
+  /* Testimonial: compact */
+  #testimonialCarousel .testimonial-content { padding: 24px 16px; min-height: auto; }
+  #testimonialCarousel .testimonial-text { font-size: 15px; }
+  #testimonialCarousel .testimonial-author { flex-direction: column; gap: 8px; text-align: center; }
+  #testimonialCarousel .testimonial-info { text-align: center; }
+
+  /* smartWatchBck: cap size on mobile */
+  #funcionality .smartWatchBck { max-width: 280px; max-height: 280px; }
 }
 
 

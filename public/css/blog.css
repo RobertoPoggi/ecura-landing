@@ -140,10 +140,71 @@
 .toc-box li { margin-bottom: 7px; }
 .toc-box a { font-size: 0.85rem; color: #068D86; }
 
-/* ── Responsive fixes ── */
+/* ── Table overflow wrapper (applied via JS or manually) ── */
+.table-responsive-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px 0;
+  border-radius: 8px;
+  border: 1px solid #e3dfdd;
+}
+.table-responsive-wrap .comp-table { margin: 0; }
+
+/* ── Responsive: tablet (≤900px) ── */
+@media (max-width: 900px) {
+  .article-with-toc {
+    display: block !important;
+    padding: 32px 20px 48px;
+  }
+  .toc-sidebar {
+    position: static !important;
+    margin-top: 40px;
+  }
+  .toc-box { margin-bottom: 0; }
+}
+
+/* ── Responsive: mobile (≤600px) ── */
 @media (max-width: 600px) {
-  .article-wrap { padding: 32px 16px 48px; }
-  .comp-table { font-size: 0.8rem; }
+  .article-wrap { padding: 24px 14px 40px; }
+  .article-wrap h2 { font-size: 1.25rem; }
+  .article-wrap h3 { font-size: 1.05rem; }
+  .article-hero-img { border-radius: 6px !important; margin: 14px 0 20px !important; }
+
+  /* Tables: horizontal scroll on mobile */
+  .comp-table {
+    font-size: 0.78rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
   .comp-table th, .comp-table td { padding: 8px 10px; }
-  .stat-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Stats: 2 per row on mobile */
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 14px 10px; }
+  .stat-card .num { font-size: 1.5rem; }
+
+  /* Blog grid: single column */
+  .blog-grid { grid-template-columns: 1fr; padding: 24px 0; gap: 16px; }
+  .blog-card-body { padding: 16px; }
+
+  /* Callout */
+  .callout { padding: 14px 16px; }
+
+  /* Related posts */
+  .related-grid { grid-template-columns: 1fr; }
+  .related-section { padding: 32px 0; }
+
+  /* CTA block */
+  .article-cta { padding: 24px 16px; }
+  .article-cta a { padding: 10px 20px; font-size: 0.9rem; }
+
+  /* Breadcrumb */
+  .breadcrumb-wrap { font-size: 0.78rem; }
+  .breadcrumb-wrap ol { gap: 4px; }
+
+  /* Blog hero */
+  .blog-hero { padding: 40px 0 28px; }
+  .blog-hero .lead { font-size: 0.95rem; }
 }
