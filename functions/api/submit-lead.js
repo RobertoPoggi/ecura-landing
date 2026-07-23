@@ -189,7 +189,7 @@ export async function onRequestPost({ request, env }) {
   // ── 2. Invia al Google Sheet via GET+querystring (fire-and-forget) ────────
   // NOTA: Apps Script converte POST→GET nei redirect 302, quindi usiamo
   // direttamente GET con i dati in query string per evitare il problema.
-  const gsheetBase = env.GSHEET_WEBHOOK_URL || ''
+  const gsheetBase = env.GSHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbyXf5dP6uNCdd3JWj08PAjBmBuiSIEThaL5IL2xFkAIlqYwaCGDZKK_vfql6gVoNESdvA/exec'
   if (gsheetBase) {
     // Costruisci query string con tutti i campi del payload
     const qs = new URLSearchParams({
