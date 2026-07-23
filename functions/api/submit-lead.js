@@ -12,7 +12,7 @@
  *   GSHEET_WEBHOOK_URL  — URL /exec del Google Apps Script che scrive nel foglio
  */
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
 
   // ── CORS ──────────────────────────────────────
   const corsOrigin = env.CORS_ORIGIN || '*'
@@ -216,9 +216,14 @@ export async function onRequestPost({ request, env }) {
       note:         sheetPayload.note,
     }).toString()
 
-    fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
+    // waitUntil garantisce che il fetch al GSheet venga completato
+    // anche dopo che il worker ha già restituito la risposta al browser
+    const gsheetPromise = fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
       .then(r => console.log('[submit-lead] GSheet response:', r.status))
       .catch(e => console.error('[submit-lead] GSheet error:', e))
+    if (typeof waitUntil === 'function') {
+      waitUntil(gsheetPromise)
+    }
   } else {
     console.warn('[submit-lead] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
