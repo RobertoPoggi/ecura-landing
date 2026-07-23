@@ -186,19 +186,39 @@ export async function onRequestPost({ request, env }) {
     console.error('[submit-lead] CRM fetch error:', e)
   }
 
-  // ── 2. Invia al Google Sheet (fire-and-forget) ─
-  // Non blocchiamo la risposta al browser in attesa del foglio.
-  // Il ctx.waitUntil non è disponibile in Pages Functions senza ExecutionContext,
-  // quindi usiamo fetch non-awaited con catch silenzioso.
-  const gsheetUrl = env.GSHEET_WEBHOOK_URL || ''
-  if (gsheetUrl) {
-    fetch(gsheetUrl, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(sheetPayload),
-    })
-    .then(r => console.log('[submit-lead] GSheet response:', r.status))
-    .catch(e => console.error('[submit-lead] GSheet error:', e))
+  // ── 2. Invia al Google Sheet via GET+querystring (fire-and-forget) ────────
+  // NOTA: Apps Script converte POST→GET nei redirect 302, quindi usiamo
+  // direttamente GET con i dati in query string per evitare il problema.
+  const gsheetBase = env.GSHEET_WEBHOOK_URL || ''
+  if (gsheetBase) {
+    // Costruisci query string con tutti i campi del payload
+    const qs = new URLSearchParams({
+      key:          sheetPayload.key,
+      action:       'write',
+      data_ora:     sheetPayload.data_ora,
+      email:        sheetPayload.email,
+      nome:         sheetPayload.nome,
+      cognome:      sheetPayload.cognome,
+      telefono:     sheetPayload.telefono,
+      citta:        sheetPayload.citta,
+      servizio:     sheetPayload.servizio,
+      piano:        sheetPayload.piano,
+      fonte:        sheetPayload.fonte,
+      canale:       sheetPayload.canale,
+      utm_source:   sheetPayload.utm_source,
+      utm_medium:   sheetPayload.utm_medium,
+      utm_campaign: sheetPayload.utm_campaign,
+      utm_content:  sheetPayload.utm_content,
+      utm_term:     sheetPayload.utm_term,
+      referrer:     sheetPayload.referrer,
+      page_url:     sheetPayload.page_url,
+      landing:      sheetPayload.landing,
+      note:         sheetPayload.note,
+    }).toString()
+
+    fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
+      .then(r => console.log('[submit-lead] GSheet response:', r.status))
+      .catch(e => console.error('[submit-lead] GSheet error:', e))
   } else {
     console.warn('[submit-lead] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
