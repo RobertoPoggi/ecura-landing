@@ -64,7 +64,19 @@
     <loc>https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://www.ecura.it/img/blog/sidly-vital-caduta.jpg</image:loc>
+      <image:title>Confronto bracciali anziani 2026: eCura vs Seremy vs Beghelli</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.ecura.it/img/blog/seremy-bracciale.jpg</image:loc>
+      <image:title>Seremy Watch — bracciale SOS per anziani</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.ecura.it/img/blog/beghelli-salvalavita-band.jpg</image:loc>
+      <image:title>Beghelli Salvalavita Band — bracciale SOS entry-level</image:title>
+    </image:image>
   </url>
 
   <url>
