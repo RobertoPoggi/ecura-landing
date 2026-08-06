@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eCura Admin — Setup iniziale</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #080E49 0%, #068D86 100%);
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.card {
+  background: #fff; border-radius: 16px; padding: 48px 40px;
+  width: 100%; max-width: 460px; box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.logo-wrap { text-align: center; margin-bottom: 28px; }
+.logo-wrap img { height: 40px; }
+h1 { font-size: 1.3rem; color: #080E49; margin-bottom: 8px; text-align: center; }
+p.sub { color: #666; font-size: .875rem; text-align: center; margin-bottom: 28px; line-height: 1.5; }
+.form-group { margin-bottom: 18px; }
+label { display: block; font-size: .875rem; font-weight: 600; color: #333; margin-bottom: 6px; }
+input { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; outline: none; transition: border-color .2s; }
+input:focus { border-color: #068D86; }
+.btn { width: 100%; padding: 14px; background: #068D86; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; font-family: inherit; cursor: pointer; margin-top: 8px; transition: background .2s; }
+.btn:hover { background: #057a74; }
+.btn:disabled { background: #ccc; }
+.msg { padding: 10px 14px; border-radius: 8px; font-size: .875rem; margin-bottom: 16px; display: none; }
+.msg.error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+.msg.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
+.hint { font-size: .75rem; color: #999; margin-top: 3px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">
+    <img src="/img/logo-ecura-trasp.png" alt="eCura" onerror="this.style.display='none'">
+  </div>
+  <h1>Setup Admin Panel</h1>
+  <p class="sub">Prima configurazione: imposta la password dell'account amministratore per accedere al pannello di gestione.</p>
+
+  <div class="msg" id="msg"></div>
+
+  <form id="setupForm">
+    <div class="form-group">
+      <label>Nuova password</label>
+      <input type="password" id="new-password" autocomplete="new-password" placeholder="Minimo 8 caratteri" required>
+    </div>
+    <div class="form-group">
+      <label>Conferma password</label>
+      <input type="password" id="confirm-password" autocomplete="new-password" placeholder="Ripeti la password" required>
+      <span class="hint">Minimo 8 caratteri. Scegli una password sicura.</span>
+    </div>
+    <button type="submit" class="btn" id="setupBtn">Imposta Password e Accedi</button>
+  </form>
+</div>
+
+<script>
+document.getElementById('setupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('setupBtn');
+  const msgEl = document.getElementById('msg');
+  msgEl.style.display = 'none';
+
+  const newP = document.getElementById('new-password').value;
+  const conf = document.getElementById('confirm-password').value;
+
+  if (newP !== conf) { showMsg('Le password non coincidono', 'error'); return; }
+  if (newP.length < 8) { showMsg('La password deve essere di almeno 8 caratteri', 'error'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Configurazione in corso...';
+
+  try {
+    const r = await fetch('/api/admin/password?setup=1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ new_password: newP })
+    });
+    const d = await r.json();
+    if (r.ok && d.ok) {
+      showMsg('Password impostata! Redirect al login...', 'success');
+      setTimeout(() => { window.location.href = '/admin/'; }, 2000);
+    } else {
+      showMsg(d.error || 'Errore durante il setup', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Imposta Password e Accedi';
+    }
+  } catch {
+    showMsg('Errore di connessione. Riprova.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Imposta Password e Accedi';
+  }
+});
+
+function showMsg(text, type) {
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.className = 'msg ' + type;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>

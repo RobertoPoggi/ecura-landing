@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eCura Admin — Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #080E49;
+  --accent: #068D86;
+  --accent-dark: #057a74;
+  --bg: #f4f6fb;
+  --sidebar-w: 240px;
+  --header-h: 60px;
+}
+body { font-family: 'Roboto', sans-serif; background: var(--bg); color: #333; min-height: 100vh; }
+
+/* ── Sidebar ── */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w); height: 100vh;
+  background: var(--primary);
+  display: flex; flex-direction: column;
+  z-index: 100; transition: transform .3s;
+}
+.sidebar-logo {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.sidebar-logo img { height: 32px; width: auto; }
+.sidebar-logo span { display: block; color: rgba(255,255,255,.5); font-size: .75rem; margin-top: 4px; }
+.sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 24px;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  font-size: .9rem; font-weight: 400;
+  border-left: 3px solid transparent;
+  user-select: none;
+}
+.nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+.nav-item.active { background: rgba(6,141,134,.2); color: #fff; border-left-color: var(--accent); font-weight: 600; }
+.nav-item svg { flex-shrink: 0; opacity: .8; }
+.nav-section { padding: 16px 24px 8px; color: rgba(255,255,255,.35); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.btn-logout {
+  display: flex; align-items: center; gap: 8px;
+  color: rgba(255,255,255,.6); cursor: pointer; font-size: .85rem;
+  background: none; border: none; font-family: inherit; padding: 8px 0;
+  transition: color .2s;
+}
+.btn-logout:hover { color: #ff6b6b; }
+
+/* ── Main content ── */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+.topbar {
+  height: var(--header-h);
+  background: #fff;
+  border-bottom: 1px solid #e8eaf0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar h2 { font-size: 1.05rem; font-weight: 600; color: var(--primary); }
+.user-badge { display: flex; align-items: center; gap: 8px; font-size: .875rem; color: #666; }
+.user-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .875rem;
+}
+.content { flex: 1; padding: 28px; }
+
+/* ── Panels ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── Stats cards ── */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: #fff; border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stat-card .label { font-size: .8rem; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+.stat-card .value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+.stat-card .sub { font-size: .8rem; color: var(--accent); }
+
+/* ── Card ── */
+.card {
+  background: #fff; border-radius: 12px; padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  margin-bottom: 24px;
+}
+.card h3 {
+  font-size: 1rem; font-weight: 700; color: var(--primary);
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* ── Table ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+th { background: #f8f9fd; color: #555; font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 2px solid #e8eaf0; white-space: nowrap; }
+td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbff; }
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: .75rem; font-weight: 600;
+}
+.badge-published { background: #dcfce7; color: #16a34a; }
+.badge-draft { background: #fef3c7; color: #d97706; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: 8px; font-size: .875rem; font-weight: 600;
+  border: none; cursor: pointer; font-family: inherit; transition: all .2s;
+}
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: var(--accent-dark); }
+.btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.btn-outline:hover { background: var(--accent); color: #fff; }
+.btn-danger { background: #ef4444; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-sm { padding: 5px 12px; font-size: .8rem; }
+.btn-ghost { background: transparent; color: #666; border: 1px solid #ddd; }
+.btn-ghost:hover { background: #f5f5f5; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Forms ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+label { font-size: .8rem; font-weight: 600; color: #555; }
+input[type="text"], input[type="password"], input[type="date"], input[type="url"],
+select, textarea {
+  padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 8px;
+  font-size: .9rem; font-family: inherit; outline: none;
+  transition: border-color .2s; background: #fff;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; line-height: 1.6; }
+.hint { font-size: .75rem; color: #999; margin-top: 2px; }
+.form-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
+
+/* ── Article editor toolbar ── */
+.editor-toolbar {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 8px 12px; background: #f8f9fd;
+  border: 2px solid #e0e0e0; border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+.editor-toolbar button {
+  padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px;
+  background: #fff; cursor: pointer; font-family: inherit;
+  font-size: .8rem; color: #444; transition: all .15s;
+}
+.editor-toolbar button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.editor-textarea {
+  border-top: none !important;
+  border-radius: 0 0 8px 8px !important;
+  min-height: 300px;
+  font-family: 'Roboto Mono', 'Courier New', monospace !important;
+  font-size: .85rem !important;
+  line-height: 1.7 !important;
+}
+
+/* ── Content preview ── */
+.content-preview {
+  border: 2px solid #e0e0e0; border-radius: 8px; padding: 20px;
+  min-height: 200px; background: #fff; line-height: 1.7;
+}
+.content-preview h2 { font-size: 1.3rem; color: var(--primary); margin: 16px 0 8px; }
+.content-preview h3 { font-size: 1.1rem; color: var(--primary); margin: 14px 0 6px; }
+.content-preview p { margin-bottom: 12px; }
+.content-preview ul, .content-preview ol { padding-left: 24px; margin-bottom: 12px; }
+.content-preview li { margin-bottom: 4px; }
+.content-preview strong { color: #080E49; }
+
+/* ── Alert / Toast ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+  background: #1e293b; color: #fff; padding: 14px 20px;
+  border-radius: 10px; font-size: .875rem; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  transform: translateY(100px); opacity: 0;
+  transition: all .3s; display: flex; align-items: center; gap: 10px;
+  max-width: 360px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: #16a34a; }
+.toast.error { background: #dc2626; }
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  z-index: 500; display: flex; align-items: center; justify-content: center;
+  padding: 20px; display: none;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff; border-radius: 16px; padding: 28px;
+  width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.modal h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+
+/* ── Related articles section ── */
+.related-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.related-item { background: #f8f9fd; border-radius: 8px; padding: 16px; border: 1px solid #e8eaf0; }
+.related-item h4 { font-size: .8rem; color: #666; margin-bottom: 12px; font-weight: 600; }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center; padding: 60px 20px; color: #999;
+}
+.empty-state svg { opacity: .3; margin-bottom: 16px; }
+.empty-state p { font-size: 1rem; margin-bottom: 20px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { transform: translateX(-240px); }
+  .sidebar.open { transform: translateX(0); width: 240px; }
+  .main { margin-left: 0; }
+  .form-grid { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Divider ── */
+.section-divider { margin: 24px 0; border: none; border-top: 1px solid #e8eaf0; }
+
+/* ── Tag color picker ── */
+.color-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-opt {
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: border-color .15s;
+}
+.color-opt.selected { border-color: #333; }
+
+/* ── Spinner ── */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="/img/logo-ecura-trasp-w.png" alt="eCura" onerror="this.style.display='none'">
+    <span>Admin Panel</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Principale</div>
+    <div class="nav-item active" data-panel="dashboard">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-section">Contenuti</div>
+    <div class="nav-item" data-panel="articles-list">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+      Articoli Blog
+    </div>
+    <div class="nav-item" data-panel="article-editor">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Nuovo Articolo
+    </div>
+    <div class="nav-section">Account</div>
+    <div class="nav-item" data-panel="settings">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Impostazioni
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" id="logoutBtn">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      Esci
+    </button>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <header class="topbar">
+    <h2 id="pageTitle">Dashboard</h2>
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">A</div>
+      <span id="userName">admin</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ── Dashboard Panel ── -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Articoli Blog</div>
+          <div class="value" id="stat-articles">—</div>
+          <div class="sub">totali pubblicati</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Ultimo aggiornamento</div>
+          <div class="value" style="font-size:1.1rem" id="stat-last-update">—</div>
+          <div class="sub">articolo modificato</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>
+          <svg width="18" height="18" fill="none" stroke="#068D86" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+          Ultimi Articoli
+        </h3>
+        <div class="table-wrap">
+          <table id="dashboard-table">
+            <thead><tr><th>Titolo</th><th>Categoria</th><th>Data</th><th>Stato</th><th></th></tr></thead>
+            <tbody id="dashboard-tbody"><tr><td colspan="5" style="text-align:center;color:#aaa;padding:32px">Caricamento...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Articles List Panel ── -->
+    <div class="panel" id="panel-articles-list">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div></div>
+        <button class="btn btn-accent" id="newArticleBtn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuovo Articolo
+        </button>
+      </div>
+      <div class="card">
+        <h3>
+          <svg width="18" height="18" fill="none" stroke="#068D86" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          Tutti gli Articoli
+        </h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Titolo</th><th>Slug</th><th>Categoria</th><th>Data</th><th>Stato</th><th>Azioni</th></tr></thead>
+            <tbody id="articles-tbody"><tr><td colspan="6" style="text-align:center;color:#aaa;padding:32px">Caricamento...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Article Editor Panel ── -->
+    <div class="panel" id="panel-article-editor">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <button class="btn btn-ghost btn-sm" id="backToListBtn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          Torna alla lista
+        </button>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-outline btn-sm" id="previewBtn">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Anteprima
+          </button>
+          <button class="btn btn-accent" id="saveArticleBtn">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Salva
+          </button>
+        </div>
+      </div>
+
+      <input type="hidden" id="editingSlug">
+
+      <div class="card">
+        <h3>Informazioni Articolo</h3>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Titolo *</label>
+            <input type="text" id="art-title" placeholder="Es: Come scegliere il bracciale di sicurezza per anziani">
+          </div>
+          <div class="form-group full">
+            <label>Descrizione meta (per SEO)</label>
+            <input type="text" id="art-description" placeholder="Breve descrizione di 150-160 caratteri per Google">
+          </div>
+          <div class="form-group">
+            <label>Slug URL *</label>
+            <input type="text" id="art-slug" placeholder="es: come-scegliere-bracciale-sicurezza-anziani">
+            <span class="hint">Solo lettere minuscole, numeri e trattini. Sarà l'URL dell'articolo.</span>
+          </div>
+          <div class="form-group">
+            <label>Data pubblicazione *</label>
+            <input type="date" id="art-date">
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select id="art-category">
+              <option value="Informazione">Informazione</option>
+              <option value="Confronto">Confronto</option>
+              <option value="Prevenzione">Prevenzione</option>
+              <option value="Sicurezza">Sicurezza</option>
+              <option value="Salute">Salute</option>
+              <option value="Tecnologia">Tecnologia</option>
+              <option value="Legislazione">Legislazione</option>
+              <option value="Recensione">Recensione</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Autore</label>
+            <input type="text" id="art-author" value="Redazione eCura">
+          </div>
+          <div class="form-group">
+            <label>Tempo di lettura</label>
+            <input type="text" id="art-readtime" placeholder="Es: 7 min lettura">
+          </div>
+          <div class="form-group">
+            <label>Colore tag categoria</label>
+            <div class="color-options">
+              <div class="color-opt selected" data-color="#068D86" style="background:#068D86" title="Verde eCura"></div>
+              <div class="color-opt" data-color="#080E49" style="background:#080E49" title="Blu eCura"></div>
+              <div class="color-opt" data-color="#6366f1" style="background:#6366f1" title="Viola"></div>
+              <div class="color-opt" data-color="#f59e0b" style="background:#f59e0b" title="Arancio"></div>
+              <div class="color-opt" data-color="#ef4444" style="background:#ef4444" title="Rosso"></div>
+              <div class="color-opt" data-color="#10b981" style="background:#10b981" title="Verde"></div>
+              <div class="color-opt" data-color="#3b82f6" style="background:#3b82f6" title="Azzurro"></div>
+            </div>
+            <input type="hidden" id="art-tag-color" value="#068D86">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Immagine e Sommario</h3>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Percorso immagine hero</label>
+            <input type="text" id="art-hero-image" placeholder="/img/blog/nome-immagine.jpg">
+            <span class="hint">Percorso relativo all'immagine principale dell'articolo</span>
+          </div>
+          <div class="form-group full">
+            <label>Alt text immagine (per accessibilità/SEO)</label>
+            <input type="text" id="art-hero-alt" placeholder="Descrizione breve dell'immagine">
+          </div>
+          <div class="form-group full">
+            <label>Sommario (riquadro "In sintesi" in cima all'articolo)</label>
+            <textarea id="art-summary" rows="3" placeholder="Scrivi un breve riassunto dei punti chiave dell'articolo. Apparirà in evidenza in cima al testo."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Contenuto Articolo</h3>
+        <p style="font-size:.85rem;color:#888;margin-bottom:16px">Scrivi il testo dell'articolo. Usa i pulsanti per aggiungere formattazione. Il testo verrà formattato automaticamente.</p>
+
+        <div class="editor-toolbar" id="editorToolbar">
+          <button type="button" onclick="insertFormat('h2')">H2</button>
+          <button type="button" onclick="insertFormat('h3')">H3</button>
+          <button type="button" onclick="insertFormat('bold')"><strong>G</strong></button>
+          <button type="button" onclick="insertFormat('italic')"><em>C</em></button>
+          <button type="button" onclick="insertFormat('ul')">• Lista</button>
+          <button type="button" onclick="insertFormat('ol')">1. Lista</button>
+          <button type="button" onclick="insertFormat('link')">🔗 Link</button>
+          <button type="button" onclick="insertFormat('callout')">📋 Callout</button>
+          <button type="button" onclick="insertFormat('table')">⊞ Tabella</button>
+          <button type="button" onclick="insertFormat('paragraph')" style="margin-left:auto">¶ Paragrafo</button>
+        </div>
+        <textarea class="editor-textarea" id="art-content" placeholder="Scrivi qui il testo dell'articolo...
+
+Usa i pulsanti sopra per aggiungere titoli, liste e formattazione.
+
+Esempio:
+## Titolo di sezione
+
+Testo del paragrafo con **parola in grassetto** o *in corsivo*.
+
+- Elemento lista 1
+- Elemento lista 2
+
+## Altra sezione
+Altro testo..."></textarea>
+        <div style="margin-top:12px;display:flex;justify-content:flex-end">
+          <button class="btn btn-outline btn-sm" onclick="togglePreviewMode()">👁 Mostra/Nascondi anteprima</button>
+        </div>
+        <div class="content-preview" id="contentPreview" style="display:none;margin-top:16px"></div>
+      </div>
+
+      <div class="card">
+        <h3>Articoli Correlati</h3>
+        <p style="font-size:.85rem;color:#888;margin-bottom:16px">Inserisci fino a 3 articoli correlati che appariranno in fondo all'articolo. (Opzionale)</p>
+        <div class="related-grid">
+          <div class="related-item">
+            <h4>Correlato 1</h4>
+            <div class="form-group" style="margin-bottom:10px"><label>Slug</label><input type="text" id="rel1-slug" placeholder="es: badante-vs-teleassistenza"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Titolo</label><input type="text" id="rel1-title" placeholder="Titolo articolo"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Estratto</label><input type="text" id="rel1-excerpt" placeholder="Breve descrizione..."></div>
+            <div class="form-group"><label>Tag</label><input type="text" id="rel1-tag" placeholder="es: Confronto"></div>
+          </div>
+          <div class="related-item">
+            <h4>Correlato 2</h4>
+            <div class="form-group" style="margin-bottom:10px"><label>Slug</label><input type="text" id="rel2-slug" placeholder="es: prevenzione-cadute"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Titolo</label><input type="text" id="rel2-title" placeholder="Titolo articolo"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Estratto</label><input type="text" id="rel2-excerpt" placeholder="Breve descrizione..."></div>
+            <div class="form-group"><label>Tag</label><input type="text" id="rel2-tag" placeholder="es: Prevenzione"></div>
+          </div>
+          <div class="related-item">
+            <h4>Correlato 3</h4>
+            <div class="form-group" style="margin-bottom:10px"><label>Slug</label><input type="text" id="rel3-slug" placeholder="es: dispositivo-medico"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Titolo</label><input type="text" id="rel3-title" placeholder="Titolo articolo"></div>
+            <div class="form-group" style="margin-bottom:10px"><label>Estratto</label><input type="text" id="rel3-excerpt" placeholder="Breve descrizione..."></div>
+            <div class="form-group"><label>Tag</label><input type="text" id="rel3-tag" placeholder="es: Salute"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Settings Panel ── -->
+    <div class="panel" id="panel-settings">
+      <div class="card" style="max-width:480px">
+        <h3>
+          <svg width="18" height="18" fill="none" stroke="#068D86" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Cambia Password
+        </h3>
+        <div class="form-group" style="margin-bottom:16px">
+          <label>Password corrente</label>
+          <input type="password" id="curr-password" autocomplete="current-password">
+        </div>
+        <div class="form-group" style="margin-bottom:16px">
+          <label>Nuova password</label>
+          <input type="password" id="new-password" autocomplete="new-password">
+          <span class="hint">Minimo 8 caratteri</span>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label>Conferma nuova password</label>
+          <input type="password" id="confirm-password" autocomplete="new-password">
+        </div>
+        <button class="btn btn-accent" id="changePasswordBtn">Aggiorna Password</button>
+        <div id="pwd-msg" style="margin-top:12px;font-size:.875rem;display:none"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- Delete confirm modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3>Conferma eliminazione</h3>
+    <p style="color:#666;margin-bottom:24px">Stai per eliminare l'articolo "<strong id="deleteArticleTitle"></strong>". Questa azione non può essere annullata.</p>
+    <div style="display:flex;gap:12px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeDeleteModal()">Annulla</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">Elimina</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── State ───────────────────────────────────────────────
+let currentUser = null;
+let articles = [];
+let editingSlug = null;
+let deleteTargetSlug = null;
+let selectedTagColor = '#068D86';
+
+// ─── Init ─────────────────────────────────────────────────
+(async () => {
+  try {
+    const r = await fetch('/api/admin/auth', { credentials: 'include' });
+    if (!r.ok) { window.location.href = '/admin/'; return; }
+    const d = await r.json();
+    if (!d.authenticated) { window.location.href = '/admin/'; return; }
+    currentUser = d.username;
+    document.getElementById('userName').textContent = currentUser;
+    document.getElementById('userAvatar').textContent = currentUser[0].toUpperCase();
+  } catch { window.location.href = '/admin/'; return; }
+
+  await loadArticles();
+  renderDashboard();
+})();
+
+// ─── Navigation ───────────────────────────────────────────
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const panel = item.dataset.panel;
+    if (panel === 'article-editor') {
+      openNewArticleEditor();
+    } else {
+      showPanel(panel);
+    }
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const titles = { dashboard: 'Dashboard', 'articles-list': 'Articoli Blog', 'article-editor': 'Editor Articolo', settings: 'Impostazioni' };
+  document.getElementById('pageTitle').textContent = titles[name] || name;
+}
+
+// ─── Logout ───────────────────────────────────────────────
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await fetch('/api/admin/auth', { method: 'DELETE', credentials: 'include' });
+  window.location.href = '/admin/';
+});
+
+// ─── Load articles ────────────────────────────────────────
+async function loadArticles() {
+  try {
+    const r = await fetch('/api/admin/articles', { credentials: 'include' });
+    const d = await r.json();
+    articles = d.articles || [];
+  } catch { articles = []; }
+}
+
+// ─── Dashboard ────────────────────────────────────────────
+function renderDashboard() {
+  document.getElementById('stat-articles').textContent = articles.length;
+  const last = articles[0];
+  document.getElementById('stat-last-update').textContent = last ? formatDate(last.updated_at || last.date_published) : '—';
+
+  const tbody = document.getElementById('dashboard-tbody');
+  if (!articles.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state" style="text-align:center;color:#aaa;padding:32px">Nessun articolo ancora. <a href="#" onclick="openNewArticleEditor()">Crea il primo!</a></td></tr>';
+    return;
+  }
+  tbody.innerHTML = articles.slice(0, 5).map(a => `
+    <tr>
+      <td><strong>${escHtml(a.title)}</strong></td>
+      <td><span class="badge badge-published">${escHtml(a.category || '')}</span></td>
+      <td>${formatDate(a.date_published)}</td>
+      <td><span class="badge ${a.status === 'published' ? 'badge-published' : 'badge-draft'}">${a.status === 'published' ? 'Pubblicato' : 'Bozza'}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="editArticle('${escHtml(a.slug)}')">Modifica</button></td>
+    </tr>`).join('');
+}
+
+// ─── Articles list ────────────────────────────────────────
+async function renderArticlesList() {
+  await loadArticles();
+  const tbody = document.getElementById('articles-tbody');
+  if (!articles.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:32px">Nessun articolo. Crea il primo!</td></tr>';
+    return;
+  }
+  tbody.innerHTML = articles.map(a => `
+    <tr>
+      <td><strong>${escHtml(a.title)}</strong></td>
+      <td><code style="font-size:.75rem;color:#666">${escHtml(a.slug)}</code></td>
+      <td>${escHtml(a.category || '')}</td>
+      <td>${formatDate(a.date_published)}</td>
+      <td><span class="badge ${a.status === 'published' ? 'badge-published' : 'badge-draft'}">${a.status === 'published' ? 'Pubblicato' : 'Bozza'}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="editArticle('${escHtml(a.slug)}')">✏️ Modifica</button>
+        <button class="btn btn-ghost btn-sm" onclick="confirmDelete('${escHtml(a.slug)}', '${escHtml(a.title.replace(/'/g, "\\'"))}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+document.getElementById('newArticleBtn').addEventListener('click', openNewArticleEditor);
+document.getElementById('backToListBtn').addEventListener('click', () => { showPanel('articles-list'); renderArticlesList(); setNavActive('articles-list'); });
+
+// ─── New Article ──────────────────────────────────────────
+function openNewArticleEditor() {
+  editingSlug = null;
+  document.getElementById('editingSlug').value = '';
+  clearEditorForm();
+  // Set today's date
+  document.getElementById('art-date').value = new Date().toISOString().split('T')[0];
+  showPanel('article-editor');
+  setNavActive('article-editor');
+  document.getElementById('pageTitle').textContent = 'Nuovo Articolo';
+}
+
+function clearEditorForm() {
+  ['art-title','art-description','art-slug','art-author','art-readtime','art-hero-image','art-hero-alt','art-summary','art-content',
+   'rel1-slug','rel1-title','rel1-excerpt','rel1-tag',
+   'rel2-slug','rel2-title','rel2-excerpt','rel2-tag',
+   'rel3-slug','rel3-title','rel3-excerpt','rel3-tag'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('art-author').value = 'Redazione eCura';
+  document.getElementById('art-category').value = 'Informazione';
+  document.getElementById('art-tag-color').value = '#068D86';
+  setTagColor('#068D86');
+  document.getElementById('contentPreview').style.display = 'none';
+}
+
+// ─── Edit Article ─────────────────────────────────────────
+async function editArticle(slug) {
+  try {
+    const r = await fetch(`/api/admin/articles/${slug}`, { credentials: 'include' });
+    const d = await r.json();
+    if (!d.article) { showToast('Articolo non trovato', 'error'); return; }
+    const a = d.article;
+    editingSlug = slug;
+    document.getElementById('editingSlug').value = slug;
+
+    document.getElementById('art-title').value = a.title || '';
+    document.getElementById('art-description').value = a.description || '';
+    document.getElementById('art-slug').value = a.slug || '';
+    document.getElementById('art-date').value = a.date_published || '';
+    document.getElementById('art-category').value = a.category || 'Informazione';
+    document.getElementById('art-author').value = a.author || 'Redazione eCura';
+    document.getElementById('art-readtime').value = a.read_time || '';
+    document.getElementById('art-hero-image').value = a.hero_image || '';
+    document.getElementById('art-hero-alt').value = a.hero_image_alt || '';
+    document.getElementById('art-summary').value = a.summary || '';
+    document.getElementById('art-content').value = a.content || '';
+    document.getElementById('rel1-slug').value = a.related_1_slug || '';
+    document.getElementById('rel1-title').value = a.related_1_title || '';
+    document.getElementById('rel1-excerpt').value = a.related_1_excerpt || '';
+    document.getElementById('rel1-tag').value = a.related_1_tag || '';
+    document.getElementById('rel2-slug').value = a.related_2_slug || '';
+    document.getElementById('rel2-title').value = a.related_2_title || '';
+    document.getElementById('rel2-excerpt').value = a.related_2_excerpt || '';
+    document.getElementById('rel2-tag').value = a.related_2_tag || '';
+    document.getElementById('rel3-slug').value = a.related_3_slug || '';
+    document.getElementById('rel3-title').value = a.related_3_title || '';
+    document.getElementById('rel3-excerpt').value = a.related_3_excerpt || '';
+    document.getElementById('rel3-tag').value = a.related_3_tag || '';
+    setTagColor(a.tag_color || '#068D86');
+
+    showPanel('article-editor');
+    setNavActive('article-editor');
+    document.getElementById('pageTitle').textContent = 'Modifica Articolo';
+  } catch (e) {
+    showToast('Errore nel caricamento articolo', 'error');
+  }
+}
+
+// ─── Save Article ─────────────────────────────────────────
+document.getElementById('saveArticleBtn').addEventListener('click', saveArticle);
+
+async function saveArticle() {
+  const btn = document.getElementById('saveArticleBtn');
+  const title = document.getElementById('art-title').value.trim();
+  const slug = document.getElementById('art-slug').value.trim();
+  const content = document.getElementById('art-content').value.trim();
+  const date = document.getElementById('art-date').value;
+
+  if (!title || !slug || !content || !date) {
+    showToast('Compila i campi obbligatori: Titolo, Slug, Data, Contenuto', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Salvataggio...';
+
+  const payload = {
+    slug, title,
+    description: document.getElementById('art-description').value.trim(),
+    category: document.getElementById('art-category').value,
+    tag_color: document.getElementById('art-tag-color').value,
+    author: document.getElementById('art-author').value.trim() || 'Redazione eCura',
+    date_published: date,
+    read_time: document.getElementById('art-readtime').value.trim() || '5 min lettura',
+    hero_image: document.getElementById('art-hero-image').value.trim() || '/img/blog/default.jpg',
+    hero_image_alt: document.getElementById('art-hero-alt').value.trim(),
+    summary: document.getElementById('art-summary').value.trim(),
+    content,
+    related_1_slug: document.getElementById('rel1-slug').value.trim() || null,
+    related_1_title: document.getElementById('rel1-title').value.trim() || null,
+    related_1_excerpt: document.getElementById('rel1-excerpt').value.trim() || null,
+    related_1_tag: document.getElementById('rel1-tag').value.trim() || null,
+    related_2_slug: document.getElementById('rel2-slug').value.trim() || null,
+    related_2_title: document.getElementById('rel2-title').value.trim() || null,
+    related_2_excerpt: document.getElementById('rel2-excerpt').value.trim() || null,
+    related_2_tag: document.getElementById('rel2-tag').value.trim() || null,
+    related_3_slug: document.getElementById('rel3-slug').value.trim() || null,
+    related_3_title: document.getElementById('rel3-title').value.trim() || null,
+    related_3_excerpt: document.getElementById('rel3-excerpt').value.trim() || null,
+    related_3_tag: document.getElementById('rel3-tag').value.trim() || null,
+  };
+
+  try {
+    let resp;
+    if (editingSlug) {
+      resp = await fetch(`/api/admin/articles/${editingSlug}`, {
+        method: 'PUT', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+      });
+    } else {
+      resp = await fetch('/api/admin/articles', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+      });
+    }
+    const data = await resp.json();
+    if (resp.ok && data.ok) {
+      showToast(editingSlug ? 'Articolo aggiornato!' : 'Articolo creato!', 'success');
+      editingSlug = slug;
+      document.getElementById('editingSlug').value = slug;
+      await loadArticles();
+    } else {
+      showToast(data.error || 'Errore nel salvataggio', 'error');
+    }
+  } catch (e) {
+    showToast('Errore di connessione', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salva';
+}
+
+// ─── Delete ───────────────────────────────────────────────
+function confirmDelete(slug, title) {
+  deleteTargetSlug = slug;
+  document.getElementById('deleteArticleTitle').textContent = title;
+  document.getElementById('deleteModal').classList.add('open');
+}
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTargetSlug = null;
+}
+document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+  if (!deleteTargetSlug) return;
+  try {
+    const r = await fetch(`/api/admin/articles/${deleteTargetSlug}`, { method: 'DELETE', credentials: 'include' });
+    if (r.ok) {
+      showToast('Articolo eliminato', 'success');
+      closeDeleteModal();
+      await loadArticles();
+      renderArticlesList();
+      renderDashboard();
+    }
+  } catch { showToast('Errore eliminazione', 'error'); }
+});
+
+// ─── Auto-slug from title ─────────────────────────────────
+document.getElementById('art-title').addEventListener('input', function() {
+  if (!editingSlug) {
+    document.getElementById('art-slug').value = slugify(this.value);
+  }
+  // Auto read time
+  const words = document.getElementById('art-content').value.split(/\s+/).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  document.getElementById('art-readtime').value = `${mins} min lettura`;
+});
+
+document.getElementById('art-content').addEventListener('input', function() {
+  const words = this.value.split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  document.getElementById('art-readtime').value = `${mins} min lettura`;
+  if (document.getElementById('contentPreview').style.display !== 'none') {
+    updatePreview();
+  }
+});
+
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[àáâäã]/g, 'a').replace(/[èéêë]/g, 'e').replace(/[ìíîï]/g, 'i')
+    .replace(/[òóôö]/g, 'o').replace(/[ùúûü]/g, 'u').replace(/[ñ]/g, 'n')
+    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+}
+
+// ─── Tag color picker ─────────────────────────────────────
+document.querySelectorAll('.color-opt').forEach(opt => {
+  opt.addEventListener('click', () => setTagColor(opt.dataset.color));
+});
+function setTagColor(color) {
+  document.querySelectorAll('.color-opt').forEach(o => {
+    o.classList.toggle('selected', o.dataset.color === color);
+  });
+  document.getElementById('art-tag-color').value = color;
+  selectedTagColor = color;
+}
+
+// ─── Editor toolbar ───────────────────────────────────────
+function insertFormat(type) {
+  const ta = document.getElementById('art-content');
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const selected = ta.value.substring(start, end);
+  let insert = '';
+  switch(type) {
+    case 'h2': insert = `\n## ${selected || 'Titolo sezione'}\n\n`; break;
+    case 'h3': insert = `\n### ${selected || 'Sottotitolo'}\n\n`; break;
+    case 'bold': insert = `**${selected || 'testo in grassetto'}**`; break;
+    case 'italic': insert = `*${selected || 'testo in corsivo'}*`; break;
+    case 'ul': insert = `\n- ${selected || 'Elemento lista'}\n- Elemento 2\n- Elemento 3\n\n`; break;
+    case 'ol': insert = `\n1. ${selected || 'Primo punto'}\n2. Secondo punto\n3. Terzo punto\n\n`; break;
+    case 'link': insert = `[${selected || 'testo link'}](https://www.ecura.it/)`; break;
+    case 'callout': insert = `\n[CALLOUT]${selected || 'Testo del callout/riquadro evidenziato'}[/CALLOUT]\n\n`; break;
+    case 'table': insert = `\n| Colonna 1 | Colonna 2 | Colonna 3 |\n|-----------|-----------|----------|\n| Cella 1 | Cella 2 | Cella 3 |\n| Cella 4 | Cella 5 | Cella 6 |\n\n`; break;
+    case 'paragraph': insert = `\n\n${selected || 'Nuovo paragrafo...'}\n\n`; break;
+  }
+  ta.value = ta.value.substring(0, start) + insert + ta.value.substring(end);
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = start + insert.length;
+}
+
+// ─── Preview ──────────────────────────────────────────────
+document.getElementById('previewBtn').addEventListener('click', togglePreviewMode);
+function togglePreviewMode() {
+  const prev = document.getElementById('contentPreview');
+  if (prev.style.display === 'none') {
+    prev.style.display = 'block';
+    updatePreview();
+  } else {
+    prev.style.display = 'none';
+  }
+}
+function updatePreview() {
+  const content = document.getElementById('art-content').value;
+  document.getElementById('contentPreview').innerHTML = markdownToHtml(content);
+}
+
+function markdownToHtml(md) {
+  return md
+    .replace(/\[CALLOUT\](.*?)\[\/CALLOUT\]/gs, '<div class="callout" style="background:#f0faf9;border-left:4px solid #068D86;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0"><strong>In sintesi</strong><p>$1</p></div>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
+    .replace(/^\- (.+)$/gm, '<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hul])/gm, '')
+    .trim();
+}
+
+// ─── Password change ──────────────────────────────────────
+document.getElementById('changePasswordBtn').addEventListener('click', async () => {
+  const curr = document.getElementById('curr-password').value;
+  const newP = document.getElementById('new-password').value;
+  const conf = document.getElementById('confirm-password').value;
+  const msg = document.getElementById('pwd-msg');
+
+  if (!curr || !newP || !conf) { showPwdMsg('Compila tutti i campi', 'error'); return; }
+  if (newP !== conf) { showPwdMsg('Le password non coincidono', 'error'); return; }
+  if (newP.length < 8) { showPwdMsg('La password deve essere di almeno 8 caratteri', 'error'); return; }
+
+  try {
+    const r = await fetch('/api/admin/password', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ current_password: curr, new_password: newP })
+    });
+    const d = await r.json();
+    if (r.ok && d.ok) {
+      showPwdMsg('Password aggiornata con successo!', 'success');
+      document.getElementById('curr-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+    } else {
+      showPwdMsg(d.error || 'Errore aggiornamento password', 'error');
+    }
+  } catch { showPwdMsg('Errore di connessione', 'error'); }
+});
+
+function showPwdMsg(text, type) {
+  const el = document.getElementById('pwd-msg');
+  el.textContent = text;
+  el.style.color = type === 'error' ? '#dc2626' : '#16a34a';
+  el.style.display = 'block';
+}
+
+// ─── Articles list nav ────────────────────────────────────
+document.querySelectorAll('[data-panel="articles-list"]').forEach(el => {
+  el.addEventListener('click', renderArticlesList);
+});
+document.querySelector('[data-panel="dashboard"]').addEventListener('click', () => { renderDashboard(); });
+
+// ─── Helpers ─────────────────────────────────────────────
+function setNavActive(panel) {
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.panel === panel);
+  });
+}
+function formatDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' }); } catch { return d; }
+}
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(() => { t.classList.remove('show'); }, 3500);
+}
+
+// Close modal on overlay click
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
+</script>
+</body>
+</html>
