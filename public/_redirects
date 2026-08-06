@@ -1,2 +1,5 @@
 # Cloudflare Pages redirects
 /index.php  /  301
+
+# Redirect dominio root a www
+https://ecura.it/*  https://www.ecura.it/:splat  301
