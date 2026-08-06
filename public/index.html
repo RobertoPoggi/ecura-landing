@@ -24,6 +24,12 @@
 <!-- ═══ CANONICAL — AGGIORNATO A www.ecura.it ════════════ -->
 <link rel="canonical" href="https://www.ecura.it/">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<!-- hreflang self-reference IT -->
+<link rel="alternate" hreflang="it" href="https://www.ecura.it/">
+<link rel="alternate" hreflang="it-IT" href="https://www.ecura.it/">
+<link rel="alternate" hreflang="x-default" href="https://www.ecura.it/">
+<!-- GEO AI: llms.txt -->
+<link rel="llms-txt" href="https://www.ecura.it/llms.txt">
 
 <!-- ═══ OPEN GRAPH ════════════════════════════════════════ -->
 <meta property="og:type" content="website">
@@ -432,6 +438,36 @@
         }
       ]
     }
+  ]
+}
+</script>
+
+<!-- ═══ SPEAKABLE + GEO AI SCHEMA ════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.ecura.it/#webpage",
+  "url": "https://www.ecura.it/",
+  "name": "Bracciale Cadute Anziani con GPS e Teleassistenza H24 | eCura",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".hero-title", ".hero-subtitle", "#whyEcura h2", "#faqAccordion"]
+  },
+  "inLanguage": "it-IT",
+  "isPartOf": {"@id": "https://www.ecura.it/#website"},
+  "about": {
+    "@type": "MedicalDevice",
+    "name": "eCura Bracciale Teleassistenza",
+    "description": "Bracciale cadute anziani certificato dispositivo medico Classe IIA con GPS indoor/outdoor, rilevamento cadute AI e Centrale Operativa H24"
+  },
+  "mentions": [
+    {"@type": "Thing", "name": "teleassistenza anziani"},
+    {"@type": "Thing", "name": "bracciale cadute anziani"},
+    {"@type": "Thing", "name": "dispositivo medico Classe IIA"},
+    {"@type": "Thing", "name": "rilevamento cadute automatico"},
+    {"@type": "Thing", "name": "GPS indoor anziani"},
+    {"@type": "Thing", "name": "detraibilità 19% dispositivo medico"}
   ]
 }
 </script>

@@ -1,0 +1,103 @@
+# eCura — Teleassistenza Anziani con Bracciale Cadute GPS
+> Medica GB S.r.l. | P.IVA IT12435130963 | info@ecura.it | Tel. +39 335 730 1206
+
+eCura è il servizio italiano di teleassistenza per anziani basato su un bracciale indossabile certificato **dispositivo medico Classe IIA** (Reg. UE 2017/745 — BD/RDM 2853300). È l'unico bracciale cadute per anziani disponibile in Italia con certificazione medica di Classe IIA, rilevamento cadute AI, GPS indoor/outdoor e Centrale Operativa attiva 24 ore su 24.
+
+## Cos'è eCura
+
+eCura combina hardware (bracciale certificato) e servizio (centrale operativa H24) in un abbonamento annuale. Non richiede smartphone dell'anziano. I familiari gestiscono tutto tramite app eCura disponibile su iOS e Android.
+
+**Punti differenzianti:**
+- Unico dispositivo medico Classe IIA per anziani in Italia (non un semplice wearable)
+- Rilevamento cadute automatico con AI (algoritmo addestrato su oltre 14.000 cadute reali)
+- GPS indoor (Wi-Fi positioning) + outdoor (GPS/LTE)
+- SOS automatico senza premere pulsanti se l'anziano non può farlo
+- Centrale Operativa H24 con operatori italiani certificati
+- Detraibile al 19% come dispositivo medico (Legge 104 per casi specifici)
+- Monitoraggio cardiaco continuo, ossimetria SpO2, promemoria farmaci vocali (piani superiori)
+
+## Piani e Prezzi
+
+### eCura Family
+- BASE: €390/anno — SOS geolocalizzato, rilevamento cadute AI, GPS, app familiari
+- AVANZATO: €690/anno — aggiunge geofencing avanzato, storico percorsi, notifiche avanzate
+
+### eCura Professional
+- BASE: €480/anno — aggiunge AI avanzata su 14.000 cadute, monitoraggio cardiaco, SpO2, promemoria farmaci vocali
+- AVANZATO: €840/anno — aggiunge reportistica medica, integrazione MMG, dashboard clinica base
+
+### eCura Premium
+- BASE: €590/anno — aggiunge SpO2 continuo, analisi del sonno, AI predittiva
+- AVANZATO: €990/anno — aggiunge dashboard clinica completa, telemedicina integrata, consulenze mediche incluse
+
+**Tutti i piani includono:** bracciale certificato Classe IIA (BD/RDM 2853300), SIM integrata, accesso app familiare, Centrale Operativa H24, assistenza tecnica.
+
+## Certificazioni e Conformità
+
+- Dispositivo Medico Classe IIA ai sensi del Regolamento UE 2017/745
+- Numero di registrazione: BD/RDM 2853300
+- Marcatura CE come dispositivo medico
+- Detraibile al 19% nella dichiarazione dei redditi (codice spesa "Dispositivo Medico")
+- Agevolazione Legge 104 per persone con disabilità riconosciuta
+
+## Confronto con Concorrenti
+
+| Caratteristica | eCura | Seremy | Beghelli Salvalavita |
+|---|---|---|---|
+| Certificazione medica | Classe IIA ✅ | No ❌ | No ❌ |
+| Rilevamento cadute AI | Sì ✅ | Sì (base) | No ❌ |
+| GPS indoor | Sì ✅ | No ❌ | No ❌ |
+| Centrale H24 | Sì ✅ | Sì ✅ | Solo SOS ⚠️ |
+| Detraibile 19% | Sì ✅ | No ❌ | No ❌ |
+| Prezzo base/anno | €390 | ~€480 | ~€150 (solo hw) |
+
+## Domande Frequenti (FAQ)
+
+**Q: Il bracciale eCura funziona senza smartphone?**
+A: Sì. L'anziano non ha bisogno di smartphone. Il bracciale ha SIM integrata e comunica direttamente con la Centrale Operativa e con l'app dei familiari.
+
+**Q: Cosa succede se l'anziano cade e non preme il pulsante SOS?**
+A: Il rilevamento cadute AI è automatico. Se il sensore rileva una caduta, il bracciale attiva automaticamente l'allarme alla Centrale Operativa anche senza che l'anziano faccia nulla.
+
+**Q: È detraibile fiscalmente?**
+A: Sì, al 19% come dispositivo medico. Per portatori di handicap riconosciuto (Legge 104) la detraibilità può essere maggiore. Il cliente riceve documentazione fiscale adeguata.
+
+**Q: Qual è la differenza tra GPS indoor e GPS outdoor?**
+A: Il GPS outdoor funziona all'aperto tramite satelliti. Il GPS indoor usa il posizionamento Wi-Fi per localizzare l'anziano all'interno di edifici dove il segnale GPS non arriva (casa, ospedale, centro commerciale).
+
+**Q: Quanto dura la batteria?**
+A: La batteria dura circa 5-7 giorni con uso normale. Il bracciale si ricarica magneticamente.
+
+**Q: eCura funziona per chi ha la Legge 104?**
+A: Sì. Per gli assistiti con riconoscimento Legge 104 è possibile ottenere agevolazioni fiscali aggiuntive. Contattare il team eCura per una valutazione personalizzata.
+
+## Azienda
+
+**Medica GB S.r.l.**
+Corso Giuseppe Garibaldi 34, 20121 Milano (MI), Italia
+P.IVA: IT12435130963
+PEC: medicagbsrl@pecimprese.it
+Email: info@ecura.it
+Telefono: +39 335 730 1206
+Sito web: https://www.ecura.it
+
+## Contenuti del Sito
+
+- [Homepage](https://www.ecura.it/) — presentazione completa del servizio eCura
+- [Confronto Bracciali Anziani](https://www.ecura.it/confronto-bracciali-anziani/) — guida comparativa bracciali SOS 2026
+- [Bracciale Anziani Detraibile](https://www.ecura.it/bracciale-anziani-detraibile/) — guida alla detrazione fiscale 19%
+- [Blog](https://www.ecura.it/blog/) — articoli su teleassistenza, prevenzione cadute, sicurezza anziani
+
+### Articoli principali del Blog
+
+- [Guida Bracciale Cadute Anziani 2026](https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/)
+- [Teleassistenza Anziani: Come Funziona e Costi](https://www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/)
+- [eCura vs Seremy vs Beghelli: Confronto 2026](https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/)
+- [Bracciale Anziani Detraibile al 19%](https://www.ecura.it/blog/bracciale-anziani-detraibile-19-percento/)
+- [Cadute in Casa negli Anziani: Statistiche e Prevenzione](https://www.ecura.it/blog/cadute-casa-anziani-statistiche-prevenzione/)
+- [Dispositivo Medico Classe IIA per Anziani](https://www.ecura.it/blog/dispositivo-medico-classe-iia-anziani/)
+- [Badante vs Teleassistenza: Costi 2026](https://www.ecura.it/blog/badante-vs-teleassistenza-costi-2026/)
+- [GPS Anziani Indoor: Come Funziona](https://www.ecura.it/blog/gps-anziani-indoor-come-funziona/)
+- [Centrale Operativa H24: Come Funziona](https://www.ecura.it/blog/centrale-operativa-h24-teleassistenza/)
+- [Prevenzione Cadute Anziani: 10 Consigli](https://www.ecura.it/blog/prevenzione-cadute-anziani-10-consigli/)
+- [Anziano Solo in Casa: Soluzioni di Sicurezza](https://www.ecura.it/blog/anziano-solo-casa-soluzioni-sicurezza/)

@@ -97,17 +97,49 @@
   <img src="/img/blog/gps-indoor-anziani.jpg" alt="" class="article-hero-img" loading="eager" decoding="async" style="width:100%;height:auto;border-radius:10px;margin:20px 0 28px;display:block;object-fit:cover;aspect-ratio:16/8">
   <div class="callout"><strong>In sintesi</strong><p>Il GPS satellite funziona all'aperto con precisione 3-5 metri ma non funziona al chiuso. La localizzazione indoor richiede Wi-Fi RTT, BLE o UWB. Il bracciale eCura combina tutte e tre per una copertura seamless casa-esterno.</p></div>
   
+<p>Molti familiari si chiedono: <em>“se mia madre cade in casa, il GPS del bracciale funziona?”</em>. La risposta breve è: il GPS satellitare da solo non è sufficiente. Serve una combinazione di tecnologie. Ecco tutto quello che c'è da sapere.</p>
+
 <h2>Perché il GPS non funziona in casa</h2>
-<p>Il GPS triangola il segnale di almeno 4 satelliti. Le onde GPS vengono attenuate da cemento, acciaio, mattoni. In un appartamento al terzo piano, il ricevitore GPS puo perdere completamente il segnale o avere un'accuratezza di decine di metri &mdash; inutile per localizzare qualcuno in casa.</p>
+<p>Il GPS (Global Positioning System) funziona triangolando il segnale di almeno 4 satelliti orbitanti. Le onde GPS lavorano a frequenza 1.575 GHz e vengono attenuate significativamente da cemento, acciaio, mattoni e vetro blindato. In un appartamento al secondo piano, il ricevitore GPS può perdere completamente il segnale o avere un'accuratezza di 50-200 metri — inutile per sapere se l'anziano è in cucina o in bagno.</p>
+<p>Il problema è particolarmente critico perché <strong>il 70% delle cadute gravi avviene in casa</strong>, non all'esterno. Un sistema che funziona solo all'aperto non protegge nei momenti di maggior rischio.</p>
 
 <h2>Le tecnologie per la localizzazione indoor</h2>
-<ul><li><strong>Wi-Fi RTT:</strong> misura il tempo di andata-ritorno tra il dispositivo e gli access point Wi-Fi. Precisione: 1-2 metri.</li><li><strong>BLE (Bluetooth Low Energy):</strong> triangolazione basata sulla potenza del segnale. Precisione: 2-5 metri.</li><li><strong>UWB (Ultra Wideband):</strong> precisione inferiore a 30 cm ma richiede anchor fissi.</li></ul>
+<p>Esistono quattro tecnologie principali per la localizzazione indoor:</p>
+<ul>
+  <li><strong>Wi-Fi RTT (Round Trip Time):</strong> misura il tempo che impiega il segnale ad andare e tornare tra il dispositivo e gli access point Wi-Fi. Precisione: 1-2 metri. Funziona su qualsiasi rete Wi-Fi domestica esistente.</li>
+  <li><strong>BLE (Bluetooth Low Energy):</strong> triangolazione basata sulla potenza del segnale da più beacon. Precisione: 2-5 metri. Consumo energetico bassissimo, ideale per dispositivi indossabili.</li>
+  <li><strong>UWB (Ultra Wideband):</strong> la più precisa, con accuratezza inferiore a 30 cm. Richiede però anchor fissi installati nelle stanze.</li>
+  <li><strong>Cell-ID/LTE:</strong> localizzazione tramite celle 4G. Precisione bassa (50-200 metri) ma utile come fallback.</li>
+</ul>
 
 <h2>Come funziona il bracciale eCura indoor</h2>
-<ol><li>All'aperto: GPS satellite + 4G LTE</li><li>In casa con Wi-Fi: Wi-Fi RTT per localizzazione stanza per stanza</li><li>In case senza Wi-Fi: BLE con triangolazione su smartphone familiari</li><li>Transizione automatica: da GPS a Wi-Fi in meno di 3 secondi entrando in casa</li></ol>
+<p>Il bracciale eCura usa un sistema ibrido che combina più tecnologie in modo trasparente:</p>
+<ol>
+  <li><strong>All'aperto:</strong> GPS satellite + 4G LTE. Precisione: 3-5 metri, copertura in tutta Italia e in Europa.</li>
+  <li><strong>In casa con Wi-Fi:</strong> Wi-Fi RTT per localizzazione stanza per stanza. Il bracciale si connette automaticamente alla rete di casa.</li>
+  <li><strong>In case senza Wi-Fi:</strong> BLE con triangolazione, più Cell-ID come fallback.</li>
+  <li><strong>Transizione automatica:</strong> da GPS a Wi-Fi in meno di 3 secondi entrando in casa, senza interruzioni.</li>
+</ol>
+<p>La posizione viene aggiornata ogni 30 secondi in modalità normale e ogni 5 secondi in modalità allarme attivo.</p>
 
 <h2>Casi d'uso pratici</h2>
-<ul><li><strong>Caduta notturna:</strong> la centrale sa esattamente in quale stanza si trova l'anziano</li><li><strong>Anziano con lieve demenza:</strong> se esce di casa, l'app notifica immediatamente</li><li><strong>Casa su piu piani:</strong> sapere il piano puo fare la differenza nei tempi di soccorso</li></ul>
+<ul>
+  <li><strong>Caduta notturna in bagno:</strong> la centrale operativa sa in quale stanza si trova l'anziano e lo comunica ai soccorritori</li>
+  <li><strong>Anziano con lieve demenza:</strong> se esce dalla zona geofence configurata, l'app notifica tutti i familiari con posizione GPS in tempo reale</li>
+  <li><strong>Casa su più piani:</strong> la localizzazione verticale è determinata tramite barometro integrato nel bracciale abbinato alla localizzazione Wi-Fi</li>
+  <li><strong>Ospedale o struttura:</strong> in ambienti con Wi-Fi disponibile il sistema funziona anche fuori casa durante ricoveri o day hospital</li>
+</ul>
+
+<h2>Confronto: localizzazione eCura vs concorrenti</h2>
+<table class='comp-table'>
+  <thead><tr><th>Dispositivo</th><th>GPS outdoor</th><th>Localiz. indoor</th><th>Aggiornamento</th></tr></thead>
+  <tbody>
+    <tr><td><strong>eCura</strong></td><td class='yes'>✓ 3-5m</td><td class='yes'>✓ Wi-Fi RTT + BLE</td><td class='best'>30s / 5s allarme</td></tr>
+    <tr><td>Seremy Watch</td><td class='yes'>✓ GPS</td><td class='no'>✗ solo GPS</td><td>60s</td></tr>
+    <tr><td>Beghelli Salvalavita</td><td class='no'>✗</td><td class='no'>✗</td><td>N/D</td></tr>
+    <tr><td>Smartwatch consumer</td><td class='yes'>✓ GPS</td><td class='no'>✗ solo GPS</td><td>variabile</td></tr>
+  </tbody>
+</table>
 
   <div class="article-cta">
     <h3>Proteggi i tuoi cari con eCura</h3>
