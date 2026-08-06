@@ -384,7 +384,7 @@ document.getElementById('login-form').addEventListener('submit', async e => {
     body: JSON.stringify({ username: document.getElementById('login-user').value, password: document.getElementById('login-pass').value }),
   });
   btn.innerHTML = 'Accedi'; btn.disabled = false;
-  if (r.success) {
+  if (r.ok || r.success) {
     enterApp();
   } else {
     const el = document.getElementById('login-error');
