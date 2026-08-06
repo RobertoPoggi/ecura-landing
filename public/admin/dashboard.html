@@ -551,8 +551,10 @@ document.getElementById('new-post-btn').addEventListener('click', () => {
 });
 
 async function openEdit(slug) {
-  const a = await apiCall('/articles/' + slug);
-  if (!a || a.error) { showToast('Articolo non trovato', 'error'); return; }
+  const r = await apiCall('/articles/' + slug);
+  // L'API risponde { article: {...} }
+  const a = r.article || r;
+  if (!a || a.error || !a.title) { showToast('Articolo non trovato', 'error'); return; }
   editing = true;
   document.getElementById('modal-title').textContent = 'Modifica Articolo';
   document.getElementById('save-label').textContent  = 'Salva Modifiche';
@@ -572,7 +574,6 @@ async function openEdit(slug) {
   setTimeout(() => {
     quill.setContents([]);
     if (a.content && a.content.trim()) {
-      // Se il contenuto è HTML usa dangerouslyPasteHTML, altrimenti inserisci come testo
       if (a.content.includes('<') && a.content.includes('>')) {
         quill.clipboard.dangerouslyPasteHTML(a.content);
       } else {
@@ -624,7 +625,7 @@ document.getElementById('article-form').addEventListener('submit', async e => {
     : await apiCall('/articles',           { method:'POST', body:JSON.stringify(payload) });
   btn.innerHTML = `<i class="fas fa-save"></i><span id="save-label">${editing?'Salva Modifiche':'Salva Articolo'}</span>`;
   btn.disabled = false;
-  if (r.success || r.article) {
+  if (r.ok || r.success || r.article) {
     showToast(editing ? 'Articolo aggiornato!' : 'Articolo creato!');
     closeModal();
     loadArticles();
@@ -783,7 +784,9 @@ function buildPostPDF(post) {
 async function exportSinglePDF(slug, btn) {
   try {
     if(btn){ btn.disabled=true; btn.innerHTML='<span class="pdf-spinner"></span>'; }
-    const post = await apiCall('/articles/'+slug);
+    const r = await apiCall('/articles/'+slug);
+    // L'API risponde { article: {...} }
+    const post = r.article || r;
     if(!post||!post.title){ showToast('Articolo non trovato','error'); return; }
     const doc = buildPostPDF(post);
     doc.save('ecura-' + (post.slug||'articolo') + '.pdf');
@@ -802,7 +805,8 @@ async function exportAllPDF() {
     const d = await apiCall('/articles');
     const posts = d.articles || [];
     if(!posts.length){ showToast('Nessun articolo','error'); return; }
-    const fullPosts = await Promise.all(posts.map(p => apiCall('/articles/'+p.slug)));
+    // L'API singolo articolo risponde { article: {...} } — unwrap
+    const fullPosts = (await Promise.all(posts.map(p => apiCall('/articles/'+p.slug)))).map(r => r.article || r);
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit:'mm', format:'a4', orientation:'portrait' });
     const pageW = doc.internal.pageSize.getWidth();

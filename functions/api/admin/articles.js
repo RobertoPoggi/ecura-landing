@@ -42,7 +42,7 @@ export async function onRequest({ request, env }) {
   // GET — list all articles
   if (request.method === 'GET') {
     const { results } = await db.prepare(
-      'SELECT id, slug, title, category, date_published, status, updated_at FROM blog_articles ORDER BY date_published DESC'
+      'SELECT id, slug, title, category, tag_color, date_published, read_time, status, hero_image, updated_at FROM blog_articles ORDER BY date_published DESC'
     ).all();
     return new Response(JSON.stringify({ articles: results || [] }), { status: 200, headers: corsHeaders });
   }
@@ -63,8 +63,8 @@ export async function onRequest({ request, env }) {
       related_3_slug, related_3_title, related_3_excerpt, related_3_tag
     } = body;
 
-    if (!slug || !title || !content || !date_published) {
-      return new Response(JSON.stringify({ error: 'Campi obbligatori: slug, title, content, date_published' }), { status: 400, headers: corsHeaders });
+    if (!slug || !title) {
+      return new Response(JSON.stringify({ error: 'Campi obbligatori: slug e title' }), { status: 400, headers: corsHeaders });
     }
 
     try {
