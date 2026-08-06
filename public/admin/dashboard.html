@@ -455,10 +455,12 @@ document.getElementById('search-input').addEventListener('input', renderList);
 document.getElementById('filter-select').addEventListener('change', renderList);
 
 function articleRow(a, compact) {
+  const THUMB_IMG = 'width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid #e8edf2;display:block';
+  const THUMB_PLACEHOLDER = 'width:64px;height:64px;border-radius:10px;flex-shrink:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-size:20px';
   const thumb = a.hero_image
-    ? `<img src="${esc(a.hero_image)}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-gray-100" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-       <div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-300" style="display:none"><i class="fas fa-image"></i></div>`
-    : `<div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-300"><i class="fas fa-image"></i></div>`;
+    ? `<img src="${esc(a.hero_image)}" style="${THUMB_IMG}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+       <div style="${THUMB_PLACEHOLDER};display:none"><i class="fas fa-image"></i></div>`
+    : `<div style="${THUMB_PLACEHOLDER}"><i class="fas fa-image"></i></div>`;
 
   const badge = a.status === 'published'
     ? `<span class="text-xs px-2.5 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">Pubblicato</span>`
@@ -503,6 +505,35 @@ function articleRow(a, compact) {
          title="Elimina"><i class="fas fa-trash"></i></button>
     </div>
   </div>`;
+}
+
+// ── Markdown → HTML leggero (per contenuto plain-text con simboli ##, **, - ) ──
+function mdToHtml(md) {
+  if (!md) return '';
+  // Se è già HTML non toccare
+  if (/<(p|h[1-6]|ul|ol|li|div|strong|em|br)[\s>]/i.test(md)) return md;
+  let html = md
+    // Escaping caratteri speciali HTML (solo < > & fuori dai tag)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    // Titoli ## → <h2>, ### → <h3>
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    // **grassetto** e *corsivo*
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    // Liste - item → <li>
+    .replace(/^[-•] (.+)$/gm,'<li>$1</li>');
+  // Raggruppa <li> consecutivi in <ul>
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, m => '<ul>' + m + '</ul>');
+  // Righe normali → <p>, salta righe vuote e tag già presenti
+  html = html.split('\n').map(line => {
+    const t = line.trim();
+    if (!t) return '';
+    if (/^<(h[1-6]|ul|ol|li|blockquote)/.test(t)) return t;
+    return '<p>' + t + '</p>';
+  }).join('');
+  return html || md;
 }
 
 // ── Quill ─────────────────────────────────────
@@ -574,11 +605,8 @@ async function openEdit(slug) {
   setTimeout(() => {
     quill.setContents([]);
     if (a.content && a.content.trim()) {
-      if (a.content.includes('<') && a.content.includes('>')) {
-        quill.clipboard.dangerouslyPasteHTML(a.content);
-      } else {
-        quill.setText(a.content);
-      }
+      // Converte sempre via mdToHtml — gestisce markdown puro E HTML già formato
+      quill.clipboard.dangerouslyPasteHTML(mdToHtml(a.content));
     }
     quill.focus();
   }, 80);
