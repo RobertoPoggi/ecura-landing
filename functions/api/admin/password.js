@@ -1,7 +1,9 @@
 /**
  * Admin Password Change API
- * POST /api/admin/password — change password
- * POST /api/admin/password?setup=1 — initial setup (no auth required if password is __PENDING_SETUP__)
+ * POST /api/admin/password — change password (requires active session)
+ *
+ * NOTE: first-time setup is done directly via D1 (wrangler d1 execute),
+ * not via HTTP — the ?setup= endpoint has been intentionally removed.
  */
 
 const COOKIE_NAME = 'ecura_admin_session';
@@ -50,31 +52,13 @@ export async function onRequest({ request, env }) {
   if (request.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
 
   const db = env.DB;
-  const url = new URL(request.url);
-  const isSetup = url.searchParams.get('setup') === '1';
+
+  // Requires valid session — no unauthenticated setup endpoint
+  const session = await checkAuth(request, db);
+  if (!session) return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: corsHeaders });
 
   let body;
   try { body = await request.json(); } catch { return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400, headers: corsHeaders }); }
-
-  if (isSetup) {
-    // Initial setup: check if still pending
-    const user = await db.prepare("SELECT * FROM admin_users WHERE username = 'admin'").first();
-    if (!user) return new Response(JSON.stringify({ error: 'Admin non trovato' }), { status: 404, headers: corsHeaders });
-    if (user.password_hash !== '__PENDING_SETUP__') {
-      return new Response(JSON.stringify({ error: 'Setup già completato. Usa il cambio password normale.' }), { status: 403, headers: corsHeaders });
-    }
-    const { new_password } = body;
-    if (!new_password || new_password.length < 8) {
-      return new Response(JSON.stringify({ error: 'Password deve essere di almeno 8 caratteri' }), { status: 400, headers: corsHeaders });
-    }
-    const hash = await hashPassword(new_password);
-    await db.prepare('UPDATE admin_users SET password_hash = ? WHERE username = ?').bind(hash, 'admin').run();
-    return new Response(JSON.stringify({ ok: true, message: 'Password impostata. Ora puoi fare login.' }), { status: 200, headers: corsHeaders });
-  }
-
-  // Normal password change — requires auth
-  const session = await checkAuth(request, db);
-  if (!session) return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: corsHeaders });
 
   const { current_password, new_password } = body;
   if (!current_password || !new_password) {
@@ -85,10 +69,12 @@ export async function onRequest({ request, env }) {
   }
 
   const currentHash = await hashPassword(current_password);
-  const user = await db.prepare('SELECT * FROM admin_users WHERE id = ? AND password_hash = ?').bind(session.user_id, currentHash).first();
+  const user = await db.prepare(
+    'SELECT * FROM admin_users WHERE id = ? AND password_hash = ?'
+  ).bind(session.user_id, currentHash).first();
   if (!user) return new Response(JSON.stringify({ error: 'Password corrente non valida' }), { status: 401, headers: corsHeaders });
 
   const newHash = await hashPassword(new_password);
   await db.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(newHash, session.user_id).run();
-  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: corsHeaders });
+  return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
 }
