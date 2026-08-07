@@ -510,7 +510,9 @@ function articleRow(a, compact) {
 // ── Markdown → HTML leggero (per contenuto plain-text con simboli ##, **, - ) ──
 function mdToHtml(md) {
   if (!md) return '';
-  // Se è già HTML non toccare
+  // Decodifica prima le entità HTML (&#39; → ') per mostrare testo leggibile
+  md = md.replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  // Se è già HTML non toccare (dopo decode)
   if (/<(p|h[1-6]|ul|ol|li|div|strong|em|br)[\s>]/i.test(md)) return md;
   let html = md
     // Escaping caratteri speciali HTML (solo < > & fuori dai tag)
@@ -634,7 +636,13 @@ document.getElementById('article-form').addEventListener('submit', async e => {
   btn.innerHTML = '<span class="pdf-spinner"></span> Salvataggio…'; btn.disabled = true;
   const origSlug = document.getElementById('f-orig-slug').value;
   const g = id => (document.getElementById(id)||{}).value || '';
-  const contentHtml = quill ? quill.getSemanticHTML() : '';
+  // Decodifica entità HTML (&#39; → ') prima di salvare in D1
+  const rawHtml = quill ? quill.getSemanticHTML() : '';
+  const contentHtml = rawHtml
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&');
   const payload = {
     title:         g('f-title'),
     slug:          g('f-slug'),
