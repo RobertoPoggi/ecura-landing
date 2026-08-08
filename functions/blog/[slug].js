@@ -86,6 +86,59 @@ function renderArticle(a) {
   const slug    = a.slug || '';
   const canonical = `https://www.ecura.it/blog/${slug}/`;
 
+  // ── Schema.org extras: FAQPage + HowTo ─────────────────────────────────────
+  // Estratti direttamente dall'HTML del content, senza colonne D1 aggiuntive.
+  // FAQPage: cerca blocchi .faq-item con <strong>domanda</strong> + <p>risposta</p>
+  // HowTo:   cerca <li> con <strong>N. Titolo</strong>: testo nelle sezioni consigli
+
+  let faqSchemaBlock = '';
+  try {
+    // Pattern 1: blocchi .faq-item con <strong>domanda</strong> + <p>risposta</p>
+    const faqMatches = [...content.matchAll(/<div[^>]*class="faq-item"[^>]*>[\s\S]*?<strong>([\s\S]*?)<\/strong>[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/gi)];
+
+    // Pattern 2: sezione "Domande frequenti" con <h3> + <p> (formato articolo confronto)
+    let faqH3Matches = [];
+    const faqSectionMatch = content.match(/<h2[^>]*>[^<]*[Dd]omande[^<]*<\/h2>([\s\S]*?)(?:<h2|<div class="article-cta"|$)/i);
+    if (faqSectionMatch) {
+      faqH3Matches = [...faqSectionMatch[1].matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>\s*<p[^>]*>([\s\S]*?)<\/p>/gi)];
+    }
+
+    const allFaqs = [
+      ...faqMatches.map(m => ({ q: m[1], a: m[2] })),
+      ...faqH3Matches.map(m => ({ q: m[1], a: m[2] }))
+    ];
+
+    if (allFaqs.length > 0) {
+      const qas = allFaqs.map(f => ({
+        '@type': 'Question',
+        'name': f.q.replace(/<[^>]+>/g,'').trim(),
+        'acceptedAnswer': { '@type': 'Answer', 'text': f.a.replace(/<[^>]+>/g,'').trim() }
+      }));
+      faqSchemaBlock = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': qas });
+    }
+  } catch(e) { /* skip */ }
+
+  let howtoSchemaBlock = '';
+  try {
+    // HowTo: solo per articoli con pattern "N. Titolo: testo" in <li><strong>
+    const howtoMatches = [...content.matchAll(/<li[^>]*>[\s\S]*?<strong>(\d+\.\s[^<]+)<\/strong>:?\s*([\s\S]*?)<\/li>/gi)];
+    if (howtoMatches.length >= 5) { // almeno 5 step per qualificarsi come HowTo
+      const steps = howtoMatches.map((m, i) => ({
+        '@type': 'HowToStep',
+        'position': i + 1,
+        'name': m[1].replace(/^\d+\.\s*/,'').trim(),
+        'text': m[2].replace(/<[^>]+>/g,'').trim()
+      }));
+      howtoSchemaBlock = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        'name': title,
+        'description': desc,
+        'step': steps
+      });
+    }
+  } catch(e) { /* skip */ }
+
   // Related articles
   const relatedCards = [
     { slug: a.related_1_slug, title: a.related_1_title, excerpt: a.related_1_excerpt, tag: a.related_1_tag },
@@ -215,6 +268,8 @@ function renderArticle(a) {
   ]
 }
 </script>
+${faqSchemaBlock ? `<script type="application/ld+json">${faqSchemaBlock}</script>` : ''}
+${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</script>` : ''}
 </head>
 <body>
 <a class="skip-link" href="#main-content">Salta al contenuto</a>
