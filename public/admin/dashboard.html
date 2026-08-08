@@ -372,45 +372,43 @@ function extractTextNodes(html) {
   // Usa DOMParser per navigare l'HTML in modo sicuro
   const doc = new DOMParser().parseFromString('<div id="root">' + html + '</div>', 'text/html');
   const root = doc.getElementById('root');
-  const nodes = [];
   let idx = 0;
 
-  // Selettori dei nodi di testo che vogliamo esporre all'editor
+  // Selettori dei nodi di testo che vogliamo esporre all'editor.
+  // ORDINE IMPORTANTE: dal più specifico al più generico, per evitare
+  // che un nodo venga marcato due volte (il primo setAttribute vince).
   const SELECTORS = [
-    'h1','h2','h3','h4',
-    'p:not(.ql-align-center)',  // evita didascalie immagini inline
-    'li',
-    '.spec-val',
-    '.verdict-box',
     '.callout p',
+    '.verdict-box',
+    '.spec-val',
     '.winner-banner h3',
-    '.winner-banner p'
+    '.winner-banner p',
+    'h1','h2','h3','h4',
+    'p','li'
   ];
 
-  // Aggiungi un marker data-txid a ogni nodo target
+  // Aggiungi data-txid a ogni nodo target che non sia già stato marcato
+  // e che abbia almeno del testo (non solo immagini/icone)
   SELECTORS.forEach(sel => {
     root.querySelectorAll(sel).forEach(el => {
-      // Salta nodi che contengono solo immagini o altri nodi target figli
-      const directText = el.innerHTML.replace(/<(h[1-4]|p|li)[^>]*>.*?<\/\1>/gi,'').trim();
-      if (!directText) return;
+      if (el.hasAttribute('data-txid')) return; // già marcato da selettore più specifico
+      if (!el.textContent.trim()) return;        // nodo vuoto → salta
       el.setAttribute('data-txid', 'tx' + idx++);
     });
   });
 
-  // Serializza di nuovo con i marker
+  // Serializza con i marker
   const markedHtml = root.innerHTML;
 
-  // Ora estrai coppie {id, label, innerHtml}
-  const parser2 = new DOMParser();
-  const doc2 = parser2.parseFromString('<div id="root2">' + markedHtml + '</div>', 'text/html');
+  // Estrai coppie {id, label, innerHTML} per i campi del form
+  const doc2 = new DOMParser().parseFromString('<div id="root2">' + markedHtml + '</div>', 'text/html');
   const root2 = doc2.getElementById('root2');
   const fields = [];
   root2.querySelectorAll('[data-txid]').forEach(el => {
-    const id = el.getAttribute('data-txid');
-    const tag = el.tagName.toLowerCase();
-    // Label leggibile: testo puro troncato
-    const plainText = el.innerText || el.textContent || '';
-    const label = tag.toUpperCase() + ': ' + plainText.trim().slice(0, 60) + (plainText.length > 60 ? '…' : '');
+    const id   = el.getAttribute('data-txid');
+    const tag  = el.tagName.toLowerCase();
+    const plainText = (el.textContent || '').trim();
+    const label = tag.toUpperCase() + ': ' + plainText.slice(0, 70) + (plainText.length > 70 ? '…' : '');
     fields.push({ id, label, innerHTML: el.innerHTML });
   });
 
