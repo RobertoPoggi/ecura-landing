@@ -80,7 +80,6 @@ function renderArticle(a) {
   rawContent = rawContent.replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, '');
   rawContent = rawContent.replace(/<img(?![^>]*class="[^"]*product)[^>]+>/gi, '');
   const content = rawContent;
-    : heroFig + rawContent;
   const hero    = a.hero_image || '/img/blog/default.jpg';
   const heroAlt = decodeEntities(a.hero_image_alt || title);
   const cat     = decodeEntities(a.category || '');
