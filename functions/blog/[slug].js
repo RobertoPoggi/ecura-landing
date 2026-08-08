@@ -75,7 +75,18 @@ function fmtDate(d) {
 function renderArticle(a) {
   const title   = decodeEntities(a.title || '');
   const desc    = decodeEntities(a.description || '');
-  const content = decodeEntities(a.content || '');
+  // Sostituisce le <img>/<figure> non pertinenti nel content con la hero_image dell'articolo
+  let rawContent = decodeEntities(a.content || '');
+  rawContent = rawContent.replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, '');
+  rawContent = rawContent.replace(/<img(?![^>]*class="[^"]*product)[^>]+>/gi, '');
+  // Inietta la hero_image come figura pertinente dopo il primo paragrafo
+  const heroFig = `<figure style="margin:24px 0 32px;text-align:center">
+  <img src="${(a.hero_image||'/img/blog/default.jpg').replace(/"/g,'&quot;')}" alt="${(a.hero_image_alt||a.title||'').replace(/"/g,'&quot;')}" loading="lazy" style="width:100%;max-width:760px;height:auto;border-radius:10px;object-fit:cover;aspect-ratio:16/8">
+</figure>`;
+  const fp = rawContent.indexOf('</p>');
+  const content = fp >= 0
+    ? rawContent.slice(0, fp + 4) + heroFig + rawContent.slice(fp + 4)
+    : heroFig + rawContent;
   const hero    = a.hero_image || '/img/blog/default.jpg';
   const heroAlt = decodeEntities(a.hero_image_alt || title);
   const cat     = decodeEntities(a.category || '');
