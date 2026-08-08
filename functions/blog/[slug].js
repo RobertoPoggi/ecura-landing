@@ -187,7 +187,7 @@ function renderArticle(a) {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"></noscript>
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/blog.css">
+<link rel="stylesheet" href="/css/blog.css?v=2">
 <style>
 /* Comparison Table */
 .comp-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:.92rem}
