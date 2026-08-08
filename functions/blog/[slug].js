@@ -136,6 +136,17 @@ function renderArticle(a) {
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/blog.css">
 <style>
+/* Comparison Table */
+.comp-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:.92rem}
+.comp-table th{background:#080E49;color:#fff;padding:14px 16px;text-align:left;font-size:.95rem}
+.comp-table th.best{background:#068D86!important;color:#fff!important;font-size:1.05rem;font-weight:700;border-top:3px solid #04b8ae}
+.comp-table td{padding:11px 14px;border-bottom:1px solid #f0f0f0;color:#3D3C3B}
+.comp-table tr:nth-child(even) td{background:#f7f4ef}
+.comp-table .yes{color:#068D86;font-weight:600}
+.comp-table .no{color:#cc0000}
+.comp-table .low{color:#999;font-style:italic;font-size:.85rem}
+.comp-table td.best{background:rgba(6,141,134,.07)!important}
+.comp-table tr:nth-child(even) td.best{background:rgba(6,141,134,.12)!important}
 /* Product Comparison Cards */
 .img-caption{font-size:.78rem;color:#888;text-align:center;margin-top:6px;font-style:italic}
 .badge-cert{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:4px}

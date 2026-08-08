@@ -17,6 +17,9 @@
     .toast.info    { background:#068D86; }
     @keyframes slideIn { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
     #quill-editor { min-height: 260px; font-size: 14px; }
+    .text-edit-field:focus { outline: none; }
+    .text-edit-field strong { font-weight: 700; }
+    .text-edit-field em { font-style: italic; }
     .ql-toolbar { border-radius: 8px 8px 0 0 !important; border-color: #d1d5db !important; background: #f9fafb; }
     .ql-container { border-radius: 0 0 8px 8px !important; border-color: #d1d5db !important; font-size: 14px; }
     .ql-editor { min-height: 240px; line-height: 1.7; }
@@ -304,6 +307,29 @@
 
 
 <!-- ══════════════════════════════════
+     MODAL — MODIFICA SOLO TESTO
+══════════════════════════════════ -->
+<div id="text-edit-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4" style="backdrop-filter:blur(3px);">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col" style="max-height:90vh;">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+      <div>
+        <h3 class="text-lg font-bold text-gray-800">✏️ Modifica Solo Testo</h3>
+        <p class="text-xs text-purple-600 mt-0.5">La struttura grafica (tabelle, card, layout) rimane intatta</p>
+      </div>
+      <button onclick="closeTextEdit()" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+    </div>
+    <div id="text-edit-fields" class="overflow-y-auto flex-1 px-6 py-4 space-y-4"></div>
+    <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
+      <button onclick="closeTextEdit()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm transition">Annulla</button>
+      <button onclick="saveTextEdit()" id="text-save-btn"
+        class="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm font-medium transition flex items-center gap-2">
+        <i class="fas fa-save"></i> Salva Testo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
      MODAL — CONFERMA ELIMINA
 ══════════════════════════════════ -->
 <div id="del-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4" style="backdrop-filter:blur(3px);">
@@ -334,6 +360,163 @@ const API = '/api/admin';
 let articles = [];
 let delSlug = null;
 let editing = false;
+let textEditSlug = null;
+let textEditOriginalHtml = null;
+
+// ── MODIFICA SOLO TESTO ──────────────────────────────────────────────────────
+// Estrae dal contenuto HTML tutti i nodi di testo modificabili,
+// li presenta come campi textarea, e al salvataggio li reinserisce
+// nella struttura HTML originale senza toccare tag, classi o attributi.
+
+function extractTextNodes(html) {
+  // Usa DOMParser per navigare l'HTML in modo sicuro
+  const doc = new DOMParser().parseFromString('<div id="root">' + html + '</div>', 'text/html');
+  const root = doc.getElementById('root');
+  const nodes = [];
+  let idx = 0;
+
+  // Selettori dei nodi di testo che vogliamo esporre all'editor
+  const SELECTORS = [
+    'h1','h2','h3','h4',
+    'p:not(.ql-align-center)',  // evita didascalie immagini inline
+    'li',
+    '.spec-val',
+    '.verdict-box',
+    '.callout p',
+    '.winner-banner h3',
+    '.winner-banner p'
+  ];
+
+  // Aggiungi un marker data-txid a ogni nodo target
+  SELECTORS.forEach(sel => {
+    root.querySelectorAll(sel).forEach(el => {
+      // Salta nodi che contengono solo immagini o altri nodi target figli
+      const directText = el.innerHTML.replace(/<(h[1-4]|p|li)[^>]*>.*?<\/\1>/gi,'').trim();
+      if (!directText) return;
+      el.setAttribute('data-txid', 'tx' + idx++);
+    });
+  });
+
+  // Serializza di nuovo con i marker
+  const markedHtml = root.innerHTML;
+
+  // Ora estrai coppie {id, label, innerHtml}
+  const parser2 = new DOMParser();
+  const doc2 = parser2.parseFromString('<div id="root2">' + markedHtml + '</div>', 'text/html');
+  const root2 = doc2.getElementById('root2');
+  const fields = [];
+  root2.querySelectorAll('[data-txid]').forEach(el => {
+    const id = el.getAttribute('data-txid');
+    const tag = el.tagName.toLowerCase();
+    // Label leggibile: testo puro troncato
+    const plainText = el.innerText || el.textContent || '';
+    const label = tag.toUpperCase() + ': ' + plainText.trim().slice(0, 60) + (plainText.length > 60 ? '…' : '');
+    fields.push({ id, label, innerHTML: el.innerHTML });
+  });
+
+  return { markedHtml, fields };
+}
+
+function applyTextEdits(markedHtml, edits) {
+  // edits: { txid: newInnerHTML }
+  const doc = new DOMParser().parseFromString('<div id="root">' + markedHtml + '</div>', 'text/html');
+  const root = doc.getElementById('root');
+  Object.entries(edits).forEach(([id, newHtml]) => {
+    const el = root.querySelector('[data-txid="' + id + '"]');
+    if (el) {
+      // Strip any nested data-txid attributes to prevent duplication
+      const tmp = doc.createElement('div');
+      tmp.innerHTML = newHtml;
+      tmp.querySelectorAll('[data-txid]').forEach(n => n.removeAttribute('data-txid'));
+      el.innerHTML = tmp.innerHTML;
+      el.removeAttribute('data-txid');
+    }
+  });
+  // Rimuovi eventuali marker rimasti
+  root.querySelectorAll('[data-txid]').forEach(el => el.removeAttribute('data-txid'));
+  return root.innerHTML;
+}
+
+async function openTextEdit(slug) {
+  const r = await apiCall('/articles/' + slug);
+  const a = r.article || r;
+  if (!a || !a.content) { showToast('Articolo non trovato', 'error'); return; }
+
+  textEditSlug = slug;
+
+  const { markedHtml, fields } = extractTextNodes(a.content);
+  textEditOriginalHtml = markedHtml;
+
+  const container = document.getElementById('text-edit-fields');
+  container.innerHTML = '';
+
+  if (fields.length === 0) {
+    container.innerHTML = '<p class="text-gray-500 text-sm">Nessun testo modificabile trovato.</p>';
+  } else {
+    fields.forEach(f => {
+      const wrap = document.createElement('div');
+      wrap.className = 'space-y-1';
+      wrap.innerHTML = `
+        <label class="block text-xs font-medium text-gray-500">${escHtml(f.label)}</label>
+        <div class="relative">
+          <div contenteditable="true" data-txid="${f.id}"
+               class="text-edit-field w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800
+                      focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400
+                      min-h-[2.5rem] whitespace-pre-wrap"
+               style="line-height:1.6">${f.innerHTML}</div>
+        </div>`;
+      container.appendChild(wrap);
+    });
+  }
+
+  const modal = document.getElementById('text-edit-modal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeTextEdit() {
+  const modal = document.getElementById('text-edit-modal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  textEditSlug = null;
+  textEditOriginalHtml = null;
+}
+
+async function saveTextEdit() {
+  if (!textEditSlug || !textEditOriginalHtml) return;
+  const btn = document.getElementById('text-save-btn');
+  btn.innerHTML = '<span class="pdf-spinner"></span> Salvataggio…'; btn.disabled = true;
+
+  // Raccogli le modifiche dai campi contenteditable
+  const edits = {};
+  document.querySelectorAll('#text-edit-fields [data-txid]').forEach(el => {
+    // Use textContent-safe clone: strip nested data-txid before storing
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('[data-txid]').forEach(n => n.removeAttribute('data-txid'));
+    edits[el.getAttribute('data-txid')] = clone.innerHTML;
+  });
+
+  const newContent = applyTextEdits(textEditOriginalHtml, edits);
+
+  try {
+    const r = await apiCall('/articles/' + textEditSlug, { method: 'PUT', body: JSON.stringify({ content: newContent }) });
+    if (r.ok) {
+      showToast('Testo salvato — struttura grafica intatta ✓', 'success');
+      closeTextEdit();
+      await loadArticles();
+    } else {
+      showToast('Errore nel salvataggio', 'error');
+    }
+  } catch(e) {
+    showToast('Errore: ' + e.message, 'error');
+  }
+  btn.innerHTML = '<i class="fas fa-save"></i> Salva Testo'; btn.disabled = false;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// ─────────────────────────────────────────────────────────────────────────────
 let quill = null;
 
 // ── Utility ──────────────────────────────────
@@ -499,7 +682,10 @@ function articleRow(a, compact) {
          title="Esporta PDF"><i class="fas fa-file-pdf"></i></button>
       <button onclick="openEdit('${esc(a.slug)}')"
          class="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:text-[#068D86] hover:border-[#068D86]/30 hover:bg-[#068D86]/5 transition text-xs"
-         title="Modifica"><i class="fas fa-edit"></i></button>
+         title="Modifica (struttura completa)"><i class="fas fa-edit"></i></button>
+      <button onclick="openTextEdit('${esc(a.slug)}')"
+         class="w-8 h-8 rounded-lg border border-purple-200 bg-white flex items-center justify-center text-purple-400 hover:text-purple-600 hover:border-purple-400 hover:bg-purple-50 transition text-xs"
+         title="Modifica Solo Testo (sicuro per articoli con grafica)"><i class="fas fa-font"></i></button>
       <button onclick="openDel('${esc(a.slug)}','${esc(a.title)}')"
          class="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition text-xs"
          title="Elimina"><i class="fas fa-trash"></i></button>
