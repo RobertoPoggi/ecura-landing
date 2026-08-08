@@ -156,6 +156,111 @@
 }
 .table-responsive-wrap .comp-table { margin: 0; }
 
+/* ══════════════════════════════════════════════
+   Product Comparison Cards (articolo confronto)
+═══════════════════════════════════════════════ */
+
+/* Image caption */
+.img-caption {
+  font-size: 0.78rem; color: #888; text-align: center;
+  margin-top: 6px; font-style: italic;
+}
+
+/* Badge certificazione MDR */
+.badge-cert {
+  display: inline-block;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 600;
+  margin-top: 4px;
+}
+.cert-yes { background: #e6f9f7; color: #068D86; border: 1px solid #068D86; }
+.cert-no  { background: #fef0f0; color: #cc2200; border: 1px solid #cc2200; }
+
+/* Product card container */
+.product-card {
+  border: 1px solid #e3dfdd; border-radius: 12px;
+  overflow: hidden; margin: 20px 0 32px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.product-card-header {
+  background: #f7f4ef;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e3dfdd;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+}
+.product-card-body {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+}
+.product-card-img {
+  padding: 20px 16px;
+  border-right: 1px solid #e3dfdd;
+  display: flex; align-items: flex-start; justify-content: center;
+}
+.product-card-img img {
+  width: 100%; max-width: 180px;
+  height: auto; border-radius: 8px;
+  object-fit: contain;
+}
+.product-card-specs { padding: 16px 20px; }
+
+/* Spec rows */
+.spec-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+.spec-row:last-of-type { border-bottom: none; }
+.spec-label { color: #555; flex: 0 0 auto; max-width: 55%; }
+.spec-val   { color: #080E49; font-weight: 500; text-align: right; }
+.spec-val.ok  { color: #068D86; }
+.spec-val.no  { color: #cc2200; }
+.spec-val.mid { color: #b36200; }
+
+/* Verdict box inside card */
+.verdict-box {
+  margin-top: 14px; border-radius: 8px;
+  padding: 14px 16px; font-size: 0.87rem; line-height: 1.6;
+}
+.verdict-box.good  { background: #e6f9f7; border-left: 4px solid #068D86; }
+.verdict-box.mid   { background: #fff8e6; border-left: 4px solid #b36200; }
+.verdict-box.basic { background: #f5f5f5; border-left: 4px solid #999; }
+.verdict-box strong { display: block; margin-bottom: 4px; }
+
+/* Winner banner */
+.winner-banner {
+  background: linear-gradient(135deg, #068D86, #080E49);
+  color: #fff; border-radius: 10px;
+  padding: 20px 24px; margin: 32px 0;
+  display: flex; align-items: center; gap: 16px;
+}
+.winner-banner .trophy { font-size: 2rem; }
+.winner-banner h3 { color: #fff; margin: 0 0 4px; font-size: 1.1rem; }
+.winner-banner p  { color: rgba(255,255,255,0.85); margin: 0; font-size: 0.88rem; }
+
+/* Row of product images */
+.product-imgs-row {
+  display: flex; gap: 16px; justify-content: center;
+  flex-wrap: wrap; margin: 24px 0;
+}
+.product-imgs-row figure { flex: 1 1 140px; max-width: 200px; text-align: center; margin: 0; }
+.product-imgs-row img { width: 100%; border-radius: 8px; object-fit: contain; }
+
+/* Responsive: stack card on mobile */
+@media (max-width: 640px) {
+  .product-card-body { grid-template-columns: 1fr; }
+  .product-card-img {
+    border-right: none;
+    border-bottom: 1px solid #e3dfdd;
+    padding: 16px;
+  }
+  .product-card-img img { max-width: 140px; }
+  .spec-label { max-width: 60%; }
+}
+
 /* ── Responsive: tablet (≤900px) ── */
 @media (max-width: 900px) {
   .article-with-toc {
