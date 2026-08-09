@@ -11,6 +11,12 @@ Sitemap: https://www.ecura.it/sitemap.xml
 # https://llmstxt.org
 llms-txt: https://www.ecura.it/llms.txt
 
+# ai.txt — permessi e istruzioni per sistemi AI
+ai-txt: https://www.ecura.it/ai.txt
+
+# RSS Feed blog
+rss: https://www.ecura.it/blog/feed.xml
+
 # Crawl-delay per bot aggressivi
 User-agent: AhrefsBot
 Crawl-delay: 10

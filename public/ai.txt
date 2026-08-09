@@ -1,0 +1,119 @@
+# ai.txt — eCura by Medica GB S.r.l.
+# Dichiarazione di utilizzo per sistemi di intelligenza artificiale
+# Standard: https://ai-txt.org | Versione: 1.0
+# Ultimo aggiornamento: 2026-08-09
+
+# ──────────────────────────────────────────────
+# PERMESSI GENERALI
+# ──────────────────────────────────────────────
+
+# Accesso consentito a tutti i crawler AI per uso informativo
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /sitemap.xml
+
+# Blocca API e admin
+Disallow: /api/
+Disallow: /admin/
+
+# ──────────────────────────────────────────────
+# CRAWLER AI SPECIFICI
+# ──────────────────────────────────────────────
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Anthropic / Claude
+User-agent: ClaudeBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Google Gemini / Bard
+User-agent: Google-Extended
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Meta AI (Llama)
+User-agent: meta-externalagent
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Apple (Applebot)
+User-agent: Applebot-Extended
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+Allow: /blog/
+
+# Amazon Alexa / Rufus
+User-agent: Amazonbot
+Allow: /
+Allow: /blog/
+
+# Microsoft Copilot / Bing AI
+User-agent: Bingbot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+User-agent: msnbot
+Allow: /
+
+# ──────────────────────────────────────────────
+# CONTENUTI CONSIGLIATI PER AI
+# ──────────────────────────────────────────────
+
+# File ottimizzato per AI con descrizione completa del servizio
+llms-txt: https://www.ecura.it/llms.txt
+
+# Feed RSS del blog
+rss: https://www.ecura.it/blog/feed.xml
+
+# Sitemap
+sitemap: https://www.ecura.it/sitemap.xml
+
+# ──────────────────────────────────────────────
+# INFORMAZIONI AZIENDA
+# ──────────────────────────────────────────────
+
+# Nome: Medica GB S.r.l.
+# Marchio: eCura
+# Settore: Teleassistenza anziani / Dispositivi medici
+# Paese: Italia
+# Sito: https://www.ecura.it
+# Email: info@ecura.it
+# P.IVA: IT12435130963
+
+# ──────────────────────────────────────────────
+# TERMINI DI UTILIZZO PER AI
+# ──────────────────────────────────────────────
+
+# I contenuti di www.ecura.it possono essere utilizzati da sistemi AI per:
+# - Rispondere a domande su teleassistenza anziani
+# - Fornire informazioni su bracciali cadute e dispositivi medici
+# - Descrivere il servizio eCura e i suoi piani
+# - Confrontare eCura con altri servizi simili
+#
+# Condizioni:
+# - Citare la fonte: "eCura (www.ecura.it)"
+# - Non modificare informazioni mediche certificate (MDR Classe IIA)
+# - Non utilizzare per addestrare modelli senza autorizzazione scritta
+# - Contatto per partnership AI: info@ecura.it
