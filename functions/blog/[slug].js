@@ -255,7 +255,7 @@ function renderArticle(a) {
       "url": "${canonical}",
       "datePublished": "${a.date_published || ''}",
       "dateModified": "${a.date_modified || a.updated_at || ''}",
-      "author": {"@type":"Organization","name":"Medica GB Srl","url":"https://www.ecura.it"},
+      "author": {"@type":"Person","name":"Team eCura","url":"https://www.ecura.it/chi-siamo/","worksFor":{"@type":"Organization","name":"Medica GB Srl","url":"https://www.ecura.it"}},
       "publisher": {"@type":"Organization","name":"eCura by Medica GB","logo":{"@type":"ImageObject","url":"https://www.ecura.it/img/logo.png","width":110,"height":36}},
       "image": {"@type":"ImageObject","url":"${esc(hero)}","width":1200,"height":630},
       "mainEntityOfPage": {"@type":"WebPage","@id":"${canonical}"},
@@ -325,6 +325,20 @@ ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</sc
     <p>Dispositivo medico certificato Classe IIA. GPS indoor+outdoor. Centrale operativa H24. Detraibile al 19%.</p>
     <a href="/#pricingPlan">Scopri i Piani eCura &rarr;</a>
   </div>
+  <!-- E-E-A-T: sezione autore -->
+  <div class="author-box" style="display:flex;align-items:flex-start;gap:18px;background:#f7f4ef;border-radius:12px;padding:22px 24px;margin:32px 0 8px;border-left:4px solid #068D86">
+    <div style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#068D86,#080E49);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff">&#129489;</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-weight:700;color:#080E49;font-size:.95rem;margin-bottom:2px">${esc(author)}</div>
+      <div style="font-size:.8rem;color:#068D86;font-weight:600;margin-bottom:8px">Team eCura &mdash; Medica GB Srl</div>
+      <p style="font-size:.84rem;color:#555;margin:0;line-height:1.6">Il contenuto di questo articolo è redatto e revisionato dal team eCura, composto da esperti di teleassistenza, dispositivi medici certificati (MDR Classe IIA) e sicurezza domestica per anziani. Medica GB Srl è produttore e distributore del bracciale eCura, con esperienza diretta nel settore assistenza anziani. Per approfondimenti scrivici a <a href="mailto:info@ecura.it" style="color:#068D86">info@ecura.it</a>.</p>
+      <div style="margin-top:10px;font-size:.78rem;color:#888">
+        <span>&#x1F4C5; Pubblicato: ${date || '—'}</span>
+        ${read ? `&nbsp;&middot;&nbsp;<span>&#9201; ${esc(read)}</span>` : ''}
+        &nbsp;&middot;&nbsp;<span>&#x2714; Verificato dal team eCura</span>
+      </div>
+    </div>
+  </div>
 </article>
 ${relatedSection}
 </main>
@@ -343,6 +357,10 @@ ${relatedSection}
           <li><a href="/confronto-bracciali-anziani/" style="color:rgba(255,255,255,.7)">Confronto bracciali anziani</a></li>
           <li><a href="/bracciale-anziani-detraibile/" style="color:rgba(255,255,255,.7)">Bracciale anziani detraibile</a></li>
           <li><a href="/#faqAccordion" style="color:rgba(255,255,255,.7)">FAQ</a></li>
+          <li style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1)"><span style="font-size:.75rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em">Guide complete</span></li>
+          <li><a href="/guida-cadute-anziani/" style="color:rgba(255,255,255,.7)">Guida cadute anziani</a></li>
+          <li><a href="/guida-dispositivi-medici-teleassistenza/" style="color:rgba(255,255,255,.7)">Dispositivi medici &amp; detrazioni</a></li>
+          <li><a href="/come-funziona-bracciale-ecura/" style="color:rgba(255,255,255,.7)">Come funziona il bracciale eCura</a></li>
         </ul>
       </div>
       <div class="col-md-4">
