@@ -165,7 +165,26 @@ async function submitForm(form) {
 
     if (res.ok && data.success) {
       showSuccess(form)
-      // Tracking evento
+
+      // ── Google Analytics 4 — Evento conversione lead ──
+      if (typeof gtag === 'function') {
+        // Evento standard GA4 "generate_lead"
+        gtag('event', 'generate_lead', {
+          currency: 'EUR',
+          value: 1,
+          form_id:   form.id || 'ecura-form',
+          plan:      payload.plan  || '',
+          servizio:  payload.servizio || '',
+          canale:    payload.canale_acquisizione || ''
+        })
+        // Evento personalizzato per i report
+        gtag('event', 'lead_inviato', {
+          form_id:  form.id || 'ecura-form',
+          plan:     payload.plan || '',
+          servizio: payload.servizio || ''
+        })
+      }
+      // Compatibilità GTM (già presente)
       if (window.dataLayer) {
         window.dataLayer.push({ event: 'lead_submitted', plan: payload.plan || '' })
       }
@@ -186,6 +205,34 @@ document.querySelectorAll('.ecura-form').forEach(form => {
     submitForm(form)
   })
 })
+
+// ── GA4: traccia click sui pulsanti CTA principali ──
+document.querySelectorAll('a[href="#form"], a[href="#richiedi"], .cta-btn, [data-cta]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'cta_click', {
+        cta_text: btn.textContent?.trim().substring(0, 50) || '',
+        page:     window.location.pathname
+      })
+    }
+  })
+})
+
+// ── GA4: traccia scroll al 50% e 90% della pagina (engagement) ──
+;(function() {
+  const marks = { 50: false, 90: false }
+  window.addEventListener('scroll', function() {
+    const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100)
+    if (!marks[50] && pct >= 50) {
+      marks[50] = true
+      if (typeof gtag === 'function') gtag('event', 'scroll_depth', { depth: '50%', page: window.location.pathname })
+    }
+    if (!marks[90] && pct >= 90) {
+      marks[90] = true
+      if (typeof gtag === 'function') gtag('event', 'scroll_depth', { depth: '90%', page: window.location.pathname })
+    }
+  }, { passive: true })
+})()
 
 // ─── Smooth scroll per anchor links ───────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
