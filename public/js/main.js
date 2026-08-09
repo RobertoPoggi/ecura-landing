@@ -258,3 +258,139 @@ window.addEventListener('scroll', () => {
     link.classList.toggle('active', link.getAttribute('href') === `#${current}`)
   })
 }, { passive: true })
+
+// ═══════════════════════════════════════════════════════════
+// GA4 — TRACCIAMENTO AVANZATO COMPORTAMENTO UTENTE
+// ═══════════════════════════════════════════════════════════
+
+;(function() {
+  if (typeof gtag !== 'function') return
+
+  // ── 1. SEZIONI VISTE (IntersectionObserver) ──────────────
+  // Mappa id sezione → nome leggibile per i report GA4
+  const SECTION_LABELS = {
+    'heroSection':           'Hero — Presentazione',
+    'whyEcura':              'Perché eCura',
+    'ecuraSecurity':         'Sicurezza e Garanzie',
+    'funcionality':          'Funzionalità Bracciale',
+    'confronto-bracciali':   'Confronto Bracciali',
+    'pricingPlan':           'Listino Prezzi',
+    'faq':                   'FAQ',
+    'faqAccordion':          'FAQ',
+    'piani-teleassistenza':  'Piani Teleassistenza',
+    'recensioni':            'Recensioni Clienti',
+    'blog-preview':          'Anteprima Blog',
+    'seo-intro':             'Introduzione SEO'
+  }
+
+  const seenSections = new Set()
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !seenSections.has(entry.target.id)) {
+        seenSections.add(entry.target.id)
+        const label = SECTION_LABELS[entry.target.id] || entry.target.id
+        gtag('event', 'sezione_vista', {
+          sezione_id:    entry.target.id,
+          sezione_nome:  label,
+          page:          window.location.pathname
+        })
+      }
+    })
+  }, { threshold: 0.3 }) // si attiva quando il 30% della sezione è visibile
+
+  document.querySelectorAll('section[id], div[id]').forEach(el => {
+    if (SECTION_LABELS[el.id]) sectionObserver.observe(el)
+  })
+
+  // ── 2. CLICK SULLE FAQ ────────────────────────────────────
+  document.querySelectorAll('#faqAccordion .accordion-button, #faqAccordion [data-bs-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const question = btn.textContent?.trim().substring(0, 80) || ''
+      gtag('event', 'faq_aperta', {
+        domanda: question,
+        page:    window.location.pathname
+      })
+    })
+  })
+
+  // ── 3. CLICK SUI PIANI/PREZZI ────────────────────────────
+  document.querySelectorAll('#pricingPlan button, #pricingPlan .btn, [onclick*="setFormPlan"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const piano = btn.textContent?.trim().substring(0, 40) || btn.getAttribute('onclick') || ''
+      gtag('event', 'piano_selezionato', {
+        piano:  piano,
+        page:   window.location.pathname
+      })
+    })
+  })
+
+  // ── 4. CLICK SUI LINK DEL BLOG ───────────────────────────
+  document.querySelectorAll('#blog-preview a, a[href*="/blog/"]').forEach(link => {
+    link.addEventListener('click', () => {
+      gtag('event', 'blog_click', {
+        articolo_url:   link.href || '',
+        articolo_testo: link.textContent?.trim().substring(0, 60) || '',
+        page:           window.location.pathname
+      })
+    })
+  })
+
+  // ── 5. CLICK SU LINK ESTERNI (tel:, mailto:, siti terzi) ─
+  document.querySelectorAll('a[href^="tel:"], a[href^="mailto:"]').forEach(link => {
+    link.addEventListener('click', () => {
+      const tipo = link.href.startsWith('tel:') ? 'telefono' : 'email'
+      gtag('event', 'contatto_diretto', {
+        tipo:    tipo,
+        valore:  link.href.replace(/^(tel:|mailto:)/, ''),
+        page:    window.location.pathname
+      })
+    })
+  })
+
+  // ── 6. CLICK SUI LINK DELLE RECENSIONI ───────────────────
+  document.querySelectorAll('#recensioni a, a[href*="trustpilot"], a[href*="google.com/maps"]').forEach(link => {
+    link.addEventListener('click', () => {
+      gtag('event', 'recensione_click', {
+        url:  link.href || '',
+        page: window.location.pathname
+      })
+    })
+  })
+
+  // ── 7. TEMPO SULLA PAGINA (engagement quality) ───────────
+  const startTime = Date.now()
+  const TIME_MILESTONES = [30, 60, 120, 180] // secondi
+  const sentMilestones = new Set()
+
+  setInterval(() => {
+    const secondsOnPage = Math.floor((Date.now() - startTime) / 1000)
+    TIME_MILESTONES.forEach(t => {
+      if (secondsOnPage >= t && !sentMilestones.has(t)) {
+        sentMilestones.add(t)
+        gtag('event', 'tempo_pagina', {
+          secondi: t,
+          page:    window.location.pathname
+        })
+      }
+    })
+  }, 5000)
+
+  // ── 8. VISUALIZZAZIONE PAGINE BLOG/LANDING (su tutte le pagine) ──
+  // Categorizza la pagina corrente e invia evento page_category
+  const path = window.location.pathname
+  let categoria = 'homepage'
+  if (path.includes('/blog/') && path.length > 7) categoria = 'blog_articolo'
+  else if (path.includes('/blog'))                  categoria = 'blog_index'
+  else if (path.includes('prezzi') || path.includes('piani')) categoria = 'prezzi'
+  else if (path.includes('confronto'))              categoria = 'confronto'
+  else if (path.includes('guida'))                  categoria = 'guida'
+  else if (path.includes('bracciale'))              categoria = 'landing_prodotto'
+  else if (path.includes('come-funziona'))          categoria = 'come_funziona'
+
+  gtag('event', 'pagina_vista', {
+    categoria:    categoria,
+    path:         path,
+    titolo:       document.title.substring(0, 80)
+  })
+
+})() // fine tracciamento avanzato
