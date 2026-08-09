@@ -177,6 +177,12 @@ async function submitForm(form) {
           servizio:  payload.servizio || '',
           canale:    payload.canale_acquisizione || ''
         })
+        // Google Ads — conversione lead
+        gtag('event', 'conversion', {
+          send_to: 'AW-18350012797',
+          currency: 'EUR',
+          value: 1.0
+        })
         // Evento personalizzato per i report
         gtag('event', 'lead_inviato', {
           form_id:  form.id || 'ecura-form',
