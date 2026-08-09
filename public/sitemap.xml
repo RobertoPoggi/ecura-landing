@@ -22,7 +22,7 @@
     </image:image>
   </url>
 
-  <!-- ═══ LANDING PAGES ══════════════════════════════════════════ -->
+  <!-- ═══ LANDING PAGES ═════════════════════════════════════════ -->
   <url>
     <loc>https://www.ecura.it/confronto-bracciali-anziani/</loc>
     <lastmod>2026-08-09</lastmod>
@@ -44,6 +44,7 @@
     <priority>0.85</priority>
   </url>
 
+  <!-- ═══ GUIDE SEO ══════════════════════════════════════════════ -->
   <url>
     <loc>https://www.ecura.it/guida-cadute-anziani/</loc>
     <lastmod>2026-08-09</lastmod>
@@ -58,7 +59,7 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- ═══ BLOG INDEX ═════════════════════════════════════════════ -->
+  <!-- ═══ BLOG INDEX ════════════════════════════════════════════ -->
   <url>
     <loc>https://www.ecura.it/blog/</loc>
     <lastmod>2026-08-09</lastmod>
@@ -66,7 +67,7 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- ═══ BLOG ARTICLES ══════════════════════════════════════════ -->
+  <!-- ═══ BLOG ARTICOLI ═════════════════════════════════════════ -->
   <url>
     <loc>https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/</loc>
     <lastmod>2026-08-09</lastmod>
@@ -86,10 +87,6 @@
     <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/blog/sidly-vital-caduta.jpg</image:loc>
-      <image:title>Confronto bracciali anziani 2026: eCura vs Seremy vs Beghelli</image:title>
-    </image:image>
   </url>
 
   <url>
@@ -153,155 +150,6 @@
     <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
-  </url>
-
-</urlset>
-
-
-  <!-- ═══ HOMEPAGE ══════════════════════════════════════════════ -->
-  <url>
-    <loc>https://www.ecura.it/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/hero-lg.jpg</image:loc>
-      <image:title>Bracciale eCura per teleassistenza anziani con GPS e rilevamento cadute</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/certification-full.png</image:loc>
-      <image:title>Certificazione dispositivo medico Classe IIA eCura BD/RDM 2853300</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/logo.png</image:loc>
-      <image:title>eCura by Medica GB Srl — Logo</image:title>
-    </image:image>
-  </url>
-
-  <!-- ═══ LANDING PAGES ══════════════════════════════════════════ -->
-  <url>
-    <loc>https://www.ecura.it/confronto-bracciali-anziani/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/bracciale-anziani-detraibile/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- ═══ BLOG INDEX ═════════════════════════════════════════════ -->
-  <url>
-    <loc>https://www.ecura.it/blog/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- ═══ BLOG ARTICLES ══════════════════════════════════════════ -->
-  <url>
-    <loc>https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/blog/sidly-vital-caduta.jpg</image:loc>
-      <image:title>Confronto bracciali anziani 2026: eCura vs Seremy vs Beghelli</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/blog/seremy-bracciale.jpg</image:loc>
-      <image:title>Seremy Watch — bracciale SOS per anziani</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.ecura.it/img/blog/beghelli-salvalavita-band.jpg</image:loc>
-      <image:title>Beghelli Salvalavita Band — bracciale SOS entry-level</image:title>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/bracciale-anziani-detraibile-19-percento/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/cadute-casa-anziani-statistiche-prevenzione/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/dispositivo-medico-classe-iia-anziani/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/badante-vs-teleassistenza-costi-2026/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/gps-anziani-indoor-come-funziona/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/prevenzione-cadute-anziani-10-consigli/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/anziano-solo-casa-soluzioni-sicurezza/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecura.it/blog/centrale-operativa-h24-teleassistenza/</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.ecura.it/llms.txt</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
   </url>
 
 </urlset>
