@@ -132,7 +132,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["Organization", "LocalBusiness"],
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
       "@id": "https://www.ecura.it/#organization",
       "name": "Medica GB Srl",
       "legalName": "Medica GB S.r.l.",
@@ -155,7 +158,13 @@
           "availableLanguage": "Italian",
           "hoursAvailable": {
             "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
             "opens": "09:00",
             "closes": "18:00"
           }
@@ -195,7 +204,9 @@
       "url": "https://www.ecura.it/",
       "name": "eCura — Teleassistenza Anziani",
       "description": "Sito ufficiale di eCura, il servizio di teleassistenza per anziani con bracciale certificato Classe IIA.",
-      "publisher": { "@id": "https://www.ecura.it/#organization" },
+      "publisher": {
+        "@id": "https://www.ecura.it/#organization"
+      },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -213,9 +224,15 @@
       "name": "Bracciale Cadute Anziani con GPS e Teleassistenza H24 | eCura",
       "description": "Bracciale cadute anziani certificato Classe IIA con GPS indoor/outdoor, SOS automatico e Centrale Operativa H24. Teleassistenza anziani detraibile al 19%. Da €390/anno.",
       "inLanguage": "it-IT",
-      "isPartOf": { "@id": "https://www.ecura.it/#website" },
-      "publisher": { "@id": "https://www.ecura.it/#organization" },
-      "breadcrumb": { "@id": "https://www.ecura.it/#breadcrumb" },
+      "isPartOf": {
+        "@id": "https://www.ecura.it/#website"
+      },
+      "publisher": {
+        "@id": "https://www.ecura.it/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ecura.it/#breadcrumb"
+      },
       "datePublished": "2026-02-01",
       "dateModified": "2026-07-20"
     },
@@ -243,7 +260,11 @@
         "name": "Ministero della Salute — Banca Dati e Repertorio Dispositivi Medici",
         "url": "https://www.salute.gov.it/portale/dispositivi/homeBancaDatiDispositivi.jsp"
       },
-      "relevantSpecialty": ["Geriatria", "Medicina d'urgenza", "Assistenza domiciliare"],
+      "relevantSpecialty": [
+        "Geriatria",
+        "Medicina d'urgenza",
+        "Assistenza domiciliare"
+      ],
       "code": {
         "@type": "MedicalCode",
         "code": "BD/RDM 2853300",
@@ -254,7 +275,12 @@
       "@type": "Product",
       "@id": "https://www.ecura.it/#product",
       "name": "eCura — Bracciale Teleassistenza Anziani",
-      "alternateName": ["bracciale cadute anziani", "GPS anziani", "bracciale SOS anziani", "teleassistenza anziani"],
+      "alternateName": [
+        "bracciale cadute anziani",
+        "GPS anziani",
+        "bracciale SOS anziani",
+        "teleassistenza anziani"
+      ],
       "description": "Bracciale smartwatch per anziani con dispositivo medico certificato Classe IIA (BD/RDM 2853300, CND V0399), rilevamento cadute automatico AI, GPS multi-tecnologia indoor/outdoor, pulsante SOS immediato, Centrale Operativa H24, monitoraggio parametri vitali, promemoria farmaci. Detraibile al 19% come spesa sanitaria.",
       "image": [
         "https://www.ecura.it/img/SidLy.gif",
@@ -267,18 +293,48 @@
         "name": "eCura",
         "logo": "https://www.ecura.it/img/logo-ecura-trasp.png"
       },
-      "manufacturer": { "@id": "https://www.ecura.it/#organization" },
+      "manufacturer": {
+        "@id": "https://www.ecura.it/#organization"
+      },
       "category": "Dispositivi medici per anziani / Teleassistenza",
       "sku": "ECURA-IT",
       "mpn": "BD/RDM-2853300",
       "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Classe Dispositivo Medico", "value": "Classe IIA" },
-        { "@type": "PropertyValue", "name": "Numero BD/RDM", "value": "2853300" },
-        { "@type": "PropertyValue", "name": "CND", "value": "V0399" },
-        { "@type": "PropertyValue", "name": "Certificazione IP", "value": "IP67" },
-        { "@type": "PropertyValue", "name": "Connettività GPS", "value": "GPS + Wi-Fi + BLE" },
-        { "@type": "PropertyValue", "name": "Detraibilità fiscale", "value": "19% ex art. 15 comma 1 lett. c) TUIR" },
-        { "@type": "PropertyValue", "name": "Normativa di riferimento", "value": "Regolamento MDR 2017/745 UE" }
+        {
+          "@type": "PropertyValue",
+          "name": "Classe Dispositivo Medico",
+          "value": "Classe IIA"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Numero BD/RDM",
+          "value": "2853300"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "CND",
+          "value": "V0399"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Certificazione IP",
+          "value": "IP67"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Connettività GPS",
+          "value": "GPS + Wi-Fi + BLE"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Detraibilità fiscale",
+          "value": "19% ex art. 15 comma 1 lett. c) TUIR"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Normativa di riferimento",
+          "value": "Regolamento MDR 2017/745 UE"
+        }
       ],
       "offers": [
         {
@@ -290,7 +346,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         },
         {
           "@type": "Offer",
@@ -301,7 +395,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         },
         {
           "@type": "Offer",
@@ -312,7 +444,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         },
         {
           "@type": "Offer",
@@ -323,7 +493,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         },
         {
           "@type": "Offer",
@@ -334,7 +542,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         },
         {
           "@type": "Offer",
@@ -345,7 +591,45 @@
           "availability": "https://schema.org/InStock",
           "itemCondition": "https://schema.org/NewCondition",
           "url": "https://www.ecura.it/#pricingPlan",
-          "seller": { "@id": "https://www.ecura.it/#organization" }
+          "seller": {
+            "@id": "https://www.ecura.it/#organization"
+          },
+          "validFrom": "2024-01-01",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IT"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IT",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         }
       ],
       "aggregateRating": {
@@ -353,20 +637,38 @@
         "ratingValue": "4.9",
         "reviewCount": "847",
         "bestRating": "5",
-        "worstRating": "1"
+        "worstRating": "1",
+        "itemReviewed": {
+          "@type": "Product",
+          "name": "eCura — Bracciale Teleassistenza Anziani"
+        }
       },
       "review": [
         {
           "@type": "Review",
-          "author": { "@type": "Person", "name": "Maria G." },
-          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "author": {
+            "@type": "Person",
+            "name": "Maria G."
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
           "reviewBody": "Mia madre vive sola a 400 km da me. Da quando ha eCura PRO Avanzata dormo tranquilla. Il mese scorso è caduta in bagno e la centrale ha chiamato subito i soccorsi.",
           "datePublished": "2025-11-10"
         },
         {
           "@type": "Review",
-          "author": { "@type": "Person", "name": "Roberto F." },
-          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "author": {
+            "@type": "Person",
+            "name": "Roberto F."
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
           "reviewBody": "eCura Family Base è semplicissimo: un bottone per l'SOS. Da quando mio padre lo usa si è già salvato una situazione critica grazie al GPS e alla centrale operativa.",
           "datePublished": "2025-09-22"
         }
