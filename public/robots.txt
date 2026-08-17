@@ -1,20 +1,15 @@
 User-agent: *
 Allow: /
-
-# Blocca endpoint API dal crawling
+Disallow: /admin/
+Disallow: /strategia-seo-link-building/
 Disallow: /api/
 
 # Sitemap
 Sitemap: https://www.ecura.it/sitemap.xml
 
 # GEO AI — llms.txt per ChatGPT, Perplexity, Claude, Gemini
-# https://llmstxt.org
 llms-txt: https://www.ecura.it/llms.txt
-
-# ai.txt — permessi e istruzioni per sistemi AI
 ai-txt: https://www.ecura.it/ai.txt
-
-# RSS Feed blog
 rss: https://www.ecura.it/blog/feed.xml
 
 # Crawl-delay per bot aggressivi
@@ -27,21 +22,20 @@ Crawl-delay: 10
 User-agent: MJ12bot
 Disallow: /
 
-# AI crawlers — accesso consentito a llms.txt
+# AI crawlers — accesso consentito
 User-agent: GPTBot
-Allow: /llms.txt
-Allow: /blog/
 Allow: /
+Disallow: /admin/
 
 User-agent: ClaudeBot
-Allow: /llms.txt
-Allow: /blog/
 Allow: /
+Disallow: /admin/
 
 User-agent: PerplexityBot
-Allow: /llms.txt
-Allow: /blog/
 Allow: /
+Disallow: /admin/
 
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /strategia-seo-link-building/
