@@ -1,5 +1,15 @@
 # Cloudflare Pages redirects
 /index.php  /  301
 
+# Pagine inesistenti → homepage 301
+/chi-siamo/  /  301
+/chi-siamo   /  301
+
+# Cloudflare email protection — rimandare alla homepage
+# (l'URL cdn-cgi/l/email-protection viene generata da Cloudflare Email Obfuscation)
+# Nota: disabilitare Email Obfuscation dal pannello Cloudflare → Scrape Shield → Off
+# è la soluzione permanente; questo redirect gestisce le scansioni già in Google
+/cdn-cgi/l/email-protection  /  301
+
 # Redirect dominio root a www
 https://ecura.it/*  https://www.ecura.it/:splat  301

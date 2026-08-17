@@ -3,6 +3,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /strategia-seo-link-building/
 Disallow: /api/
+Disallow: /*?q=
 
 # Sitemap
 Sitemap: https://www.ecura.it/sitemap.xml

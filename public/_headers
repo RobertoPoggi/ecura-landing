@@ -28,3 +28,9 @@
   Access-Control-Allow-Methods: POST, OPTIONS
   Access-Control-Allow-Headers: Content-Type
   Cache-Control: no-store
+
+# Feed RSS — non indicizzare (Google segnalava 404 ma è presente su disco)
+/blog/feed.xml
+  X-Robots-Tag: noindex
+  Content-Type: application/rss+xml; charset=UTF-8
+  Cache-Control: public, max-age=3600
