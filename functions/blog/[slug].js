@@ -6,14 +6,15 @@
 
 export async function onRequest({ request, env, params }) {
   const db = env.DB;
-  if (!db) return passThrough(request); // fallback sicuro se DB non è bound
 
   const slug = (params.slug || '').replace(/\/+$/, '');
-  if (!slug) return passThrough(request);
+  if (!slug) return passThrough(request, env);
 
   // File statici nella cartella /blog/ → pass-through diretto al file
   // (feed.xml e altri file non-HTML non sono slug di articoli D1)
-  if (slug.includes('.')) return passThrough(request);
+  if (slug.includes('.')) return passThrough(request, env);
+
+  if (!db) return passThrough(request, env); // fallback sicuro se DB non è bound
 
   let article;
   try {
@@ -21,7 +22,7 @@ export async function onRequest({ request, env, params }) {
       'SELECT * FROM blog_articles WHERE slug = ? AND status = ?'
     ).bind(slug, 'published').first();
   } catch (e) {
-    return passThrough(request);
+    return passThrough(request, env);
   }
 
   if (!article) {
@@ -41,8 +42,10 @@ export async function onRequest({ request, env, params }) {
   });
 }
 
-/** Se qualcosa va storto, lascia passare la richiesta al file statico */
-function passThrough(request) {
+/** Se qualcosa va storto o è un file statico, lascia passare al file statico.
+ *  Usa env.ASSETS se disponibile (Cloudflare Pages), altrimenti fetch diretto. */
+function passThrough(request, env) {
+  if (env && env.ASSETS) return env.ASSETS.fetch(request);
   return fetch(request);
 }
 
