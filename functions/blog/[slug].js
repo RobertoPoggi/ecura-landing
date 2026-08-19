@@ -11,6 +11,10 @@ export async function onRequest({ request, env, params }) {
   const slug = (params.slug || '').replace(/\/+$/, '');
   if (!slug) return passThrough(request);
 
+  // File statici nella cartella /blog/ → pass-through diretto al file
+  // (feed.xml e altri file non-HTML non sono slug di articoli D1)
+  if (slug.includes('.')) return passThrough(request);
+
   let article;
   try {
     article = await db.prepare(
