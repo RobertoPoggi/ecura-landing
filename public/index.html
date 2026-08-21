@@ -792,6 +792,7 @@
   gtag('config', 'G-5DY4TY34WK');
   gtag('config', 'AW-18350012797');
 </script>
+<style>.ecura-email::before{content:attr(data-e)}</style>
 </head>
     <body>
       <!-- Skip link accessibilità + SEO -->
@@ -1550,7 +1551,7 @@
                                                 <li><strong>Detrazione IRPEF al 19%</strong> — come spesa sanitaria (art. 15, comma 1, lett. c del TUIR).</li>
                                                 <li><strong>Contributo INPS</strong> — per disabili 100% con riconoscimento Legge 104, ISEE inferiore a €6.000 e verbale di disabilità grave. Il contributo è soggetto ad approvazione INPS e disponibilità del fondo.</li>
                                             </ul>
-                                            <p class="mb-0 text-muted" style="font-size:.82rem;">Per informazioni sulle agevolazioni applicabili alla tua situazione, contattaci: <a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"><span data-u="info" data-d="ecura.it"></span></a></p>
+                                            <p class="mb-0 text-muted" style="font-size:.82rem;">Per informazioni sulle agevolazioni applicabili alla tua situazione, contattaci: <a class="ecura-email" data-e="info@ecura.it" href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"></a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -1955,7 +1956,7 @@
           </div>
           <div class="col-md-3">
               <div><img src="img/phone.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a href="tel:00393357301206">+39 335 730 1206</a></div>
-              <div><img src="img/at-sign.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"><span data-u="info" data-d="ecura.it"></span></a></div>
+              <div><img src="img/at-sign.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a class="ecura-email" data-e="info@ecura.it" href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"></a></div>
           </div>
           <div class="col-md-3 text-center">
              <a href="https://www.facebook.com/profile.php?id=61585121784918" target="_blank" rel="noopener noreferrer" class="me-3" aria-label="Pagina Facebook di eCura bracciale teleassistenza anziani">
@@ -2154,6 +2155,5 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
       
-  <script>document.querySelectorAll('span[data-u][data-d]').forEach(function(s){s.textContent=s.dataset.u+'@'+s.dataset.d;});</script>
-</body>
+  </body>
 </html>
