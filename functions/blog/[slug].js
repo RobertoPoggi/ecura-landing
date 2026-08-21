@@ -338,7 +338,7 @@ ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</sc
     <div style="flex:1;min-width:0">
       <div style="font-weight:700;color:#080E49;font-size:.95rem;margin-bottom:2px">${esc(author)}</div>
       <div style="font-size:.8rem;color:#068D86;font-weight:600;margin-bottom:8px">Team eCura &mdash; Medica GB Srl</div>
-      <p style="font-size:.84rem;color:#555;margin:0;line-height:1.6">Il contenuto di questo articolo è redatto e revisionato dal team eCura, composto da esperti di teleassistenza, dispositivi medici certificati (MDR Classe IIA) e sicurezza domestica per anziani. Medica GB Srl è produttore e distributore del bracciale eCura, con esperienza diretta nel settore assistenza anziani. Per approfondimenti scrivici a <a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;" style="color:#068D86">info@ecura.it</a>.</p>
+      <p style="font-size:.84rem;color:#555;margin:0;line-height:1.6">Il contenuto di questo articolo è redatto e revisionato dal team eCura, composto da esperti di teleassistenza, dispositivi medici certificati (MDR Classe IIA) e sicurezza domestica per anziani. Medica GB Srl è produttore e distributore del bracciale eCura, con esperienza diretta nel settore assistenza anziani. Per approfondimenti scrivici a <a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;" style="color:#068D86"><span data-u="info" data-d="ecura.it"></span></a>.</p>
       <div style="margin-top:10px;font-size:.78rem;color:#888">
         <span>&#x1F4C5; Pubblicato: ${date || '—'}</span>
         ${read ? `&nbsp;&middot;&nbsp;<span>&#9201; ${esc(read)}</span>` : ''}
@@ -374,7 +374,7 @@ ${relatedSection}
         <h4 style="font-size:.95rem;color:#fff;margin-bottom:12px">Contatti</h4>
         <p style="font-size:.85rem;color:rgba(255,255,255,.7)">Medica GB Srl<br>Corso Giuseppe Garibaldi 34<br>20121 Milano<br>
           <a href="tel:+393357301206" style="color:#068D86">+39 335 730 1206</a><br>
-          <a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;" style="color:#068D86">info@ecura.it</a></p>
+          <a href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;" style="color:#068D86"><span data-u="info" data-d="ecura.it"></span></a></p>
       </div>
     </div>
     <hr style="border-color:rgba(255,255,255,.15);margin:28px 0 16px">
@@ -392,6 +392,7 @@ document.getElementById('hamburgerWrap').addEventListener('click',function(){
   this.setAttribute('aria-expanded', n.classList.contains('is-active'));
 });
 </script>
+<script>document.querySelectorAll('span[data-u][data-d]').forEach(function(s){s.textContent=s.dataset.u+'@'+s.dataset.d;});</script>
 </body></html>`;
 }
 
