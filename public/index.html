@@ -108,8 +108,9 @@
 <!-- ═══ FORM STYLES ════════════════════════════════════════ -->
 <style>
 .ecura-form label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 4px; color: #333; }
-.ecura-form input, .ecura-form select { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; font-family: var(--font1); }
-.ecura-form input:focus, .ecura-form select:focus { outline: none; border-color: #068D86; }
+.ecura-form input, .ecura-form select, .ecura-form textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; font-family: var(--font1); box-sizing: border-box; }
+.ecura-form input:focus, .ecura-form select:focus, .ecura-form textarea:focus { outline: none; border-color: #068D86; }
+.ecura-form textarea { resize: vertical; min-height: 80px; }
 .ecura-form .privacy-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
 .ecura-form .privacy-row input[type=checkbox] { width: auto; margin-top: 3px; flex-shrink: 0; }
 .ecura-form .privacy-row label { font-size: 13px; color: #555; margin: 0; }
@@ -907,6 +908,9 @@
                     <option value="PREMIUM_BASE">Premium Base — €590/anno</option>
                     <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
                   </select>
+
+                  <label for="hero_message">Note / Messaggio <span style="font-weight:400;color:#888">(opzionale)</span></label>
+                  <textarea id="hero_message" name="message" rows="3" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni che vive sola..."></textarea>
 
                   <div class="privacy-row">
                     <input type="checkbox" name="privacy_consent" id="hero_privacy" required>
@@ -1867,6 +1871,9 @@
                     <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
                   </select>
 
+                  <label for="main_message">Note / Messaggio <span style="font-weight:400;color:#888">(opzionale)</span></label>
+                  <textarea id="main_message" name="message" rows="3" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni che vive sola..."></textarea>
+
                   <div class="privacy-row">
                     <input type="checkbox" name="privacy_consent" id="main_privacy" required>
                     <label for="main_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
@@ -2095,6 +2102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         phone: form.querySelector('[name="phone"]').value.trim(),
         email: form.querySelector('[name="email"]').value.trim(),
         plan: form.querySelector('[name="plan"]').value,
+        message: (form.querySelector('[name="message"]')?.value || '').trim(),
         privacy_consent: form.querySelector('[name="privacy_consent"]').checked,
         page_url: form.querySelector('[name="page_url"]').value,
         referrer: form.querySelector('[name="referrer"]').value,

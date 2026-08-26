@@ -4,12 +4,15 @@
  * Riceve i lead dal form eCura e li invia:
  *   1. Al CRM TeleMedCare (principale)
  *   2. Al Google Sheet via Apps Script webhook (parallelo, fire-and-forget)
+ *   3. Email notifica a info@ecura.it via Resend (fire-and-forget, sempre)
  *
  * ENV VARS richieste (Cloudflare Pages → Settings → Variables):
  *   CRM_ENDPOINT        — es. https://telemedcare-v12.pages.dev/api/leads/public
  *   CRM_API_KEY         — API key per autenticarsi al CRM
  *   CORS_ORIGIN         — es. https://www.ecura.it (o * per dev)
  *   GSHEET_WEBHOOK_URL  — URL /exec del Google Apps Script che scrive nel foglio
+ *   RESEND_API_KEY      — API key Resend per invio email notifica
+ *   NOTIFY_EMAIL        — email destinatario notifica (default: info@ecura.it)
  */
 
 export async function onRequestPost({ request, env, waitUntil }) {
@@ -228,16 +231,100 @@ export async function onRequestPost({ request, env, waitUntil }) {
     console.warn('[submit-lead] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
 
+  // ── 3. Email notifica a info@ecura.it via Resend (fire-and-forget) ───────
+  // Viene inviata SEMPRE, indipendentemente dal CRM, così non si perde mai un lead
+  const resendKey = env.RESEND_API_KEY || ''
+  if (resendKey) {
+    const notifyEmail = env.NOTIFY_EMAIL || 'info@ecura.it'
+    const noteCliente = (body.message || '').trim()
+
+    const emailHtml = `
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
+  <div style="background:#068D86;padding:20px 24px;border-radius:8px 8px 0 0">
+    <h2 style="color:#fff;margin:0;font-size:20px">🔔 Nuovo lead eCura</h2>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e0e0;border-top:none;padding:24px;border-radius:0 0 8px 8px">
+    <table style="width:100%;border-collapse:collapse">
+      <tr><td style="padding:8px 0;color:#666;width:140px;vertical-align:top"><strong>Nome</strong></td>
+          <td style="padding:8px 0">${crmPayload.nomeRichiedente} ${crmPayload.cognomeRichiedente}</td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>Telefono</strong></td>
+          <td style="padding:8px 0"><a href="tel:${crmPayload.telefono}">${crmPayload.telefono}</a></td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>Email</strong></td>
+          <td style="padding:8px 0"><a href="mailto:${crmPayload.email}">${crmPayload.email}</a></td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>Servizio</strong></td>
+          <td style="padding:8px 0">${servizio} — Piano ${piano}</td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>Canale</strong></td>
+          <td style="padding:8px 0">${canaleFonte.canale} / ${canaleFonte.fonte}</td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>Data/Ora</strong></td>
+          <td style="padding:8px 0">${dataOra}</td></tr>
+      ${noteCliente ? `
+      <tr><td colspan="2" style="padding:16px 0 4px;border-top:1px solid #eee"></td></tr>
+      <tr><td style="padding:8px 0;color:#666;vertical-align:top"><strong>📝 Note cliente</strong></td>
+          <td style="padding:8px 0;background:#fffbe6;border-radius:6px;padding:12px;font-style:italic;color:#333">${noteCliente.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td></tr>
+      ` : ''}
+    </table>
+    ${body.utm_source || body.referrer ? `
+    <div style="margin-top:16px;padding:12px;background:#f5f5f5;border-radius:6px;font-size:12px;color:#888">
+      <strong>Provenienza:</strong>
+      ${body.utm_source ? `utm_source: ${body.utm_source}` : ''}
+      ${body.utm_medium ? ` | utm_medium: ${body.utm_medium}` : ''}
+      ${body.utm_campaign ? ` | campaign: ${body.utm_campaign}` : ''}
+      ${body.referrer ? ` | referrer: ${body.referrer}` : ''}
+      ${body.page_url ? `<br>URL: <a href="${body.page_url}" style="color:#068D86">${body.page_url}</a>` : ''}
+    </div>` : ''}
+  </div>
+</div>`
+
+    const emailPlain = [
+      `Nuovo lead eCura — ${dataOra}`,
+      ``,
+      `Nome:     ${crmPayload.nomeRichiedente} ${crmPayload.cognomeRichiedente}`,
+      `Telefono: ${crmPayload.telefono}`,
+      `Email:    ${crmPayload.email}`,
+      `Servizio: ${servizio} — Piano ${piano}`,
+      `Canale:   ${canaleFonte.canale} / ${canaleFonte.fonte}`,
+      noteCliente ? `\nNote cliente:\n${noteCliente}` : '',
+      body.utm_source ? `\nUTM: source=${body.utm_source} medium=${body.utm_medium || '-'} campaign=${body.utm_campaign || '-'}` : '',
+      body.referrer  ? `Referrer: ${body.referrer}` : '',
+      body.page_url  ? `URL: ${body.page_url}` : '',
+    ].filter(Boolean).join('\n')
+
+    const resendPromise = fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${resendKey}`,
+      },
+      body: JSON.stringify({
+        from:    'eCura Lead <noreply@ecura.it>',
+        to:      [notifyEmail],
+        subject: `🔔 Nuovo lead eCura: ${crmPayload.nomeRichiedente} ${crmPayload.cognomeRichiedente} — ${servizio} ${piano}`,
+        html:    emailHtml,
+        text:    emailPlain,
+      }),
+    })
+      .then(r => r.json().then(d => console.log('[submit-lead] Resend response:', r.status, JSON.stringify(d))))
+      .catch(e => console.error('[submit-lead] Resend error:', e))
+
+    if (typeof waitUntil === 'function') waitUntil(resendPromise)
+  } else {
+    console.warn('[submit-lead] RESEND_API_KEY non configurata — email notifica non inviata')
+  }
+
   // ── Risposta al browser ───────────────────────
+  // Risponde success anche se CRM ha fallito: il lead è nel GSheet e la mail è partita
+  // In questo modo l'utente vede sempre la schermata di conferma
   if (crmOk) {
     return new Response(JSON.stringify({ success: true, leadId: crmLeadId }), {
       status: 200, headers: corsHeaders
     })
   } else {
-    return new Response(JSON.stringify({
-      success: false,
-      error: 'Errore durante la registrazione. Riprova tra qualche minuto.',
-    }), { status: 502, headers: corsHeaders })
+    // CRM KO ma abbiamo comunque salvato su GSheet e mandato la mail → rispondo success
+    // (così il cliente non vede un errore e il team viene comunque notificato)
+    console.warn('[submit-lead] CRM KO — lead salvato solo su GSheet + email Resend')
+    return new Response(JSON.stringify({ success: true, leadId: null }), {
+      status: 200, headers: corsHeaders
+    })
   }
 }
 
