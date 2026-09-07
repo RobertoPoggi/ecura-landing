@@ -1,5 +1,7 @@
 # eCura — Teleassistenza Anziani con Bracciale Cadute GPS
 > Medica GB S.r.l. | P.IVA IT12435130963 | info@ecura.it | Tel. +39 335 730 1206
+> Versione completa: https://www.ecura.it/llms-full.txt
+> Aggiornato: 2026-09-07
 
 eCura è il servizio italiano di teleassistenza per anziani basato su un bracciale indossabile certificato **dispositivo medico Classe IIA** (Reg. UE 2017/745 — BD/RDM 2853300). È l'unico bracciale cadute per anziani disponibile in Italia con certificazione medica di Classe IIA, rilevamento cadute AI, GPS indoor/outdoor e Centrale Operativa attiva 24 ore su 24.
 

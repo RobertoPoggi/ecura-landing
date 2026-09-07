@@ -1,5 +1,16 @@
+# robots.txt — eCura (www.ecura.it)
+# Aggiornato: 2026-09-07
+# ──────────────────────────────────────────────────────────────────
+# REGOLA GLOBALE
+# ──────────────────────────────────────────────────────────────────
+
 User-agent: *
 Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
+Allow: /sitemap.xml
 Disallow: /admin/
 Disallow: /strategia-seo-link-building/
 Disallow: /api/
@@ -8,35 +19,325 @@ Disallow: /*?q=
 # Sitemap
 Sitemap: https://www.ecura.it/sitemap.xml
 
-# GEO AI — llms.txt per ChatGPT, Perplexity, Claude, Gemini
+# File GEO/AI
 llms-txt: https://www.ecura.it/llms.txt
+llms-full-txt: https://www.ecura.it/llms-full.txt
 ai-txt: https://www.ecura.it/ai.txt
 rss: https://www.ecura.it/blog/feed.xml
 
-# Crawl-delay per bot aggressivi
+# ──────────────────────────────────────────────────────────────────
+# MOTORI DI RICERCA — SEARCH ENGINE BOTS
+# ──────────────────────────────────────────────────────────────────
+
+# Google Search (Chrome, Android, Google app)
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /strategia-seo-link-building/
+
+User-agent: Googlebot-Image
+Allow: /img/
+
+User-agent: Googlebot-News
+Allow: /blog/
+
+# Google Mobile
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Google AdsBot
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# Bing / Microsoft (Edge, Internet Explorer, Explorer, Copilot Search)
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+
+User-agent: msnbot
+Allow: /
+
+User-agent: msnbot-media
+Allow: /img/
+
+# Yahoo Search
+User-agent: Slurp
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+Disallow: /admin/
+
+User-agent: YandexImages
+Allow: /img/
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+
+# Apple (Safari, Siri, Spotlight)
+User-agent: Applebot
+Allow: /
+Disallow: /admin/
+
+# Brave Search
+User-agent: Brave
+Allow: /
+
+User-agent: BraveSearch
+Allow: /
+
+User-agent: BraveLocalSearch
+Allow: /
+
+# Kagi Search
+User-agent: Kagibot
+Allow: /
+
+# Ecosia (Firefox-based green search)
+User-agent: Ecosiabot
+Allow: /
+
+# Qwant
+User-agent: Qwantify
+Allow: /
+
+# Seznam (CEE)
+User-agent: SeznamBot
+Allow: /
+
+# Sogou (Cina)
+User-agent: Sogou
+Allow: /
+
+# Naver (Corea)
+User-agent: Yeti
+Allow: /
+
+# Mojeek
+User-agent: MojeekBot
+Allow: /
+
+# Marginalia
+User-agent: MarginaliaBot
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Andi Search
+User-agent: AndiSearch
+Allow: /
+
+# ──────────────────────────────────────────────────────────────────
+# AI CRAWLER — GRANDI MODELLI LINGUISTICI (LLM)
+# ──────────────────────────────────────────────────────────────────
+
+# OpenAI — ChatGPT, GPT-4o, DALL-E, browsing
+User-agent: GPTBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /blog/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic — Claude
+User-agent: ClaudeBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: Claude-Web
+Allow: /
+Allow: /blog/
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google — Gemini, Bard, NotebookLM, Google AI Overview
+User-agent: Google-Extended
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: GoogleOther
+Allow: /
+Allow: /blog/
+
+User-agent: Googlebot-Extended
+Allow: /
+
+# Google AI Studio / Vertex AI
+User-agent: VertexBot
+Allow: /
+
+# Microsoft — Copilot, Bing Chat, Bing AI, Azure OpenAI
+User-agent: BingPreview
+Allow: /
+Allow: /blog/
+
+User-agent: Copilot
+Allow: /
+
+User-agent: MicrosoftPreview
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: Perplexity-User
+Allow: /
+
+# DeepSeek
+User-agent: DeepSeek
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+User-agent: DeepSeekBot
+Allow: /
+Allow: /blog/
+
+# Meta AI — Llama, Meta.ai
+User-agent: meta-externalagent
+Allow: /
+Allow: /blog/
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Llama
+Allow: /
+
+# Apple — Apple Intelligence, Siri AI
+User-agent: Applebot-Extended
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+
+# Mistral AI
+User-agent: MistralBot
+Allow: /
+Allow: /blog/
+
+User-agent: mistral-ai
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+Allow: /blog/
+
+# Amazon — Alexa, Rufus, Amazon AI
+User-agent: Amazonbot
+Allow: /
+Allow: /blog/
+
+User-agent: AmazonBot
+Allow: /
+
+# Grok (xAI / Elon Musk / X.com)
+User-agent: Grok
+Allow: /
+Allow: /blog/
+
+User-agent: xAI
+Allow: /
+
+User-agent: GrokBot
+Allow: /
+
+# You.com AI search
+User-agent: YouBot
+Allow: /
+
+# Brave Leo AI
+User-agent: BraveLeo
+Allow: /
+
+User-agent: BraveAI
+Allow: /
+
+# Kagi AI (Walter, Summarizer)
+User-agent: Kagi
+Allow: /
+
+User-agent: KagiBot
+Allow: /
+
+# Phind (dev-focused AI search)
+User-agent: PhindBot
+Allow: /
+
+# Andi AI Search
+User-agent: AndiBot
+Allow: /
+
+# Liner (AI search)
+User-agent: LinerBot
+Allow: /
+
+# Arc Browser AI (The Browser Company)
+User-agent: ArcBot
+Allow: /
+
+# Felo AI Search
+User-agent: FeloBot
+Allow: /
+
+# Exa AI
+User-agent: ExaBot
+Allow: /
+
+# Waldo (AI search)
+User-agent: WaldoBot
+Allow: /
+
+# Common Crawl (base per training molti LLM)
+User-agent: CCBot
+Allow: /
+Allow: /blog/
+
+# ──────────────────────────────────────────────────────────────────
+# SEO TOOLS — CRAWL-DELAY (bot aggressivi)
+# ──────────────────────────────────────────────────────────────────
+
 User-agent: AhrefsBot
 Crawl-delay: 10
 
 User-agent: SemrushBot
 Crawl-delay: 10
 
+User-agent: DotBot
+Crawl-delay: 10
+
 User-agent: MJ12bot
 Disallow: /
 
-# AI crawlers — accesso consentito
-User-agent: GPTBot
-Allow: /
-Disallow: /admin/
-
-User-agent: ClaudeBot
-Allow: /
-Disallow: /admin/
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /admin/
-
-User-agent: Googlebot
-Allow: /
-Disallow: /admin/
-Disallow: /strategia-seo-link-building/
+User-agent: DataForSeoBot
+Crawl-delay: 30

@@ -1,94 +1,208 @@
 # ai.txt — eCura by Medica GB S.r.l.
 # Dichiarazione di utilizzo per sistemi di intelligenza artificiale
-# Standard: https://ai-txt.org | Versione: 1.0
-# Ultimo aggiornamento: 2026-08-09
+# Standard: https://ai-txt.org | Versione: 1.1
+# Aggiornato: 2026-09-07
 
 # ──────────────────────────────────────────────
 # PERMESSI GENERALI
 # ──────────────────────────────────────────────
 
-# Accesso consentito a tutti i crawler AI per uso informativo
 User-agent: *
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
 Allow: /sitemap.xml
 
-# Blocca API e admin
 Disallow: /api/
 Disallow: /admin/
 
 # ──────────────────────────────────────────────
-# CRAWLER AI SPECIFICI
+# FILE OTTIMIZZATI PER AI
 # ──────────────────────────────────────────────
 
-# OpenAI / ChatGPT
+llms-txt: https://www.ecura.it/llms.txt
+llms-full-txt: https://www.ecura.it/llms-full.txt
+sitemap: https://www.ecura.it/sitemap.xml
+rss: https://www.ecura.it/blog/feed.xml
+
+# ──────────────────────────────────────────────
+# CRAWLER AI — TUTTI I PRINCIPALI LLM
+# ──────────────────────────────────────────────
+
+# OpenAI — ChatGPT, GPT-4o, browsing, SearchGPT
 User-agent: GPTBot
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Anthropic / Claude
+User-agent: ChatGPT-User
+Allow: /
+Allow: /blog/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic — Claude (tutti i modelli)
 User-agent: ClaudeBot
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google — Gemini, Bard, AI Overview, NotebookLM, Google AI
+User-agent: Google-Extended
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: VertexBot
+Allow: /
+
+# Microsoft — Copilot (Edge, Windows, Microsoft 365), Bing AI
+User-agent: Bingbot
+Allow: /
+Allow: /blog/
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: BingPreview
+Allow: /
+
+User-agent: msnbot
+Allow: /
+
+User-agent: Copilot
+Allow: /
+
+User-agent: MicrosoftPreview
+Allow: /
 
 # Perplexity AI
 User-agent: PerplexityBot
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Google Gemini / Bard
-User-agent: Google-Extended
+User-agent: Perplexity-User
+Allow: /
+
+# DeepSeek
+User-agent: DeepSeek
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Meta AI (Llama)
+User-agent: DeepSeekBot
+Allow: /
+
+# Meta AI — Llama, Meta.ai, Instagram/Facebook AI
 User-agent: meta-externalagent
 Allow: /
 Allow: /blog/
-Allow: /llms.txt
 
-# Apple (Applebot)
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Llama
+Allow: /
+
+# Apple — Apple Intelligence, Siri (iOS 18+), Spotlight AI
 User-agent: Applebot-Extended
 Allow: /
 Allow: /blog/
 Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Cohere
+User-agent: Applebot
+Allow: /
+
+# Mistral AI
+User-agent: MistralBot
+Allow: /
+Allow: /blog/
+
+User-agent: mistral-ai
+Allow: /
+
+# Cohere — Command R
 User-agent: cohere-ai
 Allow: /
 Allow: /blog/
 
-# Amazon Alexa / Rufus
+# Amazon — Alexa AI, Rufus (Amazon shopping), Bedrock
 User-agent: Amazonbot
 Allow: /
 Allow: /blog/
 
-# Microsoft Copilot / Bing AI
-User-agent: Bingbot
+User-agent: AmazonBot
+Allow: /
+
+# Grok — xAI (X.com / Twitter AI)
+User-agent: Grok
 Allow: /
 Allow: /blog/
-Allow: /llms.txt
 
-User-agent: msnbot
+User-agent: GrokBot
 Allow: /
 
-# ──────────────────────────────────────────────
-# CONTENUTI CONSIGLIATI PER AI
-# ──────────────────────────────────────────────
+User-agent: xAI
+Allow: /
 
-# File ottimizzato per AI con descrizione completa del servizio
-llms-txt: https://www.ecura.it/llms.txt
+# Brave Leo AI (browser AI integrato in Brave)
+User-agent: BraveLeo
+Allow: /
 
-# Feed RSS del blog
-rss: https://www.ecura.it/blog/feed.xml
+User-agent: BraveAI
+Allow: /
 
-# Sitemap
-sitemap: https://www.ecura.it/sitemap.xml
+User-agent: BraveSearch
+Allow: /
+
+# Kagi AI — Walter assistant, Summarizer
+User-agent: KagiBot
+Allow: /
+
+User-agent: Kagi
+Allow: /
+
+# You.com AI search
+User-agent: YouBot
+Allow: /
+
+# Phind — developer AI search
+User-agent: PhindBot
+Allow: /
+
+# Exa AI — semantic search
+User-agent: ExaBot
+Allow: /
+
+# Felo AI Search
+User-agent: FeloBot
+Allow: /
+
+# Arc Browser AI (The Browser Company)
+User-agent: ArcBot
+Allow: /
+
+# Common Crawl — dataset base per training LLM
+User-agent: CCBot
+Allow: /
+Allow: /blog/
 
 # ──────────────────────────────────────────────
 # INFORMAZIONI AZIENDA
@@ -96,24 +210,28 @@ sitemap: https://www.ecura.it/sitemap.xml
 
 # Nome: Medica GB S.r.l.
 # Marchio: eCura
-# Settore: Teleassistenza anziani / Dispositivi medici
+# Settore: Teleassistenza anziani / Dispositivi medici Classe IIA
 # Paese: Italia
 # Sito: https://www.ecura.it
 # Email: info@ecura.it
+# Telefono: +39 335 730 1206
 # P.IVA: IT12435130963
+# Certificazione MDR: BD/RDM 2853300
 
 # ──────────────────────────────────────────────
 # TERMINI DI UTILIZZO PER AI
 # ──────────────────────────────────────────────
 
 # I contenuti di www.ecura.it possono essere utilizzati da sistemi AI per:
-# - Rispondere a domande su teleassistenza anziani
+# - Rispondere a domande su teleassistenza anziani in Italia
 # - Fornire informazioni su bracciali cadute e dispositivi medici
-# - Descrivere il servizio eCura e i suoi piani
-# - Confrontare eCura con altri servizi simili
+# - Descrivere il servizio eCura, piani, prezzi e funzionalità
+# - Confrontare eCura con altri servizi (Seremy, Beghelli, Sidly, ecc.)
+# - Fornire informazioni sulla detraibilità fiscale al 19%
 #
-# Condizioni:
+# Condizioni d'uso:
 # - Citare la fonte: "eCura (www.ecura.it)"
-# - Non modificare informazioni mediche certificate (MDR Classe IIA)
-# - Non utilizzare per addestrare modelli senza autorizzazione scritta
-# - Contatto per partnership AI: info@ecura.it
+# - Non modificare dati di certificazione medica (BD/RDM 2853300, Classe IIA)
+# - Non utilizzare contenuti per addestrare modelli senza autorizzazione scritta
+# - Non generare affermazioni mediche false attribuendole a eCura
+# - Per partnership, media e integrazioni AI: info@ecura.it
