@@ -2383,6 +2383,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var GA_ID       = 'G-5DY4TY34WK';
     var AW_ID       = 'AW-18350012797';
     var CL_ID       = 'yfapmhhfxb';
+    var FB_ID       = '1430631415843205';
     var DAYS        = 365;
 
     /* ── helpers cookie di primo piano ─────────────────────────────── */
@@ -2426,8 +2427,28 @@ document.addEventListener('DOMContentLoaded', function() {
       })(window,document,'clarity','script',CL_ID);
     }
 
+    function loadPixel() {
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', FB_ID);
+      fbq('track', 'PageView');
+      // noscript pixel (aggiunto dinamicamente)
+      var ns = document.createElement('noscript');
+      var img = document.createElement('img');
+      img.height = 1; img.width = 1; img.style.display = 'none';
+      img.src = 'https://www.facebook.com/tr?id=' + FB_ID + '&ev=PageView&noscript=1';
+      ns.appendChild(img);
+      document.body.appendChild(ns);
+    }
+
     function applyConsent(granted) {
-      if (granted) { loadGA(); loadClarity(); }
+      if (granted) { loadGA(); loadClarity(); loadPixel(); }
     }
 
     function saveAndApply(granted) {
