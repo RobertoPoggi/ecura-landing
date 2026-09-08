@@ -2379,11 +2379,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <script>
   (function(){
-    var CONSENT_KEY = 'ecura_cookie_consent';
+    var CONSENT_KEY = 'ecura_ck';   // nome cookie di primo piano
     var GA_ID       = 'G-5DY4TY34WK';
     var AW_ID       = 'AW-18350012797';
     var CL_ID       = 'yfapmhhfxb';
+    var DAYS        = 365;
 
+    /* ── helpers cookie di primo piano ─────────────────────────────── */
+    function setCookie(val) {
+      var exp = new Date();
+      exp.setDate(exp.getDate() + DAYS);
+      document.cookie = CONSENT_KEY + '=' + val
+        + '; expires=' + exp.toUTCString()
+        + '; path=/; SameSite=Strict; Secure';
+    }
+
+    function getCookie() {
+      var match = document.cookie.match('(?:^|;)\\s*' + CONSENT_KEY + '=([^;]+)');
+      return match ? match[1] : null;
+    }
+
+    /* ── caricamento script analitici ──────────────────────────────── */
     function loadGA() {
       var s = document.createElement('script');
       s.async = true;
@@ -2415,14 +2431,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function saveAndApply(granted) {
-      localStorage.setItem(CONSENT_KEY, granted ? '1' : '0');
+      setCookie(granted ? '1' : '0');
       document.getElementById('ecura-cookie-banner').style.display = 'none';
       applyConsent(granted);
     }
 
-    // Controlla consenso salvato
-    var saved = localStorage.getItem(CONSENT_KEY);
+    /* ── logica principale ─────────────────────────────────────────── */
+    var saved = getCookie();
     if (saved === '1') {
+      // Consenso già dato — carica subito
       applyConsent(true);
     } else if (saved === null) {
       // Prima visita — mostra banner dopo 800ms
@@ -2432,7 +2449,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 800);
       });
     }
-    // Se saved === '0' non carica nulla e non mostra il banner
+    // saved === '0' → rifiutato, nessuno script, banner non mostrato
 
     document.addEventListener('click', function(e){
       if (e.target.id === 'ecura-cookie-btn-accept') saveAndApply(true);
