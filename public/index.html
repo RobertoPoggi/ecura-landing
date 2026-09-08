@@ -828,16 +828,52 @@
 }
 </script>
 
-       <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5DY4TY34WK"></script>
+       <!-- Google tag (gtag.js) — caricato solo dopo consenso cookie -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-5DY4TY34WK');
-  gtag('config', 'AW-18350012797');
+  // Imposta default negato — nessun dato inviato prima del consenso
+  gtag('consent', 'default', {
+    analytics_storage:    'denied',
+    ad_storage:           'denied',
+    ad_user_data:         'denied',
+    ad_personalization:   'denied',
+    wait_for_update:      500
+  });
 </script>
 <style>.ecura-email::before{content:attr(data-e)}</style>
+<style>
+/* ═══ Cookie Banner ══════════════════════════════════════════════════ */
+#ecura-cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
+  background: #1a1a2e; color: #e8e8f0;
+  padding: 18px 24px; font-size: .875rem; line-height: 1.5;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.35);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  animation: slideUpBanner .35s ease;
+}
+@keyframes slideUpBanner { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+#ecura-cookie-banner p { margin: 0; flex: 1 1 300px; }
+#ecura-cookie-banner a { color: #7dd3fc; }
+#ecura-cookie-banner .ck-btns { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
+#ecura-cookie-btn-accept {
+  background: #22c55e; color: #fff; border: none; border-radius: 6px;
+  padding: 9px 22px; font-size: .875rem; font-weight: 700; cursor: pointer;
+  white-space: nowrap;
+}
+#ecura-cookie-btn-accept:hover { background: #16a34a; }
+#ecura-cookie-btn-reject {
+  background: transparent; color: #94a3b8; border: 1px solid #475569;
+  border-radius: 6px; padding: 9px 16px; font-size: .875rem; cursor: pointer;
+  white-space: nowrap;
+}
+#ecura-cookie-btn-reject:hover { color: #e2e8f0; border-color: #94a3b8; }
+@media(max-width:600px){
+  #ecura-cookie-banner { padding: 14px 16px; }
+  #ecura-cookie-banner .ck-btns { width: 100%; justify-content: stretch; }
+  #ecura-cookie-btn-accept, #ecura-cookie-btn-reject { flex: 1; text-align: center; }
+}
+</style>
 </head>
     <body>
       <!-- Skip link accessibilità + SEO -->
@@ -2328,14 +2364,84 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <!-- ═══ Microsoft Clarity ══════════════════════════════════════════════════ -->
   <!-- Clarity: heatmap e session recording — nessun dato PII inviato -->
-  <!-- Microsoft Clarity — heatmap e session recording (progetto: yfapmhhfxb) -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
+  <!-- ═══ Cookie Banner + Consent Manager ══════════════════════════════ -->
+  <div id="ecura-cookie-banner" role="dialog" aria-live="polite" aria-label="Consenso cookie" style="display:none">
+    <p>
+      Usiamo cookie analitici (Google Analytics, Microsoft Clarity) per migliorare il sito.
+      Nessun dato è condiviso con terzi a fini pubblicitari senza il tuo consenso.
+      <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+    </p>
+    <div class="ck-btns">
+      <button id="ecura-cookie-btn-accept">✓ Accetta</button>
+      <button id="ecura-cookie-btn-reject">Rifiuta</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var CONSENT_KEY = 'ecura_cookie_consent';
+    var GA_ID       = 'G-5DY4TY34WK';
+    var AW_ID       = 'AW-18350012797';
+    var CL_ID       = 'yfapmhhfxb';
+
+    function loadGA() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      s.onload = function(){
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+        gtag('config', AW_ID);
+        gtag('consent', 'update', {
+          analytics_storage:  'granted',
+          ad_storage:         'granted',
+          ad_user_data:       'granted',
+          ad_personalization: 'granted'
+        });
+      };
+    }
+
+    function loadClarity() {
+      (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "yfapmhhfxb");
+      })(window,document,'clarity','script',CL_ID);
+    }
+
+    function applyConsent(granted) {
+      if (granted) { loadGA(); loadClarity(); }
+    }
+
+    function saveAndApply(granted) {
+      localStorage.setItem(CONSENT_KEY, granted ? '1' : '0');
+      document.getElementById('ecura-cookie-banner').style.display = 'none';
+      applyConsent(granted);
+    }
+
+    // Controlla consenso salvato
+    var saved = localStorage.getItem(CONSENT_KEY);
+    if (saved === '1') {
+      applyConsent(true);
+    } else if (saved === null) {
+      // Prima visita — mostra banner dopo 800ms
+      window.addEventListener('DOMContentLoaded', function(){
+        setTimeout(function(){
+          document.getElementById('ecura-cookie-banner').style.display = 'flex';
+        }, 800);
+      });
+    }
+    // Se saved === '0' non carica nulla e non mostra il banner
+
+    document.addEventListener('click', function(e){
+      if (e.target.id === 'ecura-cookie-btn-accept') saveAndApply(true);
+      if (e.target.id === 'ecura-cookie-btn-reject') saveAndApply(false);
+    });
+  })();
   </script>
+
+  <!-- Microsoft Clarity — caricato solo dopo consenso (vedi script sopra) -->
 
   </body>
 </html>
