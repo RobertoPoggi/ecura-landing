@@ -82,10 +82,13 @@ function fmtDate(d) {
 function renderArticle(a) {
   const title   = decodeEntities(a.title || '');
   const desc    = decodeEntities(a.description || '');
-  // Rimuove <img> e <figure> non pertinenti dal content (vengono già mostrate come article-hero-img)
+  // Rimuove solo le <figure> e <img> hero standalone (article-hero-img),
+  // NON quelle dentro .product-card-img o altri contenitori di contenuto.
   let rawContent = decodeEntities(a.content || '');
-  rawContent = rawContent.replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, '');
-  rawContent = rawContent.replace(/<img(?![^>]*class="[^"]*product)[^>]+>/gi, '');
+  // Rimuove solo le <figure> con class "article-hero" o standalone fuori da product-card
+  rawContent = rawContent.replace(/<figure[^>]*class="[^"]*article-hero[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, '');
+  // Rimuove <img> con class article-hero-img (già mostrata nell'header)
+  rawContent = rawContent.replace(/<img[^>]*class="[^"]*article-hero-img[^"]*"[^>]*>/gi, '');
   const content = rawContent;
   const hero    = a.hero_image || '/img/blog/default.jpg';
   const heroAlt = decodeEntities(a.hero_image_alt || title);
