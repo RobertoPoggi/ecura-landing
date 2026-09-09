@@ -239,6 +239,69 @@ ${(a.date_modified || a.updated_at) ? `<meta property="article:modified_time" co
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${esc(hero)}">
+<!-- ═══ Schema.org NewsArticle — snippet ricchi Google/Bing ══════════
+     Aggiunge: headline, image, datePublished, dateModified, author,
+     publisher con logo, wordCount stimato, articleSection.
+     Potenzia l'eligibilità per Top Stories, rich snippets e AI Overviews.
+════════════════════════════════════════════════════════════════════ -->
+<script type="application/ld+json">
+${JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NewsArticle",
+      "@id": `${canonical}#article`,
+      "headline": title.substring(0, 110),
+      "description": desc,
+      "url": canonical,
+      "datePublished": a.date_published || a.created_at || new Date().toISOString(),
+      "dateModified": a.date_modified || a.updated_at || a.date_published || new Date().toISOString(),
+      "author": {
+        "@type": "Person",
+        "name": author,
+        "url": "https://www.ecura.it/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Medica GB Srl — eCura",
+        "url": "https://www.ecura.it/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.ecura.it/img/logo-ecura-trasp.png",
+          "width": 240,
+          "height": 80
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": hero.startsWith('http') ? hero : `https://www.ecura.it${hero}`,
+        "width": 1200,
+        "height": 630
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonical
+      },
+      "articleSection": cat || "Teleassistenza Anziani",
+      "inLanguage": "it",
+      "wordCount": Math.round(rawContent.replace(/<[^>]+>/g,'').split(/\s+/).filter(Boolean).length),
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Blog eCura — Teleassistenza Anziani",
+        "url": "https://www.ecura.it/blog/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ecura.it/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.ecura.it/blog/"},
+        {"@type": "ListItem", "position": 3, "name": title, "item": canonical}
+      ]
+    }
+  ]
+})}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" media="print" onload="this.media='all'">
