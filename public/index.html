@@ -2321,6 +2321,23 @@ document.addEventListener('DOMContentLoaded', function() {
           succEl.style.display = 'block';
           form.reset();
           fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
+
+          /* ── Conversione: Meta Pixel Lead ─────────────────────────── */
+          if (typeof fbq === 'function') {
+            fbq('track', 'Lead', {
+              content_name: 'eCura Teleassistenza',
+              content_category: 'Bracciale Anziani',
+              source: formId === 'ecura-form-hero' ? 'hero' : 'contattaci'
+            });
+          }
+          /* ── Conversione: GA4 generate_lead ──────────────────────── */
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+              currency: 'EUR',
+              value: 29.90,
+              form_id: formId
+            });
+          }
         } else {
           errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
           errEl.style.display = 'block';
@@ -2338,6 +2355,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
   handleForm('ecura-form-hero', 'hero-form-error', 'hero-form-success');
   handleForm('ecura-form-main', 'main-form-error', 'main-form-success');
+
+  /* ── ViewContent: sezione prezzi visibile al 50% ───────────────────── */
+  (function(){
+    var pricing = document.getElementById('pricingPlan');
+    if (!pricing || !window.IntersectionObserver) return;
+    var fired = false;
+    var obs = new IntersectionObserver(function(entries){
+      if (fired) return;
+      if (entries[0].isIntersecting) {
+        fired = true;
+        obs.disconnect();
+        /* Pixel ViewContent */
+        if (typeof fbq === 'function') {
+          fbq('track', 'ViewContent', {
+            content_name: 'Piani eCura — Prezzi',
+            content_category: 'Pricing',
+            currency: 'EUR',
+            value: 29.90
+          });
+        }
+        /* GA4 view_item_list */
+        if (typeof gtag === 'function') {
+          gtag('event', 'view_item_list', {
+            item_list_name: 'Piani Teleassistenza eCura'
+          });
+        }
+      }
+    }, { threshold: 0.5 });
+    obs.observe(pricing);
+  })();
 
 })();
 </script>
