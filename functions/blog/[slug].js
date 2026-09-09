@@ -194,6 +194,8 @@ function renderArticle(a) {
 <meta property="og:image:height" content="630">
 <meta property="article:publisher" content="https://www.facebook.com/ecura.it">
 <meta property="article:author" content="https://www.ecura.it/">
+${a.date_published ? `<meta property="article:published_time" content="${a.date_published}">` : ''}
+${(a.date_modified || a.updated_at) ? `<meta property="article:modified_time" content="${a.date_modified || a.updated_at}">` : ''}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ecura_it">
 <meta name="twitter:title" content="${esc(title)}">
@@ -330,7 +332,7 @@ ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</sc
     ${read ? `<span>&#9201; ${esc(read)}</span>` : ''}
     ${author ? `<span>&#9999; ${esc(author)}</span>` : ''}
   </div>
-  <img src="${esc(hero)}" alt="${esc(heroAlt)}" class="article-hero-img" loading="eager" decoding="async"
+  <img src="${esc(hero)}" alt="${esc(heroAlt)}" class="article-hero-img" loading="eager" decoding="async" fetchpriority="high"
     style="width:100%;height:auto;border-radius:10px;margin:20px 0 28px;display:block;object-fit:cover;aspect-ratio:16/8"
     onerror="this.src='/img/blog/default.jpg'">
   <div class="article-body">
@@ -400,6 +402,144 @@ document.getElementById('hamburgerWrap').addEventListener('click',function(){
   n.classList.toggle('is-active');
   this.setAttribute('aria-expanded', n.classList.contains('is-active'));
 });
+</script>
+
+<!-- ═══ WhatsApp CTA button fisso ════════════════════════════════════════ -->
+<a href="https://wa.me/393357301206?text=Salve%2C%20vorrei%20informazioni%20sul%20bracciale%20eCura%20per%20anziani"
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Contattaci su WhatsApp"
+   style="position:fixed;bottom:24px;right:24px;z-index:9999;
+          background:#25D366;color:#fff;border-radius:50px;
+          padding:12px 20px;font-size:.95rem;font-weight:700;
+          box-shadow:0 4px 16px rgba(37,211,102,.45);
+          display:flex;align-items:center;gap:8px;
+          text-decoration:none;transition:transform .2s"
+   onmouseover="this.style.transform='scale(1.07)'" onmouseout="this.style.transform='scale(1)'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  Scrivici su WhatsApp
+</a>
+
+<!-- ═══ Cookie consent banner ════════════════════════════════════════════ -->
+<div id="ecura-cookie-banner" role="dialog" aria-modal="true" aria-label="Consenso cookie"
+  style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:10000;
+         background:#fff;border-top:2px solid #068D86;
+         padding:18px 24px;box-shadow:0 -4px 24px rgba(0,0,0,.12);
+         flex-wrap:wrap;align-items:center;gap:16px;font-size:.88rem;animation:slideUpBanner .35s ease">
+  <style>@keyframes slideUpBanner{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}</style>
+  <p style="margin:0;flex:1;min-width:220px;color:#333;line-height:1.5">
+    🍪 Usiamo cookie analitici (Google Analytics, Microsoft Clarity) e di marketing (Meta Pixel) per migliorare il sito e misurare le campagne.
+    Leggi la nostra <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#068D86">Privacy Policy</a>.
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button id="ecura-cookie-btn-accept"
+      style="background:#068D86;color:#fff;border:0;border-radius:24px;padding:10px 22px;font-size:.88rem;font-weight:600;cursor:pointer">
+      ✓ Accetta
+    </button>
+    <button id="ecura-cookie-btn-reject"
+      style="background:#f0f0f0;color:#555;border:0;border-radius:24px;padding:10px 18px;font-size:.88rem;cursor:pointer">
+      Rifiuta
+    </button>
+  </div>
+</div>
+
+<!-- ═══ Consent Manager (GA4 + Clarity + Meta Pixel) ═════════════════════ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+</script>
+<script>
+(function(){
+  var CONSENT_KEY = 'ecura_ck';
+  var GA_ID = 'G-5DY4TY34WK';
+  var AW_ID = 'AW-18350012797';
+  var CL_ID = 'yfc9murzhb';
+  var FB_ID = '1430631415843205';
+  var DAYS  = 365;
+
+  function setCookie(val) {
+    var exp = new Date(); exp.setDate(exp.getDate() + DAYS);
+    document.cookie = CONSENT_KEY + '=' + val
+      + '; expires=' + exp.toUTCString()
+      + '; path=/; SameSite=Strict; Secure';
+  }
+  function getCookie() {
+    var match = document.cookie.match('(?:^|;)\\s*' + CONSENT_KEY + '=([^;]+)');
+    return match ? match[1] : null;
+  }
+
+  function loadGA() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    s.onload = function(){
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+      gtag('config', AW_ID);
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    };
+  }
+
+  function loadClarity() {
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,'clarity','script',CL_ID);
+  }
+
+  function loadPixel() {
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', FB_ID);
+    fbq('track', 'PageView');
+  }
+
+  function applyConsent(granted) {
+    if (granted) { loadGA(); loadClarity(); loadPixel(); }
+  }
+  function saveAndApply(granted) {
+    setCookie(granted ? '1' : '0');
+    document.getElementById('ecura-cookie-banner').style.display = 'none';
+    applyConsent(granted);
+  }
+
+  var saved = getCookie();
+  if (saved === '1') {
+    applyConsent(true);
+  } else if (saved === null) {
+    window.addEventListener('DOMContentLoaded', function(){
+      setTimeout(function(){
+        document.getElementById('ecura-cookie-banner').style.display = 'flex';
+      }, 800);
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    if (e.target.id === 'ecura-cookie-btn-accept') saveAndApply(true);
+    if (e.target.id === 'ecura-cookie-btn-reject') saveAndApply(false);
+  });
+})();
 </script>
 
 </body></html>`;
