@@ -174,6 +174,44 @@ function renderArticle(a) {
       </div>
     </section>` : '';
 
+  // ── FIX 7: CTA mid-article — inserita dopo il 40% dei paragrafi ──────────
+  // Divide il contenuto HTML in paragrafi/blocchi e inserisce il box CTA
+  // a circa metà, prima di mostrare il resto dell'articolo.
+  const MID_CTA_HTML = `
+<div style="background:linear-gradient(135deg,#f0faf9 0%,#e8f6f5 100%);
+     border:1px solid #b2e0dd;border-radius:14px;padding:22px 24px;
+     margin:32px 0;display:flex;align-items:flex-start;gap:16px">
+  <div style="font-size:2rem;flex-shrink:0;line-height:1">🛡️</div>
+  <div style="flex:1;min-width:0">
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;
+         letter-spacing:.06em;color:#068D86;margin-bottom:4px">Bracciale eCura</div>
+    <div style="font-weight:700;font-size:1rem;color:#080E49;margin-bottom:6px;line-height:1.3">
+      Proteggi i tuoi cari con il dispositivo medico certificato Classe IIA
+    </div>
+    <div style="font-size:.85rem;color:#444;line-height:1.5;margin-bottom:14px">
+      GPS indoor/outdoor &middot; SOS automatico &middot; Centrale H24 &middot; Da &euro;390/anno &middot; Detraibile al 19%
+    </div>
+    <a href="https://www.ecura.it/#contattaci"
+       style="display:inline-block;background:#068D86;color:#fff;text-decoration:none;
+              border-radius:30px;padding:10px 22px;font-size:.9rem;font-weight:700;
+              box-shadow:0 3px 10px rgba(6,141,134,.25);transition:background .2s"
+       onmouseover="this.style.background='#05B1A8'" onmouseout="this.style.background='#068D86'">
+      Richiedi informazioni gratuite &rarr;
+    </a>
+  </div>
+</div>`;
+
+  // Splitta su tag di chiusura blocco e inserisce la CTA dopo ca. il 40% dei segmenti
+  let bodyWithCta = content;
+  try {
+    const parts = content.split(/(?<=<\/(?:p|li|h[2-6]|blockquote|div)>)/i);
+    if (parts.length >= 4) {
+      const midIdx = Math.max(2, Math.floor(parts.length * 0.40));
+      parts.splice(midIdx, 0, MID_CTA_HTML);
+      bodyWithCta = parts.join('');
+    }
+  } catch(e) { /* fallback: contenuto invariato */ }
+
   return `<!doctype html>
 <html lang="it">
 <head>
@@ -336,7 +374,7 @@ ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</sc
     style="width:100%;height:auto;border-radius:10px;margin:20px 0 28px;display:block;object-fit:cover;aspect-ratio:16/8"
     onerror="this.src='/img/blog/default.jpg'">
   <div class="article-body">
-    ${content}
+    ${bodyWithCta}
   </div>
   <div class="article-cta">
     <h3>Proteggi i tuoi cari con eCura</h3>

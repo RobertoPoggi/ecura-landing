@@ -121,6 +121,9 @@
 .ecura-form button[type=submit] { width: 100%; background: #068D86; color: #fff; border: 0; border-radius: 30px; padding: 12px 20px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.3s; }
 .ecura-form button[type=submit]:hover { background: #05B1A8; }
 .ecura-form button[type=submit]:disabled { opacity: 0.6; cursor: not-allowed; }
+/* FIX 9 — bottone navigazione step */
+.ecura-form .ecura-step-btn { width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px; }
+.ecura-form .ecura-step-btn:hover { background:#05B1A8; }
 /* ═══ Skip link per accessibilità ════════════════════════ */
 .skip-link { position: absolute; top: -40px; left: 6px; z-index: 9999; background: #068D86; color: #fff; padding: 8px 12px; border-radius: 0 0 4px 4px; font-size: 14px; font-weight: 600; transition: top .2s; }
 .skip-link:focus { top: 0; }
@@ -906,7 +909,16 @@
 						</ul>
 				</div>	
 			</nav>
-			<div class="utility">
+				<div class="utility">
+				<!-- FIX 10 — Numero tel cliccabile (desktop) -->
+				<div class="d-none d-lg-flex align-items-center me-2" style="font-size:.85rem;font-weight:600;color:#068D86">
+				  <a href="tel:+393357301206" id="nav-tel-link"
+				     style="color:#068D86;text-decoration:none;display:flex;align-items:center;gap:5px"
+				     aria-label="Chiamaci al 335 730 1206">
+				    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#068D86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.29 10.7 19.79 19.79 0 01.22 2.1 2 2 0 012.2 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+				    335 730 1206
+				  </a>
+				</div>
 				<div class="ctaWdgt ms-2"><a href="#contattaci" class="cta-standard-green">Richiedi info</a></div>
 
 				<!-- Hamburger -->
@@ -965,7 +977,16 @@
                 </div>
             </div>
             <div class="col-md-4 d-none d-md-block heroContentDx p-5">
+                <!-- FIX 9 — Form a step progressivo (hero, desktop) -->
                 <h2 class="h3">Richiedi informazioni su eCura</h2>
+
+                <!-- Barra di avanzamento step -->
+                <div style="display:flex;gap:6px;margin-bottom:18px" id="hero-step-bar" aria-hidden="true">
+                  <div class="ecura-step-dot active" id="hero-dot-1" style="flex:1;height:4px;border-radius:4px;background:#068D86;transition:background .3s"></div>
+                  <div class="ecura-step-dot" id="hero-dot-2" style="flex:1;height:4px;border-radius:4px;background:#ddd;transition:background .3s"></div>
+                  <div class="ecura-step-dot" id="hero-dot-3" style="flex:1;height:4px;border-radius:4px;background:#ddd;transition:background .3s"></div>
+                </div>
+
                 <form class="ecura-form" id="ecura-form-hero" novalidate aria-label="Modulo richiesta informazioni eCura">
                   <input type="hidden" name="page_url" id="hero_page_url">
                   <input type="hidden" name="referrer" id="hero_referrer">
@@ -975,40 +996,76 @@
                   <input type="hidden" name="utm_content" id="hero_utm_content">
                   <input type="hidden" name="utm_term" id="hero_utm_term">
 
-                  <label for="hero_full_name">Nome e cognome *</label>
-                  <input type="text" id="hero_full_name" name="full_name" placeholder="Es. Mario Rossi" required autocomplete="name">
-
-                  <label for="hero_phone">Telefono *</label>
-                  <input type="tel" id="hero_phone" name="phone" placeholder="Es. 333 1234567" required autocomplete="tel">
-
-                  <label for="hero_email">Email *</label>
-                  <input type="email" id="hero_email" name="email" placeholder="Es. mario@email.it" required autocomplete="email">
-
-                  <label for="hero_plan">Piano di interesse</label>
-                  <select id="hero_plan" name="plan" autocomplete="off">
-                    <option value="">-- Seleziona --</option>
-                    <option value="FAMILY_BASE">Family Base — €390/anno</option>
-                    <option value="FAMILY_AVANZATO">Family Avanzato — €690/anno</option>
-                    <option value="PRO_BASE">Professional Base — €480/anno</option>
-                    <option value="PRO_AVANZATO">Professional Avanzato — €840/anno</option>
-                    <option value="PREMIUM_BASE">Premium Base — €590/anno</option>
-                    <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
-                  </select>
-
-                  <label for="hero_message">Note / Messaggio <span style="font-weight:400;color:#888">(opzionale)</span></label>
-                  <textarea id="hero_message" name="message" rows="3" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni che vive sola..."></textarea>
-
-                  <div class="privacy-row">
-                    <input type="checkbox" name="privacy_consent" id="hero_privacy" required>
-                    <label for="hero_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
+                  <!-- STEP 1: Telefono -->
+                  <div class="ecura-step" id="hero-step-1">
+                    <p style="font-size:.85rem;color:#555;margin-bottom:12px">
+                      <strong>Passo 1 di 3</strong> — Inserisci il tuo numero
+                    </p>
+                    <label for="hero_phone">📱 Telefono *</label>
+                    <input type="tel" id="hero_phone" name="phone" placeholder="Es. 333 1234567" required autocomplete="tel">
+                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="1">
+                      Continua →
+                    </button>
                   </div>
 
-                  <div class="form-error" id="hero-form-error" role="alert" aria-live="assertive"></div>
-                  <div class="form-success" id="hero-form-success" role="status" aria-live="polite">
-                    ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
+                  <!-- STEP 2: Nome -->
+                  <div class="ecura-step" id="hero-step-2" style="display:none">
+                    <p style="font-size:.85rem;color:#555;margin-bottom:12px">
+                      <strong>Passo 2 di 3</strong> — Come ti chiami?
+                    </p>
+                    <label for="hero_full_name">👤 Nome e cognome *</label>
+                    <input type="text" id="hero_full_name" name="full_name" placeholder="Es. Mario Rossi" required autocomplete="name">
+
+                    <label for="hero_plan" style="margin-top:4px">Piano di interesse</label>
+                    <select id="hero_plan" name="plan" autocomplete="off">
+                      <option value="">-- Seleziona (opzionale) --</option>
+                      <option value="FAMILY_BASE">Family Base — €390/anno</option>
+                      <option value="FAMILY_AVANZATO">Family Avanzato — €690/anno</option>
+                      <option value="PRO_BASE">Professional Base — €480/anno</option>
+                      <option value="PRO_AVANZATO">Professional Avanzato — €840/anno</option>
+                      <option value="PREMIUM_BASE">Premium Base — €590/anno</option>
+                      <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
+                    </select>
+                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="2">
+                      Continua →
+                    </button>
                   </div>
 
-                  <button type="submit">Ricevi informazioni gratuite →</button>
+                  <!-- STEP 3: Email + privacy + submit -->
+                  <div class="ecura-step" id="hero-step-3" style="display:none">
+                    <p style="font-size:.85rem;color:#555;margin-bottom:12px">
+                      <strong>Passo 3 di 3</strong> — Dove ti mandiamo le informazioni?
+                    </p>
+                    <label for="hero_email">✉️ Email *</label>
+                    <input type="email" id="hero_email" name="email" placeholder="Es. mario@email.it" required autocomplete="email">
+
+                    <label for="hero_message" style="margin-top:4px">Note <span style="font-weight:400;color:#888">(opzionale)</span></label>
+                    <textarea id="hero_message" name="message" rows="2" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni..."></textarea>
+
+                    <div class="privacy-row">
+                      <input type="checkbox" name="privacy_consent" id="hero_privacy" required>
+                      <label for="hero_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
+                    </div>
+
+                    <!-- FIX 5 — Social proof vicino al form hero -->
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;color:#555;">
+                      <span style="color:#f59e0b;letter-spacing:1px">★★★★★</span>
+                      <span><strong>4.8/5</strong> · Già <strong>847 famiglie</strong> hanno scelto eCura</span>
+                    </div>
+
+                    <div class="form-error" id="hero-form-error" role="alert" aria-live="assertive"></div>
+                    <div class="form-success" id="hero-form-success" role="status" aria-live="polite">
+                      ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
+                    </div>
+
+                    <button type="submit">Ricevi informazioni gratuite →</button>
+
+                    <!-- FIX 6 — Micro-copy urgency hero -->
+                    <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
+                      🕐 Risposta entro 4 ore (lun-ven 9–18) &nbsp;·&nbsp; 📦 Consegna gratuita 48h
+                    </div>
+                  </div>
+
                 </form>
             </div>
         </div>
@@ -1984,12 +2041,23 @@
                     <label for="main_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
                   </div>
 
+                  <!-- FIX 5 — Social proof vicino al form main -->
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;color:#555;">
+                    <span style="color:#f59e0b;letter-spacing:1px">★★★★★</span>
+                    <span><strong>4.8/5</strong> · Già <strong>847 famiglie</strong> hanno scelto eCura</span>
+                  </div>
+
                   <div class="form-error" id="main-form-error" role="alert" aria-live="assertive"></div>
                   <div class="form-success" id="main-form-success" role="status" aria-live="polite">
                     ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
                   </div>
 
                   <button type="submit">Ricevi informazioni gratuite →</button>
+
+                  <!-- FIX 6 — Micro-copy urgency main -->
+                  <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
+                    🕐 Risposta entro 4 ore (lun-ven 9–18) &nbsp;·&nbsp; 📦 Consegna gratuita 48h
+                  </div>
                 </form>
             </div>
         </div>
@@ -2246,6 +2314,32 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 (function() {
 
+  /* ══════════════════════════════════════════════════════════════
+     FIX 3 — UTM persistenti in sessionStorage
+     Salva i parametri UTM al primo caricamento della pagina.
+     fillUTM() li legge sempre da sessionStorage — funziona anche
+     se l'utente naviga tra sezioni e l'URL cambia per gli anchor.
+  ══════════════════════════════════════════════════════════════ */
+  var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  (function persistUTM() {
+    var u = new URLSearchParams(window.location.search);
+    UTM_KEYS.forEach(function(k) {
+      var v = u.get(k);
+      if (v) sessionStorage.setItem('ecura_' + k, v);
+    });
+    /* Salva anche referrer e page_url al primo caricamento */
+    if (!sessionStorage.getItem('ecura_page_url')) {
+      sessionStorage.setItem('ecura_page_url', window.location.href);
+    }
+    if (!sessionStorage.getItem('ecura_referrer')) {
+      sessionStorage.setItem('ecura_referrer', document.referrer);
+    }
+  })();
+
+  function getUTM(name) {
+    return sessionStorage.getItem('ecura_' + name) || '';
+  }
+
   function getUrlParam(name) {
     const u = new URLSearchParams(window.location.search);
     return u.get(name) || '';
@@ -2253,13 +2347,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function fillUTM(prefix) {
     const el = id => document.getElementById(id);
-    if (el(prefix + '_page_url'))   el(prefix + '_page_url').value   = window.location.href;
-    if (el(prefix + '_referrer'))   el(prefix + '_referrer').value   = document.referrer;
-    if (el(prefix + '_utm_source')) el(prefix + '_utm_source').value = getUrlParam('utm_source');
-    if (el(prefix + '_utm_medium')) el(prefix + '_utm_medium').value = getUrlParam('utm_medium');
-    if (el(prefix + '_utm_campaign')) el(prefix + '_utm_campaign').value = getUrlParam('utm_campaign');
-    if (el(prefix + '_utm_content')) el(prefix + '_utm_content').value = getUrlParam('utm_content');
-    if (el(prefix + '_utm_term'))   el(prefix + '_utm_term').value   = getUrlParam('utm_term');
+    /* Usa sessionStorage (persistente durante la sessione) */
+    if (el(prefix + '_page_url'))    el(prefix + '_page_url').value    = getUTM('page_url') || window.location.href;
+    if (el(prefix + '_referrer'))    el(prefix + '_referrer').value    = getUTM('referrer') || document.referrer;
+    if (el(prefix + '_utm_source'))  el(prefix + '_utm_source').value  = getUTM('utm_source');
+    if (el(prefix + '_utm_medium'))  el(prefix + '_utm_medium').value  = getUTM('utm_medium');
+    if (el(prefix + '_utm_campaign'))el(prefix + '_utm_campaign').value= getUTM('utm_campaign');
+    if (el(prefix + '_utm_content')) el(prefix + '_utm_content').value = getUTM('utm_content');
+    if (el(prefix + '_utm_term'))    el(prefix + '_utm_term').value    = getUTM('utm_term');
   }
 
   fillUTM('hero');
@@ -2339,11 +2434,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (res.ok && json.success) {
           clearInterval(stepTimer);
-          succEl.style.display = 'block';
-          form.reset();
-          fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
 
-          /* ── Conversione: Meta Pixel Lead ─────────────────────────── */
+          /* ── Conversione: Meta Pixel Lead (on-form, pre-redirect) ── */
           if (typeof fbq === 'function') {
             fbq('track', 'Lead', {
               content_name: 'eCura Teleassistenza',
@@ -2351,7 +2443,7 @@ document.addEventListener('DOMContentLoaded', function() {
               source: formId === 'ecura-form-hero' ? 'hero' : 'contattaci'
             });
           }
-          /* ── Conversione: GA4 generate_lead ──────────────────────── */
+          /* ── Conversione: GA4 generate_lead (on-form, pre-redirect) */
           if (typeof gtag === 'function') {
             gtag('event', 'generate_lead', {
               currency: 'EUR',
@@ -2359,6 +2451,14 @@ document.addEventListener('DOMContentLoaded', function() {
               form_id: formId
             });
           }
+
+          /* ── Redirect a /grazie/ dopo brevissima pausa ────────────
+             I tag di conversione sono già stati sparati sopra.
+             La pagina /grazie/ sparerà un secondo set pageview-based
+             (più accurato) solo se l'utente ha dato consenso.        */
+          setTimeout(function(){
+            window.location.href = '/grazie/';
+          }, 300);
         } else {
           clearInterval(stepTimer);
           errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
@@ -2380,6 +2480,77 @@ document.addEventListener('DOMContentLoaded', function() {
 
   handleForm('ecura-form-hero', 'hero-form-error', 'hero-form-success');
   handleForm('ecura-form-main', 'main-form-error', 'main-form-success');
+
+  /* FIX 10 — Tracking click sul numero di telefono */
+  var telLink = document.getElementById('nav-tel-link');
+  if (telLink) {
+    telLink.addEventListener('click', function(){
+      if (typeof fbq === 'function') fbq('track', 'Contact', { source: 'nav_tel' });
+      if (typeof gtag === 'function') gtag('event', 'phone_call_click', { source: 'nav_tel' });
+    });
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     FIX 9 — Logica navigazione form a step progressivo
+     Gestisce i bottoni "Continua →" e aggiorna la barra dei dot.
+     Applicato solo al form hero (il form #contattaci resta full per
+     conversione diretta su desktop ampio).
+  ═══════════════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.ecura-step-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var formId = btn.getAttribute('data-form');
+      var stepNum = parseInt(btn.getAttribute('data-step'), 10);
+      var form = document.getElementById(formId);
+      var prefix = formId === 'ecura-form-hero' ? 'hero' : 'main';
+
+      /* Validazione campo corrente */
+      if (stepNum === 1) {
+        var phoneEl = form.querySelector('[name="phone"]');
+        if (!phoneEl || !phoneEl.value.trim()) {
+          phoneEl.style.borderColor = '#ff0033';
+          phoneEl.focus();
+          return;
+        }
+        phoneEl.style.borderColor = '';
+      }
+      if (stepNum === 2) {
+        var nameEl = form.querySelector('[name="full_name"]');
+        if (!nameEl || !nameEl.value.trim()) {
+          nameEl.style.borderColor = '#ff0033';
+          nameEl.focus();
+          return;
+        }
+        nameEl.style.borderColor = '';
+      }
+
+      /* Nascondi step corrente, mostra il successivo */
+      var currentStep = document.getElementById(prefix + '-step-' + stepNum);
+      var nextStep    = document.getElementById(prefix + '-step-' + (stepNum + 1));
+      if (currentStep) currentStep.style.display = 'none';
+      if (nextStep)    nextStep.style.display = 'block';
+
+      /* Aggiorna dot barra avanzamento */
+      for (var i = 1; i <= 3; i++) {
+        var dot = document.getElementById(prefix + '-dot-' + i);
+        if (dot) dot.style.background = i <= stepNum + 1 ? '#068D86' : '#ddd';
+      }
+
+      /* Focus sul primo campo del prossimo step */
+      if (nextStep) {
+        var firstInput = nextStep.querySelector('input, select, textarea');
+        if (firstInput) setTimeout(function(){ firstInput.focus(); }, 50);
+      }
+
+      /* GA4: traccia avanzamento step */
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_step_complete', {
+          form_id: formId,
+          step: stepNum,
+          step_name: stepNum === 1 ? 'phone' : 'name'
+        });
+      }
+    });
+  });
 
   /* ── ViewContent: sezione prezzi visibile al 50% ───────────────────── */
   (function(){
@@ -2416,7 +2587,208 @@ document.addEventListener('DOMContentLoaded', function() {
 
         </div>
       </div>
-      
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     FIX 2 — EXIT-INTENT POPUP
+     Mouseleave dal viewport su desktop; inattività 30s su mobile.
+     Si mostra una volta sola per sessione (sessionStorage flag).
+     Form minimal: solo nome + telefono → submit va a /api/submit-lead.
+════════════════════════════════════════════════════════════════════════ -->
+<div id="ecura-exit-overlay" role="dialog" aria-modal="true" aria-label="Offerta speciale eCura" style="
+  display:none;position:fixed;inset:0;z-index:99990;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(3px);
+  align-items:center;justify-content:center;padding:16px">
+  <div style="background:#fff;border-radius:20px;max-width:480px;width:100%;
+              box-shadow:0 8px 48px rgba(0,0,0,.22);overflow:hidden;position:relative">
+
+    <!-- Close button -->
+    <button id="ecura-exit-close" aria-label="Chiudi"
+      style="position:absolute;top:12px;right:14px;background:none;border:none;
+             font-size:1.5rem;cursor:pointer;color:#888;line-height:1;z-index:1">×</button>
+
+    <!-- Header strip -->
+    <div style="background:linear-gradient(135deg,#068D86 0%,#05B1A8 100%);padding:24px 28px 20px;text-align:center">
+      <div style="font-size:2rem;margin-bottom:6px">🛡️</div>
+      <h2 style="color:#fff;font-size:1.25rem;font-weight:700;margin:0;line-height:1.3">
+        Aspetta — hai domande sul bracciale eCura?
+      </h2>
+      <p style="color:rgba(255,255,255,.88);font-size:.88rem;margin:8px 0 0">
+        Lasciaci il tuo numero: ti richiamiamo noi, <strong>gratis</strong>, entro 4 ore.
+      </p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:24px 28px 28px">
+      <form id="ecura-exit-form" novalidate>
+        <label for="exit_full_name" style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:#333">Nome *</label>
+        <input type="text" id="exit_full_name" name="full_name" placeholder="Es. Mario Rossi" required autocomplete="name"
+          style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:12px;box-sizing:border-box">
+
+        <label for="exit_phone" style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:#333">Telefono *</label>
+        <input type="tel" id="exit_phone" name="phone" placeholder="Es. 333 1234567" required autocomplete="tel"
+          style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:12px;box-sizing:border-box">
+
+        <input type="hidden" name="email" value="noreply-exit@ecura.it">
+        <input type="hidden" name="privacy_consent" value="true" id="exit_privacy_hidden">
+
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:14px">
+          <input type="checkbox" id="exit_privacy" required
+            style="width:auto;margin-top:3px;flex-shrink:0"
+            onchange="document.getElementById('exit_privacy_hidden').value=this.checked?'true':''">
+          <label for="exit_privacy" style="font-size:12px;color:#555;cursor:pointer">
+            Ho letto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#068D86">Privacy Policy</a> *
+          </label>
+        </div>
+
+        <div id="ecura-exit-error" style="color:#cc0000;font-size:13px;margin-bottom:8px;display:none"></div>
+
+        <button type="submit" id="ecura-exit-btn"
+          style="width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;
+                 padding:13px 20px;font-size:1rem;font-weight:700;cursor:pointer;
+                 transition:background .3s">
+          Richiedi una chiamata gratuita →
+        </button>
+
+        <p style="text-align:center;font-size:.75rem;color:#999;margin-top:10px">
+          Nessun impegno. Solo informazioni. Risposta entro 4 ore.
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SHOWN_KEY = 'ecura_exit_shown';
+  var overlay   = document.getElementById('ecura-exit-overlay');
+  var closeBtn  = document.getElementById('ecura-exit-close');
+  var form      = document.getElementById('ecura-exit-form');
+  var errEl     = document.getElementById('ecura-exit-error');
+  var submitBtn = document.getElementById('ecura-exit-btn');
+
+  if (!overlay) return;
+
+  function showPopup() {
+    if (sessionStorage.getItem(SHOWN_KEY)) return;
+    sessionStorage.setItem(SHOWN_KEY, '1');
+    overlay.style.display = 'flex';
+  }
+
+  function hidePopup() { overlay.style.display = 'none'; }
+
+  /* Chiudi cliccando lo sfondo o il pulsante × */
+  closeBtn.addEventListener('click', hidePopup);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) hidePopup(); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') hidePopup(); });
+
+  /* ── Desktop: mouseleave dal viewport ─────────────────── */
+  document.addEventListener('mouseleave', function(e){
+    if (e.clientY <= 0) showPopup();
+  });
+
+  /* ── Mobile: inattività 30s ────────────────────────────── */
+  var mobileTimer;
+  function resetMobileTimer(){
+    clearTimeout(mobileTimer);
+    mobileTimer = setTimeout(showPopup, 30000);
+  }
+  if ('ontouchstart' in window) {
+    ['touchstart','scroll'].forEach(function(ev){
+      document.addEventListener(ev, resetMobileTimer, {passive:true});
+    });
+    resetMobileTimer();
+  }
+
+  /* ── Form submit ─────────────────────────────────────── */
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    errEl.style.display = 'none';
+    var name  = form.querySelector('[name="full_name"]').value.trim();
+    var phone = form.querySelector('[name="phone"]').value.trim();
+    var priv  = form.querySelector('#exit_privacy').checked;
+
+    if (!name)  { errEl.textContent='Inserisci il tuo nome.';    errEl.style.display='block'; return; }
+    if (!phone) { errEl.textContent='Inserisci il tuo telefono.'; errEl.style.display='block'; return; }
+    if (!priv)  { errEl.textContent='Accetta la Privacy Policy.'; errEl.style.display='block'; return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Invio in corso...';
+
+    try {
+      var res = await fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: name,
+          phone: phone,
+          email: 'noreply-exit@ecura.it',
+          privacy_consent: true,
+          utm_source: sessionStorage.getItem('ecura_utm_source') || '',
+          utm_medium: sessionStorage.getItem('ecura_utm_medium') || '',
+          utm_campaign: sessionStorage.getItem('ecura_utm_campaign') || '',
+          utm_content: sessionStorage.getItem('ecura_utm_content') || '',
+          utm_term: sessionStorage.getItem('ecura_utm_term') || '',
+          page_url: sessionStorage.getItem('ecura_page_url') || window.location.href,
+          referrer: sessionStorage.getItem('ecura_referrer') || document.referrer,
+          message: 'Lead da exit-intent popup'
+        })
+      });
+      var json = await res.json();
+      if (res.ok && json.success) {
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'eCura Exit Intent', source: 'exit_popup' });
+        if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
+        window.location.href = '/grazie/';
+      } else {
+        errEl.textContent = json.error || 'Errore. Riprova.';
+        errEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Richiedi una chiamata gratuita →';
+      }
+    } catch(_) {
+      errEl.textContent = 'Errore di connessione. Riprova.';
+      errEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Richiedi una chiamata gratuita →';
+    }
+  });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     FIX 4 — STICKY CTA BAR MOBILE
+     Visibile solo su viewport <768px.
+     Scompare quando la sezione #contattaci entra nel viewport (IntersectionObserver).
+════════════════════════════════════════════════════════════════════════ -->
+<div id="ecura-sticky-mobile" aria-label="CTA mobile fisso" style="
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;
+  background:#068D86;color:#fff;text-align:center;
+  padding:14px 16px;box-shadow:0 -2px 16px rgba(0,0,0,.18)">
+  <a href="#contattaci" style="color:#fff;text-decoration:none;font-weight:700;font-size:1rem;display:block">
+    🛡️ Proteggi i tuoi cari → Richiedi informazioni gratuite
+  </a>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('ecura-sticky-mobile');
+  if (!bar) return;
+
+  /* Mostra solo su mobile */
+  function checkWidth(){ bar.style.display = window.innerWidth < 768 ? 'block' : 'none'; }
+  checkWidth();
+  window.addEventListener('resize', checkWidth);
+
+  /* Nasconde quando #contattaci è visibile */
+  var contattaci = document.getElementById('contattaci');
+  if (contattaci && window.IntersectionObserver) {
+    var obs = new IntersectionObserver(function(entries){
+      bar.style.display = entries[0].isIntersecting ? 'none' : (window.innerWidth < 768 ? 'block' : 'none');
+    }, { threshold: 0.2 });
+    obs.observe(contattaci);
+  }
+})();
+</script>
+
   <!-- ═══ WhatsApp CTA button fisso ════════════════════════════════════════ -->
   <a href="https://wa.me/393357301206?text=Salve%2C%20vorrei%20informazioni%20sul%20bracciale%20eCura%20per%20anziani"
      target="_blank" rel="noopener noreferrer"
