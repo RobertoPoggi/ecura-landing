@@ -2308,6 +2308,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
       btn.disabled = true;
       btn.textContent = 'Invio in corso...';
+      btn.style.opacity = '0.7';
+
+      /* Spinner SVG inline */
+      const spinner = '<svg style="vertical-align:middle;margin-right:6px;animation:spin .8s linear infinite" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10" stroke-opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-opacity="1"/></svg>';
+      if (!document.getElementById('ecura-spin-style')) {
+        var ss = document.createElement('style');
+        ss.id = 'ecura-spin-style';
+        ss.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(ss);
+      }
+      btn.innerHTML = spinner + 'Invio in corso...';
+
+      /* Messaggi progressivi ogni 2s se la risposta tarda */
+      var steps = ['Salvataggio dati...', 'Quasi pronto...', 'Un momento...'];
+      var stepIdx = 0;
+      var stepTimer = setInterval(function(){
+        if (stepIdx < steps.length) {
+          btn.innerHTML = spinner + steps[stepIdx++];
+        }
+      }, 2000);
 
       try {
         const res = await fetch('/api/submit-lead', {
@@ -2318,6 +2338,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const json = await res.json();
 
         if (res.ok && json.success) {
+          clearInterval(stepTimer);
           succEl.style.display = 'block';
           form.reset();
           fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
@@ -2339,15 +2360,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
           }
         } else {
+          clearInterval(stepTimer);
           errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
           errEl.style.display = 'block';
           btn.disabled = false;
+          btn.style.opacity = '1';
           btn.textContent = 'Ricevi informazioni gratuite →';
         }
       } catch(err) {
+        clearInterval(stepTimer);
         errEl.textContent = 'Errore di connessione. Riprova più tardi.';
         errEl.style.display = 'block';
         btn.disabled = false;
+        btn.style.opacity = '1';
         btn.textContent = 'Ricevi informazioni gratuite →';
       }
     });
