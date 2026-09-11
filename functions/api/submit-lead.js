@@ -38,7 +38,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
   }
 
   // ── Cloudflare Turnstile — verifica bot ───────
-  const turnstileSecret = env.TURNSTILE_SECRET_KEY
+  // Fallback hardcoded per deploy Direct Upload (env vars non propagate via Workers API)
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY || '0x4AAAAAAD4s8Ii-HWSeb_PcPoGzkR38QL4'
   if (turnstileSecret) {
     const turnstileToken = body['cf-turnstile-response'] || ''
     const cfIp = request.headers.get('CF-Connecting-IP') || ''
