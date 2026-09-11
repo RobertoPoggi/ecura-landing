@@ -9,10 +9,11 @@
  * a info@ecura.it — NON da questa funzione. Non duplicare la logica email qui.
  *
  * ENV VARS richieste (Cloudflare Pages → Settings → Variables):
- *   CRM_ENDPOINT        — es. https://telemedcare-v12.pages.dev/api/leads/public
- *   CRM_API_KEY         — API key per autenticarsi al CRM
- *   CORS_ORIGIN         — es. https://www.ecura.it (o * per dev)
- *   GSHEET_WEBHOOK_URL  — URL /exec del Google Apps Script che scrive nel foglio
+ *   CRM_ENDPOINT          — es. https://telemedcare-v12.pages.dev/api/leads/public
+ *   CRM_API_KEY           — API key per autenticarsi al CRM
+ *   CORS_ORIGIN           — es. https://www.ecura.it (o * per dev)
+ *   GSHEET_WEBHOOK_URL    — URL /exec del Google Apps Script che scrive nel foglio
+ *   TURNSTILE_SECRET_KEY  — Secret Key Cloudflare Turnstile (verifica lato server)
  */
 
 export async function onRequestPost({ request, env, waitUntil }) {
@@ -34,6 +35,28 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return new Response(JSON.stringify({ success: false, error: 'Body non valido' }), {
       status: 400, headers: corsHeaders
     })
+  }
+
+  // ── Cloudflare Turnstile — verifica bot ───────
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY
+  if (turnstileSecret) {
+    const turnstileToken = body['cf-turnstile-response'] || ''
+    const cfIp = request.headers.get('CF-Connecting-IP') || ''
+    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        secret:   turnstileSecret,
+        response: turnstileToken,
+        remoteip: cfIp,
+      }),
+    })
+    const verifyData = await verifyRes.json()
+    if (!verifyData.success) {
+      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.' }), {
+        status: 400, headers: corsHeaders
+      })
+    }
   }
 
   // ── Validazione base ──────────────────────────
