@@ -183,7 +183,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
     if (crmRes.ok && crmData.success !== false) {
       crmOk     = true
-      crmLeadId = crmData.id || null
+      // Supporta sia /api/leads/public {id:...} sia /api/lead {leadId:...}
+      crmLeadId = crmData.id || crmData.leadId || null
     } else {
       console.error('[submit-lead] CRM error:', crmRes.status, JSON.stringify(crmData))
     }
@@ -219,6 +220,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       page_url:     sheetPayload.page_url,
       landing:      sheetPayload.landing,
       note:         sheetPayload.note,
+      lead_id:      crmLeadId || '',
     }).toString()
 
     // waitUntil garantisce che il fetch al GSheet venga completato
