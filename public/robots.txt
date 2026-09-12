@@ -1,5 +1,5 @@
 # robots.txt — eCura (www.ecura.it)
-# Aggiornato: 2026-09-12
+# Aggiornato: 2026-09-12 — rimossi tag non-standard (llms-txt, rss ecc.)
 # ──────────────────────────────────────────────────────────────────
 # REGOLA GLOBALE
 # ──────────────────────────────────────────────────────────────────
@@ -19,11 +19,11 @@ Disallow: /*?q=
 # Sitemap
 Sitemap: https://www.ecura.it/sitemap.xml
 
-# File GEO/AI
-llms-txt: https://www.ecura.it/llms.txt
-llms-full-txt: https://www.ecura.it/llms-full.txt
-ai-txt: https://www.ecura.it/ai.txt
-rss: https://www.ecura.it/blog/feed.xml
+# File GEO/AI (accessibili via Allow sopra — link informativi nei commenti)
+# llms.txt:      https://www.ecura.it/llms.txt
+# llms-full.txt: https://www.ecura.it/llms-full.txt
+# ai.txt:        https://www.ecura.it/ai.txt
+# rss feed:      https://www.ecura.it/blog/feed.xml
 
 # ──────────────────────────────────────────────────────────────────
 # MOTORI DI RICERCA — SEARCH ENGINE BOTS
