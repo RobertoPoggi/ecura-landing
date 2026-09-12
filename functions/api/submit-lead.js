@@ -91,6 +91,32 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders })
   }
 
+  // ── Blocca email/telefoni di test ─────────────
+  // Previene che submit di test (bot, debug, CI) inquinino il Google Sheet e il CRM
+  const emailNorm = email.trim().toLowerCase()
+  const TEST_EMAIL_PATTERNS = [
+    /^t@t\./i,
+    /^b@b\./i,
+    /^bot@/i,
+    /^test@/i,
+    /^prova@/i,
+    /^demo@/i,
+    /^fake@/i,
+    /^noreply-exit@/i,
+    /@test\./i,
+    /@example\./i,
+    /@mailtest\./i,
+  ]
+  const TEST_PHONES = ['39123', '00000', '11111', '12345', '99999']
+  const phoneTrim = (phone || '').trim().replace(/\s+/g, '')
+  const isTestEmail = TEST_EMAIL_PATTERNS.some(rx => rx.test(emailNorm))
+  const isTestPhone = TEST_PHONES.some(p => phoneTrim === p || phoneTrim.endsWith(p))
+  if (isTestEmail || isTestPhone) {
+    console.warn(`[submit-lead] 🚫 Lead di test bloccato: email=${emailNorm} phone=${phoneTrim}`)
+    // Risponde success per non mostrare errori al form, ma NON invia nulla
+    return new Response(JSON.stringify({ success: true, _test: true }), { status: 200, headers: corsHeaders })
+  }
+
   // ── Mappa piano → dati servizio ───────────────
   const PLAN_MAP = {
     'FAMILY_BASE':      { servizio: 'eCura Family',   piano: 'BASE',     prezzo_anno: 390,  prezzo_rinnovo: 200 },
