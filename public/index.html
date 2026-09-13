@@ -2301,6 +2301,40 @@ document.addEventListener('DOMContentLoaded', function() {
           succEl.style.display = 'block';
           form.reset();
           fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
+
+          // ── Meta Pixel: traccia conversione Lead ──────────────────
+          if (typeof fbq === 'function') {
+            fbq('track', 'Lead', {
+              content_name: 'Form eCura ' + (formId === 'ecura-form-hero' ? 'Hero' : 'Main'),
+              content_category: data.plan || 'PRO',
+              currency: 'EUR',
+              value: data.plan === 'FAMILY' ? 390 : data.plan === 'PREMIUM' ? 490 : 390,
+              // UTM passthrough per attribuzione campagne
+              source: data.utm_source || 'organic',
+              medium: data.utm_medium || '',
+              campaign: data.utm_campaign || ''
+            });
+            fbq('track', 'Contact');
+          }
+          // ── Google Ads conversion (gtag) ──────────────────────────
+          if (typeof gtag === 'function') {
+            gtag('event', 'conversion', {
+              'send_to': 'AW-XXXXXXXXX/XXXXXXXXXX', // ← sostituire con ID conversione Google Ads
+              'value': data.plan === 'FAMILY' ? 390 : 390,
+              'currency': 'EUR'
+            });
+          }
+          // ── dataLayer push (GTM) ──────────────────────────────────
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'lead_submitted',
+            lead_form: formId,
+            lead_plan: data.plan || 'PRO',
+            lead_source: data.utm_source || 'organic',
+            lead_medium: data.utm_medium || '',
+            lead_campaign: data.utm_campaign || ''
+          });
+
         } else {
           errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
           errEl.style.display = 'block';

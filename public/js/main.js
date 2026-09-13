@@ -190,6 +190,19 @@ async function submitForm(form) {
           servizio: payload.servizio || ''
         })
       }
+      // ── Meta Pixel — fbq('track', 'Lead') ────────────────
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', {
+          content_name: 'Form eCura ' + (form.id || 'main'),
+          content_category: payload.plan || 'PRO',
+          currency: 'EUR',
+          value: payload.plan === 'FAMILY' ? 390 : payload.plan === 'PREMIUM' ? 490 : 390,
+          source: (payload.utm_source || payload.canale_acquisizione || 'organic'),
+          medium: payload.utm_medium || '',
+          campaign: payload.utm_campaign || ''
+        })
+        fbq('track', 'Contact')
+      }
       // Compatibilità GTM (già presente)
       if (window.dataLayer) {
         window.dataLayer.push({ event: 'lead_submitted', plan: payload.plan || '' })
