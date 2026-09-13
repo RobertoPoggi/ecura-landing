@@ -2300,6 +2300,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (res.ok && json.success) {
           succEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Inviato ✓';
           form.reset();
           fillUTM(formId === 'ecura-form-hero' ? 'hero' : 'main');
 
