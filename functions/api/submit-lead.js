@@ -42,6 +42,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const turnstileSecret = env.TURNSTILE_SECRET_KEY || '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4'
   if (turnstileSecret) {
     const turnstileToken = body['cf-turnstile-response'] || ''
+    console.log('[turnstile] token length:', turnstileToken.length, 'token prefix:', turnstileToken.substring(0,20))
     const cfIp = request.headers.get('CF-Connecting-IP') || ''
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
