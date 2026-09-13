@@ -116,6 +116,9 @@ function buildPayload(form) {
   payload.source = 'ecura_landing'
   payload.pipeline = 'Landing eCura'
   payload.status = 'new'
+  // Aggiungi token Turnstile esplicitamente (FormData non lo vede nell'iframe CF)
+  const tsInput = form.querySelector('[name="cf-turnstile-response"]')
+  if (tsInput) payload['cf-turnstile-response'] = tsInput.value || ''
   return payload
 }
 
