@@ -200,6 +200,7 @@ function renderArticle(a) {
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/blog.css?v=2">
 <style>.ecura-email::before{content:attr(data-e)}</style>
+<style>
 /* Comparison Table */
 .comp-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:.92rem}
 .comp-table th{background:#080E49;color:#fff;padding:14px 16px;text-align:left;font-size:.95rem}
