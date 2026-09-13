@@ -38,8 +38,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
   }
 
   // ── Cloudflare Turnstile — verifica bot ───────
-  // Secret key letta esclusivamente dall'env var CF (TURNSTILE_SECRET_KEY)
-  const turnstileSecret = env.TURNSTILE_SECRET_KEY
+  // Secret key: env var CF con fallback al valore del widget 'ecura-landing'
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY || '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4'
   if (turnstileSecret) {
     const turnstileToken = body['cf-turnstile-response'] || ''
     const cfIp = request.headers.get('CF-Connecting-IP') || ''
