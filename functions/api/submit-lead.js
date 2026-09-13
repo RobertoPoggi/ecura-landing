@@ -53,8 +53,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
       }),
     })
     const verifyData = await verifyRes.json()
+    console.log('[turnstile] siteverify result:', JSON.stringify(verifyData))
     if (!verifyData.success) {
-      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.' }), {
+      const errCode = (verifyData['error-codes'] || []).join(',')
+      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.', _debug: errCode }), {
         status: 400, headers: corsHeaders
       })
     }
