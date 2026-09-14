@@ -9,10 +9,11 @@
  * a info@ecura.it — NON da questa funzione. Non duplicare la logica email qui.
  *
  * ENV VARS richieste (Cloudflare Pages → Settings → Variables):
- *   CRM_ENDPOINT        — es. https://telemedcare-v12.pages.dev/api/leads/public
- *   CRM_API_KEY         — API key per autenticarsi al CRM
- *   CORS_ORIGIN         — es. https://www.ecura.it (o * per dev)
- *   GSHEET_WEBHOOK_URL  — URL /exec del Google Apps Script che scrive nel foglio
+ *   CRM_ENDPOINT          — es. https://telemedcare-v12.pages.dev/api/leads/public
+ *   CRM_API_KEY           — API key per autenticarsi al CRM
+ *   CORS_ORIGIN           — es. https://www.ecura.it (o * per dev)
+ *   GSHEET_WEBHOOK_URL    — URL /exec del Google Apps Script che scrive nel foglio
+ *   TURNSTILE_SECRET_KEY  — Secret Key Cloudflare Turnstile (verifica lato server)
  */
 
 export async function onRequestPost({ request, env, waitUntil }) {
@@ -34,6 +35,32 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return new Response(JSON.stringify({ success: false, error: 'Body non valido' }), {
       status: 400, headers: corsHeaders
     })
+  }
+
+  // ── Cloudflare Turnstile — verifica bot ───────
+  // Secret key: env var CF con fallback al valore del widget 'ecura-landing'
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY || '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4'
+  if (turnstileSecret) {
+    const turnstileToken = body['cf-turnstile-response'] || ''
+    console.log('[turnstile] token length:', turnstileToken.length, 'token prefix:', turnstileToken.substring(0,20))
+    const cfIp = request.headers.get('CF-Connecting-IP') || ''
+    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        secret:   turnstileSecret,
+        response: turnstileToken,
+        remoteip: cfIp,
+      }),
+    })
+    const verifyData = await verifyRes.json()
+    console.log('[turnstile] siteverify result:', JSON.stringify(verifyData))
+    if (!verifyData.success) {
+      const errCode = (verifyData['error-codes'] || []).join(',')
+      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.', _debug: errCode }), {
+        status: 400, headers: corsHeaders
+      })
+    }
   }
 
   // ── Validazione base ──────────────────────────
@@ -65,6 +92,32 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const emailDomain = email.trim().split('@')[1]?.toLowerCase() || ''
   if (BLOCKED_DOMAINS.some(d => emailDomain === d || emailDomain.endsWith('.' + d))) {
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders })
+  }
+
+  // ── Blocca email/telefoni di test ─────────────
+  // Previene che submit di test (bot, debug, CI) inquinino il Google Sheet e il CRM
+  const emailNorm = email.trim().toLowerCase()
+  const TEST_EMAIL_PATTERNS = [
+    /^t@t\./i,
+    /^b@b\./i,
+    /^bot@/i,
+    /^test@/i,
+    /^prova@/i,
+    /^demo@/i,
+    /^fake@/i,
+    /^noreply-exit@/i,
+    /@test\./i,
+    /@example\./i,
+    /@mailtest\./i,
+  ]
+  const TEST_PHONES = ['39123', '00000', '11111', '12345', '99999']
+  const phoneTrim = (phone || '').trim().replace(/\s+/g, '')
+  const isTestEmail = TEST_EMAIL_PATTERNS.some(rx => rx.test(emailNorm))
+  const isTestPhone = TEST_PHONES.some(p => phoneTrim === p || phoneTrim.endsWith(p))
+  if (isTestEmail || isTestPhone) {
+    console.warn(`[submit-lead] 🚫 Lead di test bloccato: email=${emailNorm} phone=${phoneTrim}`)
+    // Risponde success per non mostrare errori al form, ma NON invia nulla
+    return new Response(JSON.stringify({ success: true, _test: true }), { status: 200, headers: corsHeaders })
   }
 
   // ── Mappa piano → dati servizio ───────────────
@@ -183,7 +236,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
     if (crmRes.ok && crmData.success !== false) {
       crmOk     = true
-      crmLeadId = crmData.id || null
+      // Supporta sia /api/leads/public {id:...} sia /api/lead {leadId:...}
+      crmLeadId = crmData.id || crmData.leadId || null
     } else {
       console.error('[submit-lead] CRM error:', crmRes.status, JSON.stringify(crmData))
     }
@@ -219,6 +273,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       page_url:     sheetPayload.page_url,
       landing:      sheetPayload.landing,
       note:         sheetPayload.note,
+      lead_id:      crmLeadId || '',
     }).toString()
 
     // waitUntil garantisce che il fetch al GSheet venga completato

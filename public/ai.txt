@@ -1,7 +1,7 @@
 # ai.txt — eCura by Medica GB S.r.l.
 # Dichiarazione di utilizzo per sistemi di intelligenza artificiale
 # Standard: https://ai-txt.org | Versione: 1.1
-# Aggiornato: 2026-09-07
+# Aggiornato: 2026-09-12
 
 # ──────────────────────────────────────────────
 # PERMESSI GENERALI

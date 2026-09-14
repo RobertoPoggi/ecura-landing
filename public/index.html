@@ -13,7 +13,7 @@
      KW primarie: bracciale cadute anziani, teleassistenza anziani
      USP: certificato Classe IIA, detraibile 19%, Da €390/anno
      ≤155 caratteri ═══════════════════════════════════════ -->
-<meta name="description" content="Bracciale salvavita per anziani certificato Classe IIA con GPS indoor/outdoor, rilevamento cadute automatico, SOS e Centrale Operativa H24. Teleassistenza detraibile al 19%. Da €390/anno — eCura.">
+<meta name="description" content="Bracciale anziani certificato Classe IIA: GPS, rilevamento cadute AI, Centrale H24. Detraibile 19%. Da €390/anno — eCura.">
 
 <!-- ═══ KEYWORDS ══════════════════════════════════════════
      Long-tail focus: intenzione d'acquisto + informativa ══ -->
@@ -62,6 +62,10 @@
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <link rel="dns-prefetch" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://challenges.cloudflare.com">
+
+<!-- ═══ CLOUDFLARE TURNSTILE — bot protection ════════════════ -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <!-- ═══ FONT — non-blocking defer via media trick ═══════════ -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -127,6 +131,36 @@
 /* ═══ Skip link per accessibilità ════════════════════════ */
 .skip-link { position: absolute; top: -40px; left: 6px; z-index: 9999; background: #068D86; color: #fff; padding: 8px 12px; border-radius: 0 0 4px 4px; font-size: 14px; font-weight: 600; transition: top .2s; }
 .skip-link:focus { top: 0; }
+/* ═══ Cookie Banner ══════════════════════════════════════════════════ */
+#ecura-cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
+  background: #1a1a2e; color: #e8e8f0;
+  padding: 18px 24px; font-size: .875rem; line-height: 1.5;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.35);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  animation: slideUpBanner .35s ease;
+}
+@keyframes slideUpBanner { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+#ecura-cookie-banner p { margin: 0; flex: 1 1 300px; }
+#ecura-cookie-banner a { color: #7dd3fc; }
+#ecura-cookie-banner .ck-btns { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
+#ecura-cookie-btn-accept {
+  background: #22c55e; color: #fff; border: none; border-radius: 6px;
+  padding: 9px 22px; font-size: .875rem; font-weight: 700; cursor: pointer;
+  white-space: nowrap;
+}
+#ecura-cookie-btn-accept:hover { background: #16a34a; }
+#ecura-cookie-btn-reject {
+  background: transparent; color: #94a3b8; border: 1px solid #475569;
+  border-radius: 6px; padding: 9px 16px; font-size: .875rem; cursor: pointer;
+  white-space: nowrap;
+}
+#ecura-cookie-btn-reject:hover { color: #e2e8f0; border-color: #94a3b8; }
+@media(max-width:600px){
+  #ecura-cookie-banner { padding: 14px 16px; }
+  #ecura-cookie-banner .ck-btns { width: 100%; justify-content: stretch; }
+  #ecura-cookie-btn-accept, #ecura-cookie-btn-reject { flex: 1; text-align: center; }
+}
 </style>
 
 <!-- ═══ JSON-LD STRUCTURED DATA ════════════════════════════
@@ -274,7 +308,7 @@
         "@id": "https://www.ecura.it/#breadcrumb"
       },
       "datePublished": "2026-02-01",
-      "dateModified": "2026-07-20"
+      "dateModified": "2026-09-12"
     },
     {
       "@type": "BreadcrumbList",
@@ -2052,6 +2086,9 @@
                     ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
                   </div>
 
+                  <!-- Cloudflare Turnstile widget -->
+                  <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:12px;"></div>
+
                   <button type="submit">Ricevi informazioni gratuite →</button>
 
                   <!-- FIX 6 — Micro-copy urgency main -->
@@ -2388,6 +2425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         utm_campaign: form.querySelector('[name="utm_campaign"]').value,
         utm_content: form.querySelector('[name="utm_content"]').value,
         utm_term: form.querySelector('[name="utm_term"]').value,
+        'cf-turnstile-response': (form.querySelector('[name="cf-turnstile-response"]')?.value || ''),
       };
 
       if (!data.full_name || !data.phone || !data.email) {
@@ -2582,6 +2620,62 @@ document.addEventListener('DOMContentLoaded', function() {
     obs.observe(pricing);
   })();
 
+})();
+</script>
+
+<script>
+/* ═══ Logica navigazione form a step progressivo (hero) ═══════════════ */
+(function(){
+  document.querySelectorAll('.ecura-step-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var formId  = btn.getAttribute('data-form');
+      var stepNum = parseInt(btn.getAttribute('data-step'), 10);
+      var form    = document.getElementById(formId);
+      var prefix  = 'hero';
+
+      /* Validazione campo corrente */
+      if (stepNum === 1) {
+        var phoneEl = form.querySelector('[name="phone"]');
+        if (!phoneEl || !phoneEl.value.trim()) {
+          phoneEl.style.borderColor = '#ff0033'; phoneEl.focus(); return;
+        }
+        phoneEl.style.borderColor = '';
+      }
+      if (stepNum === 2) {
+        var nameEl = form.querySelector('[name="full_name"]');
+        if (!nameEl || !nameEl.value.trim()) {
+          nameEl.style.borderColor = '#ff0033'; nameEl.focus(); return;
+        }
+        nameEl.style.borderColor = '';
+      }
+
+      /* Nascondi step corrente, mostra successivo */
+      var cur  = document.getElementById(prefix + '-step-' + stepNum);
+      var next = document.getElementById(prefix + '-step-' + (stepNum + 1));
+      if (cur)  cur.style.display  = 'none';
+      if (next) next.style.display = 'block';
+
+      /* Aggiorna barra dot */
+      for (var i = 1; i <= 3; i++) {
+        var dot = document.getElementById(prefix + '-dot-' + i);
+        if (dot) dot.style.background = i <= stepNum + 1 ? '#068D86' : '#ddd';
+      }
+
+      /* Focus sul primo campo del prossimo step */
+      if (next) {
+        var fi = next.querySelector('input, select, textarea');
+        if (fi) setTimeout(function(){ fi.focus(); }, 50);
+      }
+
+      /* GA4 */
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_step_complete', {
+          form_id: formId, step: stepNum,
+          step_name: stepNum === 1 ? 'phone' : 'name'
+        });
+      }
+    });
+  });
 })();
 </script>
 
