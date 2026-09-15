@@ -484,9 +484,12 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
           <label for="pf-privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> di Medica GB Srl *</label>
         </div>
 
+        <!-- Cloudflare Turnstile — widget invisibile anti-bot -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4" data-theme="light" data-size="invisible"></div>
+
         <div class="pf-error" id="pf-error" role="alert"></div>
         <div class="pf-success" id="pf-success" role="status">
-          ✅ Richiesta inviata! Riceverai una risposta entro 1 giorno lavorativo con il tuo link referral personale.
+          ✅ Richiesta inviata! Riceverai una risposta entro 1 giorno lavorativo con il tuo kit di benvenuto.
         </div>
 
         <button type="submit" class="pf-submit" id="pf-submit">Richiedi accesso gratuito →</button>
@@ -571,6 +574,9 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
   <p>© 2026 Medica GB Srl · P.IVA IT12435130963 · <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
 </footer>
 
+<!-- Cloudflare Turnstile JS (widget anti-bot) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <!-- Scripts: FAQ accordion + Form submit + Consent -->
 <script>
 (function(){
@@ -628,37 +634,55 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
       submitBtn.textContent = 'Invio in corso...';
 
       try {
-        var res = await fetch('/api/submit-lead', {
+        /* Leggi token Turnstile dal widget invisibile */
+        var turnstileEl = form.querySelector('[name="cf-turnstile-response"]');
+        var turnstileToken = turnstileEl ? turnstileEl.value : '';
+
+        var res = await fetch('/api/register-partner', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             full_name: name,
             phone: phone,
             email: email,
+            role: role,
+            city: city,
+            message: message,
             privacy_consent: true,
-            message: '[PARTNER REQUEST] Professione: ' + role + (city ? ' — Città: ' + city : '') + (message ? ' — Note: ' + message : ''),
-            utm_source: 'partner_page',
-            utm_medium: 'organic',
-            utm_campaign: 'partner_program',
+            'cf-turnstile-response': turnstileToken,
+            utm_source: sessionStorage.getItem('ecura_utm_source') || 'partner_page',
+            utm_medium: sessionStorage.getItem('ecura_utm_medium') || 'organic',
+            utm_campaign: sessionStorage.getItem('ecura_utm_campaign') || 'partner_program',
             page_url: window.location.href,
             referrer: document.referrer,
           })
         });
-        var json = await res.json();
-        if(res.ok && json.success){
+        var data = await res.json();
+        if(res.ok && data.success){
+          /* Aggiorna il messaggio di successo con il codice referral se disponibile */
+          if(data.referral_code){
+            succEl.innerHTML = '✅ Richiesta ricevuta! Il tuo codice referral è <strong>' + data.referral_code + '</strong>. Ti mandiamo il kit completo entro 1 giorno lavorativo.';
+          } else {
+            succEl.innerHTML = '✅ Richiesta ricevuta! Ti ricontatteremo entro 1 giorno lavorativo con il tuo kit di benvenuto.';
+          }
           succEl.style.display = 'block';
           form.reset();
+          /* Reset Turnstile per eventuale nuovo invio */
+          if(typeof turnstile !== 'undefined') turnstile.reset();
           if(typeof fbq==='function') fbq('track','Lead',{content_name:'eCura Partner Request',source:'partner_page'});
           if(typeof gtag==='function') gtag('event','generate_lead',{currency:'EUR',value:0,form_id:'partner_form'});
         } else {
-          errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
+          errEl.textContent = data.error || 'Errore durante l\'invio. Riprova.';
           errEl.style.display = 'block';
+          /* Reset Turnstile dopo errore */
+          if(typeof turnstile !== 'undefined') turnstile.reset();
           submitBtn.disabled = false;
           submitBtn.textContent = 'Richiedi accesso gratuito →';
         }
       } catch(_){
         errEl.textContent = 'Errore di connessione. Riprova più tardi.';
         errEl.style.display = 'block';
+        if(typeof turnstile !== 'undefined') turnstile.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = 'Richiedi accesso gratuito →';
       }
