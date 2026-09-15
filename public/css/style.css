@@ -589,3 +589,155 @@ button:focus-visible,
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PERF: Override transition:all → solo proprietà composite (GPU-only)
+   css.css usa transition:all su 28 selettori → causa 42 elementi
+   "Evita animazioni non composite" in PageSpeed.
+   Proprietà non-composite: border-*-radius, font-size, padding-*,
+   color, background-color, width, height → causano reflow + paint.
+   Sostituiamo con: background, color, transform, box-shadow, opacity
+   (tutte gestite dal compositor thread senza reflow).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 1. Link generici: solo color */
+a:link,
+a:visited {
+  transition: color 0.3s ease-in-out !important;
+}
+
+/* 2. CTA standard (tutti i tipi): background + color + transform */
+input[type="submit"].cta-standard,
+button.cta-standard,
+a.cta-standard,
+input[type="submit"].cta-standard:hover,
+button.cta-standard:hover,
+a.cta-standard:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease !important;
+}
+
+input[type="submit"].cta-standard-white,
+button.cta-standard-white,
+a.cta-standard-white,
+input[type="submit"].cta-standard-white:hover,
+button.cta-standard-white:hover,
+a.cta-standard-white:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+input[type="submit"].cta-standard-green,
+button.cta-standard-green,
+a.cta-standard-green,
+input[type="submit"].cta-standard-green:hover,
+button.cta-standard-green:hover,
+a.cta-standard-green:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+input[type="submit"].cta-standard-black,
+button.cta-standard-black,
+a.cta-standard-black,
+input[type="submit"].cta-standard-black:hover,
+button.cta-standard-black:hover,
+a.cta-standard-black:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+input[type="submit"].cta-standard-outline,
+button.cta-standard-outline,
+a.cta-standard-outline,
+input[type="submit"].cta-standard-outline:hover,
+button.cta-standard-outline:hover,
+a.cta-standard-outline:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+input[type="submit"].cta-standard-outline-black,
+button.cta-standard-outline-black,
+a.cta-standard-outline-black,
+input[type="submit"].cta-standard-outline-black:hover,
+button.cta-standard-outline-black:hover,
+a.cta-standard-outline-black:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+
+/* 3. Feature cards: solo transform + box-shadow (GPU-only) */
+#featCards .card,
+#featCardsContent.card {
+  transition: transform 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27), box-shadow 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27), background 0.3s !important;
+}
+
+/* 4. Nav link: solo color */
+.top_nav_wrapper .top_nav ul.top_Menu > li > a {
+  transition: color 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27) !important;
+}
+
+/* 5. Hamburger lines: solo transform + opacity (già GPU-only) */
+#hamburgerWrap #hamburger .line,
+#hamburgerWrap #hamburger.is-active .line {
+  transition: transform 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27), opacity 0.3s !important;
+}
+
+/* 6. FAQ accordion button ::before: solo background */
+#faqAccordion .accordion-button::before {
+  transition: background 0.3s ease !important;
+}
+
+/* 7. Testimonial carousel nav + dots */
+#testimonialCarousel .owl-nav button {
+  transition: background 0.3s ease !important;
+}
+#testimonialCarousel .owl-dots .owl-dot span {
+  transition: background 0.3s ease, transform 0.3s ease !important;
+}
+
+/* 8. Function carousel nav + dots */
+#functionCarousel .owl-nav button {
+  transition: background 0.3s ease !important;
+}
+#functionCarousel .owl-dots .owl-dot span {
+  transition: background 0.3s ease, transform 0.3s ease !important;
+}
+
+/* 9. Pricing plan card: transform + box-shadow */
+#pricingPlan .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* 10. Promotitle: nessuna animazione necessaria */
+.promotitle {
+  transition: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   A11Y: Contrasto nav link + touch target
+   #068D86 su bianco = 3.5:1 (< 4.5:1 WCAG AA) → scuriamo a #055F5A
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Nav link: hover → #055F5A (scuro, 5.1:1) invece di #068D86 */
+.top_nav_wrapper .top_nav ul.top_Menu > li:hover > a,
+.top_nav_wrapper .top_nav ul.top_Menu > li > a:hover,
+.top_nav_wrapper .top_nav ul.top_Menu > li > a.active {
+  color: #055F5A !important;
+}
+
+/* Tel link in nav: colore + touch target minimo 44x44px */
+#nav-tel-link {
+  color: #055F5A !important;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  padding: 8px 4px;
+}
+#nav-tel-link svg {
+  stroke: #055F5A !important;
+}
+
+/* CTA nav "Richiedi info": touch target minimo */
+.ctaWdgt .cta-standard-green {
+  min-height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
