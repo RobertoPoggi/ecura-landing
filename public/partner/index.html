@@ -485,14 +485,8 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
           <label for="pf-privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> di Medica GB Srl *</label>
         </div>
 
-        <!-- Cloudflare Turnstile — widget anti-bot -->
-        <div class="cf-turnstile"
-             data-sitekey="0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4"
-             data-theme="light"
-             data-size="flexible"
-             data-callback="onTurnstileSuccess"
-             data-error-callback="onTurnstileError"
-             data-expired-callback="onTurnstileExpired"></div>
+        <!-- Cloudflare Turnstile — widget anti-bot (rendered via JS) -->
+        <div id="ts-container"></div>
 
         <div class="pf-error" id="pf-error" role="alert"></div>
         <div class="pf-success" id="pf-success" role="status">
@@ -581,31 +575,37 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
   <p>© 2026 Medica GB Srl · P.IVA IT12435130963 · <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
 </footer>
 
-<!-- Cloudflare Turnstile JS (widget anti-bot) -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Cloudflare Turnstile JS — onload callback per render manuale -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 
 <!-- Scripts: FAQ accordion + Form submit + Consent -->
 <script>
 (function(){
 
   /* ── Turnstile state ────────────────────────────────── */
-  var _tsToken   = '';      // token valido ricevuto dal callback
-  var _tsReady   = false;   // true quando Turnstile ha completato la verifica
+  var _tsToken  = '';   // token valido ricevuto dal callback
+  var _tsWidget = null; // widget ID restituito da turnstile.render()
 
-  /* Callback globali richiesti da Turnstile data-callback */
-  window.onTurnstileSuccess = function(token) {
-    _tsToken = token;
-    _tsReady = true;
-  };
-  window.onTurnstileError = function() {
-    _tsToken = '';
-    _tsReady = false;
-  };
+  /* Chiamato da Turnstile quando il token è pronto */
+  window.onTurnstileSuccess = function(token) { _tsToken = token; };
+  window.onTurnstileError   = function() { _tsToken = ''; };
   window.onTurnstileExpired = function() {
     _tsToken = '';
-    _tsReady = false;
-    /* Reset automatico per generare un nuovo token */
-    if (typeof turnstile !== 'undefined') turnstile.reset();
+    if (_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
+  };
+
+  /* Chiamato da Turnstile dopo caricamento script (?onload=onTurnstileLoad) */
+  window.onTurnstileLoad = function() {
+    var container = document.getElementById('ts-container');
+    if (!container || typeof turnstile === 'undefined') return;
+    _tsWidget = turnstile.render(container, {
+      sitekey:          '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4',
+      theme:            'light',
+      size:             'normal',
+      callback:         window.onTurnstileSuccess,
+      'error-callback': window.onTurnstileError,
+      'expired-callback': window.onTurnstileExpired,
+    });
   };
 
   /* ── FAQ accordion ──────────────────────────────────── */
@@ -717,22 +717,19 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
           succEl.style.display = 'block';
           form.reset();
           _tsToken = '';
-          _tsReady = false;
-          if(typeof turnstile !== 'undefined') turnstile.reset();
+          if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
           if(typeof fbq==='function') fbq('track','Lead',{content_name:'eCura Partner Request',source:'partner_page'});
           if(typeof gtag==='function') gtag('event','generate_lead',{currency:'EUR',value:0,form_id:'partner_form'});
         } else {
           showErr(data.error || "Errore durante l'invio. Riprova.");
           _tsToken = '';
-          _tsReady = false;
-          if(typeof turnstile !== 'undefined') turnstile.reset();
+          if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
           resetBtn();
         }
       } catch(_){
         showErr('Errore di connessione. Riprova più tardi.');
         _tsToken = '';
-        _tsReady = false;
-        if(typeof turnstile !== 'undefined') turnstile.reset();
+        if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
         resetBtn();
       }
     });
