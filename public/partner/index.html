@@ -485,8 +485,8 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
           <label for="pf-privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> di Medica GB Srl *</label>
         </div>
 
-        <!-- Cloudflare Turnstile — widget anti-bot (rendered via JS) -->
-        <div id="ts-container"></div>
+        <!-- Cloudflare Turnstile — widget anti-bot -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:12px;"></div>
 
         <div class="pf-error" id="pf-error" role="alert"></div>
         <div class="pf-success" id="pf-success" role="status">
@@ -575,38 +575,12 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
   <p>© 2026 Medica GB Srl · P.IVA IT12435130963 · <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
 </footer>
 
-<!-- Cloudflare Turnstile JS — onload callback per render manuale -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
+<!-- Cloudflare Turnstile JS -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <!-- Scripts: FAQ accordion + Form submit + Consent -->
 <script>
 (function(){
-
-  /* ── Turnstile state ────────────────────────────────── */
-  var _tsToken  = '';   // token valido ricevuto dal callback
-  var _tsWidget = null; // widget ID restituito da turnstile.render()
-
-  /* Chiamato da Turnstile quando il token è pronto */
-  window.onTurnstileSuccess = function(token) { _tsToken = token; };
-  window.onTurnstileError   = function() { _tsToken = ''; };
-  window.onTurnstileExpired = function() {
-    _tsToken = '';
-    if (_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
-  };
-
-  /* Chiamato da Turnstile dopo caricamento script (?onload=onTurnstileLoad) */
-  window.onTurnstileLoad = function() {
-    var container = document.getElementById('ts-container');
-    if (!container || typeof turnstile === 'undefined') return;
-    _tsWidget = turnstile.render(container, {
-      sitekey:          '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4',
-      theme:            'light',
-      size:             'normal',
-      callback:         window.onTurnstileSuccess,
-      'error-callback': window.onTurnstileError,
-      'expired-callback': window.onTurnstileExpired,
-    });
-  };
 
   /* ── FAQ accordion ──────────────────────────────────── */
   document.querySelectorAll('.faq-q').forEach(function(q){
@@ -670,16 +644,9 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
       if(!role)    { showErr('Seleziona la tua professione.'); return; }
       if(!privacy) { showErr('Devi accettare la Privacy Policy.'); return; }
 
-      /* Recupera token Turnstile:
-         1. Priorità al token ricevuto via callback (data-callback)
-         2. Fallback al campo hidden inserito automaticamente da Turnstile */
+      /* Token Turnstile — inserito automaticamente da Turnstile nel campo hidden */
       var tsEl = form.querySelector('[name="cf-turnstile-response"]');
-      var turnstileToken = _tsToken || (tsEl ? tsEl.value : '');
-
-      if(!turnstileToken) {
-        showErr('Completa la verifica di sicurezza prima di inviare.');
-        return;
-      }
+      var turnstileToken = tsEl ? tsEl.value : '';
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Invio in corso...';
@@ -716,20 +683,17 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
           }
           succEl.style.display = 'block';
           form.reset();
-          _tsToken = '';
-          if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
+          if(typeof turnstile !== 'undefined') turnstile.reset();
           if(typeof fbq==='function') fbq('track','Lead',{content_name:'eCura Partner Request',source:'partner_page'});
           if(typeof gtag==='function') gtag('event','generate_lead',{currency:'EUR',value:0,form_id:'partner_form'});
         } else {
           showErr(data.error || "Errore durante l'invio. Riprova.");
-          _tsToken = '';
-          if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
+          if(typeof turnstile !== 'undefined') turnstile.reset();
           resetBtn();
         }
       } catch(_){
         showErr('Errore di connessione. Riprova più tardi.');
-        _tsToken = '';
-        if(_tsWidget !== null && typeof turnstile !== 'undefined') turnstile.reset(_tsWidget);
+        if(typeof turnstile !== 'undefined') turnstile.reset();
         resetBtn();
       }
     });
