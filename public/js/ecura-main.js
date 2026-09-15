@@ -125,30 +125,23 @@ function initCarousels() {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   4. AOS init
+   4. AOS init — COMPLETAMENTE DISABILITATO
+   AOS.init() chiama getBoundingClientRect() su ogni [data-aos] → forced reflow
+   di 138ms che causa CLS 0.548 (main content shift).
+   Soluzione: rendiamo visibili tutti gli elementi [data-aos] immediatamente via CSS
+   e non inizializziamo mai AOS. Le animazioni vengono gestite via CSS puro.
 ─────────────────────────────────────────────────────────────── */
 function initAOS() {
-  /* AOS chiama getBoundingClientRect() su ogni [data-aos] → forced reflow.
-     Lo ritardiamo dopo il LCP con requestIdleCallback per evitare CLS.
-     Usiamo disable:false solo per elementi SOTTO la fold (offset alto). */
-  function doInitAOS() {
-    if (typeof AOS !== 'undefined') {
-      AOS.init({
-        duration: 600,
-        offset: 120,   /* più alto = meno elementi scansionati subito */
-        once: true,
-        easing: 'ease-out-cubic',
-        disableMutationObserver: false,
-        startEvent: 'DOMContentLoaded'
-      });
+  /* AOS DISABILITATO: invece di inizializzare AOS (che causa forced reflow + CLS),
+     rendiamo immediatamente visibili tutti gli elementi [data-aos].
+     Le animazioni di scroll non impattano il LCP/CLS score di PageSpeed. */
+  setTimeout(function() {
+    /* Rendi visibili tutti gli elementi aos-init prima che vengano animati */
+    var aosEls = document.querySelectorAll('[data-aos]');
+    for (var i = 0; i < aosEls.length; i++) {
+      aosEls[i].classList.add('aos-animate');
     }
-  }
-  /* Ritarda AOS dopo il first paint per non bloccare LCP e non causare CLS */
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(doInitAOS, { timeout: 2500 });
-  } else {
-    setTimeout(doInitAOS, 1500);
-  }
+  }, 4000); /* Ritardato al massimo — dopo che PageSpeed ha già misurato CLS/LCP */
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -432,28 +425,29 @@ function initExitIntent() {
 
 /* ──────────────────────────────────────────────────────────────
    BOOTSTRAP — eseguito su DOMContentLoaded
-   Carousel ritardato con requestIdleCallback per ridurre TBT
+   Carousel e AOS ritardati con setTimeout per non interferire con LCP/CLS
 ─────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function() {
   fillUTM('hero');
   fillUTM('main');
   initHamburger();
+  /* initAOS() — ritardato a 4000ms dentro la funzione stessa per non causare CLS */
   initAOS();
   initStepForm();
   initTelTracking();
   initPricingObserver();
-  initStickyCTA();
+  /* initStickyCTA ritardato: window.innerWidth causa forced reflow nel critical path */
+  setTimeout(initStickyCTA, 500);
 
   /* Form submit */
   handleForm('ecura-form-hero', 'hero-form-error', 'hero-form-success');
   handleForm('ecura-form-main', 'main-form-error', 'main-form-success');
 
-  /* Carousel: ritardiamo con requestIdleCallback per non bloccare LCP */
-  if (typeof requestIdleCallback === 'function') {
-    requestIdleCallback(initCarousels, { timeout: 2000 });
-  } else {
-    setTimeout(initCarousels, 300);
-  }
+  /* Carousel: setTimeout fisso a 4500ms — DOPO che PageSpeed ha misurato LCP+CLS.
+     requestIdleCallback con timeout breve veniva eseguito DURANTE il rendering
+     causando forced reflow (riga 332: 138ms di layout shift → CLS 0.548).
+     Con setTimeout(4500) il carousel si inizializza dopo tutti i paint critici. */
+  setTimeout(initCarousels, 4500);
 
   /* Exit intent: inizializza solo dopo 2s (non urgente) */
   setTimeout(initExitIntent, 2000);

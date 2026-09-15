@@ -710,6 +710,61 @@ a.cta-standard-outline-black:hover {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   PERF: Fix accordion Bootstrap — border-*-color non composite (v=5)
+   Bootstrap usa transition:all su .accordion-button → causa border-bottom-color,
+   border-left-color, border-right-color, border-top-color, border-bottom-left-radius,
+   border-bottom-right-radius, border-top-left-radius, border-top-right-radius 
+   Non composite → causano reflow + paint → PageSpeed "24 animazioni non-composite"
+   Fix: override esplicito su tutti i selettori accordion con solo proprietà composite.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Bootstrap .accordion-button ha transition:all — override con composite-only */
+.accordion-button {
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+}
+.accordion-button::before,
+.accordion-button::after {
+  transition: transform 0.3s ease, background-color 0.3s ease, filter 0.3s ease !important;
+}
+/* Bootstrap .accordion-item ha border-radius animate — fix con none */
+.accordion-item {
+  transition: none !important;
+}
+
+/* #benefitsAccordion .accordion-button già override ma Bootstrap aggiunge border-*-color */
+#benefitsAccordion .accordion-button,
+#faqAccordion .accordion-button {
+  transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+/* Fix .cta-standard-black link a: color è non-composite (ma è solo colore, accettabile)
+   Le istanze restanti sono gli anchor link nel footer e seo-intro */
+a.cta-standard-black,
+a.cta-standard-white,
+a.cta-standard-outline,
+a.cta-standard-outline-black {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease !important;
+}
+
+/* Fix skip-link e social links: transition:all → solo color */
+.skip-link,
+footer a,
+.text-muted a {
+  transition: color 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PERF: Elementi [data-aos] — visibili immediatamente senza AOS.init()
+   AOS.init() chiama getBoundingClientRect() → forced reflow → CLS 0.548
+   Con questa regola gli elementi sono già visibili, AOS.init non serve.
+   ═══════════════════════════════════════════════════════════════════════ */
+[data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    A11Y: Contrasto nav link + touch target
    #068D86 su bianco = 3.5:1 (< 4.5:1 WCAG AA) → scuriamo a #055F5A
    ═══════════════════════════════════════════════════════════════════════ */

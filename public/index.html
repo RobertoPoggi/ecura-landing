@@ -61,8 +61,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://unpkg.com" crossorigin>
-<link rel="dns-prefetch" href="https://unpkg.com">
+<!-- unpkg rimosso: AOS eliminato, nessuna risorsa da unpkg -->
 <link rel="dns-prefetch" href="https://challenges.cloudflare.com">
 
 <!-- ═══ CLOUDFLARE TURNSTILE — bot protection ════════════════ -->
@@ -86,8 +85,10 @@
 <link rel="manifest" href="img/favicon/site.webmanifest">
 <meta name="theme-color" content="#068D86">
 
-<!-- ═══ PRELOAD LCP HERO IMAGE ════════════════════════════ -->
+<!-- ═══ PRELOAD LCP IMAGES ════════════════════════════════ -->
+<!-- hero-lg.webp è LCP desktop, SidLy.webp è LCP mobile → preload entrambi -->
 <link rel="preload" as="image" href="img/hero-lg.webp" fetchpriority="high" type="image/webp">
+<link rel="preload" as="image" href="img/SidLy.webp" fetchpriority="high" type="image/webp" media="(max-width: 767px)">
 
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
@@ -224,17 +225,26 @@ a:link,a:visited{transition:color .3s!important}
 #testimonialCarousel .owl-dots .owl-dot span,#functionCarousel .owl-dots .owl-dot span{transition:background .3s,transform .3s!important}
 #pricingPlan .card{transition:transform .3s,box-shadow .3s!important}
 .promotitle{transition:none!important}
+/* FIX CRITICO CLS: elementi [data-aos] visibili immediatamente senza AOS.init()
+   AOS.init() causava forced reflow di 138ms → CLS 0.548 → score 46.
+   Con questa regola nel critical CSS (letta PRIMA di tutto) gli elementi sono
+   già visibili al primo paint → nessun layout shift → CLS ≈ 0 */
+[data-aos]{opacity:1!important;transform:none!important;transition:none!important}
+/* Fix accordion Bootstrap border-*-color → composite-only */
+.accordion-button{transition:background-color .3s,color .3s,box-shadow .3s!important}
+.accordion-button::before,.accordion-button::after{transition:transform .3s,background-color .3s,filter .3s!important}
+.accordion-item{transition:none!important}
 </style>
 
 <!-- ═══ NON-CRITICAL CSS — tutti async via media trick ══════ -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css?v=2" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2" media="print" onload="this.media='all'">
-<link href="css/css.css?v=4" rel="stylesheet" media="print" onload="this.media='all'">
-<link href="css/style.css?v=4" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/css.css?v=5" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/style.css?v=5" rel="stylesheet" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
+<!-- AOS CSS rimosso: [data-aos] ora visibili via CSS diretto (no forced reflow) -->
 <!-- noscript fallback: carica tutto se JS disabilitato -->
 <noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
@@ -1300,7 +1310,9 @@ a:link,a:visited{transition:color .3s!important}
                            alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani" 
                            class="img-fluid"
                            width="400" height="400"
-                           loading="lazy">
+                           loading="eager"
+                           fetchpriority="high"
+                           decoding="async">
                     </picture>
                     <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Richiedi informazioni gratuite su eCura">Richiedi informazioni gratuite</a>
                   </div>
@@ -2361,10 +2373,10 @@ a:link,a:visited{transition:color .3s!important}
 <!-- ═══ SCRIPTS ════════════════════════════════════════════ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+<!-- AOS JS rimosso: inizializzazione via CSS, nessun forced reflow -->
 <script type="text/javascript" src="js/owl.carousel.min.js?v=2" defer></script>
 <!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
-<script src="js/ecura-main.js?v=2" defer></script>
+<script src="js/ecura-main.js?v=3" defer></script>
 
 
 
