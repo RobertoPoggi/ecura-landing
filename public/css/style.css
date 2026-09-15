@@ -502,19 +502,16 @@ main a:not([class]):not(.skip-link) {
 picture { display: block; }
 
 /* ── PERF: WebP overrides for CSS background images ──
-   style.css is loaded after css.css so these take precedence */
+   Usiamo background shorthand con !important per sovrascrivere
+   css.css che usa background: url(...) shorthand (stessa specificità) */
 .protectionBan .banner {
-  background-image: url('../img/protezione-anziani.webp');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  background: url('../img/protezione-anziani.webp') no-repeat center center !important;
+  background-size: cover !important;
 }
 
 .focusBan-bg {
-  background-image: url('../img/perche-ci-scelgono.webp');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  background: url('../img/perche-ci-scelgono.webp') no-repeat center center !important;
+  background-size: cover !important;
   height: 700px;
   border-radius: 80px;
 }
@@ -524,14 +521,71 @@ picture { display: block; }
   backface-visibility: hidden;
 }
 
-/* ── A11Y: Contrasto pulsante Richiedi info nav ──
-   Verde #068D86 su bianco: contrasto 3.5:1 (AA large text OK)
-   Per AA normale serve 4.5:1 — aggiunto bordo per compensare */
-.ctaWdgt .cta-standard-green {
-  outline: 2px solid transparent;
-  font-weight: 600;
+/* ── PERF: Carousel — sostituisce transition:all con solo proprieta composite ──
+   max-height, padding, width, height, background-* sono NON composite (causano reflow).
+   Usiamo opacity + transform che sono GPU-only (zero reflow). */
+#functionCarousel .carousel-item-wrapper {
+  transition: opacity 0.4s ease, transform 0.4s ease !important;
 }
-.ctaWdgt .cta-standard-green:focus-visible {
-  outline: 2px solid #068D86;
+#functionCarousel .carousel-item-image {
+  transition: opacity 0.4s ease, transform 0.4s ease !important;
+}
+#functionCarousel .carousel-item-image img {
+  transition: opacity 0.4s ease !important;
+}
+#functionCarousel .carousel-item-content {
+  /* Sostituiamo max-height:0→500px (non compositable) con visibility+opacity */
+  max-height: none !important;
+  overflow: visible !important;
+  transition: opacity 0.4s ease !important;
+}
+#functionCarousel .owl-item:not(.active.center) .carousel-item-content {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+#functionCarousel .owl-item.active.center .carousel-item-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── A11Y: Contrasto link e testi ── */
+/* Verde #068D86 su bianco = 3.5:1 (< 4.5:1 AA) → scuriamo a #055F5A = 5.1:1 */
+input[type="submit"].cta-standard-green,
+button.cta-standard-green,
+a.cta-standard-green {
+  background: #055F5A !important;
+  font-weight: 600 !important;
+}
+input[type="submit"].cta-standard-green:hover,
+button.cta-standard-green:hover,
+a.cta-standard-green:hover {
+  background: #068D86 !important;
+}
+/* Link distinguibili (contrasto colore per ipovedenti) */
+.ecura-email,
+a.text-decoration-none[href^="http"],
+a[style*="color:#068D86"],
+a[style*="color: #068D86"] {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+/* Privacy Policy link nel footer — bianco su verde: OK, ma testo piccolo */
+footer a { color: inherit; }
+
+/* ── A11Y: focus-visible su tutti i link interattivi ── */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #055F5A;
   outline-offset: 3px;
+}
+
+/* ── PERF: WebP override per sidly-front (carousel center item) ── */
+#functionCarousel .owl-item.active.center .carousel-item-image {
+  background-image: url('../img/sidly-front.webp') !important;
+  background-color: var(--black);
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
 }

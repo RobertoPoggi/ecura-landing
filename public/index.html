@@ -86,7 +86,119 @@
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
      NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
-<link rel="stylesheet" href="css/critical.css">
+<style id="critical-css">:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+
+
+*{box-sizing:border-box}
+
+
+body{background:#fff;font-family:"Roboto",sans-serif;font-weight:300;font-size:18px;color:#000;overflow-x:hidden;margin:0}
+
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-weight:600;color:#000}
+
+
+a{color:#068D86;text-decoration:none;transition:color .3s}
+a:hover{color:#05B1A8}
+
+
+.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#068D86;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
+.skip-link:focus{top:0}
+
+
+#full_top_nav{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:200}
+.full_top_nav_wrapper{padding:12px 20px}
+.top_Menu{margin:0;padding:0;list-style:none;display:flex;gap:24px}
+.top_Menu a{color:#000;font-weight:400;font-size:15px;transition:color .3s;text-decoration:none}
+.top_Menu a:hover,.top_Menu a.active{color:#068D86}
+#hamburgerWrap{cursor:pointer;padding:8px}
+#hamburger{display:flex;flex-direction:column;gap:5px}
+#hamburger .line{width:24px;height:2px;background:#000;border-radius:2px;transition:transform .3s,opacity .3s}
+
+
+.heroSection{border-bottom-right-radius:80px;overflow:hidden;box-shadow:0 20px 100px -70px #088d86}
+.hero-bg{background:url('../img/hero-lg.webp') no-repeat right center;background-size:cover;min-height:800px}
+.heroContent{position:relative;width:100%;height:100%}
+.heroContent::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,73,.72) 0%,rgba(8,14,73,.50) 40%,rgba(8,14,73,.10) 65%,transparent 100%);z-index:1;pointer-events:none}
+.heroContent .textOverlay{position:absolute;bottom:80px;left:0;width:100%;z-index:2}
+.heroContent h1{color:#fff;font-size:clamp(24px,3vw,42px);text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.heroContent .display-6,.heroContent .lead{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.55)}
+.heroContent strong{color:#fff}
+.heroContentDx{background:linear-gradient(144deg,#fff 0%,#f2f2f2 100%)}
+
+
+.cta-standard,.cta-standard-green,.cta-standard-white,.cta-standard-black{display:inline-block;font-weight:400;font-size:16px;padding:8px 22px;border:0;border-radius:30px;cursor:pointer;transition:background .3s ease,color .3s ease,box-shadow .3s ease;text-decoration:none;width:max-content}
+.cta-standard{background:#000;color:#fff}
+.cta-standard:hover{background:#068D86;color:#fff}
+.cta-standard-green{background:#055F5A;color:#fff}
+.cta-standard-green:hover{background:#05B1A8;color:#fff}
+.cta-standard-white{background:#fff;color:#000}
+.cta-standard-white:hover{background:#068D86;color:#fff}
+.cta-standard.long,.cta-standard-green.long{width:100%;text-align:center}
+.cta-standard-green.big,.cta-standard.big{font-size:20px;padding:12px 28px}
+
+
+.ecura-form label{display:block;font-size:14px;font-weight:500;margin-bottom:4px;color:#333}
+.ecura-form input,.ecura-form select,.ecura-form textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:12px;font-family:"Roboto",sans-serif;box-sizing:border-box}
+.ecura-form input:focus,.ecura-form select:focus,.ecura-form textarea:focus{outline:none;border-color:#068D86}
+.ecura-form textarea{resize:vertical;min-height:80px}
+.ecura-form .privacy-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.ecura-form .privacy-row input[type=checkbox]{width:auto;margin-top:3px;flex-shrink:0}
+.ecura-form .privacy-row label{font-size:13px;color:#555;margin:0}
+.ecura-form .form-success{background:#e9f7d9;border:1px solid #39b43d;border-radius:10px;padding:16px;text-align:center;color:#1a6b1a;font-weight:500;display:none}
+.ecura-form .form-error{background:#ffeaea;border:1px solid #ff0033;border-radius:10px;padding:12px;text-align:center;color:#cc0000;font-size:14px;display:none;margin-bottom:10px}
+.ecura-form button[type=submit]{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
+.ecura-form button[type=submit]:hover{background:#05B1A8}
+.ecura-form button[type=submit]:disabled{opacity:.6;cursor:not-allowed}
+.ecura-form .ecura-step-btn{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px}
+.ecura-form .ecura-step-btn:hover{background:#05B1A8}
+
+
+#ecura-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#1a1a2e;color:#e8e8f0;padding:18px 24px;font-size:.875rem;line-height:1.5;box-shadow:0 -4px 24px rgba(0,0,0,.35);display:flex;flex-wrap:wrap;align-items:center;gap:14px;animation:slideUpBanner .35s ease}
+@keyframes slideUpBanner{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+#ecura-cookie-banner p{margin:0;flex:1 1 300px}
+#ecura-cookie-banner a{color:#7dd3fc}
+#ecura-cookie-banner .ck-btns{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap}
+#ecura-cookie-btn-accept{background:#22c55e;color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:700;cursor:pointer;white-space:nowrap}
+#ecura-cookie-btn-accept:hover{background:#16a34a}
+#ecura-cookie-btn-reject{background:transparent;color:#94a3b8;border:1px solid #475569;border-radius:6px;padding:9px 16px;font-size:.875rem;cursor:pointer;white-space:nowrap}
+#ecura-cookie-btn-reject:hover{color:#e2e8f0;border-color:#94a3b8}
+
+
+.container{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.container-fluid{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+@media(min-width:576px){.container{max-width:540px}}
+@media(min-width:768px){.container{max-width:720px}}
+@media(min-width:992px){.container{max-width:960px}}
+@media(min-width:1200px){.container{max-width:1140px}}
+.row{display:flex;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-10,.col-md-12,.col-lg-8,.col-md-9{position:relative;width:100%;padding-right:15px;padding-left:15px}
+@media(min-width:768px){.col-md-1{flex:0 0 8.333%;max-width:8.333%}.col-md-2{flex:0 0 16.666%;max-width:16.666%}.col-md-3{flex:0 0 25%;max-width:25%}.col-md-4{flex:0 0 33.333%;max-width:33.333%}.col-md-5{flex:0 0 41.666%;max-width:41.666%}.col-md-6{flex:0 0 50%;max-width:50%}.col-md-7{flex:0 0 58.333%;max-width:58.333%}.col-md-8{flex:0 0 66.666%;max-width:66.666%}.col-md-9{flex:0 0 75%;max-width:75%}.col-md-10{flex:0 0 83.333%;max-width:83.333%}.col-md-12{flex:0 0 100%;max-width:100%}}
+@media(min-width:992px){.col-lg-8{flex:0 0 66.666%;max-width:66.666%}}
+.d-none{display:none!important}
+.d-flex{display:flex!important}
+@media(min-width:768px){.d-md-block{display:block!important}.d-md-none{display:none!important}}
+@media(min-width:992px){.d-lg-flex{display:flex!important}.d-none.d-lg-flex{display:flex!important}}
+.justify-content-between{justify-content:space-between!important}
+.align-items-center{align-items:center!important}
+.g-0{--bs-gutter-x:0;--bs-gutter-y:0;margin:0;padding:0}
+.p-5{padding:3rem!important}
+.ms-2{margin-left:.5rem!important}
+.me-2{margin-right:.5rem!important}
+.me-3{margin-right:1rem!important}
+.text-center{text-align:center!important}
+
+
+.smooth-wrapper,.smooth-content{width:100%}
+
+
+@media(max-width:992px){.hero-bg{min-height:500px}.heroContent .textOverlay{bottom:40px}.heroSection{border-bottom-right-radius:40px}}
+@media(max-width:768px){.hero-bg{min-height:400px;background-position:center center}.heroContent .textOverlay{bottom:20px}.heroContent h1{font-size:22px}}
+@media(max-width:576px){.hero-bg,.hero-bg-col{min-height:300px!important;background-position:65% center!important}.heroSection{border-bottom-right-radius:16px}.heroContent .textOverlay{position:relative!important;bottom:auto!important;padding:28px 16px 20px;background:linear-gradient(180deg,rgba(6,141,134,.85) 0%,rgba(8,14,73,.80) 100%)}.heroContent::before{display:none}.heroContent h1{font-size:1.3rem;margin-bottom:10px}.heroContent .display-6{font-size:1rem}.heroContent .lead{font-size:.95rem}body{font-size:16px}.full_top_nav_wrapper{padding:8px 16px}}
+@media(max-width:600px){#ecura-cookie-banner{padding:14px 16px}#ecura-cookie-banner .ck-btns{width:100%;justify-content:stretch}#ecura-cookie-btn-accept,#ecura-cookie-btn-reject{flex:1;text-align:center}}
+
+
+picture{display:block}</style>
 
 <!-- ═══ NON-CRITICAL CSS — tutti async via media trick ══════ -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
@@ -1083,7 +1195,7 @@
                       <img src="img/set-smart-watch.jpg" 
                            class="img-fluid w-100" 
                            alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani" 
-                           width="1200" height="800" style="aspect-ratio:3/2" loading="eager" fetchpriority="high">
+                           width="750" height="296" style="aspect-ratio:75/29" loading="eager" fetchpriority="high">
                     </picture>
             </div>
         </div>
@@ -2226,420 +2338,11 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 <script type="text/javascript" src="js/owl.carousel.min.js" defer></script>
 <!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
+<script src="js/ecura-main.js" defer></script>
 
-<script>
-// Init AOS — disableStyle:false per evitare CLS, offset ridotto per mobile
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof AOS !== 'undefined') {
-    AOS.init({
-      duration: 600,
-      offset: 60,
-      once: true,
-      easing: 'ease-out-cubic',
-      disableMutationObserver: false
-    });
-  }
-});
-</script>
 
-<script defer>
-document.addEventListener('DOMContentLoaded', function() {
-    // Hamburger
-    const hamburger = document.getElementById('hamburger');
-    if (hamburger) {
-      hamburger.addEventListener('click', function(){
-        const isActive = this.classList.toggle('is-active');
-        this.setAttribute('aria-expanded', isActive);
-        document.querySelector('.top_nav_wrapper').classList.toggle('is-active');
-      });
-      hamburger.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
-      });
-    }
 
-    // Carousel funzionalità
-    const fc = document.getElementById('functionCarousel');
-    if (fc && typeof $ !== 'undefined') {
-       $(fc).owlCarousel({
-            loop: true,
-            center: true,
-            autoplay: true,
-            autoplayTimeout: 3000,
-            autoplayHoverPause: true,
-            margin: 20,
-            nav: false,
-            dots: true,
-            responsive: {
-                0: { items: 1 },
-                768: { items: 3 },
-                1200: { items: 5 }
-            }
-        });
-    }
 
-    // Carousel testimonial
-    const tc = document.getElementById('testimonialCarousel');
-    if (tc && typeof $ !== 'undefined') {
-        $(tc).owlCarousel({
-            items: 3,
-            loop: true,
-            autoplay: true,
-            autoplayTimeout: 4000,
-            autoplayHoverPause: true,
-            margin: 30,
-            nav: true,
-            dots: true,
-            navText: ['&#8592;', '&#8594;'],
-            responsive: {
-                0: { items: 1 },
-                768: { items: 2 },
-                1200: { items: 3 }
-            }
-        });
-    }
-
-    /* A11Y: Aggiungi aria-label dinamico ai dot delle owl-carousel */
-    setTimeout(function() {
-      document.querySelectorAll('.owl-dot').forEach(function(dot, i) {
-        if (!dot.getAttribute('aria-label')) {
-          dot.setAttribute('aria-label', 'Vai alla slide ' + (i + 1));
-        }
-      });
-    }, 800);
-});
-</script>
-
-<!-- Form submit logic -->
-<script>
-(function() {
-
-  /* ══════════════════════════════════════════════════════════════
-     FIX 3 — UTM persistenti in sessionStorage
-     Salva i parametri UTM al primo caricamento della pagina.
-     fillUTM() li legge sempre da sessionStorage — funziona anche
-     se l'utente naviga tra sezioni e l'URL cambia per gli anchor.
-  ══════════════════════════════════════════════════════════════ */
-  var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-  (function persistUTM() {
-    var u = new URLSearchParams(window.location.search);
-    UTM_KEYS.forEach(function(k) {
-      var v = u.get(k);
-      if (v) sessionStorage.setItem('ecura_' + k, v);
-    });
-    /* Salva anche referrer e page_url al primo caricamento */
-    if (!sessionStorage.getItem('ecura_page_url')) {
-      sessionStorage.setItem('ecura_page_url', window.location.href);
-    }
-    if (!sessionStorage.getItem('ecura_referrer')) {
-      sessionStorage.setItem('ecura_referrer', document.referrer);
-    }
-  })();
-
-  function getUTM(name) {
-    return sessionStorage.getItem('ecura_' + name) || '';
-  }
-
-  function getUrlParam(name) {
-    const u = new URLSearchParams(window.location.search);
-    return u.get(name) || '';
-  }
-
-  function fillUTM(prefix) {
-    const el = id => document.getElementById(id);
-    /* Usa sessionStorage (persistente durante la sessione) */
-    if (el(prefix + '_page_url'))    el(prefix + '_page_url').value    = getUTM('page_url') || window.location.href;
-    if (el(prefix + '_referrer'))    el(prefix + '_referrer').value    = getUTM('referrer') || document.referrer;
-    if (el(prefix + '_utm_source'))  el(prefix + '_utm_source').value  = getUTM('utm_source');
-    if (el(prefix + '_utm_medium'))  el(prefix + '_utm_medium').value  = getUTM('utm_medium');
-    if (el(prefix + '_utm_campaign'))el(prefix + '_utm_campaign').value= getUTM('utm_campaign');
-    if (el(prefix + '_utm_content')) el(prefix + '_utm_content').value = getUTM('utm_content');
-    if (el(prefix + '_utm_term'))    el(prefix + '_utm_term').value    = getUTM('utm_term');
-  }
-
-  fillUTM('hero');
-  fillUTM('main');
-
-  function handleForm(formId, errorId, successId) {
-    const form = document.getElementById(formId);
-    if (!form) return;
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const errEl = document.getElementById(errorId);
-      const succEl = document.getElementById(successId);
-      const btn = form.querySelector('button[type=submit]');
-
-      errEl.style.display = 'none';
-      succEl.style.display = 'none';
-
-      const data = {
-        full_name: form.querySelector('[name="full_name"]').value.trim(),
-        phone: form.querySelector('[name="phone"]').value.trim(),
-        email: form.querySelector('[name="email"]').value.trim(),
-        plan: form.querySelector('[name="plan"]').value,
-        message: (form.querySelector('[name="message"]')?.value || '').trim(),
-        privacy_consent: form.querySelector('[name="privacy_consent"]').checked,
-        page_url: form.querySelector('[name="page_url"]').value,
-        referrer: form.querySelector('[name="referrer"]').value,
-        utm_source: form.querySelector('[name="utm_source"]').value,
-        utm_medium: form.querySelector('[name="utm_medium"]').value,
-        utm_campaign: form.querySelector('[name="utm_campaign"]').value,
-        utm_content: form.querySelector('[name="utm_content"]').value,
-        utm_term: form.querySelector('[name="utm_term"]').value,
-        'cf-turnstile-response': (form.querySelector('[name="cf-turnstile-response"]')?.value || ''),
-      };
-
-      if (!data.full_name || !data.phone || !data.email) {
-        errEl.textContent = 'Compila tutti i campi obbligatori.';
-        errEl.style.display = 'block';
-        return;
-      }
-      if (!data.privacy_consent) {
-        errEl.textContent = 'Devi accettare la Privacy Policy.';
-        errEl.style.display = 'block';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Invio in corso...';
-      btn.style.opacity = '0.7';
-
-      /* Spinner SVG inline */
-      const spinner = '<svg style="vertical-align:middle;margin-right:6px;animation:spin .8s linear infinite" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10" stroke-opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-opacity="1"/></svg>';
-      if (!document.getElementById('ecura-spin-style')) {
-        var ss = document.createElement('style');
-        ss.id = 'ecura-spin-style';
-        ss.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
-        document.head.appendChild(ss);
-      }
-      btn.innerHTML = spinner + 'Invio in corso...';
-
-      /* Messaggi progressivi ogni 2s se la risposta tarda */
-      var steps = ['Salvataggio dati...', 'Quasi pronto...', 'Un momento...'];
-      var stepIdx = 0;
-      var stepTimer = setInterval(function(){
-        if (stepIdx < steps.length) {
-          btn.innerHTML = spinner + steps[stepIdx++];
-        }
-      }, 2000);
-
-      try {
-        const res = await fetch('/api/submit-lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const json = await res.json();
-
-        if (res.ok && json.success) {
-          clearInterval(stepTimer);
-
-          /* ── Conversione: Meta Pixel Lead (on-form, pre-redirect) ── */
-          if (typeof fbq === 'function') {
-            fbq('track', 'Lead', {
-              content_name: 'eCura Teleassistenza',
-              content_category: 'Bracciale Anziani',
-              source: formId === 'ecura-form-hero' ? 'hero' : 'contattaci'
-            });
-          }
-          /* ── Conversione: GA4 generate_lead (on-form, pre-redirect) */
-          if (typeof gtag === 'function') {
-            gtag('event', 'generate_lead', {
-              currency: 'EUR',
-              value: 29.90,
-              form_id: formId
-            });
-          }
-
-          /* ── Redirect a /grazie/ dopo brevissima pausa ────────────
-             I tag di conversione sono già stati sparati sopra.
-             La pagina /grazie/ sparerà un secondo set pageview-based
-             (più accurato) solo se l'utente ha dato consenso.        */
-          setTimeout(function(){
-            window.location.href = '/grazie/';
-          }, 300);
-        } else {
-          clearInterval(stepTimer);
-          errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
-          errEl.style.display = 'block';
-          btn.disabled = false;
-          btn.style.opacity = '1';
-          btn.textContent = 'Ricevi informazioni gratuite →';
-        }
-      } catch(err) {
-        clearInterval(stepTimer);
-        errEl.textContent = 'Errore di connessione. Riprova più tardi.';
-        errEl.style.display = 'block';
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.textContent = 'Ricevi informazioni gratuite →';
-      }
-    });
-  }
-
-  handleForm('ecura-form-hero', 'hero-form-error', 'hero-form-success');
-  handleForm('ecura-form-main', 'main-form-error', 'main-form-success');
-
-  /* FIX 10 — Tracking click sul numero di telefono */
-  var telLink = document.getElementById('nav-tel-link');
-  if (telLink) {
-    telLink.addEventListener('click', function(){
-      if (typeof fbq === 'function') fbq('track', 'Contact', { source: 'nav_tel' });
-      if (typeof gtag === 'function') gtag('event', 'phone_call_click', { source: 'nav_tel' });
-    });
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════
-     FIX 9 — Logica navigazione form a step progressivo
-     Gestisce i bottoni "Continua →" e aggiorna la barra dei dot.
-     Applicato solo al form hero (il form #contattaci resta full per
-     conversione diretta su desktop ampio).
-  ═══════════════════════════════════════════════════════════════════ */
-  document.querySelectorAll('.ecura-step-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var formId = btn.getAttribute('data-form');
-      var stepNum = parseInt(btn.getAttribute('data-step'), 10);
-      var form = document.getElementById(formId);
-      var prefix = formId === 'ecura-form-hero' ? 'hero' : 'main';
-
-      /* Validazione campo corrente */
-      if (stepNum === 1) {
-        var phoneEl = form.querySelector('[name="phone"]');
-        if (!phoneEl || !phoneEl.value.trim()) {
-          phoneEl.style.borderColor = '#ff0033';
-          phoneEl.focus();
-          return;
-        }
-        phoneEl.style.borderColor = '';
-      }
-      if (stepNum === 2) {
-        var nameEl = form.querySelector('[name="full_name"]');
-        if (!nameEl || !nameEl.value.trim()) {
-          nameEl.style.borderColor = '#ff0033';
-          nameEl.focus();
-          return;
-        }
-        nameEl.style.borderColor = '';
-      }
-
-      /* Nascondi step corrente, mostra il successivo */
-      var currentStep = document.getElementById(prefix + '-step-' + stepNum);
-      var nextStep    = document.getElementById(prefix + '-step-' + (stepNum + 1));
-      if (currentStep) currentStep.style.display = 'none';
-      if (nextStep)    nextStep.style.display = 'block';
-
-      /* Aggiorna dot barra avanzamento */
-      for (var i = 1; i <= 3; i++) {
-        var dot = document.getElementById(prefix + '-dot-' + i);
-        if (dot) dot.style.background = i <= stepNum + 1 ? '#068D86' : '#ddd';
-      }
-
-      /* Focus sul primo campo del prossimo step */
-      if (nextStep) {
-        var firstInput = nextStep.querySelector('input, select, textarea');
-        if (firstInput) setTimeout(function(){ firstInput.focus(); }, 50);
-      }
-
-      /* GA4: traccia avanzamento step */
-      if (typeof gtag === 'function') {
-        gtag('event', 'form_step_complete', {
-          form_id: formId,
-          step: stepNum,
-          step_name: stepNum === 1 ? 'phone' : 'name'
-        });
-      }
-    });
-  });
-
-  /* ── ViewContent: sezione prezzi visibile al 50% ───────────────────── */
-  (function(){
-    var pricing = document.getElementById('pricingPlan');
-    if (!pricing || !window.IntersectionObserver) return;
-    var fired = false;
-    var obs = new IntersectionObserver(function(entries){
-      if (fired) return;
-      if (entries[0].isIntersecting) {
-        fired = true;
-        obs.disconnect();
-        /* Pixel ViewContent */
-        if (typeof fbq === 'function') {
-          fbq('track', 'ViewContent', {
-            content_name: 'Piani eCura — Prezzi',
-            content_category: 'Pricing',
-            currency: 'EUR',
-            value: 29.90
-          });
-        }
-        /* GA4 view_item_list */
-        if (typeof gtag === 'function') {
-          gtag('event', 'view_item_list', {
-            item_list_name: 'Piani Teleassistenza eCura'
-          });
-        }
-      }
-    }, { threshold: 0.5 });
-    obs.observe(pricing);
-  })();
-
-})();
-</script>
-
-<script>
-/* ═══ Logica navigazione form a step progressivo (hero) ═══════════════ */
-(function(){
-  document.querySelectorAll('.ecura-step-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var formId  = btn.getAttribute('data-form');
-      var stepNum = parseInt(btn.getAttribute('data-step'), 10);
-      var form    = document.getElementById(formId);
-      var prefix  = 'hero';
-
-      /* Validazione campo corrente */
-      if (stepNum === 1) {
-        var phoneEl = form.querySelector('[name="phone"]');
-        if (!phoneEl || !phoneEl.value.trim()) {
-          phoneEl.style.borderColor = '#ff0033'; phoneEl.focus(); return;
-        }
-        phoneEl.style.borderColor = '';
-      }
-      if (stepNum === 2) {
-        var nameEl = form.querySelector('[name="full_name"]');
-        if (!nameEl || !nameEl.value.trim()) {
-          nameEl.style.borderColor = '#ff0033'; nameEl.focus(); return;
-        }
-        nameEl.style.borderColor = '';
-      }
-
-      /* Nascondi step corrente, mostra successivo */
-      var cur  = document.getElementById(prefix + '-step-' + stepNum);
-      var next = document.getElementById(prefix + '-step-' + (stepNum + 1));
-      if (cur)  cur.style.display  = 'none';
-      if (next) next.style.display = 'block';
-
-      /* Aggiorna barra dot */
-      for (var i = 1; i <= 3; i++) {
-        var dot = document.getElementById(prefix + '-dot-' + i);
-        if (dot) dot.style.background = i <= stepNum + 1 ? '#068D86' : '#ddd';
-      }
-
-      /* Focus sul primo campo del prossimo step */
-      if (next) {
-        var fi = next.querySelector('input, select, textarea');
-        if (fi) setTimeout(function(){ fi.focus(); }, 50);
-      }
-
-      /* GA4 */
-      if (typeof gtag === 'function') {
-        gtag('event', 'form_step_complete', {
-          form_id: formId, step: stepNum,
-          step_name: stepNum === 1 ? 'phone' : 'name'
-        });
-      }
-    });
-  });
-})();
-</script>
 
         </div>
       </div>
@@ -2717,111 +2420,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<script>
-(function(){
-  var SHOWN_KEY = 'ecura_exit_shown';
-  var overlay   = document.getElementById('ecura-exit-overlay');
-  var closeBtn  = document.getElementById('ecura-exit-close');
-  var form      = document.getElementById('ecura-exit-form');
-  var errEl     = document.getElementById('ecura-exit-error');
-  var submitBtn = document.getElementById('ecura-exit-btn');
-
-  if (!overlay) return;
-
-  function showPopup() {
-    if (sessionStorage.getItem(SHOWN_KEY)) return;
-    sessionStorage.setItem(SHOWN_KEY, '1');
-    overlay.style.display = 'flex';
-  }
-
-  function hidePopup() { overlay.style.display = 'none'; }
-
-  /* Chiudi cliccando lo sfondo o il pulsante × */
-  closeBtn.addEventListener('click', hidePopup);
-  overlay.addEventListener('click', function(e){ if (e.target === overlay) hidePopup(); });
-  document.addEventListener('keydown', function(e){ if (e.key==='Escape') hidePopup(); });
-
-  /* ── Desktop: mouseleave dal viewport ─────────────────── */
-  document.addEventListener('mouseleave', function(e){
-    if (e.clientY <= 0) showPopup();
-  });
-
-  /* ── Mobile: inattività 30s ────────────────────────────── */
-  var mobileTimer;
-  function resetMobileTimer(){
-    clearTimeout(mobileTimer);
-    mobileTimer = setTimeout(showPopup, 30000);
-  }
-  if ('ontouchstart' in window) {
-    ['touchstart','scroll'].forEach(function(ev){
-      document.addEventListener(ev, resetMobileTimer, {passive:true});
-    });
-    resetMobileTimer();
-  }
-
-  /* ── Form submit ─────────────────────────────────────── */
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    errEl.style.display = 'none';
-    var name  = form.querySelector('[name="full_name"]').value.trim();
-    var phone = form.querySelector('[name="phone"]').value.trim();
-    var priv  = form.querySelector('#exit_privacy').checked;
-
-    if (!name)  { errEl.textContent='Inserisci il tuo nome.';    errEl.style.display='block'; return; }
-    if (!phone) { errEl.textContent='Inserisci il tuo telefono.'; errEl.style.display='block'; return; }
-    if (!priv)  { errEl.textContent='Accetta la Privacy Policy.'; errEl.style.display='block'; return; }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Invio in corso...';
-
-    /* Genera email unica per questo lead (non ha email reale ma il CRM la richiede) */
-    var exitEmail = 'richiamata.' + Date.now() + '@popup.ecura.it';
-    document.getElementById('exit_email_hidden').value = exitEmail;
-
-    /* Leggi token Turnstile dal widget nel popup */
-    var tsInput = form.querySelector('[name="cf-turnstile-response"]');
-    var tsToken = tsInput ? tsInput.value : '';
-
-    try {
-      var res = await fetch('/api/submit-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          full_name: name,
-          phone: phone,
-          email: exitEmail,
-          privacy_consent: true,
-          'cf-turnstile-response': tsToken,
-          utm_source: sessionStorage.getItem('ecura_utm_source') || '',
-          utm_medium: sessionStorage.getItem('ecura_utm_medium') || '',
-          utm_campaign: sessionStorage.getItem('ecura_utm_campaign') || '',
-          utm_content: sessionStorage.getItem('ecura_utm_content') || '',
-          utm_term: sessionStorage.getItem('ecura_utm_term') || '',
-          page_url: sessionStorage.getItem('ecura_page_url') || window.location.href,
-          referrer: sessionStorage.getItem('ecura_referrer') || document.referrer,
-          message: '🔔 RICHIESTA RICHIAMATA URGENTE — lead da popup exit-intent. Richiamare entro 4 ore.'
-        })
-      });
-      var json = await res.json();
-      if (res.ok && json.success) {
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'eCura Exit Intent', source: 'exit_popup' });
-        if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
-        window.location.href = '/grazie/';
-      } else {
-        errEl.textContent = json.error || 'Errore. Riprova.';
-        errEl.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Richiedi una chiamata gratuita →';
-      }
-    } catch(_) {
-      errEl.textContent = 'Errore di connessione. Riprova.';
-      errEl.style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Richiedi una chiamata gratuita →';
-    }
-  });
-})();
-</script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      FIX 4 — STICKY CTA BAR MOBILE
@@ -2837,26 +2435,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>
 </div>
 
-<script>
-(function(){
-  var bar = document.getElementById('ecura-sticky-mobile');
-  if (!bar) return;
-
-  /* Mostra solo su mobile */
-  function checkWidth(){ bar.style.display = window.innerWidth < 768 ? 'block' : 'none'; }
-  checkWidth();
-  window.addEventListener('resize', checkWidth);
-
-  /* Nasconde quando #contattaci è visibile */
-  var contattaci = document.getElementById('contattaci');
-  if (contattaci && window.IntersectionObserver) {
-    var obs = new IntersectionObserver(function(entries){
-      bar.style.display = entries[0].isIntersecting ? 'none' : (window.innerWidth < 768 ? 'block' : 'none');
-    }, { threshold: 0.2 });
-    obs.observe(contattaci);
-  }
-})();
-</script>
 
   <!-- ═══ WhatsApp CTA button fisso ════════════════════════════════════════ -->
   <a href="https://wa.me/393357301206?text=Salve%2C%20vorrei%20informazioni%20sul%20bracciale%20eCura%20per%20anziani"
