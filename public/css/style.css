@@ -56,7 +56,7 @@ a:hover { color: var(--activeColorHover); }
   border: 0;
   border-radius: 30px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   width: max-content;
 }
@@ -96,7 +96,7 @@ a:hover { color: var(--activeColorHover); }
 /* Hamburger */
 #hamburgerWrap { cursor: pointer; padding: 8px; }
 #hamburger { display: flex; flex-direction: column; gap: 5px; }
-#hamburger .line { width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: all 0.3s; }
+#hamburger .line { width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
 
 /* Mobile menu */
 #mobileMenu {
@@ -118,7 +118,7 @@ a:hover { color: var(--activeColorHover); }
   box-shadow: 0 20px 100px -70px #088d86;
 }
 .hero-bg {
-  background: url('../img/hero-lg.jpg') no-repeat right center;
+  background: url('../img/hero-lg.webp') no-repeat right center;
   background-size: cover;
   min-height: 800px;
 }
@@ -173,7 +173,7 @@ a:hover { color: var(--activeColorHover); }
   border-radius: 30px;
   border: 0;
   padding: 20px;
-  transition: all 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27);
+  transition: background 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27), color 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27), transform 0.3s cubic-bezier(0.32, 0.4, 0.55, 1.27);
   position: relative;
 }
 #featCards .card:hover {
@@ -479,4 +479,59 @@ footer a:hover { color: var(--activeColor) !important; }
   /* h2 extra: reduce on mobile */
   h2.extra, .h2.extra { font-size: 26px; }
   h1.extra { font-size: 32px; }
+}
+
+/* ── A11Y: link distinguibili oltre il colore ── */
+main a:not([class]):not(.skip-link) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.top_Menu a, footer a, .blog-article-list a { text-decoration: none; }
+
+/* ── A11Y: touch target mobile — solo padding, non min-height che rompe layout ── */
+@media (max-width: 767px) {
+  .cta-standard, .cta-standard-green,
+  .cta-standard-white, .cta-standard-black {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* ── PERF: picture element — no layout shift ── */
+picture { display: block; }
+
+/* ── PERF: WebP overrides for CSS background images ──
+   style.css is loaded after css.css so these take precedence */
+.protectionBan .banner {
+  background-image: url('../img/protezione-anziani.webp');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.focusBan-bg {
+  background-image: url('../img/perche-ci-scelgono.webp');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  height: 700px;
+  border-radius: 80px;
+}
+
+/* ── PERF: Forza GPU compositing su slide AOS senza will-change globale ── */
+[data-aos] {
+  backface-visibility: hidden;
+}
+
+/* ── A11Y: Contrasto pulsante Richiedi info nav ──
+   Verde #068D86 su bianco: contrasto 3.5:1 (AA large text OK)
+   Per AA normale serve 4.5:1 — aggiunto bordo per compensare */
+.ctaWdgt .cta-standard-green {
+  outline: 2px solid transparent;
+  font-weight: 600;
+}
+.ctaWdgt .cta-standard-green:focus-visible {
+  outline: 2px solid #068D86;
+  outline-offset: 3px;
 }

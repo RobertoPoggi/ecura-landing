@@ -61,6 +61,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="dns-prefetch" href="https://challenges.cloudflare.com">
 
@@ -69,7 +70,6 @@
 
 <!-- ═══ FONT — non-blocking defer via media trick ═══════════ -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet"></noscript>
 
 <!-- ═══ FAVICON / PWA ═════════════════════════════════════ -->
 <link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96">
@@ -81,87 +81,35 @@
 <meta name="theme-color" content="#068D86">
 
 <!-- ═══ PRELOAD LCP HERO IMAGE ════════════════════════════ -->
-<link rel="preload" as="image" href="img/hero-lg.jpg" fetchpriority="high" type="image/jpeg">
+<link rel="preload" as="image" href="img/hero-lg.webp" fetchpriority="high" type="image/webp">
 
-<!-- ═══ CSS — Bootstrap defer (non-blocking) ════════════════ -->
+<!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
+     Contiene: body, nav, hero, form, cookie banner, grid subset
+     NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
+<link rel="stylesheet" href="css/critical.css">
+
+<!-- ═══ NON-CRITICAL CSS — tutti async via media trick ══════ -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"></noscript>
-<!-- Owl Carousel defer -->
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css"></noscript>
 <link rel="stylesheet" href="css/owl.theme.default.min.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="css/owl.theme.default.min.css"></noscript>
-<!-- Critical site CSS (loaded synchronously — contains above-fold layout) -->
+<link href="css/css.css" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/style.css" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
+<!-- noscript fallback: carica tutto se JS disabilitato -->
+<noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
 <link href="css/css.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+</noscript>
 
-<!-- ═══ ICONS (non-critical: defer via preload trick) ═════ -->
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></noscript>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" referrerpolicy="no-referrer">
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous"></noscript>
+<!-- GSAP rimosso — 0 utilizzi rilevati, risparmio ~50KB render-blocking -->
 
-<!-- ═══ AOS CSS — non-critical defer ════════════════════════ -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
 
-<!-- ═══ GSAP (deferred) ═══════════════════════════════════ -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-<script src="js/minified/ScrollSmoother.min.js" defer></script>
-<script src="js/minified/SplitText.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js" defer></script>
-
-<!-- ═══ FORM STYLES ════════════════════════════════════════ -->
-<style>
-.ecura-form label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 4px; color: #333; }
-.ecura-form input, .ecura-form select, .ecura-form textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; font-family: var(--font1); box-sizing: border-box; }
-.ecura-form input:focus, .ecura-form select:focus, .ecura-form textarea:focus { outline: none; border-color: #068D86; }
-.ecura-form textarea { resize: vertical; min-height: 80px; }
-.ecura-form .privacy-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
-.ecura-form .privacy-row input[type=checkbox] { width: auto; margin-top: 3px; flex-shrink: 0; }
-.ecura-form .privacy-row label { font-size: 13px; color: #555; margin: 0; }
-.ecura-form .form-success { background: #e9f7d9; border: 1px solid #39b43d; border-radius: 10px; padding: 16px; text-align: center; color: #1a6b1a; font-weight: 500; display: none; }
-.ecura-form .form-error { background: #ffeaea; border: 1px solid #ff0033; border-radius: 10px; padding: 12px; text-align: center; color: #cc0000; font-size: 14px; display: none; margin-bottom: 10px; }
-.ecura-form button[type=submit] { width: 100%; background: #068D86; color: #fff; border: 0; border-radius: 30px; padding: 12px 20px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.3s; }
-.ecura-form button[type=submit]:hover { background: #05B1A8; }
-.ecura-form button[type=submit]:disabled { opacity: 0.6; cursor: not-allowed; }
-/* FIX 9 — bottone navigazione step */
-.ecura-form .ecura-step-btn { width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px; }
-.ecura-form .ecura-step-btn:hover { background:#05B1A8; }
-/* ═══ Skip link per accessibilità ════════════════════════ */
-.skip-link { position: absolute; top: -40px; left: 6px; z-index: 9999; background: #068D86; color: #fff; padding: 8px 12px; border-radius: 0 0 4px 4px; font-size: 14px; font-weight: 600; transition: top .2s; }
-.skip-link:focus { top: 0; }
-/* ═══ Cookie Banner ══════════════════════════════════════════════════ */
-#ecura-cookie-banner {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
-  background: #1a1a2e; color: #e8e8f0;
-  padding: 18px 24px; font-size: .875rem; line-height: 1.5;
-  box-shadow: 0 -4px 24px rgba(0,0,0,.35);
-  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
-  animation: slideUpBanner .35s ease;
-}
-@keyframes slideUpBanner { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
-#ecura-cookie-banner p { margin: 0; flex: 1 1 300px; }
-#ecura-cookie-banner a { color: #7dd3fc; }
-#ecura-cookie-banner .ck-btns { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
-#ecura-cookie-btn-accept {
-  background: #22c55e; color: #fff; border: none; border-radius: 6px;
-  padding: 9px 22px; font-size: .875rem; font-weight: 700; cursor: pointer;
-  white-space: nowrap;
-}
-#ecura-cookie-btn-accept:hover { background: #16a34a; }
-#ecura-cookie-btn-reject {
-  background: transparent; color: #94a3b8; border: 1px solid #475569;
-  border-radius: 6px; padding: 9px 16px; font-size: .875rem; cursor: pointer;
-  white-space: nowrap;
-}
-#ecura-cookie-btn-reject:hover { color: #e2e8f0; border-color: #94a3b8; }
-@media(max-width:600px){
-  #ecura-cookie-banner { padding: 14px 16px; }
-  #ecura-cookie-banner .ck-btns { width: 100%; justify-content: stretch; }
-  #ecura-cookie-btn-accept, #ecura-cookie-btn-reject { flex: 1; text-align: center; }
-}
-</style>
+<!-- Form+skip-link+cookie styles ora in critical.css (render-non-blocking) -->
 
 <!-- ═══ JSON-LD STRUCTURED DATA ════════════════════════════
      Aggiunto: MedicalDevice, BreadcrumbList, LocalBusiness,
@@ -878,39 +826,8 @@
     wait_for_update:      500
   });
 </script>
+<!-- ecura-email obfuscation style: mantenuto per compatibilità ma email ora è anche href -->
 <style>.ecura-email::before{content:attr(data-e)}</style>
-<style>
-/* ═══ Cookie Banner ══════════════════════════════════════════════════ */
-#ecura-cookie-banner {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
-  background: #1a1a2e; color: #e8e8f0;
-  padding: 18px 24px; font-size: .875rem; line-height: 1.5;
-  box-shadow: 0 -4px 24px rgba(0,0,0,.35);
-  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
-  animation: slideUpBanner .35s ease;
-}
-@keyframes slideUpBanner { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
-#ecura-cookie-banner p { margin: 0; flex: 1 1 300px; }
-#ecura-cookie-banner a { color: #7dd3fc; }
-#ecura-cookie-banner .ck-btns { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
-#ecura-cookie-btn-accept {
-  background: #22c55e; color: #fff; border: none; border-radius: 6px;
-  padding: 9px 22px; font-size: .875rem; font-weight: 700; cursor: pointer;
-  white-space: nowrap;
-}
-#ecura-cookie-btn-accept:hover { background: #16a34a; }
-#ecura-cookie-btn-reject {
-  background: transparent; color: #94a3b8; border: 1px solid #475569;
-  border-radius: 6px; padding: 9px 16px; font-size: .875rem; cursor: pointer;
-  white-space: nowrap;
-}
-#ecura-cookie-btn-reject:hover { color: #e2e8f0; border-color: #94a3b8; }
-@media(max-width:600px){
-  #ecura-cookie-banner { padding: 14px 16px; }
-  #ecura-cookie-banner .ck-btns { width: 100%; justify-content: stretch; }
-  #ecura-cookie-btn-accept, #ecura-cookie-btn-reject { flex: 1; text-align: center; }
-}
-</style>
 </head>
     <body>
       <!-- Skip link accessibilità + SEO -->
@@ -927,7 +844,10 @@
 			<div class="mainlogo">
 				<!-- alt descrittivo del logo per E-E-A-T e accessibilità -->
 				<a href="#heroSection" aria-label="eCura — Bracciale teleassistenza anziani, torna all'inizio">
-          <img src="img/logo-ecura-trasp.png" alt="eCura — Bracciale teleassistenza anziani" width="120" height="40" loading="eager">
+          <picture>
+            <source srcset="img/logo-ecura-trasp.webp" type="image/webp">
+            <img src="img/logo-ecura-trasp.png" alt="eCura — Bracciale teleassistenza anziani" width="120" height="40" loading="eager">
+          </picture>
         </a>
 			</div>
 			<nav class="top_nav_wrapper" aria-label="Navigazione principale">
@@ -953,7 +873,7 @@
 				    335 730 1206
 				  </a>
 				</div>
-				<div class="ctaWdgt ms-2"><a href="#contattaci" class="cta-standard-green">Richiedi info</a></div>
+				<div class="ctaWdgt ms-2"><a href="#contattaci" class="cta-standard-green" aria-label="Richiedi info — vai al modulo di contatto eCura">Richiedi info</a></div>
 
 				<!-- Hamburger -->
 				<div id="hamburgerWrap">
@@ -972,7 +892,7 @@
 
             <!--/* -------------------------- START CONTENT ------------------------- /*-->
 
-            <main id="main-content" role="main">
+            <main id="main-content">
 
               <!-- ═══════════════════════════════════════════════════════
                    HERO — H1 ottimizzato per KW primaria + USP secondarie
@@ -980,7 +900,7 @@
               <section class="heroSection" id="heroSection" aria-label="Presentazione bracciale cadute anziani eCura">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8 g-0 hero-bg-col" style="background: url(img/hero-lg.jpg)no-repeat; background-size: cover; background-position: right center; min-height:800px">
+            <div class="col-lg-8 g-0 hero-bg-col" style="background: url(img/hero-lg.webp)no-repeat; background-size: cover; background-position: right center; min-height:800px">
                 <div class="heroContent">
                     <div class="textOverlay">
                         <div class="container">
@@ -989,21 +909,21 @@
                                 <div class="col-md-5">
                                     <!-- H1 ottimizzato: KW primaria "bracciale cadute anziani" + contesto -->
                                     <h1>Bracciale Cadute Anziani con GPS, SOS Automatico e Teleassistenza H24</h1>
-                                    <p class="display-6" data-aos="fade-up" data-aos-duration="1000">
+                                    <p class="display-6">
                                       L'unico <strong>bracciale salva vita per anziani</strong> certificato <strong>dispositivo medico Classe IIA</strong>.
                                     </p>
-                                    <p class="lead" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                                    <p class="lead">
                                       Il <strong>bracciale eCura</strong> protegge i tuoi cari 24/7: 
                                       <strong>rilevamento caduta e cadute con AI</strong>, <strong>GPS indoor e outdoor</strong>, 
                                       monitoraggio parametri vitali e Centrale Operativa H24 — ovunque si trovino.
                                     </p>
                                     <!-- Badge trust hero -->
-                                    <div class="d-flex flex-wrap gap-2 mt-2 mb-3" data-aos="fade-up" data-aos-delay="500">
+                                    <div class="d-flex flex-wrap gap-2 mt-2 mb-3">
                                       <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:4px 12px;font-size:.8rem;backdrop-filter:blur(4px)">🛡️ Garanzia 30 giorni</span>
                                       <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:4px 12px;font-size:.8rem;backdrop-filter:blur(4px)">📦 Bracciale incluso</span>
                                       <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:4px 12px;font-size:.8rem;backdrop-filter:blur(4px)">💳 Detraibile 19%</span>
                                     </div>
-                                    <div class="d-block d-md-none"><a href="#contattaci" class="cta-standard">Richiedi informazioni</a></div>
+                                    <div class="d-block d-md-none"><a href="#contattaci" class="cta-standard" aria-label="Richiedi informazioni — vai al modulo di contatto">Richiedi informazioni</a></div>
                                 </div>
                             </div>
                         </div>
@@ -1037,7 +957,7 @@
                     </p>
                     <label for="hero_phone">📱 Telefono *</label>
                     <input type="tel" id="hero_phone" name="phone" placeholder="Es. 333 1234567" required autocomplete="tel">
-                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="1">
+                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="1" aria-label="Continua al passo 2">
                       Continua →
                     </button>
                   </div>
@@ -1060,7 +980,7 @@
                       <option value="PREMIUM_BASE">Premium Base — €590/anno</option>
                       <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
                     </select>
-                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="2">
+                    <button type="button" class="ecura-step-btn" data-form="ecura-form-hero" data-step="2" aria-label="Continua al passo 3">
                       Continua →
                     </button>
                   </div>
@@ -1087,12 +1007,15 @@
                       <span><strong>4.8/5</strong> · Già <strong>847 famiglie</strong> hanno scelto eCura</span>
                     </div>
 
+                    <!-- Cloudflare Turnstile widget — form hero -->
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:12px;"></div>
+
                     <div class="form-error" id="hero-form-error" role="alert" aria-live="assertive"></div>
                     <div class="form-success" id="hero-form-success" role="status" aria-live="polite">
                       ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
                     </div>
 
-                    <button type="submit">Ricevi informazioni gratuite →</button>
+                    <button type="submit" aria-label="Invia richiesta di informazioni gratuite">Ricevi informazioni gratuite →</button>
 
                     <!-- FIX 6 — Micro-copy urgency hero -->
                     <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
@@ -1136,10 +1059,13 @@
             <div class="col-md-12 text-center">
                 <!-- Badge certificazione: elemento inline, NON sovrapposto ad altre sezioni -->
                 <div class="cert-badge-wrap">
-                  <img src="img/certification-full.png"
-                       width="100" height="120"
-                       alt="Badge certificazione dispositivo medico Classe IIA eCura"
-                       loading="lazy">
+                  <picture>
+                    <source srcset="img/certification-full.webp" type="image/webp">
+                    <img src="img/certification-full.png"
+                         width="100" height="120"
+                         alt="Badge certificazione dispositivo medico Classe IIA eCura"
+                         loading="lazy">
+                  </picture>
                 </div>
             </div>
         </div>
@@ -1152,12 +1078,13 @@
         </div>
         <div class="row d-flex justify-content-center mb-md-5">
             <div class="col-md-8 text-center">
-                    <img src="img/set-smart-watch.jpg" 
-                         class="img-fluid w-100" 
-                         alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani" 
-                         width="1200" height="800"
-                         loading="lazy"
-                         data-aos="zoom-in" data-aos-duration="1200">
+                    <picture>
+                      <source srcset="img/set-smart-watch.webp" type="image/webp">
+                      <img src="img/set-smart-watch.jpg" 
+                           class="img-fluid w-100" 
+                           alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani" 
+                           width="1200" height="800" style="aspect-ratio:3/2" loading="eager" fetchpriority="high">
+                    </picture>
             </div>
         </div>
     </div>
@@ -1171,7 +1098,7 @@
 
                 <div class="row row-cols-1 row-cols-md-2 g-4" id="featCards">
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="100">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="100">
                         <div class="card-body">
                             <h3 class="card-title h5">Dispositivo Medico Certificato Classe IIA</h3>
                             <p class="card-text">Misura parametri vitali con <strong>accuratezza clinica certificata</strong> (BD/RDM 2853300, MDR 2017/745)</p>
@@ -1180,7 +1107,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="200">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="200">
                         <div class="card-body">
                             <h3 class="card-title h5">Detraibile Fiscalmente al 19%</h3>
                             <p class="card-text">Come <strong>spesa sanitaria detraibile</strong> (art. 15 TUIR). Rimborsi INPS disponibili.</p>
@@ -1189,7 +1116,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="300">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="300">
                         <div class="card-body">
                             <h3 class="card-title h5">Rilevamento Cadute Automatico con AI</h3>
                             <p class="card-text">Allenata su <strong>14.000 cadute reali</strong>. Invia SOS alla famiglia entro 3-5 secondi.</p>
@@ -1198,7 +1125,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="400">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="400">
                         <div class="card-body">
                             <h3 class="card-title h5">GPS Preciso Indoor e Outdoor</h3>
                             <p class="card-text"><strong>GPS + Wi-Fi beacon + BLE</strong>: localizzazione precisa anche dentro casa.</p>
@@ -1207,7 +1134,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="500">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="200">
                         <div class="card-body">
                             <h3 class="card-title h5">AI Predittiva per Anziani</h3>
                             <p class="card-text">Individua <strong>situazioni di rischio prima che accadano</strong>, analizzando pattern comportamentali.</p>
@@ -1216,7 +1143,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100" data-aos="flip-left" data-aos-delay="600">
+                        <div class="card h-100" data-aos="fade-up" data-aos-delay="300">
                         <div class="card-body">
                             <h3 class="card-title h5">Scelto da 60.000 Utenti in Europa</h3>
                             <p class="card-text">Tecnologia testata e certificata, <strong>sicura, discreta, già in uso in 12 paesi</strong>.</p>
@@ -1229,12 +1156,15 @@
             </div>
             <div class="col-md-6">
                   <div class="card h-100 d-flex flex-column align-items-center justify-content-center" id="featCardsContent">
-                    <img src="img/SidLy.gif" 
-                         alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani" 
-                         class="img-fluid"
-                         width="400" height="400"
-                         loading="lazy">
-                    <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Richiedi informazioni gratuite</a>
+                    <picture>
+                      <source srcset="img/SidLy.webp" type="image/webp">
+                      <img src="img/SidLy.gif" 
+                           alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani" 
+                           class="img-fluid"
+                           width="400" height="400"
+                           loading="lazy">
+                    </picture>
+                    <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Richiedi informazioni gratuite su eCura">Richiedi informazioni gratuite</a>
                   </div>
             </div>
         </div>
@@ -1258,7 +1188,10 @@
                               </h2>
                             </div>
                                 <div class="col-md-4 mb-3 text-center">
-                                  <img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" height="83" alt="eCura — Sicuri, Vicini, Ovunque — bracciale teleassistenza anziani" loading="lazy">
+                                  <picture>
+                    <source srcset="img/logo-ecura-trasp-w.webp" type="image/webp">
+                    <img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" height="83" alt="eCura — Sicuri, Vicini, Ovunque — bracciale teleassistenza anziani" loading="lazy">
+                  </picture>
                                 </div>
                             </div>
                         </div>
@@ -1289,11 +1222,14 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-5">
-                <img src="img/anziano-in-difficolta.jpg" 
-                     alt="Anziano che ha bisogno di assistenza — il bracciale eCura rileva la caduta e avvisa la famiglia" 
-                     class="img-fluid r140"
-                     width="600" height="500"
-                     loading="lazy">
+                <picture>
+                  <source srcset="img/anziano-in-difficolta.webp" type="image/webp">
+                  <img src="img/anziano-in-difficolta.jpg" 
+                       alt="Anziano che ha bisogno di assistenza — il bracciale eCura rileva la caduta e avvisa la famiglia" 
+                       class="img-fluid r140"
+                       width="600" height="500"
+                       loading="lazy">
+                </picture>
            </div>
             <div class="col-md-5">
                 <div class="question mb-3 mt-5" data-aos="zoom-in" data-aos-delay="100">"E se cade e non riesce a chiamare aiuto?"</div>
@@ -1308,7 +1244,7 @@
         </div>
         <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-center">
-                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Scopri come funziona</a>
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Scopri come funziona eCura — vai al modulo contatto">Scopri come funziona</a>
             </div>
         </div>
     </div>
@@ -1403,7 +1339,7 @@
         </div>
          <div class="row" style="margin-top:0;position:relative;z-index:2;">
             <div class="col-md-12 d-flex justify-content-center">
-                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Voglio proteggere i miei cari</a>
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Voglio proteggere i miei cari con eCura — richiedi informazioni">Voglio proteggere i miei cari</a>
             </div>
         </div>
     </div>
@@ -1416,7 +1352,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="focusBan">
-                    <div class="banner" style="background:url(img/perche-ci-scelgono.jpg); background-repeat: no-repeat; background-position: center; background-size: cover;">
+                    <div class="banner focusBan-bg">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-4">
@@ -1490,7 +1426,7 @@
                                     <p class="lead text-white" data-aos="fade-left" data-aos-delay="200">La serenità nasce da ciò che puoi prevenire. Con eCura.</p>
                                 </div>
                                 <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-                                    <div><a href="#contattaci" class="cta-standard-green big">Richiedi informazioni</a></div>
+                                    <div><a href="#contattaci" class="cta-standard-green big" aria-label="Richiedi informazioni sui piani eCura">Richiedi informazioni</a></div>
                                 </div>
                             </div>
                         </div>
@@ -1517,13 +1453,16 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="compare-table-wrapper">
-                    <table class="compare-table" role="table" aria-label="Confronto funzionalità eCura vs altri bracciali anziani">
+                    <table class="compare-table" aria-label="Confronto funzionalità eCura vs altri bracciali anziani">
                         <caption class="visually-hidden">Confronto tra il bracciale eCura (dispositivo medico Classe IIA) e altri bracciali per anziani disponibili sul mercato</caption>
                         <thead>
                             <tr>
                                 <th class="feature-col" scope="col">Funzione</th>
                                 <th class="ecura-col" scope="col">
+                                    <picture>
+                                    <source srcset="img/logo-ecura-trasp.webp" type="image/webp">
                                     <img src="img/logo-ecura-trasp.png" alt="eCura — bracciale teleassistenza anziani" class="table-logo" width="100" height="33" loading="lazy">
+                                </picture>
                                 </th>
                                 <th class="others-col" scope="col">Altri bracciali</th>
                             </tr>
@@ -1532,7 +1471,7 @@
                             <tr>
                                 <td class="feature-col">Dispositivo medico certificato Classe IIA</td>
                                 <td class="ecura-col">
-                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br>
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br>
                                     <small>MDR 2017/745 — BD/RDM 2853300</small>
                                 </td>
                                 <td class="others-col">NO</td>
@@ -1540,35 +1479,35 @@
                             <tr>
                                 <td class="feature-col">Misurazioni parametri vitali cliniche (pressione, SpO2, FC)</td>
                                 <td class="ecura-col">
-                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br><small>Accuratezza clinica certificata</small>
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br><small>Accuratezza clinica certificata</small>
                                 </td>
                                 <td class="others-col">Non clinici</td>
                             </tr>
                             <tr>
                                 <td class="feature-col">Centrale Operativa H24 con coordinamento 118</td>
                                 <td class="ecura-col">
-                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br><small>Operatori esperti H24</small>
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br><small>Operatori esperti H24</small>
                                 </td>
                                 <td class="others-col">NO</td>
                             </tr>
                             <tr>
                                 <td class="feature-col">GPS preciso indoor (GPS + Wi-Fi + BLE)</td>
                                 <td class="ecura-col">
-                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br><small>Multi-tecnologia</small>
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br><small>Multi-tecnologia</small>
                                 </td>
                                 <td class="others-col">Assente o limitato</td>
                             </tr>
                             <tr>
                                 <td class="feature-col">Detraibile al 19% come spesa sanitaria</td>
                                 <td class="ecura-col">
-                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br><small>Art. 15 TUIR + INPS</small>
+                                    <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br><small>Art. 15 TUIR + INPS</small>
                                 </td>
                                 <td class="others-col">NO</td>
                             </tr>
                             <tr>
                                 <td class="feature-col">Rilevamento cadute AI (14.000 cadute analizzate)</td>
                                 <td class="ecura-col">
-                                     <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20"><br><small>SOS in 3-5 secondi</small>
+                                     <img src="img/check-green.svg" alt="Sì" class="check-icon" width="20" height="20" loading="lazy"><br><small>SOS in 3-5 secondi</small>
                                 </td>
                                 <td class="others-col">Solo chiamata diretta</td>
                             </tr>
@@ -1580,7 +1519,7 @@
          <div class="row">
             <div class="col-md-12 d-flex flex-column align-items-center">
                 <p class="lead activecolor">Un piccolo investimento per una sicurezza enorme</p>
-                <a href="#contattaci" class="cta-standard-black mt-3 mb-3">Richiedi informazioni gratuite</a>
+                <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Richiedi informazioni gratuite — sezione confronto bracciali">Richiedi informazioni gratuite</a>
             </div>
         </div>
     </div>
@@ -1606,7 +1545,10 @@
                                 <h2 class="h1 text-white mt-4">Scegli il piano di teleassistenza per i tuoi cari</h2>
                             </div>
                             <div class="col-md-4 text-center">
-                                <img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" height="83" alt="eCura — sicuri, vicini, ovunque" loading="lazy">
+                                <picture>
+                                    <source srcset="img/logo-ecura-trasp-w.webp" type="image/webp">
+                                    <img src="img/logo-ecura-trasp-w.png" class="img-fluid" width="250" height="83" alt="eCura — sicuri, vicini, ovunque" loading="lazy">
+                                </picture>
                             </div>
                         </div>
                         <div class="row">
@@ -1615,7 +1557,7 @@
                                 <div class="row">
                                     <!-- FAMILY -->
                                     <div class="col-md-4 p-4">
-                                        <div class="card h-100" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="0">
+                                        <div class="card h-100" data-aos="fade-up" data-aos-easing="ease-out-cubic" data-aos-duration="600" data-aos-delay="0">
                                             <div class="p-4">
                                                 <div class="promotitle mb-3">Il più economico</div>
                                                 <h3 class="text-white text-center h2">eCura Family</h3>
@@ -1648,7 +1590,7 @@
 
                                     <!-- PROFESSIONAL -->
                                     <div class="col-md-4 p-4">
-                                        <div class="card h-100 active" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="300">
+                                        <div class="card h-100 active" data-aos="fade-up" data-aos-easing="ease-out-cubic" data-aos-duration="600" data-aos-delay="300">
                                             <div class="p-4">
                                                 <div class="promotitle mb-3">Il più scelto</div>
                                                 <h3 class="text-white text-center h2">eCura Professional</h3>
@@ -1686,7 +1628,7 @@
 
                                     <!-- PREMIUM -->
                                     <div class="col-md-4 p-4">
-                                        <div class="card h-100" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" data-aos-delay="600">
+                                        <div class="card h-100" data-aos="fade-up" data-aos-easing="ease-out-cubic" data-aos-duration="600" data-aos-delay="300">
                                             <div class="p-4">
                                                 <div class="promotitle mb-3">Top di gamma</div>
                                                 <h3 class="text-white text-center h2">eCura Premium</h3>
@@ -1737,7 +1679,7 @@
                                                 <li><strong>Detrazione IRPEF al 19%</strong> — come spesa sanitaria (art. 15, comma 1, lett. c del TUIR).</li>
                                                 <li><strong>Contributo INPS</strong> — per disabili 100% con riconoscimento Legge 104, ISEE inferiore a €6.000 e verbale di disabilità grave. Il contributo è soggetto ad approvazione INPS e disponibilità del fondo.</li>
                                             </ul>
-                                            <p class="mb-0 text-muted" style="font-size:.82rem;">Per informazioni sulle agevolazioni applicabili alla tua situazione, contattaci: <a class="ecura-email" data-e="info@ecura.it" href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"></a></p>
+                                            <p class="mb-0 text-muted" style="font-size:.82rem;">Per informazioni sulle agevolazioni applicabili alla tua situazione, contattaci: <a class="ecura-email" data-e="info@ecura.it" href="mailto:info@ecura.it" aria-label="Scrivi a info@ecura.it per informazioni sulle agevolazioni fiscali">info@ecura.it</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -1955,8 +1897,8 @@
                     <div class="testimonial-item">
                         <div class="testimonial-content">
                             <div class="testimonial-rating">
-                                <meta content="5">
-                                <meta content="5">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
                                 <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                             </div>
                             <p class="testimonial-text">
@@ -1978,8 +1920,8 @@
                     <div class="testimonial-item">
                         <div class="testimonial-content">
                             <div class="testimonial-rating">
-                                <meta content="5">
-                                <meta content="5">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
                                 <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                             </div>
                             <p class="testimonial-text">
@@ -2000,8 +1942,8 @@
                     <div class="testimonial-item">
                         <div class="testimonial-content">
                             <div class="testimonial-rating">
-                                <meta content="5">
-                                <meta content="5">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
                                 <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                             </div>
                             <p class="testimonial-text">
@@ -2089,7 +2031,7 @@
                   <!-- Cloudflare Turnstile widget -->
                   <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:12px;"></div>
 
-                  <button type="submit">Ricevi informazioni gratuite →</button>
+                  <button type="submit" aria-label="Invia richiesta di informazioni gratuite">Ricevi informazioni gratuite →</button>
 
                   <!-- FIX 6 — Micro-copy urgency main -->
                   <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
@@ -2234,7 +2176,10 @@
         <div class="row pt-3">
           <div class="col-md-3"></div>
           <div class="col-md-6 text-center">
-            <img src="img/logo-ecura-trasp-w.png" alt="eCura — Bracciale teleassistenza anziani" width="200" height="66" loading="lazy">
+            <picture>
+              <source srcset="img/logo-ecura-trasp-w.webp" type="image/webp">
+              <img src="img/logo-ecura-trasp-w.png" alt="eCura — Bracciale teleassistenza anziani" width="200" height="66" loading="lazy">
+            </picture>
           </div>
           <div class="col-md-3"></div>
         </div>
@@ -2250,7 +2195,7 @@
           </div>
           <div class="col-md-3">
               <div><img src="img/phone.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a href="tel:00393357301206">+39 335 730 1206</a></div>
-              <div><img src="img/at-sign.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a class="ecura-email" data-e="info@ecura.it" href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;"></a></div>
+              <div><img src="img/at-sign.svg" alt="" class="me-2" width="20" height="20" loading="lazy" aria-hidden="true"><a class="ecura-email" data-e="info@ecura.it" href="mailto:info@ecura.it" aria-label="Scrivi a info@ecura.it">info@ecura.it</a></div>
           </div>
           <div class="col-md-3 text-center">
              <a href="https://www.facebook.com/profile.php?id=61585121784918" target="_blank" rel="noopener noreferrer" class="me-3" aria-label="Pagina Facebook di eCura bracciale teleassistenza anziani">
@@ -2280,12 +2225,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 <script type="text/javascript" src="js/owl.carousel.min.js" defer></script>
-<!-- GSAP 2a copia rimossa — già caricato in head con defer -->
+<!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
 
 <script>
-// Init AOS
+// Init AOS — disableStyle:false per evitare CLS, offset ridotto per mobile
 document.addEventListener('DOMContentLoaded', function() {
-  if (typeof AOS !== 'undefined') AOS.init();
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 600,
+      offset: 60,
+      once: true,
+      easing: 'ease-out-cubic',
+      disableMutationObserver: false
+    });
+  }
 });
 </script>
 
@@ -2344,6 +2297,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    /* A11Y: Aggiungi aria-label dinamico ai dot delle owl-carousel */
+    setTimeout(function() {
+      document.querySelectorAll('.owl-dot').forEach(function(dot, i) {
+        if (!dot.getAttribute('aria-label')) {
+          dot.setAttribute('aria-label', 'Vai alla slide ' + (i + 1));
+        }
+      });
+    }, 800);
 });
 </script>
 
@@ -2722,7 +2684,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="tel" id="exit_phone" name="phone" placeholder="Es. 333 1234567" required autocomplete="tel"
           style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:12px;box-sizing:border-box">
 
-        <input type="hidden" name="email" value="noreply-exit@ecura.it">
+        <!-- email generata lato JS al submit (non hardcoded per evitare blocklist) -->
+        <input type="hidden" name="email" id="exit_email_hidden">
         <input type="hidden" name="privacy_consent" value="true" id="exit_privacy_hidden">
 
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:14px">
@@ -2734,9 +2697,12 @@ document.addEventListener('DOMContentLoaded', function() {
           </label>
         </div>
 
+        <!-- Cloudflare Turnstile — popup exit intent -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:10px;"></div>
+
         <div id="ecura-exit-error" style="color:#cc0000;font-size:13px;margin-bottom:8px;display:none"></div>
 
-        <button type="submit" id="ecura-exit-btn"
+        <button type="submit" id="ecura-exit-btn" aria-label="Richiedi una chiamata gratuita da eCura"
           style="width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;
                  padding:13px 20px;font-size:1rem;font-weight:700;cursor:pointer;
                  transition:background .3s">
@@ -2808,6 +2774,14 @@ document.addEventListener('DOMContentLoaded', function() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Invio in corso...';
 
+    /* Genera email unica per questo lead (non ha email reale ma il CRM la richiede) */
+    var exitEmail = 'richiamata.' + Date.now() + '@popup.ecura.it';
+    document.getElementById('exit_email_hidden').value = exitEmail;
+
+    /* Leggi token Turnstile dal widget nel popup */
+    var tsInput = form.querySelector('[name="cf-turnstile-response"]');
+    var tsToken = tsInput ? tsInput.value : '';
+
     try {
       var res = await fetch('/api/submit-lead', {
         method: 'POST',
@@ -2815,8 +2789,9 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify({
           full_name: name,
           phone: phone,
-          email: 'noreply-exit@ecura.it',
+          email: exitEmail,
           privacy_consent: true,
+          'cf-turnstile-response': tsToken,
           utm_source: sessionStorage.getItem('ecura_utm_source') || '',
           utm_medium: sessionStorage.getItem('ecura_utm_medium') || '',
           utm_campaign: sessionStorage.getItem('ecura_utm_campaign') || '',
@@ -2824,7 +2799,7 @@ document.addEventListener('DOMContentLoaded', function() {
           utm_term: sessionStorage.getItem('ecura_utm_term') || '',
           page_url: sessionStorage.getItem('ecura_page_url') || window.location.href,
           referrer: sessionStorage.getItem('ecura_referrer') || document.referrer,
-          message: 'Lead da exit-intent popup'
+          message: '🔔 RICHIESTA RICHIAMATA URGENTE — lead da popup exit-intent. Richiamare entro 4 ore.'
         })
       });
       var json = await res.json();
@@ -2857,7 +2832,7 @@ document.addEventListener('DOMContentLoaded', function() {
   display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;
   background:#068D86;color:#fff;text-align:center;
   padding:14px 16px;box-shadow:0 -2px 16px rgba(0,0,0,.18)">
-  <a href="#contattaci" style="color:#fff;text-decoration:none;font-weight:700;font-size:1rem;display:block">
+  <a href="#contattaci" aria-label="Proteggi i tuoi cari — richiedi informazioni gratuite su eCura" style="color:#fff;text-decoration:none;font-weight:700;font-size:1rem;display:block">
     🛡️ Proteggi i tuoi cari → Richiedi informazioni gratuite
   </a>
 </div>
@@ -2903,15 +2878,15 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- ═══ Microsoft Clarity ══════════════════════════════════════════════════ -->
   <!-- Clarity: heatmap e session recording — nessun dato PII inviato -->
   <!-- ═══ Cookie Banner + Consent Manager ══════════════════════════════ -->
-  <div id="ecura-cookie-banner" role="dialog" aria-live="polite" aria-label="Consenso cookie" style="display:none">
+  <div id="ecura-cookie-banner" role="dialog" aria-modal="false" aria-label="Consenso cookie" style="display:none">
     <p>
       Usiamo cookie analitici (Google Analytics, Microsoft Clarity) per migliorare il sito.
       Nessun dato è condiviso con terzi a fini pubblicitari senza il tuo consenso.
       <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
     </p>
     <div class="ck-btns">
-      <button id="ecura-cookie-btn-accept">✓ Accetta</button>
-      <button id="ecura-cookie-btn-reject">Rifiuta</button>
+      <button id="ecura-cookie-btn-accept" aria-label="Accetta i cookie analitici">✓ Accetta</button>
+      <button id="ecura-cookie-btn-reject" aria-label="Rifiuta i cookie analitici">Rifiuta</button>
     </div>
   </div>
 

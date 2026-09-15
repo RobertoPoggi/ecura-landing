@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════════════════════
+   CRITICAL CSS — Above-fold only — Inlined in <head>
+   Covers: body, nav, hero, form, skip-link, cookie banner
+   Non-critical CSS loaded async via media="print" onload
+   ═══════════════════════════════════════════════════════════ */
+
+/* CSS Variables */
+:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+
+/* Box model */
+*{box-sizing:border-box}
+
+/* Body */
+body{background:#fff;font-family:"Roboto",sans-serif;font-weight:300;font-size:18px;color:#000;overflow-x:hidden;margin:0}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-weight:600;color:#000}
+
+/* Links */
+a{color:#068D86;text-decoration:none;transition:color .3s}
+a:hover{color:#05B1A8}
+
+/* Skip link */
+.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#068D86;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
+.skip-link:focus{top:0}
+
+/* Nav */
+#full_top_nav{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:200}
+.full_top_nav_wrapper{padding:12px 20px}
+.top_Menu{margin:0;padding:0;list-style:none;display:flex;gap:24px}
+.top_Menu a{color:#000;font-weight:400;font-size:15px;transition:color .3s;text-decoration:none}
+.top_Menu a:hover,.top_Menu a.active{color:#068D86}
+#hamburgerWrap{cursor:pointer;padding:8px}
+#hamburger{display:flex;flex-direction:column;gap:5px}
+#hamburger .line{width:24px;height:2px;background:#000;border-radius:2px;transition:transform .3s,opacity .3s}
+
+/* Hero */
+.heroSection{border-bottom-right-radius:80px;overflow:hidden;box-shadow:0 20px 100px -70px #088d86}
+.hero-bg{background:url('../img/hero-lg.webp') no-repeat right center;background-size:cover;min-height:800px}
+.heroContent{position:relative;width:100%;height:100%}
+.heroContent::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,73,.72) 0%,rgba(8,14,73,.50) 40%,rgba(8,14,73,.10) 65%,transparent 100%);z-index:1;pointer-events:none}
+.heroContent .textOverlay{position:absolute;bottom:80px;left:0;width:100%;z-index:2}
+.heroContent h1{color:#fff;font-size:clamp(24px,3vw,42px);text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.heroContent .display-6,.heroContent .lead{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.55)}
+.heroContent strong{color:#fff}
+.heroContentDx{background:linear-gradient(144deg,#fff 0%,#f2f2f2 100%)}
+
+/* CTA Buttons */
+.cta-standard,.cta-standard-green,.cta-standard-white,.cta-standard-black{display:inline-block;font-weight:400;font-size:16px;padding:8px 22px;border:0;border-radius:30px;cursor:pointer;transition:background .3s ease,color .3s ease,box-shadow .3s ease;text-decoration:none;width:max-content}
+.cta-standard{background:#000;color:#fff}
+.cta-standard:hover{background:#068D86;color:#fff}
+.cta-standard-green{background:#068D86;color:#fff}
+.cta-standard-green:hover{background:#05B1A8;color:#fff}
+.cta-standard-white{background:#fff;color:#000}
+.cta-standard-white:hover{background:#068D86;color:#fff}
+.cta-standard.long,.cta-standard-green.long{width:100%;text-align:center}
+.cta-standard-green.big,.cta-standard.big{font-size:20px;padding:12px 28px}
+
+/* Form inline styles — hero form above fold */
+.ecura-form label{display:block;font-size:14px;font-weight:500;margin-bottom:4px;color:#333}
+.ecura-form input,.ecura-form select,.ecura-form textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:12px;font-family:"Roboto",sans-serif;box-sizing:border-box}
+.ecura-form input:focus,.ecura-form select:focus,.ecura-form textarea:focus{outline:none;border-color:#068D86}
+.ecura-form textarea{resize:vertical;min-height:80px}
+.ecura-form .privacy-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.ecura-form .privacy-row input[type=checkbox]{width:auto;margin-top:3px;flex-shrink:0}
+.ecura-form .privacy-row label{font-size:13px;color:#555;margin:0}
+.ecura-form .form-success{background:#e9f7d9;border:1px solid #39b43d;border-radius:10px;padding:16px;text-align:center;color:#1a6b1a;font-weight:500;display:none}
+.ecura-form .form-error{background:#ffeaea;border:1px solid #ff0033;border-radius:10px;padding:12px;text-align:center;color:#cc0000;font-size:14px;display:none;margin-bottom:10px}
+.ecura-form button[type=submit]{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
+.ecura-form button[type=submit]:hover{background:#05B1A8}
+.ecura-form button[type=submit]:disabled{opacity:.6;cursor:not-allowed}
+.ecura-form .ecura-step-btn{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px}
+.ecura-form .ecura-step-btn:hover{background:#05B1A8}
+
+/* Cookie banner (above fold fixed element) */
+#ecura-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#1a1a2e;color:#e8e8f0;padding:18px 24px;font-size:.875rem;line-height:1.5;box-shadow:0 -4px 24px rgba(0,0,0,.35);display:flex;flex-wrap:wrap;align-items:center;gap:14px;animation:slideUpBanner .35s ease}
+@keyframes slideUpBanner{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+#ecura-cookie-banner p{margin:0;flex:1 1 300px}
+#ecura-cookie-banner a{color:#7dd3fc}
+#ecura-cookie-banner .ck-btns{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap}
+#ecura-cookie-btn-accept{background:#22c55e;color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:700;cursor:pointer;white-space:nowrap}
+#ecura-cookie-btn-accept:hover{background:#16a34a}
+#ecura-cookie-btn-reject{background:transparent;color:#94a3b8;border:1px solid #475569;border-radius:6px;padding:9px 16px;font-size:.875rem;cursor:pointer;white-space:nowrap}
+#ecura-cookie-btn-reject:hover{color:#e2e8f0;border-color:#94a3b8}
+
+/* Container utility (Bootstrap critical subset) */
+.container{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.container-fluid{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+@media(min-width:576px){.container{max-width:540px}}
+@media(min-width:768px){.container{max-width:720px}}
+@media(min-width:992px){.container{max-width:960px}}
+@media(min-width:1200px){.container{max-width:1140px}}
+.row{display:flex;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-10,.col-md-12,.col-lg-8,.col-md-9{position:relative;width:100%;padding-right:15px;padding-left:15px}
+@media(min-width:768px){.col-md-1{flex:0 0 8.333%;max-width:8.333%}.col-md-2{flex:0 0 16.666%;max-width:16.666%}.col-md-3{flex:0 0 25%;max-width:25%}.col-md-4{flex:0 0 33.333%;max-width:33.333%}.col-md-5{flex:0 0 41.666%;max-width:41.666%}.col-md-6{flex:0 0 50%;max-width:50%}.col-md-7{flex:0 0 58.333%;max-width:58.333%}.col-md-8{flex:0 0 66.666%;max-width:66.666%}.col-md-9{flex:0 0 75%;max-width:75%}.col-md-10{flex:0 0 83.333%;max-width:83.333%}.col-md-12{flex:0 0 100%;max-width:100%}}
+@media(min-width:992px){.col-lg-8{flex:0 0 66.666%;max-width:66.666%}}
+.d-none{display:none!important}
+.d-flex{display:flex!important}
+@media(min-width:768px){.d-md-block{display:block!important}.d-md-none{display:none!important}}
+@media(min-width:992px){.d-lg-flex{display:flex!important}.d-none.d-lg-flex{display:flex!important}}
+.justify-content-between{justify-content:space-between!important}
+.align-items-center{align-items:center!important}
+.g-0{--bs-gutter-x:0;--bs-gutter-y:0;margin:0;padding:0}
+.p-5{padding:3rem!important}
+.ms-2{margin-left:.5rem!important}
+.me-2{margin-right:.5rem!important}
+.me-3{margin-right:1rem!important}
+.text-center{text-align:center!important}
+
+/* Smooth wrapper */
+.smooth-wrapper,.smooth-content{width:100%}
+
+/* Responsive hero */
+@media(max-width:992px){.hero-bg{min-height:500px}.heroContent .textOverlay{bottom:40px}.heroSection{border-bottom-right-radius:40px}}
+@media(max-width:768px){.hero-bg{min-height:400px;background-position:center center}.heroContent .textOverlay{bottom:20px}.heroContent h1{font-size:22px}}
+@media(max-width:576px){.hero-bg,.hero-bg-col{min-height:300px!important;background-position:65% center!important}.heroSection{border-bottom-right-radius:16px}.heroContent .textOverlay{position:relative!important;bottom:auto!important;padding:28px 16px 20px;background:linear-gradient(180deg,rgba(6,141,134,.85) 0%,rgba(8,14,73,.80) 100%)}.heroContent::before{display:none}.heroContent h1{font-size:1.3rem;margin-bottom:10px}.heroContent .display-6{font-size:1rem}.heroContent .lead{font-size:.95rem}body{font-size:16px}.full_top_nav_wrapper{padding:8px 16px}}
+@media(max-width:600px){#ecura-cookie-banner{padding:14px 16px}#ecura-cookie-banner .ck-btns{width:100%;justify-content:stretch}#ecura-cookie-btn-accept,#ecura-cookie-btn-reject{flex:1;text-align:center}}
+
+/* Picture element */
+picture{display:block}

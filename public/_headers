@@ -16,12 +16,12 @@
 /js/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=3600
 
-# HTML non cachato (aggiornamenti frequenti)
+# HTML — cache breve con revalidation (migliora PageSpeed, update entro 1h)
 /*.html
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /api/*
   Access-Control-Allow-Origin: *
