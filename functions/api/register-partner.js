@@ -4,18 +4,20 @@
  * Registra una nuova richiesta di partnership eCura:
  *   1. Valida i dati del form
  *   2. Verifica Cloudflare Turnstile (anti-bot)
- *   3. Invia al dataset PARTNER del CRM TeleMedCare (/api/partners/public)
- *   4. Notifica via Google Sheet (opzionale)
+ *   3. Salva il partner come LEAD nel CRM TeleMedCare (/api/leads/public)
+ *      con fonte = "FORM PARTNER" — stessa pipeline dei lead normali.
+ *      Il partner potrà in futuro acquistare servizi come demo.
+ *
+ * NOTA REFERRAL: Il dataset PARTNERS rimane intatto per la gestione
+ *   del programma di referral (/api/partners/referral/*).
+ *   I partner vengono attivati manualmente dall'admin nel CRM.
  *
  * ENV VARS richieste:
  *   TURNSTILE_SECRET_KEY  — secret Cloudflare Turnstile
- *   CRM_PARTNERS_URL      — URL endpoint partner CRM (default: https://telemedcare-v12.pages.dev/api/partners/public)
- *   CRM_API_KEY           — API key CRM (opzionale, se configurata nel CRM)
+ *   CRM_BASE_URL          — URL base CRM (default: https://telemedcare-v12.pages.dev)
+ *   CRM_API_KEY           — opzionale, LANDING_API_KEY del CRM
  *   GSHEET_WEBHOOK_URL    — Google Apps Script webhook (opzionale)
  *   CORS_ORIGIN           — es. https://www.ecura.it
- *
- * NOTA: I partner vengono ora salvati direttamente nel database TeleMedCare
- *       (tabella "partners", migration 0106), NON più nella D1 di ecura-landing.
  */
 
 export async function onRequestPost({ request, env, waitUntil }) {
@@ -85,70 +87,65 @@ export async function onRequestPost({ request, env, waitUntil }) {
     }
   }
 
-  const emailNorm   = email.trim().toLowerCase()
-  const nameParts   = full_name.trim().split(/\s+/)
-  const nomeField   = nameParts[0] || full_name.trim()
+  const emailNorm    = email.trim().toLowerCase()
+  const nameParts    = full_name.trim().split(/\s+/)
+  const nomeField    = nameParts[0] || full_name.trim()
   const cognomeField = nameParts.slice(1).join(' ') || ''
 
-  // ── Invia al dataset PARTNER del CRM TeleMedCare ──────────────────────────
-  const crmPartnersUrl = env.CRM_PARTNERS_URL || 'https://telemedcare-v12.pages.dev/api/partners/public'
-  const crmApiKey      = env.CRM_API_KEY || ''
+  // Costruisci la nota combinando ruolo + eventuale messaggio
+  const noteField = message?.trim()
+    ? `[Partner] Ruolo: ${role.trim()} | ${message.trim()}`
+    : `[Partner] Ruolo: ${role.trim()}`
 
-  const partnerPayload = {
-    nome:             nomeField,
-    cognome:          cognomeField,
-    email:            emailNorm,
-    telefono:         phone.trim(),
-    ruolo:            role.trim(),
-    citta:            city.trim() || null,
-    messaggio:        message.trim() || null,
-    privacy_consent:  true,
-    utm_source:       utm_source   || null,
-    utm_medium:       utm_medium   || null,
-    utm_campaign:     utm_campaign || null,
-    page_url:         page_url     || 'https://www.ecura.it/partner/',
-    referrer:         referrer     || null,
+  // ── Salva come LEAD nel CRM con fonte "FORM PARTNER" ──────────────────────
+  const crmBase   = (env.CRM_BASE_URL || 'https://telemedcare-v12.pages.dev').replace(/\/$/, '')
+  const crmApiKey = env.CRM_API_KEY || ''
+
+  const leadPayload = {
+    nomeRichiedente:    nomeField,
+    cognomeRichiedente: cognomeField,
+    email:              emailNorm,
+    telefono:           phone.trim(),
+    servizio:           'eCura PRO',
+    piano:              'BASE',
+    fonte:              'FORM PARTNER',          // whitelist in /api/leads/public
+    dettaglio_fonte:    'ecura_partner_page',
+    note:               noteField,
+    gdprConsent:        true,
+    consensoMarketing:  false,
+    canale_acquisizione: city?.trim() || null,   // usiamo canale per la città
+    utm_source:          utm_source   || null,
+    utm_medium:          utm_medium   || null,
+    utm_campaign:        utm_campaign || null,
+    page_url:            page_url     || 'https://www.ecura.it/partner/',
   }
 
-  let crmResult = { success: false, referral_code: null, referral_url: null, status: 'pending', duplicate: false }
+  let crmResult = { success: false, id: null, duplicate: false }
 
   try {
-    const crmRes = await fetch(crmPartnersUrl, {
+    const crmRes = await fetch(`${crmBase}/api/leads/public`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...(crmApiKey ? { 'X-API-Key': crmApiKey } : {}),
       },
-      body: JSON.stringify(partnerPayload),
+      body: JSON.stringify(leadPayload),
     })
 
     if (crmRes.ok) {
       crmResult = await crmRes.json()
-      console.log(`[register-partner] ✅ Partner salvato nel CRM: ${emailNorm} → ${crmResult.referral_code || 'pending'}`)
+      console.log(`[register-partner] ✅ Partner salvato come lead: ${emailNorm} → ${crmResult.id || 'new'}`)
     } else {
       const errText = await crmRes.text().catch(() => 'unknown')
       console.error(`[register-partner] CRM error ${crmRes.status}:`, errText)
-      // Non bloccare: rispondi comunque positivamente (il dato arriverà via GSheet)
+      // Non bloccare: il dato arriverà via GSheet
     }
   } catch (e) {
     console.error('[register-partner] CRM fetch error:', e)
     // Non bloccare il form
   }
 
-  // Se il partner era già registrato nel CRM
-  if (crmResult.duplicate || crmResult.already_registered) {
-    return json({
-      success: true,
-      already_registered: true,
-      referral_code: crmResult.referral_code || null,
-      message: 'Richiesta già ricevuta. Ti ricontatteremo entro 1 giorno lavorativo.'
-    }, 200, corsHeaders)
-  }
-
-  const referralCode = crmResult.referral_code || null
-  const referralUrl  = crmResult.referral_url  || (referralCode ? `https://www.ecura.it/?ref=${referralCode}` : null)
-
-  // ── Notifica Google Sheet (fire-and-forget) ───
+  // ── Notifica Google Sheet (fire-and-forget) ───────────────────────────────
   const gsheetBase = env.GSHEET_WEBHOOK_URL || ''
   if (gsheetBase) {
     const dataOra = new Date().toLocaleString('it-IT', { timeZone: 'Europe/Rome' })
@@ -161,9 +158,9 @@ export async function onRequestPost({ request, env, waitUntil }) {
       cognome:      cognomeField,
       telefono:     phone.trim(),
       citta:        city.trim(),
-      servizio:     'eCura Partner',
-      piano:        role.trim(),
-      fonte:        'partner_page',
+      servizio:     'eCura PRO',
+      piano:        'BASE',
+      fonte:        'FORM PARTNER',
       canale:       utm_source ? 'REFERRAL' : 'ORGANICO',
       utm_source:   utm_source   || '',
       utm_medium:   utm_medium   || '',
@@ -171,7 +168,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       page_url:     page_url     || '',
       referrer:     referrer     || '',
       landing:      'partner',
-      note: `[PARTNER] ${referralCode ? `Codice: ${referralCode} | ` : ''}${role}${message ? ` | ${message}` : ''}`,
+      note:         noteField,
     }).toString()
 
     const gsPromise = fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
@@ -181,16 +178,23 @@ export async function onRequestPost({ request, env, waitUntil }) {
     if (typeof waitUntil === 'function') waitUntil(gsPromise)
   }
 
-  // ── Risposta al browser ───────────────────────
+  // Se il lead era già presente nel CRM
+  if (crmResult.duplicate) {
+    return json({
+      success: true,
+      already_registered: true,
+      message: 'Richiesta già ricevuta. Ti ricontatteremo entro 1 giorno lavorativo.'
+    }, 200, corsHeaders)
+  }
+
+  // ── Risposta al browser ───────────────────────────────────────────────────
   return json({
     success: true,
-    referral_code: referralCode,
-    referral_url:  referralUrl,
     message: 'Richiesta ricevuta! Ti ricontatteremo entro 1 giorno lavorativo con il tuo kit di benvenuto.'
   }, 200, corsHeaders)
 }
 
-// ── OPTIONS preflight ─────────────────────────────
+// ── OPTIONS preflight ─────────────────────────────────────────────────────
 export async function onRequestOptions({ env }) {
   return new Response(null, {
     status: 204,
