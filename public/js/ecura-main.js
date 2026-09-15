@@ -128,11 +128,26 @@ function initCarousels() {
    4. AOS init
 ─────────────────────────────────────────────────────────────── */
 function initAOS() {
-  if (typeof AOS !== 'undefined') {
-    AOS.init({
-      duration: 600, offset: 60, once: true,
-      easing: 'ease-out-cubic', disableMutationObserver: false
-    });
+  /* AOS chiama getBoundingClientRect() su ogni [data-aos] → forced reflow.
+     Lo ritardiamo dopo il LCP con requestIdleCallback per evitare CLS.
+     Usiamo disable:false solo per elementi SOTTO la fold (offset alto). */
+  function doInitAOS() {
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 600,
+        offset: 120,   /* più alto = meno elementi scansionati subito */
+        once: true,
+        easing: 'ease-out-cubic',
+        disableMutationObserver: false,
+        startEvent: 'DOMContentLoaded'
+      });
+    }
+  }
+  /* Ritarda AOS dopo il first paint per non bloccare LCP e non causare CLS */
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(doInitAOS, { timeout: 2500 });
+  } else {
+    setTimeout(doInitAOS, 1500);
   }
 }
 

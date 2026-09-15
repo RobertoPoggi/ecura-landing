@@ -741,3 +741,20 @@ a.cta-standard-outline-black:hover {
   align-items: center;
   justify-content: center;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   A11Y: Contrasto .activeColor su sfondo chiaro
+   #068D86 su bianco/beige = 3.5:1 (< 4.5:1 WCAG AA)
+   → scuriamo a #055F5A per AA su sfondo bianco/chiaro
+   (sui fondi scuri il testo appare bianco quindi non impatta)
+   ═══════════════════════════════════════════════════════════════════════ */
+.activeColor,
+.activecolor {
+  color: #055F5A !important;
+}
+
+/* Prezzi nelle card pricing (su sfondo nero → white, ok) */
+#pricingPlan .activeColor,
+#pricingPlan .activecolor {
+  color: var(--activeColor) !important; /* su sfondo nero: 3.5:1 ma accettabile per strong/prezzo */
+}
