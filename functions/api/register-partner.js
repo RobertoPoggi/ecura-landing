@@ -121,6 +121,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   }
 
   let crmResult = { success: false, id: null, duplicate: false }
+  let crmOk = false
 
   try {
     const crmRes = await fetch(`${crmBase}/api/leads/public`, {
@@ -134,18 +135,21 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
     if (crmRes.ok) {
       crmResult = await crmRes.json()
+      crmOk = true
       console.log(`[register-partner] ✅ Partner salvato come lead: ${emailNorm} → ${crmResult.id || 'new'}`)
     } else {
       const errText = await crmRes.text().catch(() => 'unknown')
       console.error(`[register-partner] CRM error ${crmRes.status}:`, errText)
-      // Non bloccare: il dato arriverà via GSheet
     }
   } catch (e) {
     console.error('[register-partner] CRM fetch error:', e)
-    // Non bloccare il form
   }
 
-  // ── Notifica Google Sheet (fire-and-forget) ───────────────────────────────
+  // ── Notifica Google Sheet ─────────────────────────────────────────────────
+  // STRATEGIA FALLBACK:
+  //   - Se CRM ok  → GSheet fire-and-forget (waitUntil), non blocca risposta
+  //   - Se CRM KO  → GSheet in ATTESA (await): salvataggio garantito nel foglio
+  //                  così il dato viene importato manualmente quando il CRM torna online
   const gsheetBase = env.GSHEET_WEBHOOK_URL || ''
   if (gsheetBase) {
     const dataOra = new Date().toLocaleString('it-IT', { timeZone: 'Europe/Rome' })
@@ -169,13 +173,28 @@ export async function onRequestPost({ request, env, waitUntil }) {
       referrer:     referrer     || '',
       landing:      'partner',
       note:         noteField,
+      lead_id:      crmResult.id || '',
     }).toString()
 
-    const gsPromise = fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
-      .then(r => console.log('[register-partner] GSheet status:', r.status))
-      .catch(e => console.error('[register-partner] GSheet error:', e))
+    const gsheetUrl = `${gsheetBase}?${qs}`
 
-    if (typeof waitUntil === 'function') waitUntil(gsPromise)
+    if (crmOk) {
+      // CRM ok: GSheet in background, non rallentiamo la risposta
+      const gsPromise = fetch(gsheetUrl, { method: 'GET' })
+        .then(r => console.log('[register-partner] GSheet status (bg):', r.status))
+        .catch(e => console.error('[register-partner] GSheet error (bg):', e))
+      if (typeof waitUntil === 'function') waitUntil(gsPromise)
+    } else {
+      // CRM KO: aspettiamo il GSheet — è il nostro unico salvataggio
+      try {
+        const gsRes = await fetch(gsheetUrl, { method: 'GET' })
+        console.log('[register-partner] GSheet status (fallback):', gsRes.status)
+      } catch (e) {
+        console.error('[register-partner] GSheet error (fallback):', e)
+      }
+    }
+  } else {
+    console.warn('[register-partner] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
 
   // Se il lead era già presente nel CRM
@@ -188,6 +207,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
   }
 
   // ── Risposta al browser ───────────────────────────────────────────────────
+  // Rispondiamo sempre 200: o il CRM ha salvato, o il GSheet ha salvato.
+  // In nessun caso mostriamo un errore al partner per problemi infrastrutturali.
   return json({
     success: true,
     message: 'Richiesta ricevuta! Ti ricontatteremo entro 1 giorno lavorativo con il tuo kit di benvenuto.'

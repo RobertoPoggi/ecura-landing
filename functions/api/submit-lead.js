@@ -245,12 +245,20 @@ export async function onRequestPost({ request, env, waitUntil }) {
     console.error('[submit-lead] CRM fetch error:', e)
   }
 
-  // ── 2. Invia al Google Sheet via GET+querystring (fire-and-forget) ────────
+  // ── 2. Invia al Google Sheet via GET+querystring ─────────────────────────
   // NOTA: Apps Script converte POST→GET nei redirect 302, quindi usiamo
   // direttamente GET con i dati in query string per evitare il problema.
+  //
+  // STRATEGIA FALLBACK:
+  //   - Se CRM ok  → GSheet in fire-and-forget (waitUntil), risposta 200 immediata
+  //   - Se CRM KO  → GSheet in ATTESA (await): se GSheet ok risponde 200 uguale,
+  //                  il dato è al sicuro nel foglio e viene importato manualmente.
+  //                  Solo se anche GSheet fallisce → 502 all'utente.
   const gsheetBase = env.GSHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbyXf5dP6uNCdd3JWj08PAjBmBuiSIEThaL5IL2xFkAIlqYwaCGDZKK_vfql6gVoNESdvA/exec'
+
+  let gsheetOk = false
+
   if (gsheetBase) {
-    // Costruisci query string con tutti i campi del payload
     const qs = new URLSearchParams({
       key:          sheetPayload.key,
       action:       'write',
@@ -276,27 +284,45 @@ export async function onRequestPost({ request, env, waitUntil }) {
       lead_id:      crmLeadId || '',
     }).toString()
 
-    // waitUntil garantisce che il fetch al GSheet venga completato
-    // anche dopo che il worker ha già restituito la risposta al browser
-    const gsheetPromise = fetch(`${gsheetBase}?${qs}`, { method: 'GET' })
-      .then(r => console.log('[submit-lead] GSheet response:', r.status))
-      .catch(e => console.error('[submit-lead] GSheet error:', e))
-    if (typeof waitUntil === 'function') {
-      waitUntil(gsheetPromise)
+    const gsheetUrl = `${gsheetBase}?${qs}`
+
+    if (crmOk) {
+      // CRM ok: GSheet fire-and-forget, non blocchiamo la risposta
+      const gsheetPromise = fetch(gsheetUrl, { method: 'GET' })
+        .then(r => { console.log('[submit-lead] GSheet response (bg):', r.status); return r })
+        .catch(e => console.error('[submit-lead] GSheet error (bg):', e))
+      if (typeof waitUntil === 'function') waitUntil(gsheetPromise)
+      gsheetOk = true // ottimisticamente true — non blocchiamo per saperlo
+    } else {
+      // CRM KO: aspettiamo il GSheet — è il nostro unico salvataggio
+      try {
+        const gsheetRes = await fetch(gsheetUrl, { method: 'GET' })
+        console.log('[submit-lead] GSheet response (fallback):', gsheetRes.status)
+        gsheetOk = gsheetRes.ok || gsheetRes.status === 302 // Apps Script risponde spesso 302
+      } catch (e) {
+        console.error('[submit-lead] GSheet error (fallback):', e)
+        gsheetOk = false
+      }
     }
   } else {
     console.warn('[submit-lead] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
 
-  // ── Risposta al browser ───────────────────────
+  // ── Risposta al browser ───────────────────────────────────────────────────
   if (crmOk) {
+    // Caso normale: CRM ok (GSheet in background)
     return new Response(JSON.stringify({ success: true, leadId: crmLeadId }), {
       status: 200, headers: corsHeaders
     })
+  } else if (gsheetOk) {
+    // CRM KO ma GSheet ok: dato salvato nel foglio, sarà importato manualmente
+    console.warn('[submit-lead] CRM KO ma GSheet ok — lead nel foglio, importare manualmente')
+    return new Response(JSON.stringify({ success: true, leadId: null, _fallback: 'gsheet' }), {
+      status: 200, headers: corsHeaders
+    })
   } else {
-    // CRM KO: rispondo 502 per segnalare il problema.
-    // Il lead potrebbe non essere stato registrato nel CRM né inviata la mail.
-    console.error('[submit-lead] CRM KO — lead non registrato nel CRM')
+    // Entrambi KO: errore reale all'utente
+    console.error('[submit-lead] CRM KO e GSheet KO — lead perso')
     return new Response(JSON.stringify({ success: false, error: 'Servizio temporaneamente non disponibile. Riprova tra qualche minuto.' }), {
       status: 502, headers: corsHeaders
     })
