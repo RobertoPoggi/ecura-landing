@@ -1,11 +1,6 @@
 # Cloudflare Pages redirects
 /index.php  /  301
 
-# Parametro ricerca WordPress residuo — redirect a homepage
-# /?q={search_term_string} compare in GSC come "pagina alternativa con canonical"
-# perché Google la scansiona ma il canonical punta alla homepage
-/?q=*  /  301
-
 # Pagine inesistenti → homepage 301
 /chi-siamo/  /  301
 /chi-siamo   /  301
