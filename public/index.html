@@ -124,7 +124,10 @@ a:hover{color:#05B1A8}
 
 
 .heroSection{border-bottom-right-radius:80px;overflow:hidden;box-shadow:0 20px 100px -70px #088d86}
+/* CLS FIX: min-height esplicito nel critical CSS evita reflow quando i CSS async caricano */
 .hero-bg{background:url('../img/hero-lg.webp') no-repeat right center;background-size:cover;min-height:800px}
+/* CLS FIX: riserva spazio hero-bg-col prima che CSS async e background-image carichino */
+.hero-bg-col{min-height:800px;background-color:#080E49;contain:layout style}
 .heroContent{position:relative;width:100%;height:100%}
 .heroContent::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,73,.72) 0%,rgba(8,14,73,.50) 40%,rgba(8,14,73,.10) 65%,transparent 100%);z-index:1;pointer-events:none}
 .heroContent .textOverlay{position:absolute;bottom:80px;left:0;width:100%;z-index:2}
@@ -157,8 +160,9 @@ a:hover{color:#05B1A8}
 .ecura-form button[type=submit]{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
 .ecura-form button[type=submit]:hover{background:#05B1A8}
 .ecura-form button[type=submit]:disabled{opacity:.6;cursor:not-allowed}
-.ecura-form .ecura-step-btn{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px}
-.ecura-form .ecura-step-btn:hover{background:#05B1A8}
+/* A11Y: #055F5A su #fff = 5.1:1 ratio (AA pass), era #068D86 = 3.5:1 (fail) */
+.ecura-form .ecura-step-btn{width:100%;background:#055F5A;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:600;cursor:pointer;transition:background .3s;margin-top:4px}
+.ecura-form .ecura-step-btn:hover{background:#068D86}
 
 
 #ecura-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#1a1a2e;color:#e8e8f0;padding:18px 24px;font-size:.875rem;line-height:1.5;box-shadow:0 -4px 24px rgba(0,0,0,.35);display:flex;flex-wrap:wrap;align-items:center;gap:14px;animation:slideUpBanner .35s ease}
@@ -199,8 +203,8 @@ a:hover{color:#05B1A8}
 .smooth-wrapper,.smooth-content{width:100%}
 
 
-@media(max-width:992px){.hero-bg{min-height:500px}.heroContent .textOverlay{bottom:40px}.heroSection{border-bottom-right-radius:40px}}
-@media(max-width:768px){.hero-bg{min-height:400px;background-position:center center}.heroContent .textOverlay{bottom:20px}.heroContent h1{font-size:22px}}
+@media(max-width:992px){.hero-bg{min-height:500px}.hero-bg-col{min-height:500px!important}.heroContent .textOverlay{bottom:40px}.heroSection{border-bottom-right-radius:40px}}
+@media(max-width:768px){.hero-bg{min-height:400px;background-position:center center}.hero-bg-col{min-height:400px!important}.heroContent .textOverlay{bottom:20px}.heroContent h1{font-size:22px}}
 @media(max-width:576px){.hero-bg,.hero-bg-col{min-height:300px!important;background-position:65% center!important}.heroSection{border-bottom-right-radius:16px}.heroContent .textOverlay{position:relative!important;bottom:auto!important;padding:28px 16px 20px;background:linear-gradient(180deg,rgba(6,141,134,.85) 0%,rgba(8,14,73,.80) 100%)}.heroContent::before{display:none}.heroContent h1{font-size:1.3rem;margin-bottom:10px}.heroContent .display-6{font-size:1rem}.heroContent .lead{font-size:.95rem}body{font-size:16px}.full_top_nav_wrapper{padding:8px 16px}}
 @media(max-width:600px){#ecura-cookie-banner{padding:14px 16px}#ecura-cookie-banner .ck-btns{width:100%;justify-content:stretch}#ecura-cookie-btn-accept,#ecura-cookie-btn-reject{flex:1;text-align:center}}
 
@@ -209,27 +213,31 @@ picture{display:block}
 /* Override protezione-anziani.jpg nel critical CSS: il browser legge questo
    PRIMA di css.css (async) → non inizia mai a scaricare il JPG da 1.3MB */
 .protectionBan .banner{background:url(img/protezione-anziani.webp) no-repeat center center!important;background-size:cover!important}
-/* Animazioni non-composite: override transition:all nel critical path */
-a:link,a:visited{transition:color .3s!important}
-.cta-standard,.cta-standard:hover,button.cta-standard{transition:background .3s,color .3s,transform .2s!important}
-.cta-standard-green,.cta-standard-green:hover,button.cta-standard-green{transition:background .3s,color .3s!important}
-.cta-standard-black,.cta-standard-black:hover,button.cta-standard-black{transition:background .3s,color .3s!important}
-.cta-standard-white,.cta-standard-white:hover{transition:background .3s,color .3s!important}
-.cta-standard-outline,.cta-standard-outline:hover{transition:background .3s,color .3s!important}
-.cta-standard-outline-black,.cta-standard-outline-black:hover{transition:background .3s,color .3s!important}
-#featCards .card,#featCardsContent.card{transition:transform .3s,box-shadow .3s,background .3s!important}
-.top_nav_wrapper .top_nav ul.top_Menu>li>a{transition:color .3s!important}
-#hamburgerWrap #hamburger .line{transition:transform .3s,opacity .3s!important}
-#faqAccordion .accordion-button::before{transition:background .3s!important}
-#testimonialCarousel .owl-nav button,#functionCarousel .owl-nav button{transition:background .3s!important}
-#testimonialCarousel .owl-dots .owl-dot span,#functionCarousel .owl-dots .owl-dot span{transition:background .3s,transform .3s!important}
-#pricingPlan .card{transition:transform .3s,box-shadow .3s!important}
-.promotitle{transition:none!important}
+/* ═══ FIX ANIMAZIONI NON COMPOSITE ════════════════════════════════════════
+   css.css usa transition:all su 28 selettori → PageSpeed "Evita animazioni
+   non composite" (25 elementi). Override globale: solo proprietà GPU-only.
+   REGOLA: background, color, opacity, transform, box-shadow = OK (compositor).
+   NON-OK: width, height, padding, margin, border-radius, font-size → reflow.
+   ════════════════════════════════════════════════════════════════════════ */
+*{transition-property:background,background-color,color,opacity,transform,box-shadow,border-color,filter!important}
+/* Eccezioni: elementi con transizioni già corrette o senza transizione */
+.promotitle,[data-aos],#ecura-cookie-banner{transition:none!important}
+.accordion-item{transition:none!important}
+/* Ripristina valori specifici per elementi che ne hanno bisogno */
+a:link,a:visited{transition:color .3s ease-in-out!important}
+.ecura-step-dot{transition:background .3s!important}
+/* Override * selector per evitare sovrascrizione di display, position, etc. */
+input,select,textarea,button{transition:background .3s,color .3s,border-color .3s,box-shadow .3s!important}
 /* FIX CRITICO CLS: elementi [data-aos] visibili immediatamente senza AOS.init()
-   AOS.init() causava forced reflow di 138ms → CLS 0.548 → score 46.
-   Con questa regola nel critical CSS (letta PRIMA di tutto) gli elementi sono
-   già visibili al primo paint → nessun layout shift → CLS ≈ 0 */
+   Stato: applicato. CLS residuo viene da hero-bg-col e Google Fonts.
+   Soluzione: hero-bg-col ha min-height nel critical CSS + background-color placeholder */
 [data-aos]{opacity:1!important;transform:none!important;transition:none!important}
+/* CLS FIX FONT: font-display:swap evita FOIT ma può causare CLS con layout shift.
+   Usiamo font-display:optional per evitare qualsiasi shift dopo il primo paint. */
+@font-face{font-family:'Roboto';font-style:normal;font-weight:300;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:500;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2) format('woff2')}
 /* Fix accordion Bootstrap border-*-color → composite-only */
 .accordion-button{transition:background-color .3s,color .3s,box-shadow .3s!important}
 .accordion-button::before,.accordion-button::after{transition:transform .3s,background-color .3s,filter .3s!important}
@@ -1048,7 +1056,7 @@ a:link,a:visited{transition:color .3s!important}
               <section class="heroSection" id="heroSection" aria-label="Presentazione bracciale cadute anziani eCura">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8 g-0 hero-bg-col" style="background: url(img/hero-lg.webp)no-repeat; background-size: cover; background-position: right center; min-height:800px">
+            <div class="col-lg-8 g-0 hero-bg-col" style="background: url(img/hero-lg.webp) right center / cover no-repeat; background-color:#080E49; min-height:800px">
                 <div class="heroContent">
                     <div class="textOverlay">
                         <div class="container">
@@ -1231,7 +1239,7 @@ a:link,a:visited{transition:color .3s!important}
                       <img src="img/set-smart-watch.jpg" 
                            class="img-fluid w-100" 
                            alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani" 
-                           width="750" height="296" style="aspect-ratio:750/296" loading="eager" fetchpriority="high">
+                           width="1114" height="440" style="aspect-ratio:750/296;width:100%;height:auto" loading="lazy" decoding="async">
                     </picture>
             </div>
         </div>
