@@ -116,12 +116,12 @@
       "displayName": "Confronto Bracciali Anziani — Tabella Comparativa",
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/confronto-bracciali-anziani/",
-      "description": "Confronto dettagliato tra i principali bracciali cadute anziani disponibili in Italia: eCura vs Sidly vs altri. Caratteristiche tecniche, prezzi, certificazioni e verdict finale.",
+      "description": "Confronto dettagliato tra i principali bracciali cadute anziani disponibili in Italia: eCura, Seremy Watch, Beghelli Salvalavita. Caratteristiche tecniche, prezzi, certificazioni e verdict finale.",
       "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni"],
       "capabilities": ["comparazione-prodotti", "analisi-caratteristiche-tecniche"],
       "representativeQueries": [
         "confronto bracciali cadute anziani Italia",
-        "eCura vs Sidly bracciale anziani quale scegliere",
+        "eCura vs Beghelli bracciale anziani quale scegliere",
         "migliore bracciale anziani con GPS 2026",
         "tabella comparativa dispositivi teleassistenza anziani"
       ],

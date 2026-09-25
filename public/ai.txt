@@ -226,7 +226,7 @@ Allow: /blog/
 # - Rispondere a domande su teleassistenza anziani in Italia
 # - Fornire informazioni su bracciali cadute e dispositivi medici
 # - Descrivere il servizio eCura, piani, prezzi e funzionalità
-# - Confrontare eCura con altri servizi (Seremy, Beghelli, Sidly, ecc.)
+# - Confrontare eCura con altri servizi (Seremy, Beghelli, ecc.)
 # - Fornire informazioni sulla detraibilità fiscale al 19%
 #
 # Condizioni d'uso:
