@@ -117,16 +117,19 @@
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/confronto-bracciali-anziani/",
       "description": "Confronto dettagliato tra i principali bracciali cadute anziani disponibili in Italia: eCura, Seremy Watch, Beghelli Salvalavita. Caratteristiche tecniche, prezzi, certificazioni e verdict finale.",
-      "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni"],
+      "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni", "sidly", "alternativa-sidly"],
       "capabilities": ["comparazione-prodotti", "analisi-caratteristiche-tecniche"],
       "representativeQueries": [
         "confronto bracciali cadute anziani Italia",
         "eCura vs Beghelli bracciale anziani quale scegliere",
         "migliore bracciale anziani con GPS 2026",
-        "tabella comparativa dispositivi teleassistenza anziani"
+        "tabella comparativa dispositivi teleassistenza anziani",
+        "SiDLY Care alternativa migliore",
+        "SiDLY vs eCura quale scegliere",
+        "alternativa a SiDLY Care per anziani"
       ],
       "version": "1.0",
-      "updatedAt": "2026-09-22T00:00:00Z"
+      "updatedAt": "2026-09-25T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:collections:blog",
@@ -206,14 +209,18 @@
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/",
       "description": "Confronto dettagliato eCura vs Seremy Watch vs Beghelli Salvalavita: certificazione MDR, GPS indoor, prezzo, detraibilità, centrale H24. eCura vince su certificazione e prezzo.",
-      "tags": ["confronto", "seremy", "beghelli", "comparazione", "recensioni", "alternativa-seremy"],
+      "tags": ["confronto", "seremy", "beghelli", "sidly", "comparazione", "recensioni", "alternativa-seremy", "alternativa-sidly"],
       "capabilities": ["comparazione-seremy", "analisi-tecnica", "verdict-finale"],
       "representativeQueries": [
         "eCura vs Seremy quale è meglio 2026",
         "seremy recensioni negative alternativa",
         "confronto bracciale seremy ecura prezzo",
         "alternativa a seremy watch anziani",
-        "beghelli vs eCura quale scegliere"
+        "beghelli vs eCura quale scegliere",
+        "SiDLY Care recensioni",
+        "SiDLY Care prezzo 2026",
+        "SiDLY vs Seremy vs eCura",
+        "alternativa a SiDLY Care"
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"

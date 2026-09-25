@@ -9,6 +9,10 @@
 /comparazione-bracciali-anziani/  /confronto-bracciali-anziani/  301
 /comparazione-bracciali-anziani   /confronto-bracciali-anziani/  301
 
+# Pagina sidly-recensioni → confronto bracciali (redirect permanente 301)
+/blog/sidly-care-recensioni-clienti-ecura/  /confronto-bracciali-anziani/  301
+/blog/sidly-care-recensioni-clienti-ecura   /confronto-bracciali-anziani/  301
+
 # Documento interno strategia SEO — noindex, reindirizza a homepage
 # Elimina confusione GSC "alternativa con canonical" causata da noindex+canonical
 /strategia-seo-link-building/  /  301
