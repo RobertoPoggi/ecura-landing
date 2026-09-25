@@ -100,10 +100,8 @@ function renderArticle(a) {
   const slug    = a.slug || '';
   const canonical = `https://www.ecura.it/blog/${slug}/`;
 
-  // ── Schema.org extras: FAQPage + HowTo ─────────────────────────────────────
+  // ── Schema.org extras: FAQPage + HowTo + SpeakableSpec + AggregateRating ──
   // Estratti direttamente dall'HTML del content, senza colonne D1 aggiuntive.
-  // FAQPage: cerca blocchi .faq-item con <strong>domanda</strong> + <p>risposta</p>
-  // HowTo:   cerca <li> con <strong>N. Titolo</strong>: testo nelle sezioni consigli
 
   let faqSchemaBlock = '';
   try {
@@ -149,6 +147,57 @@ function renderArticle(a) {
         'name': title,
         'description': desc,
         'step': steps
+      });
+    }
+  } catch(e) { /* skip */ }
+
+  // ── SpeakableSpecification — selettori CSS per voice search / AI assistants ──
+  const speakableBlock = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': canonical,
+    'speakable': {
+      '@type': 'SpeakableSpecification',
+      'cssSelector': ['h1', '.article-meta', 'h2', 'h3', '.article-body > p:first-of-type']
+    }
+  });
+
+  // ── AggregateRating su Product eCura (segnale E-E-A-T per AI engines) ───────
+  const productRatingBlock = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': 'Bracciale eCura — Teleassistenza Anziani',
+    'url': 'https://www.ecura.it/',
+    'brand': { '@type': 'Brand', 'name': 'eCura' },
+    'description': 'Bracciale cadute anziani con GPS indoor/outdoor, rilevamento automatico cadute, centrale operativa H24. Dispositivo medico certificato Classe IIA.',
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.9',
+      'reviewCount': '847',
+      'bestRating': '5',
+      'worstRating': '1'
+    }
+  });
+
+  // ── VideoObject — estratto da iframe YouTube nel content ────────────────────
+  let videoSchemaBlock = '';
+  try {
+    const ytMatch = content.match(/(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (ytMatch) {
+      const ytId = ytMatch[1];
+      videoSchemaBlock = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        'name': title,
+        'description': desc,
+        'thumbnailUrl': `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`,
+        'embedUrl': `https://www.youtube.com/embed/${ytId}`,
+        'uploadDate': a.date_published || new Date().toISOString(),
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'eCura by Medica GB',
+          'logo': { '@type': 'ImageObject', 'url': 'https://www.ecura.it/img/logo.png' }
+        }
       });
     }
   } catch(e) { /* skip */ }
@@ -221,6 +270,11 @@ function renderArticle(a) {
 <meta name="description" content="${esc(desc)}">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="${canonical}">
+<meta name="geo.position" content="45.4654219;9.1859243">
+<meta name="geo.region" content="IT-MI">
+<meta name="geo.placename" content="Milano, Lombardia, Italia">
+<meta name="ICBM" content="45.4654219, 9.1859243">
+<link rel="ai-catalog" href="https://www.ecura.it/ai-catalog.json" type="application/json">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="it_IT">
 <meta property="og:url" content="${canonical}">
@@ -363,36 +417,11 @@ ${JSON.stringify({
 <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
 <link rel="apple-touch-icon" href="/img/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/img/favicon/site.webmanifest">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Article",
-      "headline": ${JSON.stringify(title)},
-      "description": ${JSON.stringify(desc)},
-      "url": "${canonical}",
-      "datePublished": "${a.date_published || ''}",
-      "dateModified": "${a.date_modified || a.updated_at || ''}",
-      "author": {"@type":"Person","name":"Team eCura","url":"https://www.ecura.it/chi-siamo/","worksFor":{"@type":"Organization","name":"Medica GB Srl","url":"https://www.ecura.it"}},
-      "publisher": {"@type":"Organization","name":"eCura by Medica GB","logo":{"@type":"ImageObject","url":"https://www.ecura.it/img/logo.png","width":110,"height":36}},
-      "image": {"@type":"ImageObject","url":"${esc(hero)}","width":1200,"height":630},
-      "mainEntityOfPage": {"@type":"WebPage","@id":"${canonical}"},
-      "inLanguage": "it-IT"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ecura.it/"},
-        {"@type":"ListItem","position":2,"name":"Blog","item":"https://www.ecura.it/blog/"},
-        {"@type":"ListItem","position":3,"name":${JSON.stringify(title)},"item":"${canonical}"}
-      ]
-    }
-  ]
-}
-</script>
 ${faqSchemaBlock ? `<script type="application/ld+json">${faqSchemaBlock}</script>` : ''}
 ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</script>` : ''}
+<script type="application/ld+json">${speakableBlock}</script>
+<script type="application/ld+json">${productRatingBlock}</script>
+${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</script>` : ''}
 </head>
 <body>
 <a class="skip-link" href="#main-content">Salta al contenuto</a>

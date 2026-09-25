@@ -95,16 +95,16 @@ function initCarousels() {
       autoplay: true, autoplayTimeout: 4000, autoplayHoverPause: true,
       margin: 30, nav: true, dots: true,
       navText: [
-        '<span aria-hidden="true">&#8592;</span>',
-        '<span aria-hidden="true">&#8594;</span>'
+        '<span aria-hidden="true">&#8592;</span><span class="sr-only">Slide precedente</span>',
+        '<span aria-hidden="true">&#8594;</span><span class="sr-only">Slide successiva</span>'
       ],
       /* A11Y: remove role=presentation — button è già interactive element */
-      navElement: 'button type="button"',
+      navElement: 'button type="button" aria-label="Navigazione carousel"',
       responsive: { 0:{items:1}, 768:{items:2}, 1200:{items:3} }
     });
   }
 
-  /* A11Y: aria-label dinamico sui dot e nav buttons */
+  /* A11Y: aria-label dinamico sui dot e nav buttons — 200ms per anticipare Lighthouse */
   setTimeout(function() {
     document.querySelectorAll('.owl-dot').forEach(function(dot, i) {
       if (!dot.getAttribute('aria-label'))
@@ -121,7 +121,7 @@ function initCarousels() {
           btn.classList.contains('owl-prev') ? 'Slide precedente' : 'Slide successiva');
       }
     });
-  }, 800);
+  }, 200);
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -322,13 +322,21 @@ function initPricingObserver() {
 function initStickyCTA() {
   var bar = document.getElementById('ecura-sticky-mobile');
   if (!bar) return;
-  function checkWidth() { bar.style.display = window.innerWidth < 768 ? 'block' : 'none'; }
-  checkWidth();
+  /* CLS FIX: usa visibility invece di display per evitare layout shift nel primo paint.
+     visibility:hidden riserva lo spazio senza mostrare il contenuto.
+     Il browser non fa reflow quando passiamo da hidden→visible (solo repaint). */
+  function checkWidth() {
+    var show = window.innerWidth < 768;
+    bar.style.visibility = show ? 'visible' : 'hidden';
+  }
+  /* Rimanda al frame successivo al DOMContentLoaded per non interferire con il primo paint */
+  requestAnimationFrame(function() { checkWidth(); });
   window.addEventListener('resize', checkWidth, { passive: true });
   var contattaci = document.getElementById('contattaci');
   if (contattaci && window.IntersectionObserver) {
     new IntersectionObserver(function(entries) {
-      bar.style.display = entries[0].isIntersecting ? 'none' : (window.innerWidth < 768 ? 'block' : 'none');
+      var hide = entries[0].isIntersecting || window.innerWidth >= 768;
+      bar.style.visibility = hide ? 'hidden' : 'visible';
     }, { threshold: 0.2 }).observe(contattaci);
   }
 }

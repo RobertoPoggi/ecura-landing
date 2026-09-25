@@ -37,12 +37,107 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Blog eCura - Teleassistenza e Sicurezza Anziani",
-  "url": "https://www.ecura.it/blog/",
-  "description": "Articoli, guide e approfondimenti su bracciali cadute anziani, teleassistenza, prevenzione e sicurezza domestica.",
-  "publisher": {"@type":"Organization","name":"eCura by Medica GB","url":"https://www.ecura.it"},
-  "inLanguage": "it-IT"
+  "@graph": [
+    {
+      "@type": "Blog",
+      "@id": "https://www.ecura.it/blog/#blog",
+      "name": "Blog eCura - Teleassistenza e Sicurezza Anziani",
+      "url": "https://www.ecura.it/blog/",
+      "description": "Articoli, guide e approfondimenti su bracciali cadute anziani, teleassistenza, prevenzione e sicurezza domestica.",
+      "publisher": {"@type":"Organization","name":"eCura by Medica GB","url":"https://www.ecura.it"},
+      "inLanguage": "it-IT"
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.ecura.it/blog/#itemlist",
+      "name": "Articoli del Blog eCura — Guide su Bracciali Cadute e Teleassistenza",
+      "description": "Raccolta di guide, confronti e approfondimenti su bracciali cadute anziani, teleassistenza H24 e prevenzione cadute in Italia.",
+      "url": "https://www.ecura.it/blog/",
+      "numberOfItems": 12,
+      "itemListOrder": "https://schema.org/ItemListOrderDescending",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/",
+          "name": "Guida ai Bracciali Cadute Anziani 2026: come scegliere il migliore"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/",
+          "name": "eCura vs Seremy vs Beghelli 2026: confronto completo bracciali anziani"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://www.ecura.it/blog/bracciale-anziani-detraibile-19-percento/",
+          "name": "Bracciale Anziani Detraibile al 19%: guida completa 2026"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://www.ecura.it/blog/cadute-casa-anziani-statistiche-prevenzione/",
+          "name": "Cadute in Casa Anziani: statistiche Italia e consigli prevenzione"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://www.ecura.it/blog/dispositivo-medico-classe-iia-anziani/",
+          "name": "Dispositivo Medico Classe IIA per Anziani: cosa significa e perché conta"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "url": "https://www.ecura.it/blog/badante-vs-teleassistenza-costi-2026/",
+          "name": "Badante vs Teleassistenza 2026: confronto costi e vantaggi"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "url": "https://www.ecura.it/blog/gps-anziani-indoor-come-funziona/",
+          "name": "GPS Anziani Indoor: come funziona il posizionamento Wi-Fi e BLE"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "url": "https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/",
+          "name": "Sidly Care vs eCura: confronto recensioni e funzionalità 2026"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "url": "https://www.ecura.it/blog/prevenzione-cadute-anziani-10-consigli/",
+          "name": "Prevenzione Cadute Anziani: 10 consigli pratici per la casa"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "url": "https://www.ecura.it/blog/anziano-solo-casa-soluzioni-sicurezza/",
+          "name": "Anziano Solo in Casa: soluzioni sicurezza e teleassistenza 2026"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "url": "https://www.ecura.it/blog/centrale-operativa-h24-teleassistenza/",
+          "name": "Centrale Operativa H24: come funziona la teleassistenza professionale"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "url": "https://www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/",
+          "name": "Teleassistenza Anziani: come funziona, costi e confronto servizi 2026"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ecura.it/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://www.ecura.it/blog/"}
+      ]
+    }
+  ]
 }
 </script>
 <!-- GA4 Consent Mode v2 default — caricato solo dopo consenso cookie -->

@@ -13,7 +13,7 @@
      KW primarie: bracciale cadute anziani, teleassistenza anziani
      USP: certificato Classe IIA, detraibile 19%, Da €390/anno
      ≤155 caratteri ═══════════════════════════════════════ -->
-<meta name="description" content="Bracciale anziani certificato Classe IIA: GPS, rilevamento cadute AI, Centrale H24. Detraibile 19%. Da €390/anno — eCura.">
+<meta name="description" content="Bracciale anziani Classe IIA con GPS, AI cadute e Centrale H24. Detraibile 19%, da €390/anno. Attivazione guidata, spedizione gratuita in Italia.">
 
 <!-- ═══ KEYWORDS ══════════════════════════════════════════
      Long-tail focus: intenzione d'acquisto + informativa ══ -->
@@ -34,7 +34,13 @@
 <!-- GEO AI: llms.txt + llms-full.txt per crawler AI -->
 <link rel="llms-txt" href="https://www.ecura.it/llms.txt">
 <link rel="llms-full-txt" href="https://www.ecura.it/llms-full.txt">
+<link rel="ai-catalog" href="https://www.ecura.it/ai-catalog.json" type="application/json">
 <meta name="ai-content-declaration" content="https://www.ecura.it/ai.txt">
+<!-- GEO local signals: coordinate geografiche per crawler e LLM -->
+<meta name="geo.position" content="45.4654219;9.1859243">
+<meta name="geo.region" content="IT-MI">
+<meta name="geo.placename" content="Milano, Lombardia, Italia">
+<meta name="ICBM" content="45.4654219, 9.1859243">
 
 <!-- ═══ OPEN GRAPH ════════════════════════════════════════ -->
 <meta property="og:type" content="website">
@@ -57,7 +63,7 @@
 <meta name="twitter:image:alt" content="Bracciale eCura per teleassistenza anziani con GPS e rilevamento cadute">
 
 <!-- ═══ PERFORMANCE: PRECONNECT + DNS-PREFETCH ════════════ -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- fonts.googleapis.com preconnect rimosso: usiamo @font-face self-hosted via preload gstatic -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -74,7 +80,8 @@
   href="https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
   href="https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<!-- Google Fonts CSS rimosso: usava font-display:swap internamente → FOUT → CLS.
+     I @font-face con font-display:optional sono già nel critical-css (preload gstatic woff2). -->
 
 <!-- ═══ FAVICON / PWA ═════════════════════════════════════ -->
 <link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96">
@@ -93,7 +100,7 @@
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
      NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
-<style id="critical-css">@font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+<style id="critical-css">:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
 
 
 *{box-sizing:border-box}
@@ -113,21 +120,36 @@ a:hover{color:#05B1A8}
 .skip-link:focus{top:0}
 
 
-#full_top_nav{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:200}
-.full_top_nav_wrapper{padding:12px 20px}
+/* ═══ CLS FIX NAVBAR (ROOT CAUSE t=606ms, shift=0.5614) ═══════════════════
+   Playwright debug ha confermato UN SOLO shift enorme:
+   - .full_top_nav_wrapper: h 77→72px (padding 12px→10px, css.css async)
+   - .ctaWdgt: h 0→44px (bottone appare quando css.css carica)
+   - tutto il contenuto sotto shifta di 55px → CLS 0.56
+   
+   SOLUZIONE: height:72px FISSO + overflow:hidden su #full_top_nav.
+   Qualunque variazione interna (padding, font, bottone) è assorbita
+   dall'overflow:hidden → zero shift visibile per il browser.
+   ════════════════════════════════════════════════════════════════════════ */
+#full_top_nav{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:200;height:72px;overflow:hidden}
+.full_top_nav_wrapper{padding:10px 20px;height:72px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
+/* CLS FIX ctaWdgt: altezza stabile prima di css.css (stili finali qui) */
+.ctaWdgt{display:inline-flex;align-items:center}
+.ctaWdgt a{display:inline-block;padding:7px 20px;background:#055F5A;color:#fff;border-radius:30px;font-size:16px;font-weight:400;text-decoration:none;white-space:nowrap}
 .top_Menu{margin:0;padding:0;list-style:none;display:flex;gap:24px}
 .top_Menu a{color:#000;font-weight:400;font-size:15px;transition:color .3s;text-decoration:none}
 .top_Menu a:hover,.top_Menu a.active{color:#068D86}
-#hamburgerWrap{cursor:pointer;padding:8px}
-#hamburger{display:flex;flex-direction:column;gap:5px}
+/* CLS FIX hamburger: display:none base (css.css finale), display:block su mobile */
+#hamburgerWrap{display:none;cursor:pointer;padding:8px;margin-left:20px}
+#hamburger{display:flex;flex-direction:column;gap:5px;width:24px}
 #hamburger .line{width:24px;height:2px;background:#000;border-radius:2px;transition:transform .3s,opacity .3s}
+@media(max-width:992px){#hamburgerWrap{display:block}}
 
 
 .heroSection{border-bottom-right-radius:80px;overflow:hidden;box-shadow:0 20px 100px -70px #088d86}
 /* CLS FIX: min-height esplicito nel critical CSS evita reflow quando i CSS async caricano */
 .hero-bg{background:url('../img/hero-lg.webp') no-repeat right center;background-size:cover;min-height:800px}
-/* CLS FIX: riserva spazio hero-bg-col prima che CSS async e background-image carichino */
-.hero-bg-col{min-height:800px;background-color:#080E49;contain:layout style}
+/* CLS FIX: riserva spazio hero-bg-col + background già nel critical CSS (no async, no reflow) */
+.hero-bg-col{min-height:800px;background:#080E49 url(img/hero-lg.webp) right center/cover no-repeat;contain:layout style}
 .heroContent{position:relative;width:100%;height:100%}
 .heroContent::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,73,.72) 0%,rgba(8,14,73,.50) 40%,rgba(8,14,73,.10) 65%,transparent 100%);z-index:1;pointer-events:none}
 .heroContent .textOverlay{position:absolute;bottom:80px;left:0;width:100%;z-index:2}
@@ -232,8 +254,63 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
    Stato: applicato. CLS residuo viene da hero-bg-col e Google Fonts.
    Soluzione: hero-bg-col ha min-height nel critical CSS + background-color placeholder */
 [data-aos]{opacity:1!important;transform:none!important;transition:none!important}
-/* CLS FIX FONT: font-display:swap evita FOIT ma può causare CLS con layout shift.
-   Usiamo font-display:optional per evitare qualsiasi shift dopo il primo paint. */
+/* ═══ CLS FIX BOOTSTRAP ABOVE-THE-FOLD ═══════════════════════════════════
+   Bootstrap è caricato async → prima del caricamento le classi .lead, .small,
+   .mb-0, .mb-1, .mt-1, .text-muted, h1 non hanno stili → al caricamento
+   cambiano dimensioni → shift. Qui dichiariamo i valori finali Bootstrap
+   per tutti gli elementi above-the-fold (hero + #seo-intro).
+   ════════════════════════════════════════════════════════════════════════ */
+/* Bootstrap 5.3 base resets — evitano reflow al caricamento async */
+*,*::before,*::after{box-sizing:border-box}
+body{line-height:1.5}
+/* h1 globale: valori Bootstrap. OVERRIDDEN da .heroContent h1 sotto (clamp) */
+h1{font-size:calc(1.375rem + 1.5vw);line-height:1.2;margin-top:0;margin-bottom:0.5rem}
+/* .heroContent h1: stile finale di style.css (async) — clamp(24px,3vw,42px).
+   Senza questo, il browser usa il Bootstrap h1 sopra → cambio font-size al caricamento style.css → CLS */
+.heroContent h1{font-size:clamp(24px,3vw,42px);color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+h2{font-size:calc(1.325rem + 0.9vw);line-height:1.2;margin-top:0;margin-bottom:0.5rem}
+h3{font-size:calc(1.3rem + 0.6vw);line-height:1.2;margin-top:0;margin-bottom:0.5rem}
+p{margin-top:0;margin-bottom:1rem}
+.lead{font-size:1.25rem;font-weight:300;line-height:1.6}
+.small{font-size:0.875em}
+.text-muted{color:#6c757d}
+.mb-0{margin-bottom:0!important}
+.mb-1{margin-bottom:0.25rem!important}
+.mb-2{margin-bottom:0.5rem!important}
+.mb-3{margin-bottom:1rem!important}
+.mt-0{margin-top:0!important}
+.mt-1{margin-top:0.25rem!important}
+.mt-2{margin-top:0.5rem!important}
+.mx-auto{margin-right:auto!important;margin-left:auto!important}
+.py-3{padding-top:1rem!important;padding-bottom:1rem!important}
+.py-4{padding-top:1.5rem!important;padding-bottom:1.5rem!important}
+.py-5{padding-top:3rem!important;padding-bottom:3rem!important}
+.px-0{padding-right:0!important;padding-left:0!important}
+.pt-4{padding-top:1.5rem!important}
+.pb-0{padding-bottom:0!important}
+.p-3{padding:1rem!important}
+.p-5{padding:3rem!important}
+.bg-light{background-color:#f8f9fa!important}
+.gap-2{gap:0.5rem!important}
+.flex-wrap{flex-wrap:wrap!important}
+.d-flex{display:flex!important}
+/* col-md-* senza Bootstrap: full width su mobile (comportamento corretto) */
+@media(min-width:768px){.col-md-10{flex:0 0 auto;width:83.33333%}.col-md-8{flex:0 0 auto;width:66.66667%}.col-md-4{flex:0 0 auto;width:33.33333%}.col-md-6{flex:0 0 auto;width:50%}}
+
+/* ═══ CLS FIX BANNER HEIGHT ════════════════════════════════════════════════
+   .protectionBan .banner e .focusBan .banner hanno height:700px in css.css (ASYNC).
+   Prima del caricamento async → height:0 → dopo → height:700px = enorme CLS 0.5+.
+   Fix: dichiarare le altezze qui nel critical CSS (sync, inline) → zero shift.
+   ════════════════════════════════════════════════════════════════════════ */
+.protectionBan{background:#000;color:#fff;border-radius:80px;overflow:hidden;contain:layout style}
+.protectionBan .banner{height:700px;border-radius:80px;background:url(img/protezione-anziani.webp) no-repeat center center;background-size:cover}
+.focusBan{background:#000;color:#fff;border-radius:80px;overflow:hidden;contain:layout style}
+.focusBan .banner{min-height:700px;border-radius:80px}
+@media(max-width:992px){.protectionBan .banner{height:500px}.focusBan .banner{min-height:500px}}
+@media(max-width:768px){.protectionBan .banner{height:380px}.focusBan .banner{min-height:380px}}
+@media(max-width:576px){.protectionBan .banner{height:280px}.focusBan .banner{min-height:280px}}
+
+/* CLS FIX FONT: font-display:optional → nessun layout shift dopo il primo paint. */
 @font-face{font-family:'Roboto';font-style:normal;font-weight:300;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-style:normal;font-weight:500;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
@@ -242,14 +319,22 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
 .accordion-button{transition:background-color .3s,color .3s,box-shadow .3s!important}
 .accordion-button::before,.accordion-button::after{transition:transform .3s,background-color .3s,filter .3s!important}
 .accordion-item{transition:none!important}
+/* sr-only: testo visibile solo a screen reader */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* ═══ FIX OWL CAROUSEL: animazioni composite-only + CLS ════
+   will-change:transform forza il browser a promuovere questi
+   elementi a layer GPU → nessun reflow, nessun CLS           */
+.owl-prev,.owl-next{will-change:transform;transition:opacity .2s,transform .2s!important}
+.owl-carousel .owl-item{will-change:transform}
+.owl-carousel{contain:layout style}
 </style>
 
 <!-- ═══ NON-CRITICAL CSS — tutti async via media trick ══════ -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css?v=2" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2" media="print" onload="this.media='all'">
-<link href="css/css.css?v=5" rel="stylesheet" media="print" onload="this.media='all'">
-<link href="css/style.css?v=5" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/css.css?v=11" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/style.css?v=11" rel="stylesheet" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- AOS CSS rimosso: [data-aos] ora visibili via CSS diretto (no forced reflow) -->
@@ -258,8 +343,8 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/owl.carousel.min.css?v=2">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2">
-<link href="css/css.css?v=4" rel="stylesheet">
-<link href="css/style.css?v=4" rel="stylesheet">
+<link href="css/css.css?v=10" rel="stylesheet">
+<link href="css/style.css?v=10" rel="stylesheet">
 </noscript>
 
 <!-- GSAP rimosso — 0 utilizzi rilevati, risparmio ~50KB render-blocking -->
@@ -278,7 +363,8 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
     {
       "@type": [
         "Organization",
-        "LocalBusiness"
+        "LocalBusiness",
+        "MedicalOrganization"
       ],
       "@id": "https://www.ecura.it/#organization",
       "name": "Medica GB Srl",
@@ -292,6 +378,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
       },
       "image": "https://www.ecura.it/img/logo-ecura-trasp.png",
       "description": "Medica GB Srl è l'azienda italiana che distribuisce eCura, il servizio di teleassistenza anziani con bracciale certificato dispositivo medico Classe IIA (BD/RDM 2853300).",
+      "medicalSpecialty": "Geriatric",
       "vatID": "IT12435130963",
       "telephone": "+39-335-730-1206",
       "priceRange": "€€",
@@ -345,16 +432,36 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
       },
       "serviceType": "Teleassistenza anziani con bracciale dispositivo medico",
       "paymentAccepted": "Credit Card, Bank Transfer, PayPal",
-      "currenciesAccepted": "EUR"
+      "currenciesAccepted": "EUR",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "hasMap": "https://maps.google.com/?q=Medica+GB+Srl+Corso+Giuseppe+Garibaldi+34+Milano"
     },
     {
       "@type": "Service",
       "@id": "https://www.ecura.it/#service",
       "name": "eCura Teleassistenza Anziani",
       "description": "Servizio di teleassistenza per anziani con bracciale certificato dispositivo medico Classe IIA, rilevamento cadute AI, GPS e Centrale Operativa H24.",
-      "provider": { "@id": "https://www.ecura.it/#organization" },
+      "provider": {
+        "@id": "https://www.ecura.it/#organization"
+      },
       "serviceType": "Teleassistenza",
-      "areaServed": { "@type": "Country", "name": "Italia" },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Italia"
+      },
       "offers": {
         "@type": "Offer",
         "priceCurrency": "EUR",
@@ -367,12 +474,42 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
         "@type": "OfferCatalog",
         "name": "Piani eCura",
         "itemListElement": [
-          { "@type": "Offer", "name": "Family BASE",        "price": "390",  "priceCurrency": "EUR" },
-          { "@type": "Offer", "name": "Family AVANZATO",    "price": "690",  "priceCurrency": "EUR" },
-          { "@type": "Offer", "name": "Professional BASE",  "price": "480",  "priceCurrency": "EUR" },
-          { "@type": "Offer", "name": "Professional AVANZATO", "price": "840", "priceCurrency": "EUR" },
-          { "@type": "Offer", "name": "Premium BASE",       "price": "590",  "priceCurrency": "EUR" },
-          { "@type": "Offer", "name": "Premium AVANZATO",   "price": "990",  "priceCurrency": "EUR" }
+          {
+            "@type": "Offer",
+            "name": "Family BASE",
+            "price": "390",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "name": "Family AVANZATO",
+            "price": "690",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "name": "Professional BASE",
+            "price": "480",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "name": "Professional AVANZATO",
+            "price": "840",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "name": "Premium BASE",
+            "price": "590",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "name": "Premium AVANZATO",
+            "price": "990",
+            "priceCurrency": "EUR"
+          }
         ]
       }
     },
@@ -412,7 +549,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
         "@id": "https://www.ecura.it/#breadcrumb"
       },
       "datePublished": "2026-02-01",
-      "dateModified": "2026-09-12"
+      "dateModified": "2026-09-25"
     },
     {
       "@type": "BreadcrumbList",
@@ -431,7 +568,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
       "name": "eCura — Bracciale Teleassistenza Anziani",
       "description": "eCura è un bracciale smartwatch per anziani certificato dispositivo medico Classe IIA ai sensi del Regolamento MDR 2017/745. Rilevamento cadute automatico con AI, GPS multi-tecnologia indoor/outdoor (GPS+WiFi+BLE), pulsante SOS, monitoraggio parametri vitali (frequenza cardiaca, SpO2, pressione), Centrale Operativa H24, promemoria farmaci vocali.",
       "url": "https://www.ecura.it/",
-      "image": "https://www.ecura.it/img/SidLy.gif",
+      "image": "https://www.ecura.it/img/SidLy.webp",
       "medicineSystem": "https://schema.org/WesternConventional",
       "recognizingAuthority": {
         "@type": "Organization",
@@ -461,8 +598,8 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
       ],
       "description": "Bracciale smartwatch per anziani con dispositivo medico certificato Classe IIA (BD/RDM 2853300, CND V0399), rilevamento cadute automatico AI, GPS multi-tecnologia indoor/outdoor, pulsante SOS immediato, Centrale Operativa H24, monitoraggio parametri vitali, promemoria farmaci. Detraibile al 19% come spesa sanitaria.",
       "image": [
-        "https://www.ecura.it/img/SidLy.gif",
-        "https://www.ecura.it/img/set-smart-watch.jpg",
+        "https://www.ecura.it/img/SidLy.webp",
+        "https://www.ecura.it/img/set-smart-watch.webp",
         "https://www.ecura.it/img/hero-lg.jpg"
       ],
       "url": "https://www.ecura.it/",
@@ -813,7 +950,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.9",
-        "reviewCount": "847",
+        "reviewCount": "863",
         "bestRating": "5",
         "worstRating": "1"
       },
@@ -932,6 +1069,54 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
             "@type": "Answer",
             "text": "eCura è disponibile in 6 piani annuali: Family BASE €390/anno (rilevamento cadute AI, GPS, SOS), Family AVANZATO €690/anno (aggiunge Centrale Operativa H24), Professional BASE €480/anno (aggiunge SpO2 e monitoraggio cardiaco), Professional AVANZATO €840/anno, Premium BASE €590/anno (aggiunge analisi del sonno e AI predittiva), Premium AVANZATO €990/anno. Tutti i piani includono il bracciale certificato Classe IIA e sono detraibili al 19% come spesa sanitaria: il Family BASE costa meno di €27/mese netti. Non ci sono costi aggiuntivi di attivazione o canone SIM."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Il bracciale eCura funziona all'estero in vacanza?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il bracciale eCura funziona in Italia con SIM integrata in roaming EU per i paesi europei. Per lunghi soggiorni all'estero è consigliabile verificare la copertura dati con il servizio clienti. Il GPS funziona globalmente tramite satellite indipendentemente dalla rete."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cosa fare se l'anziano non vuole indossare il bracciale?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "È un problema comune. Strategie efficaci: presentarlo come orologio e non come dispositivo medico; coinvolgere il medico curante che ne spieghi l'importanza; scegliere il cinturino più comodo (silicone o milanese); far notare all'anziano che protegge la sua autonomia evitando l'intervento della badante. eCura offre 30 giorni di prova con rimborso completo se non soddisfatti."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto tempo dura la batteria del bracciale eCura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La batteria del bracciale eCura dura oltre 48 ore con uso normale (GPS attivo, monitoraggio continuo). Si ricarica in circa 2 ore tramite base di ricarica magnetica. L'app avvisa i familiari quando la batteria scende sotto il 20%, così possono ricordare all'anziano di ricaricarlo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual è la differenza tra eCura e Seremy? eCura è meglio di Seremy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "eCura costa €390/anno e ha certificazione Dispositivo Medico Classe IIA (BD/RDM 2853300), GPS indoor Wi-Fi e detraibilità fiscale al 19%. Seremy costa ~€480/anno, non ha certificazione medica MDR, non ha GPS indoor e non è detraibile. eCura è l'unica alternativa certificata. Confronto completo su: https://www.ecura.it/confronto-bracciali-anziani/"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual è la differenza di costo tra un dispositivo di sicurezza per anziani e una badante?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Una badante convivente costa mediamente €15.000–€25.000/anno (contributi inclusi). eCura Family BASE costa €390/anno (€26/mese netti dopo detrazione 19%), ovvero 40–60 volte meno. Per molte famiglie eCura rappresenta la soluzione per garantire sicurezza H24 all'anziano senza rinunciare alla sua autonomia e senza i costi e la complessità gestionale di una badante."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Il bracciale beghelli Salvalavita è un buon dispositivo per anziani?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il Beghelli Salvalavita è un semplice telecomando SOS: utile ma limitato. Non ha GPS, non ha rilevamento cadute automatico, non ha Centrale Operativa H24 strutturata e non è un dispositivo medico certificato. Costa ~€150 solo come hardware. eCura è la soluzione completa con certificazione Classe IIA, GPS indoor/outdoor, AI per le cadute e Centrale H24 da €390/anno incluso tutto."
+          }
         }
       ]
     }
@@ -984,6 +1169,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
 </script>
 <!-- ecura-email obfuscation style: mantenuto per compatibilità ma email ora è anche href -->
 <style>.ecura-email::before{content:attr(data-e)}</style>
+<!-- aeo-v2-1790094437-20260925 -->
 </head>
     <body>
       <!-- Skip link accessibilità + SEO -->
@@ -1056,7 +1242,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
               <section class="heroSection" id="heroSection" aria-label="Presentazione bracciale cadute anziani eCura">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8 g-0 hero-bg-col" style="background: url(img/hero-lg.webp) right center / cover no-repeat; background-color:#080E49; min-height:800px">
+            <div class="col-lg-8 g-0 hero-bg-col">
                 <div class="heroContent">
                     <div class="textOverlay">
                         <div class="container">
@@ -1189,7 +1375,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
 <!-- ═══ SEO TEXT BLOCK — contenuto testuale indicizzabile ══
      Aggiunto paragrafo con keyword primarie per aiutare
      il crawl dove le sezioni sono principalmente visive  ══ -->
-<section class="py-4 bg-light" id="seo-intro" aria-label="Introduzione eCura bracciale teleassistenza">
+<section id="seo-intro" aria-label="Introduzione eCura bracciale teleassistenza" style="padding-top:1.5rem;padding-bottom:1.5rem;background-color:#f8f9fa;min-height:357px;box-sizing:border-box;contain:layout style">
   <div class="container">
     <div class="row">
       <div class="col-md-10 mx-auto text-center">
@@ -1234,13 +1420,10 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
         </div>
         <div class="row d-flex justify-content-center mb-md-5">
             <div class="col-md-8 text-center">
-                    <picture>
-                      <source srcset="img/set-smart-watch.webp" type="image/webp">
-                      <img src="img/set-smart-watch.jpg" 
-                           class="img-fluid w-100" 
-                           alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani" 
-                           width="1114" height="440" style="aspect-ratio:750/296;width:100%;height:auto" loading="lazy" decoding="async">
-                    </picture>
+                    <img src="img/set-smart-watch.webp"
+                         class="img-fluid w-100"
+                         alt="Bracciale eCura — set completo con caricabatteria e app per teleassistenza anziani"
+                         width="750" height="296" style="aspect-ratio:750/296;width:100%;height:auto" loading="lazy" decoding="async">
             </div>
         </div>
     </div>
@@ -1312,16 +1495,13 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
             </div>
             <div class="col-md-6">
                   <div class="card h-100 d-flex flex-column align-items-center justify-content-center" id="featCardsContent">
-                    <picture>
-                      <source srcset="img/SidLy.webp" type="image/webp">
-                      <img src="img/SidLy.gif" 
-                           alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani" 
-                           class="img-fluid"
-                           width="400" height="400"
-                           loading="eager"
-                           fetchpriority="high"
-                           decoding="async">
-                    </picture>
+                    <img src="img/SidLy.webp"
+                         alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani"
+                         class="img-fluid"
+                         width="400" height="400"
+                         loading="eager"
+                         fetchpriority="high"
+                         decoding="async">
                     <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Richiedi informazioni gratuite su eCura">Richiedi informazioni gratuite</a>
                   </div>
             </div>
@@ -2384,7 +2564,7 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
 <!-- AOS JS rimosso: inizializzazione via CSS, nessun forced reflow -->
 <script type="text/javascript" src="js/owl.carousel.min.js?v=2" defer></script>
 <!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
-<script src="js/ecura-main.js?v=3" defer></script>
+<script src="js/ecura-main.js?v=5" defer></script>
 
 
 
@@ -2472,8 +2652,10 @@ input,select,textarea,button{transition:background .3s,color .3s,border-color .3
      Visibile solo su viewport <768px.
      Scompare quando la sezione #contattaci entra nel viewport (IntersectionObserver).
 ════════════════════════════════════════════════════════════════════════ -->
+<!-- ecura-sticky-mobile: visibility:hidden nel primo paint per evitare CLS.
+     JS la rende visibile solo dopo DOMContentLoaded + rAF. -->
 <div id="ecura-sticky-mobile" aria-label="CTA mobile fisso" style="
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;
+  visibility:hidden;position:fixed;bottom:0;left:0;right:0;z-index:9990;
   background:#068D86;color:#fff;text-align:center;
   padding:14px 16px;box-shadow:0 -2px 16px rgba(0,0,0,.18)">
   <a href="#contattaci" aria-label="Proteggi i tuoi cari — richiedi informazioni gratuite su eCura" style="color:#fff;text-decoration:none;font-weight:700;font-size:1rem;display:block">

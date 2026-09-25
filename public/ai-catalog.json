@@ -1,0 +1,240 @@
+{
+  "specVersion": "1.0",
+  "updatedAt": "2026-09-25T00:00:00Z",
+  "host": {
+    "displayName": "eCura — Medica GB S.r.l.",
+    "identifier": "did:web:ecura.it",
+    "documentationUrl": "https://www.ecura.it/llms.txt",
+    "logoUrl": "https://www.ecura.it/img/logo-ecura-trasp.png"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:ecura.it:pages:homepage",
+      "displayName": "eCura Homepage — Bracciale Cadute Anziani",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/",
+      "description": "Pagina principale eCura. Bracciale cadute anziani con GPS indoor/outdoor, SOS automatico, rilevamento AI cadute e Centrale Operativa H24. Dispositivo medico certificato Classe IIA. Detraibile 19%. Da €390/anno.",
+      "tags": ["teleassistenza", "anziani", "bracciale-cadute", "gps", "dispositivo-medico"],
+      "capabilities": ["rilevamento-cadute-automatico", "gps-indoor-outdoor", "sos-emergenza", "centrale-h24", "monitoraggio-anziani"],
+      "representativeQueries": [
+        "bracciale cadute anziani con GPS e teleassistenza",
+        "dispositivo medico classe IIA per anziani",
+        "bracciale emergenza anziani detraibile 19%",
+        "teleassistenza anziani con centrale operativa h24",
+        "come funziona eCura bracciale anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:come-funziona",
+      "displayName": "Come funziona il bracciale eCura",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/come-funziona-bracciale-ecura/",
+      "description": "Guida completa al funzionamento del bracciale eCura: rilevamento automatico cadute con AI, GPS indoor/outdoor, tasto SOS, Centrale H24 e app familiare.",
+      "tags": ["come-funziona", "guida", "funzionalità", "sos", "gps"],
+      "capabilities": ["rilevamento-cadute-ai", "gps-tracking", "notifiche-familiari", "app-mobile"],
+      "representativeQueries": [
+        "come funziona il bracciale eCura",
+        "bracciale anziani come rileva le cadute automaticamente",
+        "app teleassistenza anziani per familiari",
+        "GPS anziani indoor come funziona"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:detraibile",
+      "displayName": "Bracciale Anziani Detraibile al 19% — Guida Fiscale",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/bracciale-anziani-detraibile/",
+      "description": "Guida completa alla detraibilità fiscale del bracciale eCura: detrazione IRPEF 19% come dispositivo medico Classe IIA, IVA agevolata 4% Legge 104 per disabilità al 100%.",
+      "tags": ["detraibile", "fiscale", "irpef", "legge-104", "iva-agevolata"],
+      "capabilities": ["informazioni-detrazione-fiscale", "iva-agevolata-4-percento", "rimborso-irpef"],
+      "representativeQueries": [
+        "bracciale anziani detraibile 19 percento IRPEF",
+        "dispositivo medico anziani detraibile fiscalmente",
+        "IVA agevolata 4% bracciale anziani Legge 104",
+        "come detrarre spese teleassistenza anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:statistiche-cadute",
+      "displayName": "Statistiche Cadute Anziani Italia 2026",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/statistiche-cadute-anziani-italia/",
+      "description": "Dati e statistiche aggiornate 2026 sulle cadute degli anziani in Italia: numeri, cause, conseguenze e strategie di prevenzione efficaci.",
+      "tags": ["statistiche", "cadute", "anziani", "italia", "prevenzione", "dati-2026"],
+      "capabilities": ["dati-statistici-cadute", "analisi-rischio-cadute"],
+      "representativeQueries": [
+        "quanti anziani cadono ogni anno in Italia",
+        "statistiche cadute anziani Italia 2026",
+        "cause principali cadute anziani a casa",
+        "mortalità cadute anziani dati Italia"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:guida-cadute",
+      "displayName": "Guida Prevenzione Cadute Anziani",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/guida-cadute-anziani/",
+      "description": "Guida pratica in 5 step per prevenire le cadute degli anziani a casa: valutazione rischi, ausili per la mobilità, terapia farmacologica, esercizi fisici e teleassistenza.",
+      "tags": ["prevenzione", "cadute", "guida", "sicurezza-casa", "anziani"],
+      "capabilities": ["prevenzione-cadute", "sicurezza-domestica-anziani", "consigli-pratici"],
+      "representativeQueries": [
+        "come prevenire cadute anziani a casa",
+        "guida sicurezza anziani in casa",
+        "ausili per anziani per evitare cadute",
+        "esercizi per prevenire cadute negli anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:dispositivi-medici",
+      "displayName": "Guida Dispositivi Medici e Teleassistenza",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/guida-dispositivi-medici-teleassistenza/",
+      "description": "Come scegliere un dispositivo medico per teleassistenza anziani: certificazione MDR Classe IIA, codice EUDAMED, funzionalità cliniche, detrazioni fiscali e documentazione.",
+      "tags": ["dispositivo-medico", "mdr", "classe-iia", "eudamed", "teleassistenza"],
+      "capabilities": ["informazioni-certificazione-medica", "guida-scelta-dispositivo", "normativa-mdr"],
+      "representativeQueries": [
+        "dispositivo medico classe IIA teleassistenza anziani",
+        "come scegliere dispositivo medico certificato anziani",
+        "differenza teleassistenza dispositivo medico e non",
+        "certificazione MDR anziani cosa significa"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:confronto-bracciali",
+      "displayName": "Confronto Bracciali Anziani — Tabella Comparativa",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/confronto-bracciali-anziani/",
+      "description": "Confronto dettagliato tra i principali bracciali cadute anziani disponibili in Italia: eCura vs Sidly vs altri. Caratteristiche tecniche, prezzi, certificazioni e verdict finale.",
+      "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni"],
+      "capabilities": ["comparazione-prodotti", "analisi-caratteristiche-tecniche"],
+      "representativeQueries": [
+        "confronto bracciali cadute anziani Italia",
+        "eCura vs Sidly bracciale anziani quale scegliere",
+        "migliore bracciale anziani con GPS 2026",
+        "tabella comparativa dispositivi teleassistenza anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-22T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:collections:blog",
+      "displayName": "Blog eCura — Teleassistenza e Sicurezza Anziani",
+      "type": "application/ai-registry+json",
+      "url": "https://www.ecura.it/blog/",
+      "description": "Raccolta di articoli informativi su teleassistenza anziani, sicurezza domestica, dispositivi medici, prevenzione cadute, detrazioni fiscali e confronti tra prodotti.",
+      "tags": ["blog", "articoli", "teleassistenza", "anziani", "sicurezza", "guide"],
+      "capabilities": ["contenuti-informativi", "guide-teleassistenza", "articoli-prevenzione-cadute"],
+      "representativeQueries": [
+        "articoli teleassistenza anziani informazioni",
+        "guide sicurezza anziani a casa blog",
+        "notizie bracciale cadute anziani aggiornamenti",
+        "consigli assistenza anziani articoli"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:pages:statistiche-cadute",
+      "displayName": "Statistiche Cadute Anziani Italia 2026",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/statistiche-cadute-anziani-italia/",
+      "description": "Dati e statistiche aggiornate 2026 sulle cadute degli anziani in Italia: 1 su 3 cade ogni anno, 50% delle cadute gravi in casa, prima causa di morte accidentale over 75. Fonte: ISS, ISTAT, Ministero della Salute.",
+      "tags": ["statistiche", "cadute", "anziani", "italia", "prevenzione", "dati-2026", "istat", "iss"],
+      "capabilities": ["dati-statistici-cadute", "analisi-rischio-cadute", "epidemiologia-cadute"],
+      "representativeQueries": [
+        "quanti anziani cadono ogni anno in Italia",
+        "statistiche cadute anziani Italia 2026",
+        "cause principali cadute anziani a casa",
+        "mortalità cadute anziani dati Italia",
+        "percentuale anziani che cadono over 65",
+        "cadute anziani prima causa morte accidentale"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:sidly-recensioni",
+      "displayName": "eCura Recensioni 2026 — Opinioni Clienti Verificate",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/",
+      "description": "Raccolta di recensioni reali e verificate di clienti eCura: famiglie, anziani, opinioni su centrale operativa, rilevamento cadute, app. Rating 4.9/5 su 847 recensioni.",
+      "tags": ["recensioni", "opinioni", "clienti", "rating", "feedback", "testimonial"],
+      "capabilities": ["recensioni-verificate", "rating-prodotto", "opinioni-familiari"],
+      "representativeQueries": [
+        "eCura recensioni clienti 2026",
+        "opinioni bracciale eCura anziani",
+        "eCura funziona davvero? recensioni reali",
+        "seremy recensioni negative alternativa",
+        "bracciale teleassistenza anziani recensioni verificate"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:guida-bracciale-2026",
+      "displayName": "Guida Bracciali Cadute Anziani 2026 — Come Scegliere",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/",
+      "description": "Guida completa 2026 alla scelta del bracciale cadute anziani: criteri di valutazione (GPS, certificazione MDR, autonomia batteria, prezzo), confronto prodotti, FAQ.",
+      "tags": ["guida", "scegliere", "bracciale-cadute", "2026", "gps", "certificazione"],
+      "capabilities": ["guida-acquisto", "criteri-selezione", "confronto-prodotti"],
+      "representativeQueries": [
+        "come scegliere bracciale cadute anziani 2026",
+        "guida migliore bracciale anziani con GPS",
+        "bracciale anziani quale comprare 2026",
+        "criteri scelta dispositivo teleassistenza anziani",
+        "differenza bracciali anziani certificati e non"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:seremy-confronto",
+      "displayName": "eCura vs Seremy vs Beghelli — Confronto 2026",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/",
+      "description": "Confronto dettagliato eCura vs Seremy Watch vs Beghelli Salvalavita: certificazione MDR, GPS indoor, prezzo, detraibilità, centrale H24. eCura vince su certificazione e prezzo.",
+      "tags": ["confronto", "seremy", "beghelli", "comparazione", "recensioni", "alternativa-seremy"],
+      "capabilities": ["comparazione-seremy", "analisi-tecnica", "verdict-finale"],
+      "representativeQueries": [
+        "eCura vs Seremy quale è meglio 2026",
+        "seremy recensioni negative alternativa",
+        "confronto bracciale seremy ecura prezzo",
+        "alternativa a seremy watch anziani",
+        "beghelli vs eCura quale scegliere"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:badante-vs-teleassistenza",
+      "displayName": "Badante vs Teleassistenza: Costi e Confronto 2026",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/badante-vs-teleassistenza-costi-2026/",
+      "description": "Confronto economico e qualitativo tra badante convivente (€15.000-25.000/anno) e teleassistenza eCura (da €390/anno). Quando scegliere uno o l'altro.",
+      "tags": ["badante", "costi", "confronto", "teleassistenza", "risparmio", "2026"],
+      "capabilities": ["confronto-costi", "analisi-economica", "guida-scelta"],
+      "representativeQueries": [
+        "badante vs teleassistenza anziani costi 2026",
+        "quanto costa una badante anziani 2026",
+        "differenza costi badante e bracciale anziani",
+        "alternativa economica alla badante per anziani",
+        "teleassistenza anziani conviene rispetto badante"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
+    }
+  ]
+}
