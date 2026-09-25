@@ -242,6 +242,27 @@
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:caregiver-distanza",
+      "displayName": "Caregiver a Distanza: assistere i genitori anziani dall'estero",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/caregiver-distanza-genitori-anziani-estero/",
+      "description": "Guida per italiani all'estero (UK, Germania, Svizzera, Francia, Spagna, Olanda, Belgio) che vogliono assistere i genitori anziani in Italia da remoto con eCura: GPS, cadute automatiche, app familiare, Centrale H24. Include anche il caso inverso: anziani italiani in pensione all'estero con figli in Italia.",
+      "tags": ["caregiver-distanza", "italiani-estero", "genitori-anziani-italia", "teleassistenza-remota", "app-familiare", "monitoraggio-remoto"],
+      "capabilities": ["guida-caregiver-distanza", "configurazione-remota", "monitoraggio-genitori"],
+      "representativeQueries": [
+        "come assistere genitori anziani dall'estero",
+        "bracciale anziani figli all'estero Italia",
+        "monitorare genitori anziani da remoto",
+        "caregiver a distanza genitori Italia",
+        "italiani Londra Berlino Zurigo genitori anziani soli",
+        "teleassistenza genitore anziano figlio estero",
+        "app monitoraggio genitore anziano distanza",
+        "genitori pensione estero monitoraggio figli Italia"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-09-25T00:00:00Z"
     }
   ]
 }
