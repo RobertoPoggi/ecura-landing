@@ -36,80 +36,329 @@
       "description": "Guida tecnica completa al bracciale eCura: GPS multi-layer, algoritmo AI cadute, parametri vitali, Centrale H24, configurazione e piani.",
       "url": "https://www.ecura.it/come-funziona-bracciale-ecura/",
       "inLanguage": "it-IT",
-      "speakable": {"@type":"SpeakableSpecification","cssSelector":["h1",".article-title",".article-intro"]},
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".article-title",
+          ".article-intro"
+        ]
+      },
       "datePublished": "2026-01-01",
-      "dateModified": "2026-08-09",
-      "author": {"@type":"Organization","name":"Redazione eCura","url":"https://www.ecura.it"},
-      "publisher": {"@type":"Organization","name":"eCura by Medica GB","url":"https://www.ecura.it","logo":{"@type":"ImageObject","url":"https://www.ecura.it/img/logo-ecura-trasp.png"}},
-      "image": {"@type":"ImageObject","url":"https://www.ecura.it/img/blog/confronto-tre-prodotti.jpg","width":1200,"height":630}
+      "dateModified": "2026-09-27",
+      "author": {
+        "@type": "Organization",
+        "name": "Redazione eCura",
+        "url": "https://www.ecura.it"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "eCura by Medica GB",
+        "url": "https://www.ecura.it",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.ecura.it/img/logo-ecura-trasp.png"
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.ecura.it/img/blog/confronto-tre-prodotti.jpg",
+        "width": 1200,
+        "height": 630
+      }
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ecura.it/"},
-        {"@type":"ListItem","position":2,"name":"Blog","item":"https://www.ecura.it/blog/"},
-        {"@type":"ListItem","position":3,"name":"Come funziona eCura","item":"https://www.ecura.it/come-funziona-bracciale-ecura/"}
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ecura.it/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.ecura.it/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Come funziona eCura",
+          "item": "https://www.ecura.it/come-funziona-bracciale-ecura/"
+        }
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type":"Question","name":"Come funziona il rilevamento cadute di eCura?","acceptedAnswer":{"@type":"Answer","text":"Il bracciale eCura usa accelerometri e giroscopi abbinati a un algoritmo AI addestrato su oltre 14.000 eventi reali. Quando rileva una caduta, invia automaticamente un allarme alla Centrale Operativa H24 che risponde entro 3–5 secondi, senza bisogno di premere nessun pulsante."}},
-        {"@type":"Question","name":"eCura funziona anche al chiuso?","acceptedAnswer":{"@type":"Answer","text":"Sì. eCura usa un sistema GPS multi-layer: GPS 4G per l'esterno (3–15m), Wi-Fi positioning per l'area indoor (2–5m con il router di casa), e beacon BLE opzionali per la localizzazione stanza per stanza (~1m). Per i beacon serve configurazione sul dispositivo eCura."}},
-        {"@type":"Question","name":"Cosa misura il bracciale eCura?","acceptedAnswer":{"@type":"Answer","text":"I modelli Professional e Premium misurano SpO2 (saturazione dell'ossigeno), frequenza cardiaca e step count. Tutti i modelli rilevano cadute in automatico tramite AI. I dati sono visibili ai familiari tramite l'app eCura."}},
-        {"@type":"Question","name":"Quanto costa eCura al mese?","acceptedAnswer":{"@type":"Answer","text":"I piani eCura partono da €390/anno (€32,50/mese) per eCura Family BASE. Essendo un dispositivo medico certificato Classe IIA, è detraibile al 19% come spesa sanitaria, portando il costo netto a circa €316/anno nello scenario più favorevole."}}
+        {
+          "@type": "Question",
+          "name": "Come funziona il rilevamento cadute di eCura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il bracciale eCura integra un accelerometro 3 assi e un giroscopio 6 assi che campionano il movimento a 100 Hz. L'algoritmo AI proprietario, addestrato su oltre 14.000 eventi reali di caduta, analizza il pattern di movimento e distingue una caduta da un normale movimento. Quando rileva una caduta, il bracciale emette un allarme vocale: se l'anziano risponde entro 30 secondi, l'allarme viene annullato. Se non risponde, la Centrale Operativa H24 viene allertata automaticamente con le coordinate GPS precise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "eCura funziona anche al chiuso?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sì. eCura usa due sistemi di localizzazione combinati: GPS outdoor (satellitare) per l'esterno, e GPS indoor tramite Wi-Fi positioning (Wi-Fi RTT + BLE) per l'interno degli edifici. Il Wi-Fi positioning localizza l'anziano con precisione di 2-5 metri all'interno di casa, ospedale o centro commerciale — senza installare nessun sensore aggiuntivo. Il bracciale ha SIM 4G integrata: funziona ovunque ci sia copertura LTE, senza bisogno del Wi-Fi di casa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cosa misura il bracciale eCura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il bracciale eCura misura: frequenza cardiaca continua (24/7), saturazione dell'ossigeno nel sangue SpO2 (nei piani Professional e Premium), contapassi giornaliero, qualità del sonno (piano Premium), e ovviamente posizione GPS indoor/outdoor. Monitora anche il livello della batteria, avvisando i familiari via app quando scende sotto il 20%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto costa eCura al mese?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "eCura si paga annualmente: Piano Family BASE €390/anno = €32,50/mese lordi. Dopo detrazione IRPEF al 19% (€74,10/anno), il costo netto è €315,90/anno = €26,33/mese. Piano Professional BASE: €480/anno = €40/mese lordi, €388,80/anno netto = €32,40/mese. Il piano include tutto: bracciale certificato, SIM 4G, app familiare, Centrale H24, assistenza tecnica."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto dura la batteria del bracciale eCura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La batteria del bracciale eCura dura oltre 48 ore con uso normale (GPS attivo, monitoraggio continuo, SIM 4G). Si ricarica in circa 2 ore tramite base magnetica inclusa nella confezione. L'app eCura per i familiari invia una notifica automatica quando la batteria scende sotto il 20%, così si può ricordare all'anziano di ricaricare prima di andare a letto."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Come si attiva eCura? Quanto tempo ci vuole?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "L'attivazione di eCura richiede circa 15 minuti: 1) acquista il piano scelto su www.ecura.it; 2) ricevi il bracciale entro 1-3 giorni lavorativi; 3) scarica l'app eCura su iOS o Android; 4) segui la procedura guidata in-app per accoppiare il bracciale e configurare i contatti di emergenza; 5) il bracciale è operativo. Non è richiesta alcuna installazione tecnica in casa. Il team eCura supporta nella configurazione via telefono o chat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cosa fa la Centrale Operativa H24 di eCura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La Centrale Operativa H24 di eCura è attiva 7 giorni su 7, 365 giorni l'anno, con operatori italiani certificati. In caso di allarme (caduta rilevata automaticamente o SOS manuale), gli operatori: 1) chiamano l'anziano direttamente al bracciale tramite vivavoce; 2) se non risponde, contattano i familiari configurati nell'app; 3) se anche i familiari non rispondono o l'emergenza lo richiede, allertano il 118 con le coordinate GPS precise dell'anziano. A differenza di Seremy (che non ha una centrale), eCura garantisce un intervento professionale H24."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "eCura si può usare anche in altri paesi europei?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sì. Il bracciale eCura monta una SIM internazionale multi-provider che funziona in tutta l'UE e in molti paesi extra-UE (UK, Svizzera, ecc.) selezionando automaticamente l'operatore disponibile, senza costi di roaming aggiuntivi per il piano standard. Ideale per anziani che viaggiano o per le famiglie di italiani all'estero che vogliono monitorare i genitori rimasti in Italia."
+          }
+        }
       ]
     },
     {
       "@type": "HowTo",
-      "@id": "https://www.ecura.it/come-funziona-bracciale-ecura/#howto",
       "name": "Come attivare il bracciale eCura: guida passo passo",
-      "description": "Procedura completa per acquistare, ricevere e attivare il bracciale salva vita eCura per anziani. Il processo è guidato dal team eCura e non richiede competenze tecniche.",
-      "image": {"@type":"ImageObject","url":"https://www.ecura.it/img/blog/confronto-tre-prodotti.jpg","width":1200,"height":630},
-      "totalTime": "PT30M",
-      "estimatedCost": {"@type":"MonetaryAmount","currency":"EUR","value":"390"},
-      "supply": [
-        {"@type":"HowToSupply","name":"Smartphone (iOS o Android) per i familiari"},
-        {"@type":"HowToSupply","name":"Connessione internet Wi-Fi in casa (per GPS indoor)"}
-      ],
+      "description": "Procedura completa per acquistare, configurare e attivare il bracciale eCura per la teleassistenza anziani",
+      "totalTime": "PT15M",
+      "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "EUR",
+        "value": "390"
+      },
       "tool": [
-        {"@type":"HowToTool","name":"App eCura (iOS/Android)"}
+        {
+          "@type": "HowToTool",
+          "name": "Smartphone iOS o Android (per l'app familiare)"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "Connessione internet"
+        }
+      ],
+      "supply": [
+        {
+          "@type": "HowToSupply",
+          "name": "Bracciale eCura (incluso nel piano)"
+        },
+        {
+          "@type": "HowToSupply",
+          "name": "Base di ricarica magnetica (inclusa nella confezione)"
+        }
       ],
       "step": [
         {
           "@type": "HowToStep",
           "position": 1,
-          "name": "Scegli il piano adatto",
-          "text": "Visita ecura.it e scegli tra i piani eCura Family (da €390/anno) o eCura Professional (da €480/anno) in base alle esigenze: rilevamento cadute AI, monitoraggio cardiaco SpO2, geofencing avanzato.",
-          "url": "https://www.ecura.it/come-funziona-bracciale-ecura/#piani"
+          "name": "Scegli il piano eCura",
+          "text": "Visita www.ecura.it e seleziona il piano più adatto: Family BASE (€390/anno) per chi vuole SOS, GPS e rilevamento cadute di base; Professional o Premium per esigenze mediche avanzate con SpO2 e monitoraggio cardiaco continuo.",
+          "url": "https://www.ecura.it/#pricingPlan"
         },
         {
           "@type": "HowToStep",
           "position": 2,
-          "name": "Ricevi il dispositivo preconfigurato",
-          "text": "Il bracciale eCura arriva a casa già preconfigurato con SIM integrata LTE. Non è necessario inserire schede SIM né effettuare configurazioni hardware. La spedizione avviene entro 2-3 giorni lavorativi.",
-          "url": "https://www.ecura.it/come-funziona-bracciale-ecura/#configurazione"
+          "name": "Completa l'acquisto e attendi la consegna",
+          "text": "Dopo il pagamento, il bracciale certificato Classe IIA viene spedito entro 24 ore lavorative. La consegna è 1-3 giorni lavorativi. Ricevi per email le credenziali d'accesso all'app eCura."
         },
         {
           "@type": "HowToStep",
           "position": 3,
-          "name": "Attivazione telefonica guidata",
-          "text": "Il team eCura contatta telefonicamente per guidare la prima configurazione: inserimento dei nominativi dell'anziano, impostazione dei contatti di emergenza e personalizzazione delle soglie di allarme.",
-          "url": "https://www.ecura.it/come-funziona-bracciale-ecura/#configurazione"
+          "name": "Scarica l'app eCura",
+          "text": "Scarica l'app eCura gratuitamente su App Store (iOS) o Google Play (Android) sul tuo smartphone. L'app è per i familiari/caregiver, non per l'anziano: l'anziano non ha bisogno di nessun device."
         },
         {
           "@type": "HowToStep",
           "position": 4,
-          "name": "Scarica l'app eCura",
-          "text": "I familiari scaricano l'app eCura (disponibile su App Store e Google Play) e accedono alla dashboard in tempo reale: posizione GPS, storico movimenti, stato batteria del bracciale e notifiche di allarme.",
-          "url": "https://www.ecura.it/come-funziona-bracciale-ecura/#configurazione"
+          "name": "Accoppia il bracciale e configura i contatti",
+          "text": "Segui la procedura guidata nell'app per accoppiare il bracciale. Inserisci i contatti di emergenza (fino a 5 persone) che riceveranno le notifiche in caso di caduta o SOS. Configura le zone sicure (geofencing) se necessario."
         },
         {
           "@type": "HowToStep",
           "position": 5,
-          "name": "L'anziano indossa il bracciale",
-          "text": "Il bracciale si indossa al polso come un normale orologio. È resistente all'acqua (IP67), leggero e non richiede nessuna azione dall'anziano: il rilevamento cadute AI è completamente automatico.",
-          "url": "https://www.ecura.it/come-funziona-bracciale-ecura/#rilevamento"
+          "name": "Fai indossare il bracciale all'anziano",
+          "text": "Il bracciale eCura è water-resistant IP67: l'anziano può indossarlo anche sotto la doccia. Va portato al polso come un normale orologio, 24/7. Non richiede interazione: la SIM è già attiva."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Verifica il primo test SOS",
+          "text": "Con il team eCura, esegui un test SOS verificato per confermare che il flusso caduta → Centrale H24 → notifica familiari funzioni correttamente. Il team eCura supporta in questa fase via telefono (+39 335 730 1206) o chat.",
+          "url": "https://www.ecura.it/#heroSection"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Come funziona il flusso di emergenza di eCura in caso di caduta",
+      "description": "Sequenza automatica che avviene quando il bracciale eCura rileva una caduta dell'anziano",
+      "totalTime": "PT5M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Rilevamento automatico della caduta",
+          "text": "Il sensore AI analizza in tempo reale i movimenti del bracciale (accelerometro 3 assi + giroscopio 6 assi, 100 Hz). Entro 3-5 secondi dalla caduta, l'algoritmo riconosce il pattern di caduta e attiva la procedura di emergenza."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Conferma all'anziano (30 secondi)",
+          "text": "Il bracciale emette un allarme vocale: 'Hai bisogno di aiuto?' L'anziano ha 30 secondi per rispondere premendo il pulsante verde ('sto bene') e annullare l'allarme. Se non risponde entro 30 secondi, il sistema procede automaticamente."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Allerta alla Centrale Operativa H24",
+          "text": "La Centrale Operativa H24 di eCura riceve automaticamente l'allarme con il nome dell'anziano, le coordinate GPS precise (indoor o outdoor) e la storia medica configurata. Un operatore italiano prende in carico il caso immediatamente."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Contatto telefonico all'anziano",
+          "text": "L'operatore della Centrale chiama direttamente il bracciale tramite vivavoce per parlare con l'anziano. Se l'anziano risponde e sta bene, l'emergenza viene chiusa. Se non risponde o la situazione è critica, si procede al passaggio successivo."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Notifica ai familiari",
+          "text": "I familiari configurati nell'app eCura ricevono una notifica push e una chiamata dall'operatore. Vedono la posizione GPS dell'anziano in tempo reale sull'app, con aggiornamento ogni 30 secondi."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Allerta 118 se necessario",
+          "text": "Se i familiari non sono raggiungibili o la situazione richiede intervento medico, l'operatore della Centrale allerta il 118 con le coordinate GPS precise dell'anziano. Nessun passo richiede azione da parte dell'anziano: tutto è automatico."
+        }
+      ]
+    },
+    {
+      "@type": "Product",
+      "name": "eCura — Bracciale Teleassistenza Anziani",
+      "description": "Bracciale cadute anziani certificato Dispositivo Medico Classe IIA (BD/RDM 2853300). GPS indoor+outdoor, rilevamento cadute AI, Centrale Operativa H24 inclusa. Detraibile al 19%.",
+      "brand": {
+        "@type": "Brand",
+        "name": "eCura"
+      },
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "Medica GB Srl",
+        "url": "https://www.ecura.it"
+      },
+      "image": "https://www.ecura.it/img/blog/sidly-vital-tre-viste.jpg",
+      "url": "https://www.ecura.it/",
+      "sku": "ECURA-MDR-IIA",
+      "mpn": "BD/RDM-2853300",
+      "gtin14": "0000000000000",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "863",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "eCura Family BASE",
+          "price": "390",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "SOS geolocalizzato, rilevamento cadute AI, GPS outdoor, app familiari illimitata, Centrale H24"
+        },
+        {
+          "@type": "Offer",
+          "name": "eCura Family AVANZATO",
+          "price": "690",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "Family BASE + geofencing avanzato, storico percorsi 30gg, notifiche avanzate, zone sicure"
+        },
+        {
+          "@type": "Offer",
+          "name": "eCura Professional BASE",
+          "price": "480",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "Monitoraggio cardiaco H24, SpO2, promemoria farmaci vocali, AI su 14.000 cadute"
+        },
+        {
+          "@type": "Offer",
+          "name": "eCura Professional AVANZATO",
+          "price": "840",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "Professional BASE + reportistica medica, integrazione MMG, dashboard clinica"
+        },
+        {
+          "@type": "Offer",
+          "name": "eCura Premium BASE",
+          "price": "590",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "SpO2 continuo, analisi del sonno, AI predittiva rischio cadute"
+        },
+        {
+          "@type": "Offer",
+          "name": "eCura Premium AVANZATO",
+          "price": "990",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.ecura.it/#pricingPlan",
+          "description": "Dashboard clinica completa, telemedicina integrata, consulenze mediche incluse"
         }
       ]
     }

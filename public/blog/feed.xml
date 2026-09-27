@@ -11,7 +11,7 @@
     <copyright>© 2026 Medica GB S.r.l. — www.ecura.it</copyright>
     <managingEditor>info@ecura.it (eCura by Medica GB)</managingEditor>
     <webMaster>info@ecura.it (eCura by Medica GB)</webMaster>
-    <lastBuildDate>Sun, 09 Aug 2026 12:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 27 Sep 2026 14:00:00 +0200</lastBuildDate>
     <ttl>1440</ttl>
     <image>
       <url>https://www.ecura.it/img/logo-ecura-trasp.png</url>
@@ -19,6 +19,17 @@
       <link>https://www.ecura.it/blog/</link>
     </image>
     <atom:link href="https://www.ecura.it/blog/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>SiDLY Care recensioni 2026: vale la pena? Confronto con eCura</title>
+      <link>https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/</guid>
+      <pubDate>Sat, 27 Sep 2026 10:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>SiDLY Care recensioni 2026: analisi tecnica completa vs eCura su certificazione MDR Classe IIA, GPS indoor, Centrale H24 e detraibilità al 19%. Chi vince?</description>
+      <category>Recensioni</category>
+      <category>Confronto</category>
+    </item>
 
     <item>
       <title>eCura vs Seremy vs Beghelli 2026: confronto completo bracciali anziani</title>
