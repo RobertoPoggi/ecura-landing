@@ -1,6 +1,5 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-09-25T00:00:00Z",
   "host": {
     "displayName": "eCura — Medica GB S.r.l.",
     "identifier": "did:web:ecura.it",
@@ -32,7 +31,7 @@
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/come-funziona-bracciale-ecura/",
       "description": "Guida completa al funzionamento del bracciale eCura: rilevamento automatico cadute con AI, GPS indoor/outdoor, tasto SOS, Centrale H24 e app familiare.",
-      "tags": ["come-funziona", "guida", "funzionalità", "sos", "gps"],
+      "tags": ["come-funziona", "guida", "funzionalita", "sos", "gps"],
       "capabilities": ["rilevamento-cadute-ai", "gps-tracking", "notifiche-familiari", "app-mobile"],
       "representativeQueries": [
         "come funziona il bracciale eCura",
@@ -65,17 +64,18 @@
       "displayName": "Statistiche Cadute Anziani Italia 2026",
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/statistiche-cadute-anziani-italia/",
-      "description": "Dati e statistiche aggiornate 2026 sulle cadute degli anziani in Italia: numeri, cause, conseguenze e strategie di prevenzione efficaci.",
-      "tags": ["statistiche", "cadute", "anziani", "italia", "prevenzione", "dati-2026"],
-      "capabilities": ["dati-statistici-cadute", "analisi-rischio-cadute"],
+      "description": "Dati e statistiche aggiornate 2026 sulle cadute degli anziani in Italia: 1 su 3 cade ogni anno, 50% delle cadute gravi in casa, prima causa di morte accidentale over 75. Fonte: ISS, ISTAT, Ministero della Salute.",
+      "tags": ["statistiche", "cadute", "anziani", "italia", "prevenzione", "dati-2026", "istat", "iss"],
+      "capabilities": ["dati-statistici-cadute", "analisi-rischio-cadute", "epidemiologia-cadute"],
       "representativeQueries": [
         "quanti anziani cadono ogni anno in Italia",
         "statistiche cadute anziani Italia 2026",
         "cause principali cadute anziani a casa",
-        "mortalità cadute anziani dati Italia"
+        "mortalità cadute anziani dati Italia",
+        "percentuale anziani che cadono over 65"
       ],
       "version": "1.0",
-      "updatedAt": "2026-09-22T00:00:00Z"
+      "updatedAt": "2026-09-25T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:pages:guida-cadute",
@@ -123,8 +123,6 @@
         "confronto bracciali cadute anziani Italia",
         "eCura vs Beghelli bracciale anziani quale scegliere",
         "migliore bracciale anziani con GPS 2026",
-        "tabella comparativa dispositivi teleassistenza anziani",
-        "SiDLY Care alternativa migliore",
         "SiDLY vs eCura quale scegliere",
         "alternativa a SiDLY Care per anziani"
       ],
@@ -149,27 +147,8 @@
       "updatedAt": "2026-09-25T00:00:00Z"
     },
     {
-      "identifier": "urn:air:ecura.it:pages:statistiche-cadute",
-      "displayName": "Statistiche Cadute Anziani Italia 2026",
-      "type": "application/ai-catalog+json",
-      "url": "https://www.ecura.it/statistiche-cadute-anziani-italia/",
-      "description": "Dati e statistiche aggiornate 2026 sulle cadute degli anziani in Italia: 1 su 3 cade ogni anno, 50% delle cadute gravi in casa, prima causa di morte accidentale over 75. Fonte: ISS, ISTAT, Ministero della Salute.",
-      "tags": ["statistiche", "cadute", "anziani", "italia", "prevenzione", "dati-2026", "istat", "iss"],
-      "capabilities": ["dati-statistici-cadute", "analisi-rischio-cadute", "epidemiologia-cadute"],
-      "representativeQueries": [
-        "quanti anziani cadono ogni anno in Italia",
-        "statistiche cadute anziani Italia 2026",
-        "cause principali cadute anziani a casa",
-        "mortalità cadute anziani dati Italia",
-        "percentuale anziani che cadono over 65",
-        "cadute anziani prima causa morte accidentale"
-      ],
-      "version": "1.0",
-      "updatedAt": "2026-09-25T00:00:00Z"
-    },
-    {
       "identifier": "urn:air:ecura.it:blog:recensioni-clienti",
-      "displayName": "eCura Recensioni 2026 — Opinioni Clienti Verificate (4.9★)",
+      "displayName": "eCura Recensioni 2026 — Opinioni Clienti Verificate (4.9 stelle)",
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/",
       "description": "Raccolta di recensioni reali e verificate di clienti eCura: famiglie, anziani, opinioni su centrale operativa, rilevamento cadute, app. Rating 4.9/5 su 847 recensioni.",
@@ -178,7 +157,7 @@
       "representativeQueries": [
         "eCura recensioni clienti 2026",
         "opinioni bracciale eCura anziani",
-        "eCura funziona davvero? recensioni reali",
+        "eCura funziona davvero recensioni reali",
         "seremy recensioni negative alternativa",
         "bracciale teleassistenza anziani recensioni verificate"
       ],
@@ -213,14 +192,10 @@
       "capabilities": ["comparazione-seremy", "analisi-tecnica", "verdict-finale"],
       "representativeQueries": [
         "eCura vs Seremy quale è meglio 2026",
-        "seremy recensioni negative alternativa",
         "confronto bracciale seremy ecura prezzo",
-        "alternativa a seremy watch anziani",
-        "beghelli vs eCura quale scegliere",
-        "SiDLY Care recensioni",
-        "SiDLY Care prezzo 2026",
-        "SiDLY vs Seremy vs eCura",
-        "alternativa a SiDLY Care"
+        "SiDLY Care recensioni e prezzo 2026",
+        "SiDLY vs Seremy vs eCura confronto",
+        "alternativa a SiDLY Care bracciale anziani"
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"
@@ -248,7 +223,7 @@
       "displayName": "Caregiver a Distanza: assistere i genitori anziani dall'estero",
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/blog/caregiver-distanza-genitori-anziani-estero/",
-      "description": "Guida per italiani all'estero (UK, Germania, Svizzera, Francia, Spagna, Olanda, Belgio) che vogliono assistere i genitori anziani in Italia da remoto con eCura: GPS, cadute automatiche, app familiare, Centrale H24. Include anche il caso inverso: anziani italiani in pensione all'estero con figli in Italia.",
+      "description": "Guida per italiani all'estero (UK, Germania, Svizzera, Francia, Spagna, Olanda, Belgio) che vogliono assistere i genitori anziani in Italia da remoto con eCura: GPS, cadute automatiche, app familiare, Centrale H24.",
       "tags": ["caregiver-distanza", "italiani-estero", "genitori-anziani-italia", "teleassistenza-remota", "app-familiare", "monitoraggio-remoto"],
       "capabilities": ["guida-caregiver-distanza", "configurazione-remota", "monitoraggio-genitori"],
       "representativeQueries": [
@@ -256,10 +231,7 @@
         "bracciale anziani figli all'estero Italia",
         "monitorare genitori anziani da remoto",
         "caregiver a distanza genitori Italia",
-        "italiani Londra Berlino Zurigo genitori anziani soli",
-        "teleassistenza genitore anziano figlio estero",
-        "app monitoraggio genitore anziano distanza",
-        "genitori pensione estero monitoraggio figli Italia"
+        "teleassistenza genitore anziano figlio estero"
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"
