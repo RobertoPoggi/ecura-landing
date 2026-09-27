@@ -12,6 +12,7 @@ const KEY  = process.env.INDEXNOW_KEY || '60d8edebf9f2486d9f8d08e6d776215d';
 const HOST = 'www.ecura.it';
 
 const URLS = [
+  // ── Pagine principali ──────────────────────────────────────────────
   `https://${HOST}/`,
   `https://${HOST}/confronto-bracciali-anziani/`,
   `https://${HOST}/bracciale-anziani-detraibile/`,
@@ -20,6 +21,7 @@ const URLS = [
   `https://${HOST}/guida-dispositivi-medici-teleassistenza/`,
   `https://${HOST}/statistiche-cadute-anziani-italia/`,
   `https://${HOST}/partner/`,
+  // ── Blog ───────────────────────────────────────────────────────────
   `https://${HOST}/blog/`,
   `https://${HOST}/blog/guida-bracciale-cadute-anziani-2026/`,
   `https://${HOST}/blog/teleassistenza-anziani-come-funziona-costi/`,
@@ -33,6 +35,7 @@ const URLS = [
   `https://${HOST}/blog/prevenzione-cadute-anziani-10-consigli/`,
   `https://${HOST}/blog/anziano-solo-casa-soluzioni-sicurezza/`,
   `https://${HOST}/blog/centrale-operativa-h24-teleassistenza/`,
+  `https://${HOST}/blog/caregiver-distanza-genitori-anziani-estero/`,
 ];
 
 const ENDPOINTS = [
