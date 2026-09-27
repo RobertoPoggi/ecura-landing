@@ -2,7 +2,7 @@
 # llms-full.txt — Versione estesa per sistemi AI
 # Medica GB S.r.l. | P.IVA IT12435130963
 # Sito: https://www.ecura.it | Email: info@ecura.it | Tel: +39 335 730 1206
-# Aggiornato: 2026-09-25
+# Aggiornato: 2026-09-27
 # ──────────────────────────────────────────────────────────────────
 # Questo file è ottimizzato per ChatGPT, Perplexity, Claude, Gemini,
 # Copilot, DeepSeek, Grok, Meta AI e altri LLM che indicizzano il web.
@@ -171,6 +171,7 @@ A: Sì, è possibile richiedere una consulenza gratuita. Contattare il team al +
 - **[Centrale Operativa H24: Come Funziona](https://www.ecura.it/blog/centrale-operativa-h24-teleassistenza/)** — Cosa succede quando scatta un allarme
 - **[Prevenzione Cadute Anziani: 10 Consigli](https://www.ecura.it/blog/prevenzione-cadute-anziani-10-consigli/)** — Guida pratica per ridurre il rischio di cadute
 - **[Caregiver a Distanza: assistere i genitori anziani dall'estero](https://www.ecura.it/blog/caregiver-distanza-genitori-anziani-estero/)** — Guida per italiani all'estero con genitori in Italia
+- **[SiDLY Care recensioni 2026: vale la pena? Confronto con eCura](https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/)** — Analisi tecnica SiDLY Care vs eCura: MDR, GPS indoor, detraibilità
 
 ### Pagine di confronto e guide
 - **[Confronto Bracciali Anziani 2026](https://www.ecura.it/confronto-bracciali-anziani/)** — Tabella comparativa tutti i principali prodotti
