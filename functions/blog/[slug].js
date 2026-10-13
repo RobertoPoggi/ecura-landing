@@ -168,6 +168,12 @@ function renderArticle(a) {
     '@type': 'Product',
     'name': 'Bracciale eCura — Teleassistenza Anziani',
     'url': 'https://www.ecura.it/',
+    'image': {
+      '@type': 'ImageObject',
+      'url': 'https://www.ecura.it/img/blog/dispositivo-medico-iia.jpg',
+      'width': 1200,
+      'height': 630
+    },
     'brand': { '@type': 'Brand', 'name': 'eCura' },
     'description': 'Bracciale cadute anziani con GPS indoor/outdoor, rilevamento automatico cadute, centrale operativa H24. Dispositivo medico certificato Classe IIA.',
     'aggregateRating': {
