@@ -308,6 +308,31 @@ export async function onRequestPost({ request, env, waitUntil }) {
     console.warn('[submit-lead] GSHEET_WEBHOOK_URL non configurata — foglio non aggiornato')
   }
 
+  // ── Applica codice sconto se presente nelle note ──────────────────────────
+  // Equivale a premere "Applica Sconto" manualmente nel CRM.
+  // Il CRM gestisce interamente la logica (lookup discount_codes, calcolo prezzo).
+  if (crmOk && crmLeadId) {
+    const message = (body.message || '').toUpperCase()
+    const COUPON_CODES = ['PACARD5']
+    const foundCoupon = COUPON_CODES.find(code => message.includes(code))
+    if (foundCoupon) {
+      try {
+        const discountRes = await fetch(`${crmUrl.replace('/api/leads/public', '')}/api/leads/${crmLeadId}/apply-discount`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(crmApiKey ? { 'X-API-Key': crmApiKey } : {}),
+          },
+          body: JSON.stringify({ codice: foundCoupon, applicato_da: 'form_ecura' }),
+        })
+        const discountData = await discountRes.json().catch(() => ({}))
+        console.log(`[submit-lead] apply-discount ${foundCoupon}:`, discountRes.status, JSON.stringify(discountData))
+      } catch (e) {
+        console.error('[submit-lead] apply-discount error:', e)
+      }
+    }
+  }
+
   // ── Risposta al browser ───────────────────────────────────────────────────
   if (crmOk) {
     // Caso normale: CRM ok (GSheet in background)
