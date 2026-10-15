@@ -79,9 +79,24 @@ function fmtDate(d) {
   } catch { return d; }
 }
 
+// ── SEO title/desc overrides (Ahrefs audit 2026-10-15) ──────────────────────
+// Il template aggiunge " | eCura" (8c) → titoli DB devono essere ≤52c per stare a ≤60c totali.
+// Questi slug hanno titolo/desc troppo lunga nel D1; override diretto nel template
+// finché non si ha accesso wrangler per eseguire la migration 0006_fix_titles_desc.sql.
+const TITLE_OVERRIDES = {
+  'dispositivo-medico-classe-iia-anziani':   'Dispositivo Medico Classe IIA: guida completa',
+  'centrale-operativa-h24-teleassistenza':   'Centrale Operativa H24: come funziona davvero',
+  'anziano-solo-casa-soluzioni-sicurezza':   'Anziano Solo in Casa: soluzioni di sicurezza 2026',
+  'caregiver-distanza-genitori-anziani-estero': 'Caregiver a Distanza: assistere i genitori anziani',
+};
+const DESC_OVERRIDES = {
+  'caregiver-distanza-genitori-anziani-estero':
+    "Vivi all'estero e i tuoi genitori sono soli in Italia? Scopri eCura: GPS, cadute, app familiare, centrale H24 e SIM multi-provider UE inclusa.",
+};
+
 function renderArticle(a) {
-  const title   = decodeEntities(a.title || '');
-  const desc    = decodeEntities(a.description || '');
+  const title   = TITLE_OVERRIDES[a.slug] || decodeEntities(a.title || '');
+  const desc    = DESC_OVERRIDES[a.slug]  || decodeEntities(a.description || '');
   // Rimuove solo le <figure> e <img> hero standalone (article-hero-img),
   // NON quelle dentro .product-card-img o altri contenitori di contenuto.
   let rawContent = decodeEntities(a.content || '');
