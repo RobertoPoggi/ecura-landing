@@ -310,11 +310,13 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   // ── Applica codice sconto se presente nelle note ──────────────────────────
   // Equivale a premere "Applica Sconto" manualmente nel CRM.
-  // Il CRM gestisce interamente la logica (lookup discount_codes, calcolo prezzo).
+  // Nessuna lista locale: estrae qualsiasi parola maiuscola dalle note e la
+  // passa al CRM, che valida contro la propria tabella discount_codes.
   if (crmOk && crmLeadId) {
-    const message = (body.message || '').toUpperCase()
-    const COUPON_CODES = ['PACARD5']
-    const foundCoupon = COUPON_CODES.find(code => message.includes(code))
+    // Cerca token interamente maiuscoli (es. PACARD5, BOCCONI26) nelle note.
+    // Il CRM valida: se il codice non esiste risponde success:false, nessun danno.
+    const couponCandidates = (body.message || '').match(/\b[A-Z][A-Z0-9]{3,19}\b/g) || []
+    const foundCoupon = couponCandidates[0] || null
     if (foundCoupon) {
       try {
         const discountRes = await fetch(`${crmUrl.replace('/api/leads/public', '')}/api/leads/${crmLeadId}/apply-discount`, {
