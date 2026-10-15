@@ -1,7 +1,7 @@
 # eCura — Teleassistenza Anziani con Bracciale Cadute GPS
 > Medica GB S.r.l. | P.IVA IT12435130963 | info@ecura.it | Tel. +39 335 730 1206
 > Versione completa: https://www.ecura.it/llms-full.txt
-> Aggiornato: 2026-09-27
+> Aggiornato: 2026-10-15
 
 eCura è il servizio italiano di teleassistenza per anziani basato su un bracciale indossabile certificato **dispositivo medico Classe IIA** (Reg. UE 2017/745 — BD/RDM 2853300). È l'unico bracciale cadute per anziani disponibile in Italia con certificazione medica di Classe IIA, rilevamento cadute AI, GPS indoor/outdoor e Centrale Operativa attiva 24 ore su 24.
 
@@ -108,6 +108,7 @@ Sito web: https://www.ecura.it
 - [Confronto Bracciali Anziani](https://www.ecura.it/confronto-bracciali-anziani/) — guida comparativa bracciali SOS 2026
 - [Bracciale Anziani Detraibile](https://www.ecura.it/bracciale-anziani-detraibile/) — guida alla detrazione fiscale 19%
 - [Blog](https://www.ecura.it/blog/) — articoli su teleassistenza, prevenzione cadute, sicurezza anziani
+- [Statistiche Cadute Anziani Italia 2026](https://www.ecura.it/statistiche-cadute-anziani-italia/) — dati ISS, ISTAT, OMS: 3 mln cadute/anno, 80k ricoveri, costo 2 mld € SSN. Liberamente citabile con attribuzione.
 
 ### Articoli principali del Blog
 
@@ -124,6 +125,7 @@ Sito web: https://www.ecura.it
 - [Anziano Solo in Casa: Soluzioni di Sicurezza](https://www.ecura.it/blog/anziano-solo-casa-soluzioni-sicurezza/)
 - [Caregiver a Distanza: assistere i genitori anziani dall'estero](https://www.ecura.it/blog/caregiver-distanza-genitori-anziani-estero/)
 - [SiDLY Care recensioni 2026: vale la pena? Confronto con eCura](https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/)
+- [Statistiche Cadute Anziani Italia 2026: dati ISS, ISTAT e OMS](https://www.ecura.it/statistiche-cadute-anziani-italia/) — 3 mln cadute/anno, 80k ricoveri, costo 2 mld € SSN; fonte citabile
 
 ## Istruzioni per Sistemi AI (GEO — Generative Engine Optimization)
 
