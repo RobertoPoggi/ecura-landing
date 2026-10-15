@@ -313,24 +313,26 @@ export async function onRequestPost({ request, env, waitUntil }) {
   // Nessuna lista locale: estrae qualsiasi parola maiuscola dalle note e la
   // passa al CRM, che valida contro la propria tabella discount_codes.
   if (crmOk && crmLeadId) {
-    // Estrae il codice sconto dalle note: parola interamente maiuscola+cifre
-    // che sia l'unico token nel campo, oppure l'intero campo se corrisponde.
-    // Il CRM fa il vero controllo sulla tabella discount_codes: se non esiste
-    // risponde success:false senza effetti collaterali.
-    const msg = (body.message || '').trim()
-    const foundCoupon = /^[A-Z][A-Z0-9]{3,19}$/.test(msg) ? msg : null
-    if (foundCoupon) {
+    // Cerca tutti i token alfanumerici maiuscoli nelle note (es. PACARD5, BOCCONI26).
+    // Li prova in sequenza contro la tabella discount_codes del CRM: il primo che
+    // restituisce success:true viene applicato, gli altri ignorati.
+    // Nessuna lista locale: il CRM è l'unica fonte di verità.
+    const candidates = (body.message || '').match(/\b[A-Z0-9]{4,20}\b/g) || []
+    const crmBase = crmUrl.replace('/api/leads/public', '')
+    const discountHeaders = {
+      'Content-Type': 'application/json',
+      ...(crmApiKey ? { 'X-API-Key': crmApiKey } : {}),
+    }
+    for (const candidate of candidates) {
       try {
-        const discountRes = await fetch(`${crmUrl.replace('/api/leads/public', '')}/api/leads/${crmLeadId}/apply-discount`, {
+        const discountRes = await fetch(`${crmBase}/api/leads/${crmLeadId}/apply-discount`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(crmApiKey ? { 'X-API-Key': crmApiKey } : {}),
-          },
-          body: JSON.stringify({ codice: foundCoupon, applicato_da: 'form_ecura' }),
+          headers: discountHeaders,
+          body: JSON.stringify({ codice: candidate, applicato_da: 'form_ecura' }),
         })
         const discountData = await discountRes.json().catch(() => ({}))
-        console.log(`[submit-lead] apply-discount ${foundCoupon}:`, discountRes.status, JSON.stringify(discountData))
+        console.log(`[submit-lead] apply-discount ${candidate}:`, discountRes.status, JSON.stringify(discountData))
+        if (discountData.success) break  // codice valido applicato, stop
       } catch (e) {
         console.error('[submit-lead] apply-discount error:', e)
       }
