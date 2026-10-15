@@ -428,6 +428,7 @@ ${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</sc
 <script type="application/ld+json">${speakableBlock}</script>
 <script type="application/ld+json">${productRatingBlock}</script>
 ${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</script>` : ''}
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="WhJWRBjhU04P/qNCDss2XA" async></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Salta al contenuto</a>
