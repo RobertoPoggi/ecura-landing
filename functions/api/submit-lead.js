@@ -313,10 +313,12 @@ export async function onRequestPost({ request, env, waitUntil }) {
   // Nessuna lista locale: estrae qualsiasi parola maiuscola dalle note e la
   // passa al CRM, che valida contro la propria tabella discount_codes.
   if (crmOk && crmLeadId) {
-    // Cerca token interamente maiuscoli (es. PACARD5, BOCCONI26) nelle note.
-    // Il CRM valida: se il codice non esiste risponde success:false, nessun danno.
-    const couponCandidates = (body.message || '').match(/\b[A-Z][A-Z0-9]{3,19}\b/g) || []
-    const foundCoupon = couponCandidates[0] || null
+    // Estrae il codice sconto dalle note: parola interamente maiuscola+cifre
+    // che sia l'unico token nel campo, oppure l'intero campo se corrisponde.
+    // Il CRM fa il vero controllo sulla tabella discount_codes: se non esiste
+    // risponde success:false senza effetti collaterali.
+    const msg = (body.message || '').trim()
+    const foundCoupon = /^[A-Z][A-Z0-9]{3,19}$/.test(msg) ? msg : null
     if (foundCoupon) {
       try {
         const discountRes = await fetch(`${crmUrl.replace('/api/leads/public', '')}/api/leads/${crmLeadId}/apply-discount`, {
