@@ -43,6 +43,7 @@ const URLS = [
   `https://${HOST}/blog/regalo-genitore-anziano-natale/`,
   `https://${HOST}/blog/ai-predittiva-sicurezza-anziani/`,
   `https://${HOST}/blog/analisi-report-servizio-premium/`,
+  `https://${HOST}/blog/teleassistenza-rsa-residenze-protette-centri-alzheimer/`,
   `https://${HOST}/blog/guida-bracciale-cadute-anziani-2026/`,
   `https://${HOST}/blog/teleassistenza-anziani-come-funziona-costi/`,
   `https://${HOST}/blog/ecura-vs-seremy-confronto-2026/`,

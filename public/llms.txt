@@ -128,6 +128,7 @@ Sito web: https://www.ecura.it
 - [Regalo a un genitore anziano che ha tutto: 12 idee](https://www.ecura.it/blog/regalo-genitore-anziano-natale/)
 - [AI predittiva per la sicurezza degli anziani](https://www.ecura.it/blog/ai-predittiva-sicurezza-anziani/)
 - [Analisi e report di salute nel servizio Premium](https://www.ecura.it/blog/analisi-report-servizio-premium/)
+- [Teleassistenza in RSA e residenze protette](https://www.ecura.it/blog/teleassistenza-rsa-residenze-protette-centri-alzheimer/)
 - [GPS Anziani Indoor: Come Funziona](https://www.ecura.it/blog/gps-anziani-indoor-come-funziona/)
 - [Centrale Operativa H24: Come Funziona](https://www.ecura.it/blog/centrale-operativa-h24-teleassistenza/)
 - [Prevenzione Cadute Anziani: 10 Consigli](https://www.ecura.it/blog/prevenzione-cadute-anziani-10-consigli/)
