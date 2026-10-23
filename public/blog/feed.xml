@@ -11,7 +11,7 @@
     <copyright>© 2026 Medica GB S.r.l. — www.ecura.it</copyright>
     <managingEditor>info@ecura.it (eCura by Medica GB)</managingEditor>
     <webMaster>info@ecura.it (eCura by Medica GB)</webMaster>
-    <lastBuildDate>Sat, 27 Sep 2026 14:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 18:00:00 +0200</lastBuildDate>
     <ttl>1440</ttl>
     <image>
       <url>https://www.ecura.it/img/logo-ecura-trasp.png</url>
@@ -19,6 +19,96 @@
       <link>https://www.ecura.it/blog/</link>
     </image>
     <atom:link href="https://www.ecura.it/blog/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Anziano con demenza che esce di casa da solo</title>
+      <link>https://www.ecura.it/blog/demenza-wandering-anziano-esce-di-casa/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/demenza-wandering-anziano-esce-di-casa/</guid>
+      <pubDate>Fri, 23 Oct 2026 09:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Il wandering nell'anziano con demenza: cause, segnali premonitori, strategie per la casa e come GPS e geofencing permettono di intervenire in pochi minuti.</description>
+      <category>Sicurezza</category>
+    </item>
+
+    <item>
+      <title>Convincere il genitore ad accettare il bracciale</title>
+      <link>https://www.ecura.it/blog/convincere-genitore-anziano-bracciale/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/convincere-genitore-anziano-bracciale/</guid>
+      <pubDate>Fri, 23 Oct 2026 10:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Il genitore dice «non sono vecchio»? 7 strategie concrete per fargli accettare il bracciale con rilevamento cadute, senza conflitto. Garanzia 30 giorni.</description>
+      <category>Famiglia</category>
+    </item>
+
+    <item>
+      <title>Dopo il ricovero: prevenire le cadute in 30 giorni</title>
+      <link>https://www.ecura.it/blog/cadute-post-dimissione-ospedale-prevenzione/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/cadute-post-dimissione-ospedale-prevenzione/</guid>
+      <pubDate>Fri, 23 Oct 2026 11:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Dopo un ricovero il rischio cadute esplode. Checklist della casa, farmaci, esercizio e teleassistenza per i primi 30 giorni a casa dell'anziano.</description>
+      <category>Prevenzione</category>
+    </item>
+
+    <item>
+      <title>Bonus e agevolazioni per gli anziani nel 2026</title>
+      <link>https://www.ecura.it/blog/bonus-agevolazioni-anziani-2026/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/bonus-agevolazioni-anziani-2026/</guid>
+      <pubDate>Fri, 23 Oct 2026 12:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Prestazione Universale, assegno di assistenza, bonus caregiver, detrazione 19% e IVA 4%: le agevolazioni 2026 per gli anziani, con requisiti e fonti.</description>
+      <category>Fiscale</category>
+    </item>
+
+    <item>
+      <title>Cadute in bagno: come rendere il bagno sicuro</title>
+      <link>https://www.ecura.it/blog/cadute-in-bagno-anziani-prevenzione/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/cadute-in-bagno-anziani-prevenzione/</guid>
+      <pubDate>Fri, 23 Oct 2026 13:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Il bagno è dove gli anziani cadono di più e peggio: perché, i dati e la guida per renderlo sicuro (maniglioni, doccia, luci, teleassistenza).</description>
+      <category>Prevenzione</category>
+    </item>
+
+    <item>
+      <title>Polifarmacia nell'anziano: rischi e promemoria</title>
+      <link>https://www.ecura.it/blog/polifarmacia-anziani-promemoria-farmaci/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/polifarmacia-anziani-promemoria-farmaci/</guid>
+      <pubDate>Fri, 23 Oct 2026 14:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>In media 7,6 farmaci al giorno per anziano: rischi di dimenticanze, interazioni e doppie dosi, e come promemoria e app aiutano la famiglia.</description>
+      <category>Salute</category>
+    </item>
+
+    <item>
+      <title>Regalo a un genitore anziano che ha tutto: 12 idee</title>
+      <link>https://www.ecura.it/blog/regalo-genitore-anziano-natale/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/regalo-genitore-anziano-natale/</guid>
+      <pubDate>Fri, 23 Oct 2026 15:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Idee regalo per genitori anziani che hanno tutto: sicurezza, compagnia, autonomia. Dal maniglione al bracciale con SOS e centrale H24, detraibile al 19%.</description>
+      <category>Idee regalo</category>
+    </item>
+
+    <item>
+      <title>AI predittiva per la sicurezza degli anziani</title>
+      <link>https://www.ecura.it/blog/ai-predittiva-sicurezza-anziani/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/ai-predittiva-sicurezza-anziani/</guid>
+      <pubDate>Fri, 23 Oct 2026 16:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Come l'AI predittiva del bracciale eCura analizza i pattern di movimento per segnalare il rischio prima: cosa fa, cosa non fa e come tutela la privacy.</description>
+      <category>Tecnologia</category>
+    </item>
+
+    <item>
+      <title>Analisi e report di salute nel servizio Premium</title>
+      <link>https://www.ecura.it/blog/analisi-report-servizio-premium/</link>
+      <guid isPermaLink="true">https://www.ecura.it/blog/analisi-report-servizio-premium/</guid>
+      <pubDate>Fri, 23 Oct 2026 17:00:00 +0200</pubDate>
+      <dc:creator>eCura by Medica GB</dc:creator>
+      <description>Dashboard, variabilità cardiaca, saturazione notturna, sonno, stress e Riepilogo AI: le analisi e i report del servizio Premium, spiegati in modo semplice.</description>
+      <category>Servizio Premium</category>
+    </item>
 
     <item>
       <title>SiDLY Care recensioni 2026: vale la pena? Confronto con eCura</title>
