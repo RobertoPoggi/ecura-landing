@@ -13,6 +13,12 @@
 /blog/sidly-care-recensioni-clienti-ecura/  /confronto-bracciali-anziani/  301
 /blog/sidly-care-recensioni-clienti-ecura   /confronto-bracciali-anziani/  301
 
+# Seremy recensioni: l'articolo vive sotto /blog/ (servito da D1). Le varianti senza /blog/ e con suffisso .it
+# finivano nel fallback della home con 200 (soft 404) -> 301 alla pagina corretta.
+/seremy-recensioni-2026.it  /blog/seremy-recensioni-2026/  301
+/seremy-recensioni-2026/  /blog/seremy-recensioni-2026/  301
+/seremy-recensioni-2026  /blog/seremy-recensioni-2026/  301
+
 # Documento interno strategia SEO — noindex, reindirizza a homepage
 # Elimina confusione GSC "alternativa con canonical" causata da noindex+canonical
 /strategia-seo-link-building/  /  301
