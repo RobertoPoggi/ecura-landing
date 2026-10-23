@@ -130,9 +130,14 @@ function renderArticle(a) {
       faqH3Matches = [...faqSectionMatch[1].matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>\s*<p[^>]*>([\s\S]*?)<\/p>/gi)];
     }
 
+    // Pattern 3: <details><summary>domanda</summary><div><p>risposta</p></div></details>
+    // (formato dei nuovi articoli: accordion nativo, accessibile senza JS)
+    const faqDetailsMatches = [...content.matchAll(/<details[^>]*>\s*<summary[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/gi)];
+
     const allFaqs = [
       ...faqMatches.map(m => ({ q: m[1], a: m[2] })),
-      ...faqH3Matches.map(m => ({ q: m[1], a: m[2] }))
+      ...faqH3Matches.map(m => ({ q: m[1], a: m[2] })),
+      ...faqDetailsMatches.map(m => ({ q: m[1], a: m[2] }))
     ];
 
     if (allFaqs.length > 0) {
