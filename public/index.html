@@ -138,6 +138,9 @@ a:hover{color:#05B1A8}
    dall'overflow:hidden → zero shift visibile per il browser.
    ════════════════════════════════════════════════════════════════════════ */
 #full_top_nav{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:200;height:72px;overflow:hidden}
+/* FIX menu mobile: il dropdown (.top_nav_wrapper.is-active, position:absolute) scende sotto i 72px della barra
+   e veniva tagliato da overflow:hidden. Su mobile/tablet niente clipping; l'altezza fissa 72px resta (CLS invariato). */
+@media(max-width:992px){#full_top_nav{overflow:visible}}
 .full_top_nav_wrapper{padding:10px 20px;height:72px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
 /* CLS FIX ctaWdgt: altezza stabile prima di css.css (stili finali qui) */
 .ctaWdgt{display:inline-flex;align-items:center}
