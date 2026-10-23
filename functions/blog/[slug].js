@@ -4,11 +4,21 @@
  * dal pannello admin si riflettono immediatamente sul sito pubblico.
  */
 
+// Slug rinominati: vecchio -> nuovo (301 permanente, conserva il posizionamento)
+const SLUG_REDIRECTS = {
+  'sidly-care-recensioni-clienti-ecura': 'recensioni-ecura-opinioni-clienti-2026',
+};
+
 export async function onRequest({ request, env, params }) {
   const db = env.DB;
 
   const slug = (params.slug || '').replace(/\/+$/, '');
   if (!slug) return passThrough(request, env);
+
+  if (SLUG_REDIRECTS[slug]) {
+    const url = new URL(request.url);
+    return Response.redirect(`${url.origin}/blog/${SLUG_REDIRECTS[slug]}/`, 301);
+  }
 
   // File statici nella cartella /blog/ → pass-through diretto al file
   // (feed.xml e altri file non-HTML non sono slug di articoli D1)

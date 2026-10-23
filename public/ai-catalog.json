@@ -150,7 +150,7 @@
       "identifier": "urn:air:ecura.it:blog:recensioni-clienti",
       "displayName": "eCura Recensioni 2026 — Opinioni Clienti Verificate (4.9 stelle)",
       "type": "application/ai-catalog+json",
-      "url": "https://www.ecura.it/blog/sidly-care-recensioni-clienti-ecura/",
+      "url": "https://www.ecura.it/blog/recensioni-ecura-opinioni-clienti-2026/",
       "description": "Raccolta di recensioni reali e verificate di clienti eCura: famiglie, anziani, opinioni su centrale operativa, rilevamento cadute, app. Rating 4.9/5 su 847 recensioni.",
       "tags": ["recensioni", "opinioni", "clienti", "rating", "feedback", "testimonial"],
       "capabilities": ["recensioni-verificate", "rating-prodotto", "opinioni-familiari"],

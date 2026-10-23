@@ -41,7 +41,7 @@ const URLS = [
   `https://${HOST}/blog/dispositivo-medico-classe-iia-anziani/`,
   `https://${HOST}/blog/badante-vs-teleassistenza-costi-2026/`,
   `https://${HOST}/blog/gps-anziani-indoor-come-funziona/`,
-  `https://${HOST}/blog/sidly-care-recensioni-clienti-ecura/`,
+  `https://${HOST}/blog/recensioni-ecura-opinioni-clienti-2026/`,
   `https://${HOST}/blog/prevenzione-cadute-anziani-10-consigli/`,
   `https://${HOST}/blog/anziano-solo-casa-soluzioni-sicurezza/`,
   `https://${HOST}/blog/centrale-operativa-h24-teleassistenza/`,

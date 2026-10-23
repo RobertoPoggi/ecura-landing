@@ -71,7 +71,7 @@ Formato: **16:9 — 1376×768px — JPEG**
 | `gps-indoor-anziani.jpg` | GPS anziani indoor: come funziona |
 | `guida-bracciali-cadute.jpg` | Guida bracciali cadute anziani 2026 |
 | `prevenzione-cadute.jpg` | Prevenzione cadute: 10 consigli pratici |
-| `sidly-recensioni.jpg` | SiDLY CARE recensioni clienti eCura |
+| `recensioni-ecura-seremy-beghelli.jpg` | SiDLY CARE recensioni clienti eCura |
 | `teleassistenza-come-funziona.jpg` | Teleassistenza anziani: come funziona e costi |
 
 ---
