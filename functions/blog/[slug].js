@@ -4,9 +4,11 @@
  * dal pannello admin si riflettono immediatamente sul sito pubblico.
  */
 
-// Slug rinominati: vecchio -> nuovo (301 permanente, conserva il posizionamento)
+// Articoli eliminati/rinominati: vecchio slug -> pagina di destinazione (301 permanente,
+// conserva posizionamento e backlink). Controllato prima della query a D1.
 const SLUG_REDIRECTS = {
-  'sidly-care-recensioni-clienti-ecura': 'recensioni-ecura-opinioni-clienti-2026',
+  'sidly-care-recensioni-clienti-ecura': 'ecura-vs-seremy-confronto-2026',
+  'recensioni-ecura-opinioni-clienti-2026': 'ecura-vs-seremy-confronto-2026',
 };
 
 export async function onRequest({ request, env, params }) {
