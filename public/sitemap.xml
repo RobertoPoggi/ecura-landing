@@ -61,6 +61,12 @@
 
   <!-- ═══ RISORSE LINKABILI ═══════════════════════════════════ -->
   <url>
+    <loc>https://www.ecura.it/recensioni-ecura-seremy-beghelli/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.ecura.it/statistiche-cadute-anziani-italia/</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>

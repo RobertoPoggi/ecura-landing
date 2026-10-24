@@ -32,6 +32,7 @@ const URLS = [
   `https://${HOST}/guida-dispositivi-medici-teleassistenza/`,
   `https://${HOST}/statistiche-cadute-anziani-italia/`,
   `https://${HOST}/partner/`,
+  `https://${HOST}/recensioni-ecura-seremy-beghelli/`,
   `https://${HOST}/blog/`,
   `https://${HOST}/blog/guida-bracciale-cadute-anziani-2026/`,
   `https://${HOST}/blog/teleassistenza-anziani-come-funziona-costi/`,

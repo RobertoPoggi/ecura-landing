@@ -32,6 +32,7 @@ const URLS = [
   `https://${HOST}/guida-dispositivi-medici-teleassistenza/`,
   `https://${HOST}/statistiche-cadute-anziani-italia/`,
   `https://${HOST}/partner/`,
+  `https://${HOST}/recensioni-ecura-seremy-beghelli/`,
   // Blog
   `https://${HOST}/blog/`,
   `https://${HOST}/blog/demenza-wandering-anziano-esce-di-casa/`,

@@ -9,9 +9,9 @@
 /comparazione-bracciali-anziani/  /confronto-bracciali-anziani/  301
 /comparazione-bracciali-anziani   /confronto-bracciali-anziani/  301
 
-# Articolo recensioni (duplicato) eliminato: /blog/sidly-care-recensioni-clienti-ecura/ e
-# /blog/recensioni-ecura-opinioni-clienti-2026/ -> 301 a /blog/ecura-vs-seremy-confronto-2026/
-# Il redirect e' in functions/blog/[slug].js (SLUG_REDIRECTS): la Function risponde prima di _redirects.
+# Pagina recensioni: ripristinata come pagina statica /recensioni-ecura-seremy-beghelli/ (NON e' un articolo del blog).
+# /blog/sidly-care-recensioni-clienti-ecura/ e /blog/recensioni-ecura-opinioni-clienti-2026/ -> 301 alla nuova pagina
+# (redirect in functions/blog/[slug].js, SLUG_REDIRECTS: la Function risponde prima di _redirects).
 
 # Seremy recensioni: l'articolo vive sotto /blog/ (servito da D1). Le varianti senza /blog/ e con suffisso .it
 # finivano nel fallback della home con 200 (soft 404) -> 301 alla pagina corretta.

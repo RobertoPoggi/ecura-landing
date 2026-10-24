@@ -4,11 +4,12 @@
  * dal pannello admin si riflettono immediatamente sul sito pubblico.
  */
 
-// Articoli eliminati/rinominati: vecchio slug -> pagina di destinazione (301 permanente,
+// Articoli rimossi/spostati: vecchio slug -> percorso di destinazione (301 permanente,
 // conserva posizionamento e backlink). Controllato prima della query a D1.
 const SLUG_REDIRECTS = {
-  'sidly-care-recensioni-clienti-ecura': 'ecura-vs-seremy-confronto-2026',
-  'recensioni-ecura-opinioni-clienti-2026': 'ecura-vs-seremy-confronto-2026',
+  // pagina recensioni: non e' piu' un articolo del blog, vive in /recensioni-ecura-seremy-beghelli/
+  'sidly-care-recensioni-clienti-ecura': '/recensioni-ecura-seremy-beghelli/',
+  'recensioni-ecura-opinioni-clienti-2026': '/recensioni-ecura-seremy-beghelli/',
 };
 
 export async function onRequest({ request, env, params }) {
@@ -19,7 +20,7 @@ export async function onRequest({ request, env, params }) {
 
   if (SLUG_REDIRECTS[slug]) {
     const url = new URL(request.url);
-    return Response.redirect(`${url.origin}/blog/${SLUG_REDIRECTS[slug]}/`, 301);
+    return Response.redirect(`${url.origin}${SLUG_REDIRECTS[slug]}`, 301);
   }
 
   // File statici nella cartella /blog/ → pass-through diretto al file
