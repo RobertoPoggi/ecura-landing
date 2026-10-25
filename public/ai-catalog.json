@@ -117,14 +117,12 @@
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/confronto-bracciali-anziani/",
       "description": "Confronto dettagliato tra i principali bracciali cadute anziani disponibili in Italia: eCura, Seremy Watch, Beghelli Salvalavita. Caratteristiche tecniche, prezzi, certificazioni e verdict finale.",
-      "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni", "sidly", "alternativa-sidly"],
+      "tags": ["confronto", "comparazione", "bracciali-anziani", "tabella", "recensioni"],
       "capabilities": ["comparazione-prodotti", "analisi-caratteristiche-tecniche"],
       "representativeQueries": [
         "confronto bracciali cadute anziani Italia",
         "eCura vs Beghelli bracciale anziani quale scegliere",
-        "migliore bracciale anziani con GPS 2026",
-        "SiDLY vs eCura quale scegliere",
-        "alternativa a SiDLY Care per anziani"
+        "migliore bracciale anziani con GPS 2026"
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"
@@ -187,14 +185,11 @@
       "type": "application/ai-catalog+json",
       "url": "https://www.ecura.it/blog/ecura-vs-seremy-confronto-2026/",
       "description": "Confronto dettagliato eCura vs Seremy Watch vs Beghelli Salvalavita: certificazione MDR, GPS indoor, prezzo, detraibilità, centrale H24. eCura vince su certificazione e prezzo.",
-      "tags": ["confronto", "seremy", "beghelli", "sidly", "comparazione", "recensioni", "alternativa-seremy", "alternativa-sidly"],
+      "tags": ["confronto", "seremy", "beghelli", "comparazione", "recensioni", "alternativa-seremy"],
       "capabilities": ["comparazione-seremy", "analisi-tecnica", "verdict-finale"],
       "representativeQueries": [
         "eCura vs Seremy quale è meglio 2026",
-        "confronto bracciale seremy ecura prezzo",
-        "SiDLY Care recensioni e prezzo 2026",
-        "SiDLY vs Seremy vs eCura confronto",
-        "alternativa a SiDLY Care bracciale anziani"
+        "confronto bracciale seremy ecura prezzo"
       ],
       "version": "1.0",
       "updatedAt": "2026-09-25T00:00:00Z"
