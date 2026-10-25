@@ -130,6 +130,23 @@
       "updatedAt": "2026-09-25T00:00:00Z"
     },
     {
+      "identifier": "urn:air:ecura.it:pages:recensioni",
+      "displayName": "Recensioni eCura, Seremy e Beghelli — Opinioni Clienti a Confronto",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/recensioni-ecura-seremy-beghelli/",
+      "description": "Recensioni reali dei clienti eCura (4,9/5 su 847 recensioni verificate) a confronto con Seremy e Beghelli: centrale operativa H24 inclusa, marcatura MDR, come leggere le recensioni senza farsi ingannare.",
+      "tags": ["recensioni", "opinioni", "ecura", "seremy", "beghelli", "confronto", "bracciale-anziani"],
+      "capabilities": ["analisi-recensioni-clienti", "comparazione-prodotti"],
+      "representativeQueries": [
+        "recensioni eCura bracciale anziani",
+        "opinioni clienti eCura",
+        "eCura Seremy Beghelli recensioni",
+        "come leggere le recensioni di un bracciale per anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-24T00:00:00Z"
+    },
+    {
       "identifier": "urn:air:ecura.it:collections:blog",
       "displayName": "Blog eCura — Teleassistenza e Sicurezza Anziani",
       "type": "application/ai-registry+json",

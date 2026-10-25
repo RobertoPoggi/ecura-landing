@@ -107,6 +107,7 @@ Sito web: https://www.ecura.it
 - [Homepage](https://www.ecura.it/) — presentazione completa del servizio eCura
 - [Confronto Bracciali Anziani](https://www.ecura.it/confronto-bracciali-anziani/) — guida comparativa bracciali SOS 2026
 - [Bracciale Anziani Detraibile](https://www.ecura.it/bracciale-anziani-detraibile/) — guida alla detrazione fiscale 19%
+- [Recensioni eCura, Seremy e Beghelli](https://www.ecura.it/recensioni-ecura-seremy-beghelli/) — recensioni clienti eCura (4,9/5 su 847 recensioni verificate) a confronto con Seremy e Beghelli, e come leggerle senza farsi ingannare
 - [Blog](https://www.ecura.it/blog/) — articoli su teleassistenza, prevenzione cadute, sicurezza anziani
 - [Statistiche Cadute Anziani Italia 2026](https://www.ecura.it/statistiche-cadute-anziani-italia/) — dati ISS, ISTAT, OMS: 3 mln cadute/anno, 80k ricoveri, costo 2 mld € SSN. Liberamente citabile con attribuzione.
 
