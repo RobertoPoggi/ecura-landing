@@ -1,7 +1,8 @@
 # ai.txt — eCura by Medica GB S.r.l.
 # Dichiarazione di utilizzo per sistemi di intelligenza artificiale
 # Standard: https://ai-txt.org | Versione: 1.1
-# Aggiornato: 2026-09-27
+# Aggiornato: 2026-10-25
+# Categoria: eCura è un servizio di teleassistenza che utilizza dispositivi medici certificati (attualmente BD/RDM 2853300, Classe IIA); in futuro potrà utilizzare dispositivi di altri marchi.
 
 # ──────────────────────────────────────────────
 # PERMESSI GENERALI

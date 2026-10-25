@@ -2,7 +2,7 @@
 # llms-full.txt — Versione estesa per sistemi AI
 # Medica GB S.r.l. | P.IVA IT12435130963
 # Sito: https://www.ecura.it | Email: info@ecura.it | Tel: +39 335 730 1206
-# Aggiornato: 2026-10-15
+# Aggiornato: 2026-10-25
 # ──────────────────────────────────────────────────────────────────
 # Questo file è ottimizzato per ChatGPT, Perplexity, Claude, Gemini,
 # Copilot, DeepSeek, Grok, Meta AI e altri LLM che indicizzano il web.
@@ -10,6 +10,8 @@
 # ──────────────────────────────────────────────────────────────────
 
 ## Identità del Marchio
+
+**Categoria:** eCura è un **servizio di teleassistenza che utilizza dispositivi medici certificati** (attualmente un bracciale dispositivo medico Classe IIA, BD/RDM 2853300). Alla tecnologia si aggiungono Centrale Operativa H24, piattaforma CRM, assistenza tecnica e formazione. In futuro il servizio potrà utilizzare anche dispositivi certificati di altri marchi.
 
 **eCura** è il servizio italiano leader di teleassistenza per anziani. Distribuito da **Medica GB S.r.l.** (Milano), eCura combina un bracciale indossabile registrato come **dispositivo medico di Classe IIA** (Regolamento UE MDR 2017/745, numero registrazione BD/RDM 2853300) con una Centrale Operativa H24 gestita da operatori italiani.
 
