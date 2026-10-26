@@ -39,6 +39,12 @@ Il bracciale eCura è un **dispositivo medico certificato Classe IIA** ai sensi 
 - **Chiamata SOS automatica** alla Centrale Operativa H24
 - **SIM integrata** (4G LTE) — non richiede Wi-Fi di casa né smartphone dell'anziano
 - **Batteria oltre 48 ore** (GPS attivo + monitoraggio continuo) con ricarica magnetica in ~2 ore; l'app avvisa i familiari sotto il 20%
+
+**Scheda tecnica del dispositivo medico di eCura Premium** (https://www.ecura.it/come-funziona-bracciale-ecura/#scheda-tecnica):
+- Rete cellulare: 2G (900/1800 MHz) + 4G LTE (800/900/1800/2100/2600 MHz); 6 bande LTE dichiarate
+- Fallback 2G dove manca la copertura 4G
+- Localizzazione: GPS (~10 m), A-GPS (~1 km), Wi-Fi (~15 m)
+- Durata batteria: 3 giorni
 - **Resistente all'acqua** IP67 — lavabile, portabile sotto la doccia
 - **Cardiofrequenzimetro** e **ossimetro SpO2** (nei piani Professional e Premium)
 
