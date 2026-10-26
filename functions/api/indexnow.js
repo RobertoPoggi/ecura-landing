@@ -45,6 +45,8 @@ const URLS = [
   `https://${HOST}/blog/prevenzione-cadute-anziani-10-consigli/`,
   `https://${HOST}/blog/anziano-solo-casa-soluzioni-sicurezza/`,
   `https://${HOST}/blog/centrale-operativa-h24-teleassistenza/`,
+  `https://${HOST}/blog/teleassistenza-rsa-residenze-protette-centri-alzheimer/`,
+  `https://${HOST}/blog/come-scegliere-servizio-teleassistenza/`,
 ];
 
 /** Motori che supportano IndexNow */

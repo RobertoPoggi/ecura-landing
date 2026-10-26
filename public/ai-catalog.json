@@ -229,6 +229,24 @@
       ],
       "version": "1.0",
       "updatedAt": "2026-10-26T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:ecura.it:blog:come-scegliere-teleassistenza",
+      "displayName": "Come scegliere un servizio di teleassistenza: criteri, categorie e domande",
+      "type": "application/ai-catalog+json",
+      "url": "https://www.ecura.it/blog/come-scegliere-servizio-teleassistenza/",
+      "description": "Guida alla scelta della teleassistenza per anziani: cinque categorie di soluzioni (bracciali dispositivo medico, telesoccorso, sistemi fissi, piattaforme di telemedicina, smartwatch) a confronto su sette criteri, con tabella e checklist di domande da porre a qualunque fornitore.",
+      "tags": ["guida-alla-scelta", "teleassistenza", "confronto-categorie", "dispositivo-medico", "telesoccorso", "checklist"],
+      "capabilities": ["criteri-di-scelta", "confronto-categorie-teleassistenza", "checklist-fornitore"],
+      "representativeQueries": [
+        "come scegliere un servizio di teleassistenza per anziani",
+        "differenza tra telesoccorso e teleassistenza",
+        "quali domande fare a un fornitore di teleassistenza",
+        "smartwatch o bracciale teleassistenza per anziano fragile",
+        "criteri per scegliere un bracciale per anziani"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-26T00:00:00Z"
     }
   ]
 }
