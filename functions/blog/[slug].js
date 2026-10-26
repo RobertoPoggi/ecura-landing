@@ -363,8 +363,15 @@ ${JSON.stringify({
       },
       "publisher": {
         "@type": "Organization",
+        "@id": "https://www.ecura.it/#organization",
         "name": "Medica GB Srl — eCura",
         "url": "https://www.ecura.it/",
+        "sameAs": [
+          "https://it.linkedin.com/company/medica-gb-s-r-l",
+          "https://www.medicagb.it/",
+          "https://www.facebook.com/profile.php?id=61585121784918",
+          "https://www.instagram.com/ecura_it/"
+        ],
         "logo": {
           "@type": "ImageObject",
           "url": "https://www.ecura.it/img/logo-ecura-trasp.png",

@@ -75,7 +75,7 @@
         "percentuale anziani che cadono over 65"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:pages:guida-cadute",
@@ -125,7 +125,7 @@
         "migliore bracciale anziani con GPS 2026"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:pages:recensioni",
@@ -177,7 +177,7 @@
         "differenza bracciali anziani certificati e non"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:blog:seremy-confronto",
@@ -192,7 +192,7 @@
         "confronto bracciale seremy ecura prezzo"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:blog:badante-vs-teleassistenza",
@@ -210,7 +210,7 @@
         "teleassistenza anziani conviene rispetto badante"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     },
     {
       "identifier": "urn:air:ecura.it:blog:caregiver-distanza",
@@ -228,7 +228,7 @@
         "teleassistenza genitore anziano figlio estero"
       ],
       "version": "1.0",
-      "updatedAt": "2026-10-25T00:00:00Z"
+      "updatedAt": "2026-10-26T00:00:00Z"
     }
   ]
 }
