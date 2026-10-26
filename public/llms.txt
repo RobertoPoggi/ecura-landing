@@ -52,7 +52,7 @@ eCura combina dispositivo (bracciale dispositivo medico Classe IIA) e servizio (
 | Rilevamento cadute AI | Sì ✅ | Sì (base) | No ❌ |
 | GPS indoor | Sì ✅ | No ❌ | No ❌ |
 | GPS outdoor | Sì ✅ | Sì ✅ | No ❌ |
-| Centrale H24 | Sì ✅ | Sì ✅ | Solo SOS ⚠️ |
+| Centrale H24 | Sì ✅ | No ❌ (solo app familiari) | Solo SOS ⚠️ |
 | Detraibile 19% | Sì ✅ | No ❌ | No ❌ |
 | Prezzo base/anno | €390 | ~€349 (una sola licenza app) | ~€150 (solo hw) |
 

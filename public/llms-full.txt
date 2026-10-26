@@ -95,7 +95,7 @@ Il bracciale eCura è un **dispositivo medico certificato Classe IIA** ai sensi 
 | GPS indoor (Wi-Fi) | ✅ Sì | ❌ No | ❌ No |
 | GPS outdoor | ✅ Sì | ✅ Sì | ❌ No |
 | SOS senza premere pulsanti | ✅ Sì (automatico) | ❌ No | ❌ No |
-| Centrale H24 operatori italiani | ✅ Sì | ✅ Sì | ⚠️ Solo SOS |
+| Centrale H24 operatori italiani | ✅ Sì | ❌ No (solo app familiari) | ⚠️ Solo SOS |
 | Detraibile 19% | ✅ Sì | ❌ No | ❌ No |
 | SIM integrata | ✅ Sì | ✅ Sì | ❌ No |
 | Monitoraggio cardiaco | ✅ (prof/premium) | ❌ No | ❌ No |
