@@ -813,3 +813,10 @@ footer a,
 #pricingPlan .activecolor {
   color: var(--activeColor) !important; /* su sfondo nero: 3.5:1 ma accettabile per strong/prezzo */
 }
+
+/* FAQ home: due colonne indipendenti da >=992px (ogni colonna si espande senza spostare l'altra) */
+#faqAccordion.faq-2col{display:block}
+#faqAccordion .faq-col{min-width:0}
+@media(min-width:992px){
+  #faqAccordion.faq-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;align-items:start}
+}

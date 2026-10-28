@@ -126,28 +126,28 @@
   /* ── interfaccia ──────────────────────────────────────────────────── */
   var banner = null;
   var CSS =
-    '#ecck{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;color:#3d3c3b;' +
-    'border-top:3px solid #068d86;box-shadow:0 -6px 28px rgba(8,14,73,.16);font:400 14px/1.55 Roboto,-apple-system,"Segoe UI",Arial,sans-serif}' +
+    '#ecck{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;color:#4a4a4a;' +
+    'border-top:1px solid #dfe5e4;box-shadow:0 -2px 14px rgba(0,0,0,.07);font:400 13px/1.5 Arial,Helvetica,sans-serif}' +
     '#ecck,#ecck *{font-family:Arial,Helvetica,sans-serif;font-weight:400}#ecck h2,#ecck button,#ecck strong{font-weight:700}' +
     '#ecck *{box-sizing:border-box}' +
-    '#ecck .ecck-in{max-width:1100px;margin:0 auto;padding:18px 22px}' +
-    '#ecck h2{font:700 16px/1.3 Arial,Helvetica,sans-serif;color:#080e49;margin:0 0 6px}' +
-    '#ecck p{margin:0 0 12px;font-size:14px}' +
-    '#ecck a{color:#0059c7;text-decoration:underline}' +
-    '#ecck .ecck-btns{display:flex;gap:10px;flex-wrap:wrap}' +
-    '#ecck button{font:700 14px/1 Arial,Helvetica,sans-serif;border-radius:6px;padding:12px 20px;min-height:44px;cursor:pointer;border:2px solid #080e49}' +
-    '#ecck .ecck-acc{background:#080e49;color:#fff}' +
-    '#ecck .ecck-rej{background:#080e49;color:#fff}' +
-    '#ecck .ecck-cus{background:#fff;color:#080e49}' +
-    '#ecck button:focus-visible{outline:3px solid #05b1a8;outline-offset:2px}' +
-    '#ecck .ecck-cats{margin:4px 0 14px;display:grid;gap:10px}' +
-    '#ecck label{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer}' +
-    '#ecck label input{margin-top:3px;width:18px;height:18px;flex-shrink:0}' +
-    '#ecck label small{display:block;color:#666;font-size:12.5px}' +
+    '#ecck .ecck-in{max-width:1100px;margin:0 auto;padding:12px 18px}' +
+    '#ecck h2{font-size:14px;line-height:1.3;color:#3a4a49;margin:0 0 4px}' +
+    '#ecck p{margin:0 0 10px;font-size:13px}' +
+    '#ecck a{color:#0b6f69;text-decoration:underline}' +
+    '#ecck .ecck-btns{display:flex;gap:8px;flex-wrap:wrap}' +
+    /* Accetta e Rifiuta hanno lo stesso peso visivo (nessuna spinta verso l'accettazione) */
+    '#ecck button{font-size:13px;line-height:1;border-radius:6px;padding:10px 16px;min-height:40px;cursor:pointer;border:1px solid #c9d6d4;background:#f2f6f6;color:#33504e}' +
+    '#ecck button:hover{background:#e6eeed}' +
+    '#ecck .ecck-cus{background:transparent;border-color:transparent;color:#5f6f6e;text-decoration:underline}' +
+    '#ecck .ecck-cus:hover{background:#f2f6f6}' +
+    '#ecck button:focus-visible{outline:2px solid #068d86;outline-offset:2px}' +
+    '#ecck .ecck-cats{margin:4px 0 12px;display:grid;gap:8px}' +
+    '#ecck label{display:flex;gap:10px;align-items:flex-start;font-size:13px;cursor:pointer}' +
+    '#ecck label input{margin-top:2px;width:17px;height:17px;flex-shrink:0;accent-color:#068d86}' +
+    '#ecck label small{display:block;color:#666;font-size:12px}' +
     '.ecck-prefs{text-align:center;font-size:.8rem;margin:10px 0 0;padding:0 12px}' +
     '.ecck-prefs a{color:inherit;text-decoration:underline;opacity:.85}' +
-    '@media(max-width:640px){#ecck .ecck-btns{flex-direction:column}#ecck button{width:100%}}';
-
+    '@media(max-width:640px){#ecck .ecck-in{padding:10px 14px}#ecck .ecck-btns{flex-wrap:nowrap;gap:6px}#ecck button{flex:1 1 0;padding:10px 6px;font-size:12.5px}#ecck .ecck-cus{flex:0 0 auto;padding:10px 8px}}';
   function addStyle() {
     if (document.getElementById('ecck-style')) return;
     var st = document.createElement('style'); st.id = 'ecck-style'; st.textContent = CSS;
@@ -202,7 +202,7 @@
     if (openCustom) {
       var cb = banner.querySelector('button[data-a="custom"]'); if (cb) cb.click();
     }
-    var first = banner.querySelector('button'); if (first) first.focus({ preventScroll: true });
+    if (openCustom) { var first = banner.querySelector('button'); if (first) first.focus({ preventScroll: true }); }
   }
   function hideBanner() {
     if (banner && banner.parentNode) banner.parentNode.removeChild(banner);

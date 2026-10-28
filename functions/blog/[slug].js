@@ -413,7 +413,7 @@ ${JSON.stringify({
 <noscript><link rel="stylesheet" href="/vendor/bootstrap-5.3.3/bootstrap.min.css"></noscript>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/blog.css?v=2">
-<style>.ecura-email::before{content:attr(data-e)}</style>
+<style>.ecura-email:empty::before{content:attr(data-e)}</style>
 <style>
 /* Comparison Table */
 .comp-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:.92rem}
