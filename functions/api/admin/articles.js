@@ -4,54 +4,28 @@
  * POST /api/admin/articles  — create new article
  */
 
-const COOKIE_NAME = 'ecura_admin_session';
-
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  if (!cookieHeader) return cookies;
-  cookieHeader.split(';').forEach(part => {
-    const [k, ...v] = part.trim().split('=');
-    cookies[k.trim()] = v.join('=');
-  });
-  return cookies;
-}
-
-async function checkAuth(request, db) {
-  const cookies = parseCookies(request.headers.get('Cookie'));
-  const token = cookies[COOKIE_NAME];
-  if (!token) return null;
-  return await db.prepare(
-    'SELECT s.*, u.username FROM admin_sessions s JOIN admin_users u ON s.user_id = u.id WHERE s.token = ? AND s.expires_at > datetime("now")'
-  ).bind(token).first();
-}
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json',
-};
+import { getSession, json } from '../../_lib/admin-auth.js';
 
 export async function onRequest({ request, env }) {
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders });
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
 
   const db = env.DB;
-  const session = await checkAuth(request, db);
-  if (!session) return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: corsHeaders });
+  const session = await getSession(request, db);
+  if (!session) return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401 });
 
   // GET — list all articles
   if (request.method === 'GET') {
     const { results } = await db.prepare(
       'SELECT id, slug, title, category, tag_color, date_published, read_time, status, hero_image, updated_at FROM blog_articles ORDER BY date_published DESC'
     ).all();
-    return new Response(JSON.stringify({ articles: results || [] }), { status: 200, headers: corsHeaders });
+    return new Response(JSON.stringify({ articles: results || [] }), { status: 200 });
   }
 
   // POST — create new article
   if (request.method === 'POST') {
     let body;
     try { body = await request.json(); } catch {
-      return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400, headers: corsHeaders });
+      return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400 });
     }
 
     const {
@@ -64,7 +38,7 @@ export async function onRequest({ request, env }) {
     } = body;
 
     if (!slug || !title) {
-      return new Response(JSON.stringify({ error: 'Campi obbligatori: slug e title' }), { status: 400, headers: corsHeaders });
+      return new Response(JSON.stringify({ error: 'Campi obbligatori: slug e title' }), { status: 400 });
     }
 
     try {
@@ -89,14 +63,14 @@ export async function onRequest({ request, env }) {
         related_2_slug || null, related_2_title || null, related_2_excerpt || null, related_2_tag || null,
         related_3_slug || null, related_3_title || null, related_3_excerpt || null, related_3_tag || null
       ).run();
-      return new Response(JSON.stringify({ ok: true, slug }), { status: 201, headers: corsHeaders });
+      return new Response(JSON.stringify({ ok: true, slug }), { status: 201 });
     } catch (e) {
       if (e.message && e.message.includes('UNIQUE')) {
-        return new Response(JSON.stringify({ error: 'Slug già esistente. Scegli uno slug diverso.' }), { status: 409, headers: corsHeaders });
+        return new Response(JSON.stringify({ error: 'Slug già esistente. Scegli uno slug diverso.' }), { status: 409 });
       }
-      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });
+      return new Response(JSON.stringify({ error: e.message }), { status: 500 });
     }
   }
 
-  return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+  return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
 }

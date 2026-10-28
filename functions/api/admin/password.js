@@ -1,80 +1,35 @@
 /**
  * Admin Password Change API
- * POST /api/admin/password — change password (requires active session)
+ * POST /api/admin/password — cambia password (richiede sessione, verificata dal middleware)
  *
- * NOTE: first-time setup is done directly via D1 (wrangler d1 execute),
- * not via HTTP — the ?setup= endpoint has been intentionally removed.
+ * Il primo setup si fa direttamente su D1 (wrangler d1 execute), non via HTTP.
  */
-
-const COOKIE_NAME = 'ecura_admin_session';
-
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  if (!cookieHeader) return cookies;
-  cookieHeader.split(';').forEach(part => {
-    const [k, ...v] = part.trim().split('=');
-    cookies[k.trim()] = v.join('=');
-  });
-  return cookies;
-}
-
-async function hashPassword(password) {
-  const enc = new TextEncoder();
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
-  );
-  const bits = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: enc.encode('ecura-salt-2026'), iterations: 100000, hash: 'SHA-256' },
-    keyMaterial, 256
-  );
-  return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function checkAuth(request, db) {
-  const cookies = parseCookies(request.headers.get('Cookie'));
-  const token = cookies[COOKIE_NAME];
-  if (!token) return null;
-  const session = await db.prepare(
-    'SELECT s.*, u.username FROM admin_sessions s JOIN admin_users u ON s.user_id = u.id WHERE s.token = ? AND s.expires_at > datetime("now")'
-  ).bind(token).first();
-  return session || null;
-}
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json',
-};
+import { getSession, hashPassword, verifyPassword, json } from '../../_lib/admin-auth.js';
 
 export async function onRequest({ request, env }) {
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders });
-  if (request.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   const db = env.DB;
-
-  // Requires valid session — no unauthenticated setup endpoint
-  const session = await checkAuth(request, db);
-  if (!session) return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: corsHeaders });
+  const session = await getSession(request, db);
+  if (!session) return json({ error: 'Non autorizzato' }, 401);
 
   let body;
-  try { body = await request.json(); } catch { return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400, headers: corsHeaders }); }
+  try { body = await request.json(); } catch { return json({ error: 'JSON non valido' }, 400); }
 
   const { current_password, new_password } = body;
-  if (!current_password || !new_password) {
-    return new Response(JSON.stringify({ error: 'current_password e new_password richiesti' }), { status: 400, headers: corsHeaders });
+  if (typeof current_password !== 'string' || typeof new_password !== 'string' || !current_password || !new_password) {
+    return json({ error: 'current_password e new_password richiesti' }, 400);
   }
-  if (new_password.length < 8) {
-    return new Response(JSON.stringify({ error: 'Nuova password deve essere di almeno 8 caratteri' }), { status: 400, headers: corsHeaders });
-  }
+  if (new_password.length < 10) return json({ error: 'La nuova password deve avere almeno 10 caratteri' }, 400);
+  if (new_password.length > 256) return json({ error: 'Password troppo lunga' }, 400);
 
-  const currentHash = await hashPassword(current_password);
-  const user = await db.prepare(
-    'SELECT * FROM admin_users WHERE id = ? AND password_hash = ?'
-  ).bind(session.user_id, currentHash).first();
-  if (!user) return new Response(JSON.stringify({ error: 'Password corrente non valida' }), { status: 401, headers: corsHeaders });
+  const user = await db.prepare('SELECT * FROM admin_users WHERE id = ?').bind(session.user_id).first();
+  const check = user ? await verifyPassword(current_password, user.password_hash) : { ok: false };
+  if (!check.ok) return json({ error: 'Password corrente non valida' }, 401);
 
-  const newHash = await hashPassword(new_password);
-  await db.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(newHash, session.user_id).run();
-  return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
+  await db.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(await hashPassword(new_password), session.user_id).run();
+  // Invalida le altre sessioni dell'utente, mantiene quella corrente
+  const token = (request.headers.get('Cookie') || '').match(/ecura_admin_session=([0-9a-f]{64})/)?.[1];
+  if (token) await db.prepare('DELETE FROM admin_sessions WHERE user_id = ? AND token != ?').bind(session.user_id, token).run();
+  return json({ success: true });
 }

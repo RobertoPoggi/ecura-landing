@@ -1,114 +1,93 @@
 /**
  * Admin Auth API
- * POST /api/admin/auth — login
- * GET  /api/admin/auth — check session
+ * POST   /api/admin/auth — login (con limite ai tentativi)
+ * GET    /api/admin/auth — verifica sessione
  * DELETE /api/admin/auth — logout
+ *
+ * Solo same-origin (nessun CORS). Header di sicurezza aggiunti da _middleware.js.
  */
+import {
+  COOKIE_NAME, SESSION_SECONDS, getSession, parseCookies,
+  hashPassword, verifyPassword, clientIp, json,
+} from '../../_lib/admin-auth.js';
 
-// Simple PBKDF2-based password hashing using Web Crypto API
-async function hashPassword(password) {
-  const enc = new TextEncoder();
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
-  );
-  const bits = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: enc.encode('ecura-salt-2026'), iterations: 100000, hash: 'SHA-256' },
-    keyMaterial, 256
-  );
-  return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
+const MAX_FAILS_PER_IP = 5;      // tentativi falliti per IP...
+const MAX_FAILS_PER_USER = 10;   // ...e per utente (contro attacchi distribuiti)
+const WINDOW_MINUTES = 15;       // ...in questa finestra: poi blocco
 
-async function generateToken() {
+function generateToken() {
   const arr = new Uint8Array(32);
   crypto.getRandomValues(arr);
   return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-const COOKIE_NAME = 'ecura_admin_session';
-const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days in seconds
-
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  if (!cookieHeader) return cookies;
-  cookieHeader.split(';').forEach(part => {
-    const [k, ...v] = part.trim().split('=');
-    cookies[k.trim()] = v.join('=');
-  });
-  return cookies;
-}
+const cookie = (value, maxAge) =>
+  `${COOKIE_NAME}=${value}; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}; Path=/`;
 
 export async function onRequest({ request, env }) {
   const method = request.method;
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Content-Type': 'application/json',
-  };
-
-  if (method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
-  }
-
   const db = env.DB;
+
+  if (method === 'OPTIONS') return new Response(null, { status: 204 });
 
   // POST — Login
   if (method === 'POST') {
     let body;
-    try { body = await request.json(); } catch { return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers: corsHeaders }); }
+    try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
 
-    const { username, password } = body;
-    if (!username || !password) {
-      return new Response(JSON.stringify({ error: 'Username e password richiesti' }), { status: 400, headers: corsHeaders });
+    const username = typeof body.username === 'string' ? body.username.trim().slice(0, 64) : '';
+    const password = typeof body.password === 'string' ? body.password : '';
+    if (!username || !password || password.length > 256) {
+      return json({ error: 'Username e password richiesti' }, 400);
     }
 
-    const hash = await hashPassword(password);
-    const user = await db.prepare('SELECT * FROM admin_users WHERE username = ? AND password_hash = ?').bind(username, hash).first();
+    const ip = clientIp(request);
 
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Credenziali non valide' }), { status: 401, headers: corsHeaders });
+    // Pulizia vecchi tentativi + controllo blocco
+    await db.prepare(`DELETE FROM admin_login_attempts WHERE created_at < datetime('now', '-1 day')`).run();
+    const win = `-${WINDOW_MINUTES} minutes`;
+    const byIp = await db.prepare(`SELECT COUNT(*) AS n FROM admin_login_attempts WHERE ip = ? AND created_at > datetime('now', ?)`).bind(ip, win).first();
+    const byUser = await db.prepare(`SELECT COUNT(*) AS n FROM admin_login_attempts WHERE username = ? AND created_at > datetime('now', ?)`).bind(username, win).first();
+    if ((byIp?.n || 0) >= MAX_FAILS_PER_IP || (byUser?.n || 0) >= MAX_FAILS_PER_USER) {
+      return json({ error: `Troppi tentativi falliti. Riprova tra ${WINDOW_MINUTES} minuti.` }, 429, { 'Retry-After': String(WINDOW_MINUTES * 60) });
     }
 
-    const token = await generateToken();
-    const expires = new Date(Date.now() + SESSION_DURATION * 1000).toUTCString();
+    const user = await db.prepare('SELECT * FROM admin_users WHERE username = ?').bind(username).first();
+    // Se l'utente non esiste si esegue comunque un calcolo, per non rivelare quali username esistono
+    const check = await verifyPassword(password, user ? user.password_hash : 'pbkdf2$100000$00$00');
 
-    // Store session in KV or D1
-    await db.prepare('UPDATE admin_users SET last_login = datetime("now") WHERE id = ?').bind(user.id).run();
-    // Store token in D1 sessions table
-    await db.prepare('INSERT OR REPLACE INTO admin_sessions (token, user_id, expires_at) VALUES (?, ?, datetime("now", "+7 days"))').bind(token, user.id).run();
+    if (!user || !check.ok) {
+      await db.prepare('INSERT INTO admin_login_attempts (ip, username) VALUES (?, ?)').bind(ip, username).run();
+      return json({ error: 'Credenziali non valide' }, 401);
+    }
 
-    const cookieValue = `${COOKIE_NAME}=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=${SESSION_DURATION}; Path=/`;
-    return new Response(JSON.stringify({ ok: true, username: user.username }), {
-      status: 200,
-      headers: { ...corsHeaders, 'Set-Cookie': cookieValue }
-    });
+    // Login riuscito: azzera i tentativi di questo IP/utente, aggiorna l'hash se in formato vecchio
+    await db.prepare('DELETE FROM admin_login_attempts WHERE ip = ? OR username = ?').bind(ip, username).run();
+    if (check.upgrade) {
+      await db.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(await hashPassword(password), user.id).run();
+    }
+
+    const token = generateToken();
+    await db.prepare(`UPDATE admin_users SET last_login = datetime('now') WHERE id = ?`).bind(user.id).run();
+    await db.prepare(`DELETE FROM admin_sessions WHERE expires_at < datetime('now')`).run();
+    await db.prepare(`INSERT INTO admin_sessions (token, user_id, expires_at) VALUES (?, ?, datetime('now', '+7 days'))`).bind(token, user.id).run();
+
+    return json({ ok: true, username: user.username }, 200, { 'Set-Cookie': cookie(token, SESSION_SECONDS) });
   }
 
   // GET — Check session
   if (method === 'GET') {
-    const cookies = parseCookies(request.headers.get('Cookie'));
-    const token = cookies[COOKIE_NAME];
-    if (!token) return new Response(JSON.stringify({ authenticated: false }), { status: 401, headers: corsHeaders });
-
-    const session = await db.prepare('SELECT s.*, u.username FROM admin_sessions s JOIN admin_users u ON s.user_id = u.id WHERE s.token = ? AND s.expires_at > datetime("now")').bind(token).first();
-    if (!session) return new Response(JSON.stringify({ authenticated: false }), { status: 401, headers: corsHeaders });
-
-    return new Response(JSON.stringify({ authenticated: true, username: session.username }), { status: 200, headers: corsHeaders });
+    const session = await getSession(request, db);
+    if (!session) return json({ authenticated: false }, 401);
+    return json({ authenticated: true, username: session.username });
   }
 
   // DELETE — Logout
   if (method === 'DELETE') {
-    const cookies = parseCookies(request.headers.get('Cookie'));
-    const token = cookies[COOKIE_NAME];
-    if (token) {
-      await db.prepare('DELETE FROM admin_sessions WHERE token = ?').bind(token).run();
-    }
-    const clearCookie = `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/`;
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { ...corsHeaders, 'Set-Cookie': clearCookie }
-    });
+    const token = parseCookies(request.headers.get('Cookie'))[COOKIE_NAME];
+    if (token) await db.prepare('DELETE FROM admin_sessions WHERE token = ?').bind(token).run();
+    return json({ ok: true }, 200, { 'Set-Cookie': cookie('', 0) });
   }
 
-  return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+  return json({ error: 'Method not allowed' }, 405);
 }
