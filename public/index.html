@@ -2,14 +2,7 @@
   <html lang="it">
       <head>
         <meta charset="utf-8">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-THW7H9NB');</script>
-<!-- End Google Tag Manager -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- ═══════════════════════════════════════════════════════
      SEO TITLE — keyword primaria in apertura, brand in chiusura,
      max 60 caratteri: "Bracciale Cadute Anziani con GPS | eCura"
@@ -71,9 +64,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- ═══ PERFORMANCE: PRECONNECT + DNS-PREFETCH ════════════ -->
 <!-- fonts.googleapis.com preconnect rimosso: usiamo @font-face self-hosted via preload gstatic -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <!-- unpkg rimosso: AOS eliminato, nessuna risorsa da unpkg -->
 <link rel="dns-prefetch" href="https://challenges.cloudflare.com">
 
@@ -83,10 +73,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- ═══ FONT — preload latin + latin-ext subset per CLS ════════
      Preloading il subset latin (400 e 700) fa scaricare il font
      PRIMA del primo paint → niente layout shift (CLS 0)         ══ -->
-<link rel="preload" as="font" type="font/woff2" crossorigin
-  href="https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin
-  href="https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/roboto-latin.woff2">
 <!-- Google Fonts CSS rimosso: usava font-display:swap internamente → FOUT → CLS.
      I @font-face con font-display:optional sono già nel critical-css (preload gstatic woff2). -->
 
@@ -201,11 +188,6 @@ a:hover{color:#05B1A8}
 .ecura-form .ecura-step-btn:hover{background:#068D86}
 
 
-#ecura-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#1a1a2e;color:#e8e8f0;padding:18px 24px;font-size:.875rem;line-height:1.5;box-shadow:0 -4px 24px rgba(0,0,0,.35);display:flex;flex-wrap:wrap;align-items:center;gap:14px;animation:slideUpBanner .35s ease}
-@keyframes slideUpBanner{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-#ecura-cookie-banner p{margin:0;flex:1 1 300px}
-#ecura-cookie-banner a{color:#7dd3fc}
-#ecura-cookie-banner .ck-btns{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap}
 #ecura-cookie-btn-accept{background:#22c55e;color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:700;cursor:pointer;white-space:nowrap}
 #ecura-cookie-btn-accept:hover{background:#16a34a}
 #ecura-cookie-btn-reject{background:transparent;color:#94a3b8;border:1px solid #475569;border-radius:6px;padding:9px 16px;font-size:.875rem;cursor:pointer;white-space:nowrap}
@@ -243,7 +225,7 @@ a:hover{color:#05B1A8}
 @media(max-width:768px){.hero-bg{min-height:400px;background-position:center center}.hero-bg-col{min-height:400px!important}.heroContent .textOverlay{bottom:20px}.heroContent h1{font-size:22px}}
 @media(max-width:576px){.hero-bg,.hero-bg-col{min-height:300px!important}
 .hero-bg-col .hero-img-lcp{object-position:65% center}.heroSection{border-bottom-right-radius:16px}.heroContent .textOverlay{position:relative!important;bottom:auto!important;padding:28px 16px 20px;background:linear-gradient(180deg,rgba(6,141,134,.85) 0%,rgba(8,14,73,.80) 100%)}.heroContent::before{display:none}.heroContent h1{font-size:1.3rem;margin-bottom:10px}.heroContent .display-6{font-size:1rem}.heroContent .lead{font-size:.95rem}body{font-size:16px}.full_top_nav_wrapper{padding:8px 16px}}
-@media(max-width:600px){#ecura-cookie-banner{padding:14px 16px}#ecura-cookie-banner .ck-btns{width:100%;justify-content:stretch}#ecura-cookie-btn-accept,#ecura-cookie-btn-reject{flex:1;text-align:center}}
+
 
 
 picture{display:block}
@@ -258,7 +240,7 @@ picture{display:block}
    ════════════════════════════════════════════════════════════════════════ */
 *{transition-property:background,background-color,color,opacity,transform,box-shadow,border-color,filter!important}
 /* Eccezioni: elementi con transizioni già corrette o senza transizione */
-.promotitle,[data-aos],#ecura-cookie-banner{transition:none!important}
+.promotitle,[data-aos]{transition:none!important}
 .accordion-item{transition:none!important}
 /* Ripristina valori specifici per elementi che ne hanno bisogno */
 a:link,a:visited{transition:color .3s ease-in-out!important}
@@ -326,10 +308,8 @@ p{margin-top:0;margin-bottom:1rem}
 @media(max-width:576px){.protectionBan .banner{height:280px}.focusBan .banner{min-height:280px}}
 
 /* CLS FIX FONT: font-display:optional → nessun layout shift dopo il primo paint. */
-@font-face{font-family:'Roboto';font-style:normal;font-weight:300;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-style:normal;font-weight:500;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:optional;src:url(https://fonts.gstatic.com/s/roboto/v51/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBGEe.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:optional;src:url(/fonts/roboto-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:optional;src:url(/fonts/roboto-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
 /* Fix accordion Bootstrap border-*-color → composite-only */
 .accordion-button{transition:background-color .3s,color .3s,box-shadow .3s!important}
 .accordion-button::before,.accordion-button::after{transition:transform .3s,background-color .3s,filter .3s!important}
@@ -345,17 +325,15 @@ p{margin-top:0;margin-bottom:1rem}
 </style>
 
 <!-- ═══ NON-CRITICAL CSS — tutti async via media trick ══════ -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="/vendor/bootstrap-5.3.1/bootstrap.min.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css?v=2" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2" media="print" onload="this.media='all'">
 <link href="css/css.css?v=11" rel="stylesheet" media="print" onload="this.media='all'">
 <link href="css/style.css?v=11" rel="stylesheet" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- AOS CSS rimosso: [data-aos] ora visibili via CSS diretto (no forced reflow) -->
 <!-- noscript fallback: carica tutto se JS disabilitato -->
 <noscript>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/vendor/bootstrap-5.3.1/bootstrap.min.css">
 <link rel="stylesheet" href="css/owl.carousel.min.css?v=2">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2">
 <link href="css/css.css?v=10" rel="stylesheet">
@@ -1227,30 +1205,13 @@ p{margin-top:0;margin-bottom:1rem}
 }
 </script>
 
-       <!-- Google tag (gtag.js) — caricato solo dopo consenso cookie -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  // Imposta default negato — nessun dato inviato prima del consenso
-  gtag('consent', 'default', {
-    analytics_storage:    'denied',
-    ad_storage:           'denied',
-    ad_user_data:         'denied',
-    ad_personalization:   'denied',
-    wait_for_update:      500
-  });
-</script>
 <!-- ecura-email obfuscation style: mantenuto per compatibilità ma email ora è anche href -->
 <style>.ecura-email::before{content:attr(data-e)}</style>
 <!-- aeo-v2-1790094437-20260925 -->
-<script src="https://analytics.ahrefs.com/analytics.js" data-key="WhJWRBjhU04P/qNCDss2XA" async></script>
+<script src="/js/ecura-consent.js?v=1" defer></script>
 </head>
     <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THW7H9NB"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-      <!-- Skip link accessibilità + SEO -->
+<!-- Skip link accessibilità + SEO -->
       <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
 
       <div class="smooth-wrapper">
@@ -1431,10 +1392,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     <label for="hero_message" style="margin-top:4px">Note <span style="font-weight:400;color:#888">(opzionale)</span></label>
                     <textarea id="hero_message" name="message" rows="2" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni..."></textarea>
+<small class="ecura-note-warn" style="display:block;font-size:12px;color:#666;margin:2px 0 8px">Non inserire dati sulla salute: servono solo i recapiti per ricontattarti.</small>
 
                     <div class="privacy-row">
                       <input type="checkbox" name="privacy_consent" id="hero_privacy" required>
-                      <label for="hero_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
+                      <label for="hero_privacy">Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">informativa privacy</a> e acconsento al trattamento dei miei dati per essere ricontattato *</label>
                     </div>
 
                     <!-- FIX 5 — Social proof vicino al form hero -->
@@ -2326,7 +2288,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 subito i soccorsi. Senza eCura sarebbe rimasta a terra per ore."
                             </p>
                             <div class="testimonial-author">
-                                <img src="https://i.pravatar.cc/80?img=1" alt="Foto cliente Maria G. — recensione eCura" class="testimonial-avatar" width="80" height="80" loading="lazy">
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Maria G." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">MG</span>
                                 <div class="testimonial-info">
                                     <strong>Maria G., Bologna</strong>
                                     <span class="testimonial-plan">eCura PRO Avanzata</span>
@@ -2347,7 +2309,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 è semplicissimo: un bottone per l'SOS. Da quando mio padre lo usa si è già salvato una situazione critica grazie al GPS e alla centrale operativa."
                             </p>
                             <div class="testimonial-author">
-                                <img src="https://i.pravatar.cc/80?img=3" alt="Foto cliente Roberto F. — recensione eCura" class="testimonial-avatar" width="80" height="80" loading="lazy">
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Roberto F." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">RF</span>
                                 <div class="testimonial-info">
                                     <strong>Roberto F., Torino</strong>
                                     <span class="testimonial-plan">eCura Family Base</span>
@@ -2369,7 +2331,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 Mia nonna non si è nemmeno accorta che indossava un bracciale medico — lo trova comodissimo."
                             </p>
                             <div class="testimonial-author">
-                                <img src="https://i.pravatar.cc/80?img=5" alt="Foto cliente Laura M. — recensione eCura" class="testimonial-avatar" width="80" height="80" loading="lazy">
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Laura M." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">LM</span>
                                 <div class="testimonial-info">
                                     <strong>Laura M., Roma</strong>
                                     <span class="testimonial-plan">eCura PRO Base</span>
@@ -2429,10 +2391,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                   <label for="main_message">Note / Messaggio <span style="font-weight:400;color:#888">(opzionale)</span></label>
                   <textarea id="main_message" name="message" rows="3" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni che vive sola..."></textarea>
+<small class="ecura-note-warn" style="display:block;font-size:12px;color:#666;margin:2px 0 8px">Non inserire dati sulla salute: servono solo i recapiti per ricontattarti.</small>
 
                   <div class="privacy-row">
                     <input type="checkbox" name="privacy_consent" id="main_privacy" required>
-                    <label for="main_privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</label>
+                    <label for="main_privacy">Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">informativa privacy</a> e acconsento al trattamento dei miei dati per essere ricontattato *</label>
                   </div>
 
                   <!-- FIX 5 — Social proof vicino al form main -->
@@ -2637,7 +2600,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="col-md-12 text-center">
             <small>
               © 2026 Medica GB Srl. Tutti i diritti riservati. — 
-              <a href="https://www.medicagb.it/privacy-policy/" rel="noopener noreferrer" target="_blank">Privacy Policy</a>
+              <a href="/privacy-policy/" rel="noopener noreferrer" target="_blank">Privacy Policy</a> &nbsp;|&nbsp; <a href="#" data-ecura-cookie-prefs>Preferenze cookie</a>
               &nbsp;|&nbsp;
               <span>Servizio con dispositivo medico Classe IIA · BD/RDM 2853300 · CND V0399 · MDR 2017/745</span>
             </small>
@@ -2648,8 +2611,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <!-- ═══ SCRIPTS ════════════════════════════════════════════ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+<script src="/vendor/jquery/jquery-3.6.0.min.js" defer></script>
+<script src="/vendor/bootstrap-5.3.1/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
 <!-- AOS JS rimosso: inizializzazione via CSS, nessun forced reflow -->
 <script type="text/javascript" src="js/owl.carousel.min.js?v=2" defer></script>
 <!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
@@ -2711,7 +2674,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             style="width:auto;margin-top:3px;flex-shrink:0"
             onchange="document.getElementById('exit_privacy_hidden').value=this.checked?'true':''">
           <label for="exit_privacy" style="font-size:12px;color:#555;cursor:pointer">
-            Ho letto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#068D86">Privacy Policy</a> *
+            Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#068D86">informativa privacy</a> e acconsento a essere richiamato *
           </label>
         </div>
 
@@ -2769,130 +2732,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     Scrivici su WhatsApp
   </a>
-
-  <!-- ═══ Microsoft Clarity ══════════════════════════════════════════════════ -->
-  <!-- Clarity: heatmap e session recording — nessun dato PII inviato -->
-  <!-- ═══ Cookie Banner + Consent Manager ══════════════════════════════ -->
-  <div id="ecura-cookie-banner" role="dialog" aria-modal="false" aria-label="Consenso cookie" style="display:none">
-    <p>
-      Usiamo cookie analitici (Google Analytics, Microsoft Clarity) per migliorare il sito e Ahrefs Web Analytics per statistiche aggregate senza cookie.
-      Nessun dato è condiviso con terzi a fini pubblicitari senza il tuo consenso.
-      <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-    </p>
-    <div class="ck-btns">
-      <button id="ecura-cookie-btn-accept" aria-label="Accetta i cookie analitici">✓ Accetta</button>
-      <button id="ecura-cookie-btn-reject" aria-label="Rifiuta i cookie analitici">Rifiuta</button>
-    </div>
-  </div>
-
-  <script>
-  (function(){
-    var CONSENT_KEY = 'ecura_ck';   // nome cookie di primo piano
-    var GA_ID       = 'G-5DY4TY34WK';
-    var AW_ID       = 'AW-18350012797';
-    var CL_ID       = 'yfc9murzhb';
-    var FB_ID       = '1430631415843205';
-    var DAYS        = 365;
-
-    /* ── helpers cookie di primo piano ─────────────────────────────── */
-    function setCookie(val) {
-      var exp = new Date();
-      exp.setDate(exp.getDate() + DAYS);
-      document.cookie = CONSENT_KEY + '=' + val
-        + '; expires=' + exp.toUTCString()
-        + '; path=/; SameSite=Strict; Secure';
-    }
-
-    function getCookie() {
-      var match = document.cookie.match('(?:^|;)\\s*' + CONSENT_KEY + '=([^;]+)');
-      return match ? match[1] : null;
-    }
-
-    /* ── caricamento script analitici ──────────────────────────────── */
-    function loadGA() {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-      document.head.appendChild(s);
-      s.onload = function(){
-        gtag('js', new Date());
-        gtag('config', GA_ID);
-        gtag('config', AW_ID);
-        gtag('consent', 'update', {
-          analytics_storage:  'granted',
-          ad_storage:         'granted',
-          ad_user_data:       'granted',
-          ad_personalization: 'granted'
-        });
-      };
-    }
-
-    function loadClarity() {
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window,document,'clarity','script',CL_ID);
-    }
-
-    function loadPixel() {
-      !function(f,b,e,v,n,t,s){
-        if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)
-      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', FB_ID);
-      fbq('track', 'PageView');
-      // noscript pixel (aggiunto dinamicamente)
-      var ns = document.createElement('noscript');
-      var img = document.createElement('img');
-      img.height = 1; img.width = 1; img.style.display = 'none';
-      img.src = 'https://www.facebook.com/tr?id=' + FB_ID + '&ev=PageView&noscript=1';
-      ns.appendChild(img);
-      document.body.appendChild(ns);
-    }
-
-    function applyConsent(granted) {
-      if (granted) { loadGA(); loadClarity(); loadPixel(); }
-    }
-
-    function saveAndApply(granted) {
-      setCookie(granted ? '1' : '0');
-      document.getElementById('ecura-cookie-banner').style.display = 'none';
-      applyConsent(granted);
-    }
-
-    /* ── logica principale ─────────────────────────────────────────── */
-    var saved = getCookie();
-    if (saved === '1') {
-      // Consenso già dato — carica DOPO il LCP per non bloccare il critical path
-      // (GA, Clarity e FB Pixel sono fuori dal critical path dell'utente)
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function(){ applyConsent(true); }, { timeout: 3000 });
-      } else {
-        setTimeout(function(){ applyConsent(true); }, 2000);
-      }
-    } else if (saved === null) {
-      // Prima visita — mostra banner dopo 800ms
-      window.addEventListener('DOMContentLoaded', function(){
-        setTimeout(function(){
-          document.getElementById('ecura-cookie-banner').style.display = 'flex';
-        }, 800);
-      });
-    }
-    // saved === '0' → rifiutato, nessuno script, banner non mostrato
-
-    document.addEventListener('click', function(e){
-      if (e.target.id === 'ecura-cookie-btn-accept') saveAndApply(true);
-      if (e.target.id === 'ecura-cookie-btn-reject') saveAndApply(false);
-    });
-  })();
-  </script>
-
-  <!-- Microsoft Clarity — caricato solo dopo consenso (vedi script sopra) -->
 
   </body>
 </html>

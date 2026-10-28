@@ -23,7 +23,7 @@
 export async function onRequestPost({ request, env, waitUntil }) {
 
   // ── CORS ──────────────────────────────────────
-  const corsOrigin = env.CORS_ORIGIN || '*'
+  const corsOrigin = env.CORS_ORIGIN || 'https://www.ecura.it'
   const corsHeaders = {
     'Access-Control-Allow-Origin': corsOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -61,8 +61,13 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return json({ success: false, error: 'Devi accettare la Privacy Policy' }, 422, corsHeaders)
 
   // ── Cloudflare Turnstile — verifica anti-bot ──
-  const turnstileSecret = env.TURNSTILE_SECRET_KEY || ''
-  if (turnstileSecret) {
+  // Il secret arriva solo da env: se manca la richiesta viene rifiutata (fail-closed).
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY
+  if (!turnstileSecret) {
+    console.error('[register-partner] TURNSTILE_SECRET_KEY non configurata')
+    return json({ success: false, error: 'Servizio temporaneamente non disponibile. Riprova più tardi.' }, 503, corsHeaders)
+  }
+  {
     const cfIp = request.headers.get('CF-Connecting-IP') || ''
     let verifyData
     try {
@@ -81,8 +86,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       console.warn('[register-partner] Turnstile failed:', errCode)
       return json({
         success: false,
-        error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.',
-        _debug: errCode
+        error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.'
       }, 400, corsHeaders)
     }
   }
@@ -154,7 +158,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (gsheetBase) {
     const dataOra = new Date().toLocaleString('it-IT', { timeZone: 'Europe/Rome' })
     const qs = new URLSearchParams({
-      key:          'ecura-import-2026',
+      key:          env.GSHEET_SECRET_KEY || 'ecura-import-2026', // TODO: vedi submit-lead.js
       action:       'write',
       data_ora:     dataOra,
       email:        emailNorm,
@@ -220,7 +224,7 @@ export async function onRequestOptions({ env }) {
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': env.CORS_ORIGIN || '*',
+      'Access-Control-Allow-Origin': env.CORS_ORIGIN || 'https://www.ecura.it',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },

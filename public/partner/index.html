@@ -2,14 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-THW7H9NB');</script>
-<!-- End Google Tag Manager -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diventa Partner eCura — Affiliazione Teleassistenza | eCura</title>
 <meta name="description" content="Unisciti alla rete partner eCura: fisioterapisti, farmacie, RSA e operatori sanitari. Commissioni ricorrenti, materiali inclusi.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -71,26 +64,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 </script>
 
-<!-- Consent Mode v2 -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    analytics_storage: 'denied', ad_storage: 'denied',
-    ad_user_data: 'denied', ad_personalization: 'denied',
-    wait_for_update: 500
-  });
-</script>
-
 <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg">
 <link rel="shortcut icon" href="/img/favicon/favicon.ico">
 <meta name="theme-color" content="#068D86">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-
+<link rel="preload" href="/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=1">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; background: #f8fafa; line-height: 1.6; }
@@ -214,19 +194,14 @@ body { font-family: 'Roboto', -apple-system, sans-serif; color: #1a2e2e; backgro
   .p-section { margin-bottom: 48px; }
 }
 </style>
-<script src="https://analytics.ahrefs.com/analytics.js" data-key="WhJWRBjhU04P/qNCDss2XA" async></script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ecura_it">
 <meta name="twitter:title" content="Diventa Partner eCura — Commissione dal 5% al 10%">
 <meta name="twitter:description" content="Proponi eCura alle famiglie che assisti. Commissione dal 5% al 10% in base agli Assistiti arruolati. Registrazione gratuita, materiali inclusi.">
 <meta name="twitter:image" content="https://www.ecura.it/img/hero-lg.jpg">
+<script src="/js/ecura-consent.js?v=1" defer></script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THW7H9NB"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <!-- Header -->
 <header class="p-header">
   <a href="https://www.ecura.it/" aria-label="eCura Homepage">
@@ -496,10 +471,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="pf-field">
           <label for="pf-message">Come pensi di promuovere eCura? <span style="font-weight:400;color:#999">(opzionale)</span></label>
           <textarea id="pf-message" name="message" rows="3" placeholder="Es. Lo presento ai miei pazienti durante le visite domiciliari..."></textarea>
+<small class="ecura-note-warn" style="display:block;font-size:12px;color:#666;margin:2px 0 8px">Non inserire dati sulla salute: servono solo i recapiti per ricontattarti.</small>
         </div>
         <div class="pf-privacy">
           <input type="checkbox" id="pf-privacy" name="privacy_consent" required>
-          <label for="pf-privacy">Ho letto e accetto la <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> di Medica GB Srl *</label>
+          <label for="pf-privacy">Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">informativa privacy</a> e acconsento al trattamento dei miei dati per essere ricontattato da Medica GB Srl *</label>
         </div>
 
         <!-- Cloudflare Turnstile — widget anti-bot -->
@@ -589,7 +565,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Footer -->
 <footer class="p-footer">
-  <p>© 2026 Medica GB Srl · P.IVA IT12435130963 · <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
+  <p>© 2026 Medica GB Srl · P.IVA IT12435130963 · <a href="/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> &nbsp;|&nbsp; <a href="#" data-ecura-cookie-prefs>Preferenze cookie</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
 </footer>
 
 <!-- Cloudflare Turnstile JS -->
@@ -701,7 +677,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           succEl.style.display = 'block';
           form.reset();
           if(typeof turnstile !== 'undefined') turnstile.reset();
-          if(typeof fbq==='function') fbq('track','Lead',{content_name:'eCura Partner Request',source:'partner_page'});
           if(typeof gtag==='function') gtag('event','generate_lead',{currency:'EUR',value:0,form_id:'partner_form'});
         } else {
           showErr(data.error || "Errore durante l'invio. Riprova.");
@@ -716,20 +691,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   }
 
-  /* ── Consent manager ────────────────────────────────── */
-  var CONSENT_KEY = 'ecura_ck';
-  var GA_ID = 'G-5DY4TY34WK';
-  function getCookie(){ var m=document.cookie.match('(?:^|;)\\s*'+CONSENT_KEY+'=([^;]+)'); return m?m[1]:null; }
-  function loadGA(){
-    var s=document.createElement('script'); s.async=true;
-    s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
-    document.head.appendChild(s);
-    s.onload=function(){
-      gtag('js',new Date()); gtag('config',GA_ID);
-      gtag('consent','update',{analytics_storage:'granted',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
-    };
-  }
-  if(getCookie()==='1') loadGA();
 
 })();
 </script>

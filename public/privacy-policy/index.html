@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informativa privacy e cookie | eCura</title>
+<meta name="description" content="Informativa sul trattamento dei dati personali e sui cookie del sito ecura.it, a cura di Medica GB S.r.l. ai sensi del Regolamento UE 2016/679.">
+<link rel="canonical" href="https://www.ecura.it/privacy-policy/">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg">
+<link rel="preload" href="/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=1">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   Stili allineati al design system di ecura.it (css/css.css, css/style.css)
+   Font: Roboto (--font1). Nessun caricamento da CDN esterni.
+   Palette: --darkblue #080e49 · --blu #0059c7 · --green #068d86
+            --teal #05b1a8 · --beige #f7f4ef · --antracite #3D3C3B
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --darkblue:#080e49;
+  --blu:#0059c7;
+  --blu-dark:#00479f;
+  --green:#068d86;
+  --teal:#05b1a8;
+  --beige:#f7f4ef;
+  --antracite:#3D3C3B;
+  --grey:#666;
+  --lightgrey:#f5f5f5;
+  --linegrey:#f0f0f0;
+  --brandgrey:#E3DFDD;
+  --red:#ff0033;
+  --white:#fff;
+  --font1:"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font1);
+  font-size:16px;
+  line-height:1.7;
+  color:var(--antracite);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  font-weight:400;
+}
+h1,h2,h3,h4{font-family:var(--font1);line-height:1.28;font-weight:700;color:var(--darkblue)}
+a{color:var(--blu);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px}
+
+/* ── header, come la nav del sito ── */
+.site-head{background:var(--white);border-bottom:1px solid var(--linegrey)}
+.site-head .nav{display:flex;align-items:center;justify-content:space-between;height:74px;max-width:1200px;margin:0 auto;padding:0 24px}
+.logo{font-family:var(--font1);font-size:1.4rem;font-weight:700;color:var(--darkblue);letter-spacing:-.5px}
+.logo em{font-style:normal;color:var(--green)}
+.logo span{font-size:.72rem;font-weight:400;color:var(--grey);margin-left:8px;letter-spacing:.03em}
+.back{font-size:.9rem;color:var(--grey);font-weight:500}
+.back:hover{color:var(--blu)}
+
+/* ── hero ── */
+.hero{
+  background:linear-gradient(135deg,var(--darkblue) 0%,#0b1760 45%,var(--blu) 100%);
+  color:var(--white);
+  padding:60px 0 52px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-120px;top:-120px;width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(5,177,168,.20),transparent 68%);
+}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{color:var(--white);font-size:clamp(1.6rem,3.2vw,2.35rem);margin-bottom:16px;max-width:26ch;font-weight:700}
+.hero p{color:rgba(255,255,255,.88);font-size:1rem;max-width:74ch;margin-bottom:0}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.meta span{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:40px;
+  padding:6px 17px;
+  font-size:.79rem;
+  color:var(--white);
+  letter-spacing:.02em;
+}
+.meta strong{font-weight:700}
+
+/* ── corpo ── */
+main{padding:52px 0 74px}
+
+.summary{
+  background:var(--beige);
+  border-left:4px solid var(--green);
+  border-radius:0 8px 8px 0;
+  padding:26px 30px;
+  margin-bottom:44px;
+}
+.summary h2{
+  font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--green);margin-bottom:14px;border:0;padding:0;font-weight:700;
+}
+.summary ul{list-style:none;margin:0}
+.summary li{
+  font-size:.95rem;color:var(--antracite);padding:7px 0 7px 26px;position:relative;
+}
+.summary li::before{
+  content:"✓";position:absolute;left:0;top:6px;color:var(--green);font-weight:700;font-size:.9rem;
+}
+
+.toc{background:var(--lightgrey);border:1px solid var(--linegrey);border-radius:8px;padding:26px 30px;margin-bottom:48px}
+.toc h2{
+  font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;color:var(--grey);
+  margin-bottom:16px;border:0;padding:0;font-weight:700;
+}
+.toc ol{list-style:none;counter-reset:t;columns:2;column-gap:44px}
+.toc li{counter-increment:t;font-size:.9rem;padding:5px 0;break-inside:avoid}
+.toc li a{color:var(--antracite);font-weight:500}
+.toc li a:hover{color:var(--blu)}
+.toc li a::before{content:counter(t) ". ";color:var(--teal);font-weight:700}
+
+section{margin-bottom:46px;scroll-margin-top:24px}
+h2{
+  font-size:1.32rem;color:var(--darkblue);margin-bottom:18px;padding-bottom:12px;
+  border-bottom:1px solid var(--linegrey);font-weight:700;
+}
+h2::before{
+  content:"";display:inline-block;width:4px;height:18px;background:var(--green);
+  margin-right:12px;vertical-align:-2px;border-radius:2px;
+}
+h3{font-size:1rem;color:var(--green);margin:26px 0 10px;font-weight:700}
+p{margin-bottom:13px;color:var(--antracite);font-size:.965rem}
+ul,ol{margin:0 0 15px 22px}
+li{margin-bottom:7px;color:var(--antracite);font-size:.945rem}
+strong{font-weight:700;color:var(--darkblue)}
+
+/* ── tabelle ── */
+table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:.885rem}
+th{
+  background:var(--beige);color:var(--darkblue);text-align:left;font-weight:700;
+  padding:12px 14px;border:1px solid var(--brandgrey);
+  font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;
+}
+td{padding:12px 14px;border:1px solid var(--linegrey);vertical-align:top;color:var(--antracite)}
+tbody tr:nth-child(even){background:#fcfcfb}
+
+/* ── riquadri ── */
+.note{
+  background:#f0faf9;border:1px solid #c7ece9;border-left:4px solid var(--teal);
+  border-radius:0 8px 8px 0;padding:19px 23px;margin:20px 0;font-size:.93rem;color:#04403c;
+}
+.note strong{color:#04403c}
+.care{
+  background:#fff8f9;border:1px solid #ffd0da;border-left:4px solid var(--red);
+  border-radius:0 8px 8px 0;padding:19px 23px;margin:20px 0;font-size:.93rem;color:#7a0018;
+}
+.care strong{color:#7a0018}
+
+.card{background:var(--lightgrey);border:1px solid var(--linegrey);border-radius:8px;padding:26px 30px;margin-top:20px}
+.card p{margin-bottom:5px;font-size:.93rem}
+.card a{font-weight:700}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:20px 0}
+.mini{background:var(--white);border:1px solid var(--linegrey);border-top:3px solid var(--teal);border-radius:8px;padding:22px 24px}
+.mini h3{margin:0 0 12px;font-size:.79rem;text-transform:uppercase;letter-spacing:.09em;color:var(--green)}
+.mini p,.mini li{font-size:.885rem;margin-bottom:5px}
+.mini ul{margin:0 0 0 18px}
+
+/* ── footer, come il sito ── */
+.site-foot{background:var(--darkblue);color:rgba(255,255,255,.62);padding:36px 0;font-size:.82rem}
+.site-foot .frow{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0 24px;align-items:center}
+.site-foot a{color:rgba(255,255,255,.78)}
+.site-foot a:hover{color:var(--white)}
+
+@media(max-width:800px){
+  .toc ol,.grid2{columns:1;grid-template-columns:1fr}
+  table{font-size:.82rem}
+  th,td{padding:9px 10px}
+  .hero{padding:42px 0 36px}
+  main{padding:38px 0 56px}
+  .summary,.card,.toc{padding:20px 18px}
+  .site-head .nav{height:64px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="nav">
+    <a class="logo" href="/">e<em>Cura</em><span>di Medica GB</span></a>
+    <a class="back" href="/">&larr; Torna al sito</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Informativa privacy e cookie</h1>
+    <p>Questa informativa riguarda il sito <strong style="color:#fff">www.ecura.it</strong>. &Egrave; resa ai sensi degli articoli 13 e 14 del Regolamento (UE) 2016/679 (GDPR) e del D.Lgs. 196/2003, come modificato dal D.Lgs. 101/2018.</p>
+    <div class="meta">
+      <span>Versione <strong>1.0</strong></span>
+      <span>Aggiornata al <strong>28 ottobre 2026</strong></span>
+      <span>Titolare: <strong>Medica GB S.r.l.</strong></span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <div class="summary">
+      <h2>In breve</h2>
+      <ul>
+        <li>Il sito <strong>www.ecura.it</strong> è una pagina informativa: raccoglie <strong>nome e cognome, email e numero di telefono</strong> di chi chiede di essere ricontattato e ha dato il proprio consenso.</li>
+        <li>Il sito <strong>non raccoglie dati sanitari</strong>. I dati di telemonitoraggio raccolti dai dispositivi indossabili non passano da questo sito: sono trattati da una piattaforma di un soggetto terzo (sezione 7).</li>
+        <li>Statistiche e marketing sono attivati <strong>solo se li accetti</strong>. Puoi cambiare scelta in ogni momento da «Preferenze cookie», in fondo a ogni pagina.</li>
+        <li>Non vendiamo i tuoi dati. Per esercitare i tuoi diritti scrivi a <a href="mailto:info@ecura.it">info@ecura.it</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <h2>Indice</h2>
+      <ol>
+        <li><a href="#titolare">Titolare del trattamento</a></li>
+        <li><a href="#ambito">Ambito di applicazione</a></li>
+        <li><a href="#dati">Quali dati trattiamo</a></li>
+        <li><a href="#terzi-dati">Se scrivi per un'altra persona</a></li>
+        <li><a href="#finalita">Finalità e basi giuridiche</a></li>
+        <li><a href="#salute">Dati sulla salute e campo «note»</a></li>
+        <li><a href="#telemonitoraggio">Dati di telemonitoraggio</a></li>
+        <li><a href="#destinatari">A chi possono essere comunicati</a></li>
+        <li><a href="#fornitori">Fornitori tecnologici del sito</a></li>
+        <li><a href="#trasferimenti">Trasferimenti fuori dall'UE</a></li>
+        <li><a href="#conservazione">Per quanto tempo</a></li>
+        <li><a href="#diritti">I tuoi diritti</a></li>
+        <li><a href="#sicurezza">Come proteggiamo i dati</a></li>
+        <li><a href="#cookie">Cookie e strumenti di misurazione</a></li>
+        <li><a href="#minori">Minori</a></li>
+        <li><a href="#modifiche">Modifiche all'informativa</a></li>
+      </ol>
+    </nav>
+
+    <section id="titolare">
+      <h2>1. Titolare del trattamento</h2>
+      <div class="card">
+        <p><strong>Medica GB S.r.l.</strong></p>
+        <p>Sede legale: Corso Garibaldi 34, 20121 Milano (MI)</p>
+        <p>Sede operativa: Via delle Eriche 53, 16148 Genova (GE)</p>
+        <p>P.IVA e Codice Fiscale: 12435130963</p>
+        <p>Email: <a href="mailto:info@ecura.it">info@ecura.it</a> — PEC: <a href="mailto:medicagbsrl@pecimprese.it">medicagbsrl@pecimprese.it</a></p>
+        <p>Telefono: <a href="tel:+393357301206">+39 335 730 1206</a></p>
+      </div>
+      <h3>Responsabile della protezione dei dati</h3>
+      <p>Medica GB S.r.l. non ha nominato un Responsabile della protezione dei dati (DPO). Ogni richiesta sui dati personali può essere inviata ai recapiti sopra indicati, con oggetto <em>«Privacy — ecura.it»</em>.</p>
+    </section>
+
+    <section id="ambito">
+      <h2>2. Ambito di applicazione</h2>
+      <p>Questa informativa riguarda il sito <strong>www.ecura.it</strong>, di proprietà di Medica GB S.r.l., e i moduli di richiesta contatto presenti nelle sue pagine. Il sito è una pagina di presentazione del servizio eCura: raccoglie i dati di chi chiede di essere ricontattato.</p>
+      <p>Non riguarda:</p>
+      <ul>
+        <li>i <strong>dati di telemonitoraggio</strong> generati dai dispositivi indossabili, raccolti da una piattaforma di un soggetto terzo (sezione 7);</li>
+        <li>i siti di terzi raggiungibili tramite collegamenti, né il sito <strong>www.telemedcare.it</strong>, dedicato a enti e organizzazioni, che ha una propria informativa.</li>
+      </ul>
+      <p>Se attivi il servizio, ti verranno consegnate le informative e i moduli di consenso relativi a quella fase.</p>
+    </section>
+
+    <section id="dati">
+      <h2>3. Quali dati trattiamo</h2>
+      <h3>3.1 Dati che ci fornisci nei moduli</h3>
+      <ul>
+        <li><strong>recapiti</strong>: nome e cognome, indirizzo email, numero di telefono;</li>
+        <li><strong>interesse</strong>: piano o servizio che ti interessa e, se vuoi, un breve messaggio nel campo «note»;</li>
+        <li><strong>per i professionisti che si candidano come partner</strong>: professione o ruolo e città, se indicata.</li>
+      </ul>
+      <p>I campi nome, telefono ed email sono necessari per poterti ricontattare. Senza di essi non possiamo gestire la richiesta.</p>
+      <h3>3.2 Dati raccolti insieme alla richiesta</h3>
+      <ul>
+        <li>pagina di provenienza, eventuali parametri di campagna (<em>utm_*</em>), data e ora dell'invio, <strong>esito del controllo anti-bot</strong> del modulo;</li>
+        <li>l'indirizzo IP, trattato da Cloudflare per il controllo anti-bot e la sicurezza.</li>
+      </ul>
+      <h3>3.3 Dati di navigazione</h3>
+      <p>Come ogni sito, i server che lo ospitano registrano dati tecnici (indirizzo IP, tipo di browser, pagina richiesta). Se acconsenti, gli strumenti di statistica descritti alla sezione 14 raccolgono anche informazioni sull'uso delle pagine.</p>
+      <div class="note">
+        <strong>Il sito non raccoglie dati sanitari.</strong> I moduli non chiedono informazioni sulla salute di nessuno.
+      </div>
+    </section>
+
+    <section id="terzi-dati">
+      <h2>4. Se scrivi per un'altra persona</h2>
+      <p>Spesso a contattarci è un figlio o un familiare che chiede informazioni per un genitore. In questo caso ci comunichi dati di un'altra persona. Ti chiediamo di:</p>
+      <ul>
+        <li>indicare solo ciò che serve per essere ricontattato (il tuo nome e il tuo recapito);</li>
+        <li>informare la persona interessata che stai chiedendo informazioni su un servizio di teleassistenza per lei;</li>
+        <li>non inserire nel campo libero informazioni sulla salute.</li>
+      </ul>
+    </section>
+
+    <section id="finalita">
+      <h2>5. Finalità e basi giuridiche</h2>
+      <table>
+        <thead><tr><th style="width:36%">Finalità</th><th style="width:44%">Base giuridica</th><th style="width:20%">Conferimento</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Rispondere alla tua richiesta e ricontattarti per presentarti il servizio</td>
+            <td>Art. 6, par. 1, lett. a) GDPR — consenso espresso con la casella del modulo; lett. b) — misure precontrattuali adottate su tua richiesta</td>
+            <td>Facoltativo; senza i dati non possiamo ricontattarti</td>
+          </tr>
+          <tr>
+            <td>Valutare la candidatura di professionisti che vogliono diventare partner</td>
+            <td>Art. 6, par. 1, lett. b) GDPR — misure precontrattuali su richiesta dell'interessato</td>
+            <td>Facoltativo</td>
+          </tr>
+          <tr>
+            <td>Sicurezza del sito, controllo anti-bot, prevenzione di abusi e difesa di un diritto</td>
+            <td>Art. 6, par. 1, lett. f) GDPR — interesse legittimo; puoi opporti ai sensi dell'art. 21</td>
+            <td>Necessario al funzionamento del sito</td>
+          </tr>
+          <tr>
+            <td>Statistiche sull'uso del sito</td>
+            <td>Art. 6, par. 1, lett. a) GDPR e art. 122 Codice privacy — consenso (cookie «Statistiche»)</td>
+            <td>Facoltativo, revocabile</td>
+          </tr>
+          <tr>
+            <td>Misurazione delle campagne pubblicitarie (Google Ads)</td>
+            <td>Art. 6, par. 1, lett. a) GDPR e art. 122 Codice privacy — consenso (cookie «Marketing»)</td>
+            <td>Facoltativo, revocabile</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>I moduli <strong>non raccolgono il consenso a comunicazioni promozionali</strong>: non ti inviamo newsletter né offerte commerciali senza un consenso separato e specifico. Non adottiamo decisioni automatizzate che producano effetti su di te.</p>
+    </section>
+
+    <section id="salute">
+      <h2>6. Dati sulla salute e campo «note»</h2>
+      <div class="care">
+        <strong>Non scrivere informazioni sulla salute nel campo «note».</strong> Il modulo serve solo per essere ricontattati: nome, telefono ed email bastano.
+      </div>
+      <p>I dati sulla salute appartengono a una categoria particolare (art. 9 GDPR) e richiedono un consenso esplicito e distinto, che questo sito non raccoglie. Se, nonostante l'avviso, inserisci informazioni di questo tipo, le useremo solo per gestire la tua richiesta e non per altre finalità. Per le informazioni cliniche necessarie al servizio ti forniremo un'informativa dedicata e chiederemo il consenso nella fase successiva.</p>
+    </section>
+
+    <section id="telemonitoraggio">
+      <h2>7. Dati di telemonitoraggio dei dispositivi indossabili</h2>
+      <p>Il servizio eCura si avvale di dispositivi indossabili certificati come dispositivi medici. I dati che questi dispositivi generano durante l'uso (ad esempio posizione, eventi di caduta, parametri rilevati) <strong>non sono raccolti da questo sito</strong>: sono raccolti dalla piattaforma telematica del produttore del dispositivo, gestita da un soggetto terzo con sede nell'Unione europea (Polonia) e non di proprietà di Medica GB S.r.l.</p>
+      <p>Quel soggetto tratta i dati secondo la propria informativa, che ti viene fornita al momento dell'attivazione del servizio insieme alla documentazione contrattuale. Per sapere come sono trattati quei dati e per esercitare i relativi diritti, fai riferimento a quell'informativa. Puoi comunque scriverci a <a href="mailto:info@ecura.it">info@ecura.it</a> e ti indicheremo a chi rivolgerti.</p>
+    </section>
+
+    <section id="destinatari">
+      <h2>8. A chi possono essere comunicati i dati</h2>
+      <p>I dati sono trattati da personale interno autorizzato e comunicati, nei limiti necessari, ai fornitori che ci aiutano a gestire il sito e le richieste. Dove previsto dall'art. 28 GDPR, i fornitori sono nominati responsabili del trattamento.</p>
+      <ul>
+        <li><strong>fornitori di infrastruttura e sicurezza del sito</strong> (hosting, rete di distribuzione, controllo anti-bot);</li>
+        <li><strong>fornitori dei servizi di gestione delle richieste</strong>: sistema gestionale (CRM) di Medica GB, fogli di lavoro e strumenti di automazione per ricevere e smistare le richieste, servizi di posta elettronica;</li>
+        <li><strong>consulenti e professionisti</strong> che assistono Medica GB, nei limiti necessari;</li>
+        <li><strong>autorità pubbliche</strong>, quando previsto dalla legge.</li>
+      </ul>
+      <p>I dati non sono venduti né ceduti a terzi per i loro scopi di marketing.</p>
+    </section>
+
+    <section id="fornitori">
+      <h2>9. Fornitori tecnologici del sito</h2>
+      <p>Questi sono i servizi di terze parti che il sito utilizza. Quelli segnati come «solo con consenso» sono caricati unicamente dopo la tua scelta.</p>
+      <table>
+        <thead><tr><th style="width:24%">Fornitore</th><th style="width:40%">Ruolo</th><th style="width:36%">Dati coinvolti</th></tr></thead>
+        <tbody>
+          <tr><td>Cloudflare, Inc.</td><td>Hosting delle pagine, rete di distribuzione, sicurezza; verifica anti-bot dei moduli (Turnstile)</td><td>Indirizzo IP, dati tecnici della connessione, esito della verifica</td></tr>
+          <tr><td>Google Ireland Ltd / Google LLC</td><td>Google Apps Script e Google Sheets: ricezione e archiviazione delle richieste inviate dai moduli</td><td>Dati inseriti nel modulo (nome, email, telefono, note, dati di campagna)</td></tr>
+          <tr><td>Google Ireland Ltd / Google LLC — <em>solo con consenso</em></td><td>Google Tag Manager, Google Analytics 4 (statistiche) e Google Ads (misurazione delle campagne)</td><td>Indirizzo IP, identificativi dei cookie, pagine visitate, interazioni, conversioni</td></tr>
+          <tr><td>Ahrefs Pte. Ltd. — <em>solo con consenso</em></td><td>Ahrefs Web Analytics: statistiche aggregate sulle visite</td><td>Indirizzo IP, pagina visitata, pagina di provenienza</td></tr>
+          <tr><td>Resend, Inc.</td><td>Invio di email di servizio relative alle richieste</td><td>Indirizzo email, nome, contenuto del messaggio</td></tr>
+          <tr><td>Register.it S.p.A.</td><td>Posta elettronica e infrastruttura del dominio</td><td>Indirizzo email, metadati delle comunicazioni</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Caratteri e librerie grafiche</strong> sono ospitati sul sito stesso: non vengono richiesti a servizi esterni. Il pulsante «Scrivici su WhatsApp» e i collegamenti a Google Maps aprono servizi di terzi <strong>solo se fai clic</strong>, e da quel momento valgono le informative di WhatsApp (Meta) e di Google. Il sito non utilizza Meta Pixel né strumenti di registrazione delle sessioni.</p>
+    </section>
+
+    <section id="trasferimenti">
+      <h2>10. Trasferimento dei dati fuori dall'Unione europea</h2>
+      <p>Alcuni fornitori hanno sede o infrastrutture negli Stati Uniti. In questi casi il trasferimento avviene sulla base di una <strong>decisione di adeguatezza</strong> della Commissione europea (compreso il EU-US Data Privacy Framework, se il fornitore vi aderisce) oppure di <strong>clausole contrattuali standard</strong> ai sensi dell'art. 46, par. 2, lett. c) GDPR. Puoi chiedere una copia delle garanzie adottate scrivendo a <a href="mailto:info@ecura.it">info@ecura.it</a>.</p>
+    </section>
+
+    <section id="conservazione">
+      <h2>11. Per quanto tempo conserviamo i dati</h2>
+      <table>
+        <thead><tr><th style="width:50%">Dati</th><th style="width:50%">Periodo di conservazione</th></tr></thead>
+        <tbody>
+          <tr><td>Richieste di contatto non seguite da un contratto</td><td>24 mesi dall'ultimo contatto, poi cancellazione o anonimizzazione</td></tr>
+          <tr><td>Candidature di partner non seguite da un accordo</td><td>24 mesi dall'ultimo contatto</td></tr>
+          <tr><td>Dati di un contratto concluso</td><td>Secondo l'informativa fornita all'attivazione e per i termini di legge fiscali e contabili</td></tr>
+          <tr><td>Registri tecnici e di sicurezza del sito</td><td>Fino a 12 mesi, salvo accertamento di abusi</td></tr>
+          <tr><td>Cookie «ecura_consent» con la tua scelta</td><td>180 giorni</td></tr>
+          <tr><td>Cookie di statistica e di marketing (solo con consenso)</td><td>Durata indicata nella tabella della sezione 14</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="diritti">
+      <h2>12. I tuoi diritti</h2>
+      <p>Puoi esercitare in qualsiasi momento, ai sensi degli articoli 15-22 del GDPR, i diritti di:</p>
+      <ul>
+        <li><strong>accesso</strong>: sapere quali dati trattiamo e ottenerne copia;</li>
+        <li><strong>rettifica</strong>: correggere dati inesatti o integrare quelli incompleti;</li>
+        <li><strong>cancellazione</strong>: chiedere la rimozione dei dati, nei casi previsti;</li>
+        <li><strong>limitazione</strong>: chiedere la sospensione del trattamento;</li>
+        <li><strong>portabilità</strong>: ricevere i dati in un formato leggibile da dispositivo automatico;</li>
+        <li><strong>opposizione</strong>: opporti ai trattamenti fondati sull'interesse legittimo;</li>
+        <li><strong>revoca del consenso</strong>: in qualsiasi momento, senza pregiudicare la liceità del trattamento già svolto;</li>
+        <li><strong>reclamo</strong> al Garante per la protezione dei dati personali, Piazza Venezia 11, 00187 Roma — <a href="https://www.garanteprivacy.it" rel="noopener noreferrer">garanteprivacy.it</a>.</li>
+      </ul>
+      <div class="card">
+        <p><strong>Come esercitarli</strong></p>
+        <p>Scrivi a <a href="mailto:info@ecura.it">info@ecura.it</a> o alla PEC <a href="mailto:medicagbsrl@pecimprese.it">medicagbsrl@pecimprese.it</a>, indicando nell'oggetto <em>«Esercizio diritti GDPR»</em>. Rispondiamo senza ingiustificato ritardo e comunque entro un mese, prorogabile di due mesi in caso di particolare complessità, con comunicazione motivata.</p>
+      </div>
+    </section>
+
+    <section id="sicurezza">
+      <h2>13. Come proteggiamo i dati</h2>
+      <ul>
+        <li>connessione cifrata HTTPS su tutte le pagine e sui moduli;</li>
+        <li>controllo anti-bot sui moduli per prevenire invii automatizzati;</li>
+        <li>accesso ai dati limitato al personale autorizzato;</li>
+        <li>raccolta limitata ai dati necessari alla finalità dichiarata;</li>
+        <li>fornitori scelti tra soggetti che offrono garanzie adeguate ai sensi dell'art. 28 GDPR.</li>
+      </ul>
+      <p>In caso di violazione dei dati personali, il Titolare valuta l'evento e, quando ne ricorrono i presupposti, lo notifica al Garante entro 72 ore e lo comunica agli interessati (artt. 33 e 34 GDPR).</p>
+    </section>
+
+    <section id="cookie">
+      <h2>14. Cookie e strumenti di misurazione</h2>
+      <p>I cookie sono piccoli file di testo che i siti salvano nel browser. Quando visiti il sito, <strong>prima di ogni tua scelta vengono usati soltanto strumenti tecnici</strong>. Statistiche e marketing partono solo se li accetti con il banner, e puoi cambiare idea in qualsiasi momento dal link <strong>«Preferenze cookie»</strong> in fondo a ogni pagina.</p>
+
+      <h3>14.1 Tecnici e necessari (sempre attivi)</h3>
+      <p>Non richiedono consenso preventivo ai sensi dell'art. 122 del Codice privacy.</p>
+      <table>
+        <thead><tr><th style="width:22%">Nome</th><th style="width:18%">Fornitore</th><th style="width:18%">Durata</th><th style="width:42%">Finalità</th></tr></thead>
+        <tbody>
+          <tr><td>ecura_consent</td><td>eCura (prima parte)</td><td>180 giorni</td><td>Ricorda la scelta fatta sul banner, per non riproporla a ogni visita</td></tr>
+          <tr><td>__cf_bm</td><td>Cloudflare</td><td>30 minuti</td><td>Distingue le persone dal traffico automatizzato e protegge i moduli</td></tr>
+          <tr><td>Memoria di sessione del browser</td><td>eCura (prima parte)</td><td>Fino alla chiusura della scheda</td><td>Ricorda la pagina di provenienza e i parametri di campagna, che vengono inviati con il modulo solo se lo compili, e se hai già visto il messaggio di uscita</td></tr>
+        </tbody>
+      </table>
+
+      <h3>14.2 Statistiche (solo con consenso)</h3>
+      <table>
+        <thead><tr><th style="width:22%">Nome</th><th style="width:18%">Fornitore</th><th style="width:18%">Durata</th><th style="width:42%">Finalità</th></tr></thead>
+        <tbody>
+          <tr><td>_ga, _ga_5DY4TY34WK</td><td>Google Analytics 4</td><td>Fino a 2 anni</td><td>Distinguere in forma pseudonima i visitatori e misurare le visite e l'uso delle pagine</td></tr>
+          <tr><td>Nessun cookie</td><td>Ahrefs Web Analytics</td><td>—</td><td>Statistiche aggregate sulle visite. Non imposta cookie, ma tratta indirizzo IP e dati di navigazione, perciò è attivato solo con il tuo consenso</td></tr>
+        </tbody>
+      </table>
+
+      <h3>14.3 Marketing (solo con consenso)</h3>
+      <table>
+        <thead><tr><th style="width:22%">Nome</th><th style="width:18%">Fornitore</th><th style="width:18%">Durata</th><th style="width:42%">Finalità</th></tr></thead>
+        <tbody>
+          <tr><td>_gcl_au, _gcl_aw</td><td>Google Ads</td><td>Fino a 90 giorni</td><td>Misurare le conversioni delle campagne pubblicitarie</td></tr>
+          <tr><td>IDE, test_cookie</td><td>Google (doubleclick.net)</td><td>Fino a 13 mesi / 15 minuti</td><td>Misurazione della pubblicità e verifica del supporto ai cookie</td></tr>
+        </tbody>
+      </table>
+      <p>Per il funzionamento di Google Tag Manager, Google riceve l'indirizzo IP e informazioni tecniche del browser ogni volta che lo strumento viene caricato. Il sito <strong>non carica Google Tag Manager prima della tua scelta</strong>; i cookie pubblicitari sono impostati solo se accetti la categoria «Marketing».</p>
+
+      <h3>14.4 Come cambiare o revocare la scelta</h3>
+      <ul>
+        <li>fai clic su <a href="#" data-ecura-cookie-prefs>Preferenze cookie</a> (anche in fondo a ogni pagina del sito) e modifica le categorie;</li>
+        <li>oppure cancella i cookie dalle impostazioni del browser (Chrome: Impostazioni → Privacy e sicurezza → Cookie; Safari: Preferenze → Privacy → Gestisci dati siti web; Firefox: Impostazioni → Privacy e sicurezza → Cookie e dati dei siti web; Edge: Impostazioni → Cookie e autorizzazioni sito).</li>
+      </ul>
+      <p>Se revochi un consenso già dato, la pagina viene ricaricata e i cookie di statistica e di marketing vengono rimossi. Rifiutare i cookie di statistica e di marketing non limita l'uso del sito né l'invio dei moduli.</p>
+    </section>
+
+    <section id="minori">
+      <h2>15. Minori</h2>
+      <p>Il sito e i moduli sono destinati a persone adulte. Non raccogliamo consapevolmente dati di minori di 14 anni. Se ritieni che un minore ci abbia fornito dati, scrivici a <a href="mailto:info@ecura.it">info@ecura.it</a> e li cancelleremo.</p>
+    </section>
+
+    <section id="modifiche">
+      <h2>16. Modifiche all'informativa</h2>
+      <p>Questa informativa può essere aggiornata per modifiche normative, nuovi servizi o variazioni dei fornitori. La versione in vigore è sempre quella pubblicata su questa pagina, con data di aggiornamento e numero di versione.</p>
+      <h3>Riferimenti normativi</h3>
+      <ul>
+        <li>Regolamento (UE) 2016/679 — Regolamento generale sulla protezione dei dati (GDPR);</li>
+        <li>D.Lgs. 30 giugno 2003, n. 196, come modificato dal D.Lgs. 10 agosto 2018, n. 101 (art. 122 sui cookie);</li>
+        <li>Linee guida del Garante per la protezione dei dati personali su cookie e altri strumenti di tracciamento (10 giugno 2021).</li>
+      </ul>
+    </section>
+
+    <div class="card">
+      <p><strong>Per qualsiasi domanda su questa informativa o sui tuoi dati</strong></p>
+      <p>Medica GB S.r.l. — <a href="mailto:info@ecura.it">info@ecura.it</a> — PEC <a href="mailto:medicagbsrl@pecimprese.it">medicagbsrl@pecimprese.it</a> — <a href="tel:+393357301206">+39 335 730 1206</a></p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="frow">
+    <div>Medica GB S.r.l. — Corso Garibaldi 34, 20121 Milano — P.IVA 12435130963 — il servizio eCura è distribuito da Medica GB S.r.l.</div>
+    <div><a href="/">Torna al sito</a> &nbsp;|&nbsp; <a href="#" data-ecura-cookie-prefs>Preferenze cookie</a></div>
+  </div>
+</footer>
+
+<script src="/js/ecura-consent.js?v=1" defer></script>
+</body>
+</html>

@@ -19,7 +19,7 @@
 export async function onRequestPost({ request, env, waitUntil }) {
 
   // ── CORS ──────────────────────────────────────
-  const corsOrigin = env.CORS_ORIGIN || '*'
+  const corsOrigin = env.CORS_ORIGIN || 'https://www.ecura.it'
   const corsHeaders = {
     'Access-Control-Allow-Origin': corsOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -38,11 +38,17 @@ export async function onRequestPost({ request, env, waitUntil }) {
   }
 
   // ── Cloudflare Turnstile — verifica bot ───────
-  // Secret key: env var CF con fallback al valore del widget 'ecura-landing'
-  const turnstileSecret = env.TURNSTILE_SECRET_KEY || '0x4AAAAAAD4s8Ii-HWSeb_PcPaGzkR38QL4'
-  if (turnstileSecret) {
+  // Il secret arriva solo dalla variabile d'ambiente TURNSTILE_SECRET_KEY.
+  // Se manca, la richiesta viene rifiutata (fail-closed): nessun valore di riserva nel codice.
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY
+  if (!turnstileSecret) {
+    console.error('[submit-lead] TURNSTILE_SECRET_KEY non configurata')
+    return new Response(JSON.stringify({ success: false, error: 'Servizio temporaneamente non disponibile. Riprova più tardi.' }), {
+      status: 503, headers: corsHeaders
+    })
+  }
+  {
     const turnstileToken = body['cf-turnstile-response'] || ''
-    console.log('[turnstile] token length:', turnstileToken.length, 'token prefix:', turnstileToken.substring(0,20))
     const cfIp = request.headers.get('CF-Connecting-IP') || ''
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
@@ -54,10 +60,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
       }),
     })
     const verifyData = await verifyRes.json()
-    console.log('[turnstile] siteverify result:', JSON.stringify(verifyData))
     if (!verifyData.success) {
-      const errCode = (verifyData['error-codes'] || []).join(',')
-      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.', _debug: errCode }), {
+      return new Response(JSON.stringify({ success: false, error: 'Verifica di sicurezza fallita. Ricarica la pagina e riprova.' }), {
         status: 400, headers: corsHeaders
       })
     }
@@ -187,7 +191,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   // Il campo "key" è la SECRET_KEY per autenticare il doPost Apps Script.
   const sheetPayload = {
     // ---- Autenticazione Apps Script ----
-    key:              'ecura-import-2026',
+    key:              env.GSHEET_SECRET_KEY || 'ecura-import-2026', // TODO: impostare GSHEET_SECRET_KEY su Cloudflare, ruotare la chiave nell'Apps Script e rimuovere il fallback
 
     // ---- Colonne foglio ----
     data_ora:         dataOra,                          // → colonna "Data"
@@ -365,7 +369,7 @@ export async function onRequestOptions({ env }) {
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': env.CORS_ORIGIN || '*',
+      'Access-Control-Allow-Origin': env.CORS_ORIGIN || 'https://www.ecura.it',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },

@@ -211,11 +211,6 @@ function handleForm(formId, errorId, successId) {
       clearInterval(stepTimer);
 
       if (res.ok && json.success) {
-        if (typeof fbq === 'function') fbq('track', 'Lead', {
-          content_name: 'eCura Teleassistenza',
-          content_category: 'Bracciale Anziani',
-          source: formId === 'ecura-form-hero' ? 'hero' : 'contattaci'
-        });
         if (typeof gtag === 'function') gtag('event', 'generate_lead', {
           currency: 'EUR', value: 29.90, form_id: formId
         });
@@ -290,7 +285,6 @@ function initTelTracking() {
   var telLink = document.getElementById('nav-tel-link');
   if (telLink) {
     telLink.addEventListener('click', function() {
-      if (typeof fbq === 'function') fbq('track', 'Contact', { source: 'nav_tel' });
       if (typeof gtag === 'function') gtag('event', 'phone_call_click', { source: 'nav_tel' });
     });
   }
@@ -306,10 +300,6 @@ function initPricingObserver() {
   new IntersectionObserver(function(entries, obs) {
     if (fired || !entries[0].isIntersecting) return;
     fired = true; obs.disconnect();
-    if (typeof fbq === 'function') fbq('track', 'ViewContent', {
-      content_name: 'Piani eCura — Prezzi', content_category: 'Pricing',
-      currency: 'EUR', value: 29.90
-    });
     if (typeof gtag === 'function') gtag('event', 'view_item_list', {
       item_list_name: 'Piani Teleassistenza eCura'
     });
@@ -413,7 +403,6 @@ function initExitIntent() {
       });
       var json = await res.json();
       if (res.ok && json.success) {
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'eCura Exit Intent', source: 'exit_popup' });
         if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
         window.location.href = '/grazie/';
       } else {

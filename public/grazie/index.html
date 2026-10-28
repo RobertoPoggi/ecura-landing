@@ -2,14 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-THW7H9NB');</script>
-<!-- End Google Tag Manager -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Grazie per la tua richiesta | eCura Teleassistenza Anziani</title>
   <meta name="description" content="Grazie per aver richiesto informazioni su eCura. Ti contatteremo entro poche ore con tutti i dettagli sul bracciale e i piani di teleassistenza.">
   <meta name="robots" content="noindex, nofollow">
@@ -19,20 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="shortcut icon" href="/img/favicon/favicon.ico">
   <meta name="theme-color" content="#068D86">
 
-  <!-- Consent Mode v2 — default denied prima di qualsiasi script -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      analytics_storage:  'denied',
-      ad_storage:         'denied',
-      ad_user_data:       'denied',
-      ad_personalization: 'denied',
-      wait_for_update:    500
-    });
-  </script>
-
-  <!-- OG per condivisione social post-conversione -->
+<!-- OG per condivisione social post-conversione -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="it_IT">
   <meta property="og:url" content="https://www.ecura.it/grazie/">
@@ -234,15 +214,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     .gt-urgency span { font-weight: 700; }
   </style>
-<script src="https://analytics.ahrefs.com/analytics.js" data-key="WhJWRBjhU04P/qNCDss2XA" async></script>
+<script src="/js/ecura-consent.js?v=1" defer></script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THW7H9NB"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-  <!-- Header -->
+<!-- Header -->
   <header class="gt-header">
     <a href="https://www.ecura.it/" aria-label="Torna alla homepage eCura">
       <img src="/img/logo-ecura-trasp.png" alt="eCura — Teleassistenza Anziani" width="120" height="40">
@@ -334,120 +309,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Footer -->
   <footer class="gt-footer">
-    <p>© 2026 Medica GB Srl · <a href="https://www.medicagb.it/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
+    <p>© 2026 Medica GB Srl · <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> &nbsp;|&nbsp; <a href="#" data-ecura-cookie-prefs>Preferenze cookie</a> · <a href="https://www.ecura.it/">ecura.it</a></p>
   </footer>
 
-  <!-- ═══ Tracking: Pixel Lead + GA4 generate_lead + Google Ads ══════
-       Questi tag girano su /grazie/ = pageview-based, non dipendono
-       dal consenso del form — massima accuratezza conversioni.
-       Gli script analitici (GA4/Pixel) vengono caricati solo se
-       l'utente ha già dato consenso (cookie ecura_ck=1).
-  ════════════════════════════════════════════════════════════════════ -->
   <script>
+(function(){
+  /* Urgency bar: testo in base all'orario */
   (function(){
-    var CONSENT_KEY = 'ecura_ck';
-    var GA_ID = 'G-5DY4TY34WK';
-    var AW_ID = 'AW-18350012797';
-    var AW_CONVERSION_LABEL = 'grazie_pageview'; /* da sostituire con label reale GA Ads */
-    var FB_ID  = '1430631415843205';
-    var DAYS   = 365;
-
-    function getCookie() {
-      var m = document.cookie.match('(?:^|;)\\s*' + CONSENT_KEY + '=([^;]+)');
-      return m ? m[1] : null;
-    }
-    function setCookie(val) {
-      var exp = new Date(); exp.setDate(exp.getDate() + DAYS);
-      document.cookie = CONSENT_KEY + '=' + val
-        + '; expires=' + exp.toUTCString()
-        + '; path=/; SameSite=Strict; Secure';
-    }
-
-    /* ─── Urgency bar: aggiorna testo in base all'orario ─────────── */
-    (function(){
-      var now = new Date();
-      var day = now.getDay(); // 0=dom, 6=sab
-      var hour = now.getHours();
-      var bar = document.getElementById('gt-urgency-text');
-      if (!bar) return;
-      if (day === 0 || day === 6) {
-        bar.textContent = 'Risposta il primo giorno lavorativo (lun-ven 9:00–18:00)';
-      } else if (hour >= 9 && hour < 18) {
-        bar.textContent = '🟢 Siamo online — risposta tipicamente entro 1-2 ore';
-      } else {
-        bar.textContent = 'Risposta nella prossima mattina lavorativa (9:00–18:00)';
-      }
-    })();
-
-    /* ─── Caricamento script analitici ─────────────────────────── */
-    function loadGA(fireConversion) {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-      document.head.appendChild(s);
-      s.onload = function(){
-        gtag('js', new Date());
-        gtag('config', GA_ID);
-        gtag('config', AW_ID);
-        gtag('consent', 'update', {
-          analytics_storage:  'granted',
-          ad_storage:         'granted',
-          ad_user_data:       'granted',
-          ad_personalization: 'granted'
-        });
-        /* GA4 generate_lead — pageview-based su /grazie/ */
-        gtag('event', 'generate_lead', {
-          currency: 'EUR',
-          value: 29.90,
-          form_id: 'grazie_pageview'
-        });
-        /* Google Ads conversion — pageview-based (più accurato del pixel on-form) */
-        gtag('event', 'conversion', {
-          send_to: AW_ID + '/' + AW_CONVERSION_LABEL,
-          currency: 'EUR',
-          value: 29.90
-        });
-      };
-    }
-
-    function loadPixel() {
-      !function(f,b,e,v,n,t,s){
-        if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)
-      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', FB_ID);
-      fbq('track', 'PageView');
-      /* Lead event — pageview-based su /grazie/ = più affidabile */
-      fbq('track', 'Lead', {
-        content_name: 'eCura Teleassistenza',
-        content_category: 'Bracciale Anziani',
-        source: 'grazie_pageview'
-      });
-    }
-
-    var saved = getCookie();
-    if (saved === '1') {
-      loadGA();
-      loadPixel();
-    }
-    /* Se saved===null o '0': nessun tracking — rispettiamo la scelta
-       fatta sulla landing. L'evento fbq('Lead') on-form è già stato
-       sparato prima del redirect, quindi la conversione è registrata. */
-
-    /* ─── WhatsApp CTA click tracking ─────────────────────────── */
-    var waCta = document.getElementById('gt-wa-cta');
-    if (waCta) {
-      waCta.addEventListener('click', function(){
-        if (typeof fbq === 'function') fbq('track', 'Contact', { source: 'grazie_whatsapp' });
-        if (typeof gtag === 'function') gtag('event', 'whatsapp_click', { page: 'grazie' });
-      });
-    }
+    var now = new Date(), day = now.getDay(), hour = now.getHours();
+    var bar = document.getElementById('gt-urgency-text');
+    if (!bar) return;
+    if (day === 0 || day === 6) bar.textContent = 'Risposta il primo giorno lavorativo (lun-ven 9:00\u201318:00)';
+    else if (hour >= 9 && hour < 18) bar.textContent = '\uD83D\uDFE2 Siamo online \u2014 risposta tipicamente entro 1-2 ore';
+    else bar.textContent = 'Risposta nella prossima mattina lavorativa (9:00\u201318:00)';
   })();
-  </script>
+
+  /* Misurazione della conversione: solo con consenso alle statistiche */
+  if (window.ecuraConsent) {
+    window.ecuraConsent.when('statistics', function(){
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'grazie_pageview' });
+    });
+  }
+
+  var waCta = document.getElementById('gt-wa-cta');
+  if (waCta) {
+    waCta.addEventListener('click', function(){
+      if (typeof gtag === 'function') gtag('event', 'whatsapp_click', { page: 'grazie' });
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
