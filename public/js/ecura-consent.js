@@ -128,13 +128,14 @@
   var CSS =
     '#ecck{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;color:#3d3c3b;' +
     'border-top:3px solid #068d86;box-shadow:0 -6px 28px rgba(8,14,73,.16);font:400 14px/1.55 Roboto,-apple-system,"Segoe UI",Arial,sans-serif}' +
+    '#ecck,#ecck *{font-family:Arial,Helvetica,sans-serif;font-weight:400}#ecck h2,#ecck button,#ecck strong{font-weight:700}' +
     '#ecck *{box-sizing:border-box}' +
     '#ecck .ecck-in{max-width:1100px;margin:0 auto;padding:18px 22px}' +
-    '#ecck h2{font:700 16px/1.3 Roboto,Arial,sans-serif;color:#080e49;margin:0 0 6px}' +
+    '#ecck h2{font:700 16px/1.3 Arial,Helvetica,sans-serif;color:#080e49;margin:0 0 6px}' +
     '#ecck p{margin:0 0 12px;font-size:14px}' +
     '#ecck a{color:#0059c7;text-decoration:underline}' +
     '#ecck .ecck-btns{display:flex;gap:10px;flex-wrap:wrap}' +
-    '#ecck button{font:700 14px/1 Roboto,Arial,sans-serif;border-radius:6px;padding:12px 20px;min-height:44px;cursor:pointer;border:2px solid #080e49}' +
+    '#ecck button{font:700 14px/1 Arial,Helvetica,sans-serif;border-radius:6px;padding:12px 20px;min-height:44px;cursor:pointer;border:2px solid #080e49}' +
     '#ecck .ecck-acc{background:#080e49;color:#fff}' +
     '#ecck .ecck-rej{background:#080e49;color:#fff}' +
     '#ecck .ecck-cus{background:#fff;color:#080e49}' +
