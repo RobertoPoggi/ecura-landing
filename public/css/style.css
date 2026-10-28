@@ -817,6 +817,7 @@ footer a,
 /* FAQ home: due colonne indipendenti da >=992px (ogni colonna si espande senza spostare l'altra) */
 #faqAccordion.faq-2col{display:block}
 #faqAccordion .faq-col{min-width:0}
-@media(min-width:992px){
+/* due colonne solo su schermi larghi E orizzontali (no telefoni/tablet in verticale, no desktop-mode su telefono) */
+@media(min-width:992px) and (orientation:landscape) and (min-height:520px){
   #faqAccordion.faq-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;align-items:start}
 }
