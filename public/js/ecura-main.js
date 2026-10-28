@@ -5,6 +5,47 @@
 ════════════════════════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────────────
+   0. Cloudflare Turnstile on-demand
+   api.js monta un widget per ogni .cf-turnstile (3 in home, ~200 KB l'uno):
+   se parte al caricamento della pagina satura la banda e ritarda FCP/LCP su
+   mobile. Lo carichiamo solo al primo contatto con un form (focus/tocco),
+   quando un form entra nel viewport, all'apertura del popup, al submit
+   senza token, oppure come ripiego dopo 12 s dal load.
+─────────────────────────────────────────────────────────────── */
+var ecuraTurnstileLoading = false;
+function loadTurnstile() {
+  if (ecuraTurnstileLoading || !document.querySelector('.cf-turnstile')) return;
+  ecuraTurnstileLoading = true;
+  var sc = document.createElement('script');
+  sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+  sc.async = true; sc.defer = true;
+  document.head.appendChild(sc);
+}
+(function initTurnstileOnDemand() {
+  function arm() {
+    var forms = document.querySelectorAll('#ecura-form-hero, #ecura-form-main');
+    for (var i = 0; i < forms.length; i++) {
+      ['focusin', 'pointerdown', 'touchstart', 'keydown'].forEach(function(ev) {
+        forms[i].addEventListener(ev, loadTurnstile, { once: true, passive: true });
+      });
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        for (var j = 0; j < entries.length; j++) {
+          if (entries[j].isIntersecting) { loadTurnstile(); io.disconnect(); return; }
+        }
+      }, { rootMargin: '200px 0px' });
+      /* si osserva il solo form in fondo alla pagina; quello hero parte al primo tocco */
+      var main = document.getElementById('ecura-form-main');
+      if (main) io.observe(main);
+    }
+    window.addEventListener('load', function() { setTimeout(loadTurnstile, 12000); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arm);
+  else arm();
+})();
+
+/* ──────────────────────────────────────────────────────────────
    1. UTM persistenti in sessionStorage
 ─────────────────────────────────────────────────────────────── */
 (function persistUTM() {
@@ -185,6 +226,12 @@ function handleForm(formId, errorId, successId) {
       errEl.textContent = 'Devi accettare la Privacy Policy.';
       errEl.style.display = 'block'; return;
     }
+    if (!data['cf-turnstile-response']) {
+      /* Turnstile e' caricato on-demand: se il token non e' ancora pronto, avvia il caricamento e chiedi di riprovare */
+      loadTurnstile();
+      errEl.textContent = 'Verifica di sicurezza in corso, riprova tra un istante.';
+      errEl.style.display = 'block'; return;
+    }
 
     btn.disabled = true;
     if (!document.getElementById('ecura-spin-style')) {
@@ -346,6 +393,7 @@ function initExitIntent() {
   function showPopup() {
     if (sessionStorage.getItem(SHOWN_KEY)) return;
     sessionStorage.setItem(SHOWN_KEY, '1');
+    loadTurnstile();
     overlay.style.display = 'flex';
   }
   function hidePopup() { overlay.style.display = 'none'; }
@@ -376,6 +424,8 @@ function initExitIntent() {
     if (!name)  { errEl.textContent='Inserisci il tuo nome.';    errEl.style.display='block'; return; }
     if (!phone) { errEl.textContent='Inserisci il tuo telefono.'; errEl.style.display='block'; return; }
     if (!priv)  { errEl.textContent='Accetta la Privacy Policy.'; errEl.style.display='block'; return; }
+    var tsChk = form.querySelector('[name="cf-turnstile-response"]');
+    if (!tsChk || !tsChk.value) { loadTurnstile(); errEl.textContent='Verifica di sicurezza in corso, riprova tra un istante.'; errEl.style.display='block'; return; }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Invio in corso...';

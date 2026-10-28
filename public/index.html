@@ -68,7 +68,8 @@
 <link rel="dns-prefetch" href="https://challenges.cloudflare.com">
 
 <!-- ═══ CLOUDFLARE TURNSTILE — bot protection ════════════════ -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Turnstile: api.js caricato on-demand da js/ecura-main.js (primo contatto con un form / scroll / popup).
+     Caricarlo subito monta 3 widget (~600 KB) e ritarda FCP/LCP su mobile di ~3-4 s. -->
 
 <!-- ═══ FONT — preload latin + latin-ext subset per CLS ════════
      Preloading il subset latin (400 e 700) fa scaricare il font
@@ -94,7 +95,8 @@
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
      NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
-<style id="critical-css">:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+<style id="critical-css">
+.cf-turnstile{min-height:65px}:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
 
 
 *{box-sizing:border-box}
