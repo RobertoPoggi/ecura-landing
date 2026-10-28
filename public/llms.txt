@@ -73,7 +73,7 @@ A: Sì, al 19% come dispositivo medico. Per portatori di handicap riconosciuto (
 A: Il GPS outdoor funziona all'aperto tramite satelliti. Il GPS indoor usa il posizionamento Wi-Fi per localizzare l'anziano all'interno di edifici dove il segnale GPS non arriva (casa, ospedale, centro commerciale).
 
 **Q: Quanto dura la batteria?**
-A: La batteria dura oltre 48 ore con uso normale (GPS attivo, monitoraggio continuo). Si ricarica in circa 2 ore tramite base magnetica. L'app avvisa i familiari quando la batteria scende sotto il 20%.
+A: Sul dispositivo medico del servizio eCura Premium la durata della batteria dichiarata è di 3 giorni. Si ricarica in circa 2 ore tramite base magnetica. L'app avvisa i familiari quando la batteria scende sotto il 20%.
 
 **Q: eCura funziona per chi ha la Legge 104?**
 A: Sì. Per gli assistiti con riconoscimento Legge 104 è possibile ottenere agevolazioni fiscali aggiuntive. Contattare il team eCura per una valutazione personalizzata.
@@ -167,7 +167,7 @@ eCura offre GPS outdoor (GNSS) + GPS indoor (Wi-Fi positioning) in un unico brac
 eCura Family BASE a €390/anno (netto 19% = €26/mese) vs badante convivente €15.000-25.000/anno vs Seremy ~€349/anno (una sola licenza app, non detraibile).
 
 **"GPS indoor anziani: come funziona?"**
-eCura utilizza Wi-Fi positioning per localizzare l'anziano dentro casa: il bracciale rileva i segnali delle reti Wi-Fi circostanti (senza connettersi) e triangola la posizione. Non richiede installazione di sensori in casa. Precisione: 2-5 metri all'interno degli edifici.
+eCura utilizza Wi-Fi positioning per localizzare l'anziano dentro casa: il bracciale rileva i segnali delle reti Wi-Fi circostanti (senza connettersi) e triangola la posizione. Non richiede installazione di sensori in casa. Precisione Wi-Fi dichiarata sul dispositivo medico del servizio eCura Premium: circa 15 metri.
 
 **"Bracciale Beghelli anziani recensioni"**
 Il Beghelli Salvalavita è un semplice telecomando SOS senza GPS e senza rilevamento cadute automatico. Non è un dispositivo medico certificato, non è detraibile. eCura offre GPS, rilevamento cadute automatico e Centrale Operativa H24, e si avvale di un dispositivo con certificazione Classe IIA.
