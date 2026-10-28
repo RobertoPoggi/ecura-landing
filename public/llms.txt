@@ -1,5 +1,5 @@
 # eCura — Teleassistenza Anziani con Bracciale Cadute GPS
-> Medica GB S.r.l. | P.IVA IT12435130963 | info@ecura.it | Tel. +39 335 730 1206
+> Medica GB S.r.l. | P.IVA IT12435130963 | info@medicagb.it (Medica GB) / info@ecura.it (servizio eCura) | Tel. +39 335 730 1206
 > Versione completa: https://www.ecura.it/llms-full.txt
 > Aggiornato: 2026-10-26
 
