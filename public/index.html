@@ -349,8 +349,7 @@ p{margin-top:0;margin-bottom:1rem}
      Aggiunto: MedicalDevice, BreadcrumbList, LocalBusiness,
      ampliati FAQPage (+2 FAQ), aggiornate URL → www.ecura.it,
      aggiunte gtin/mpn sul Product per E-E-A-T ══════════════ -->
-<script type="application/ld+json">
-{
+<script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -479,7 +478,7 @@ p{margin-top:0;margin-bottom:1rem}
       "@type": "Service",
       "@id": "https://www.ecura.it/#service",
       "name": "eCura Teleassistenza Anziani",
-      "description": "Servizio di teleassistenza per anziani che si avvale di un bracciale dispositivo medico certificato Classe IIA, rilevamento cadute AI, GPS e Centrale Operativa H24.",
+      "description": "Servizio di teleassistenza per anziani con bracciale cadute: rilevamento automatico delle cadute con AI, SOS, GPS indoor/outdoor e Centrale Operativa H24. Il servizio si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300).",
       "provider": {
         "@id": "https://www.ecura.it/#organization"
       },
@@ -543,6 +542,15 @@ p{margin-top:0;margin-bottom:1rem}
             "availability": "https://schema.org/InStock"
           }
         ]
+      },
+      "category": "Teleassistenza anziani",
+      "audience": {
+        "@type": "PeopleAudience",
+        "suggestedMinAge": 65,
+        "audienceType": "Anziani e familiari/caregiver"
+      },
+      "isRelatedTo": {
+        "@id": "https://www.ecura.it/#device"
       }
     },
     {
@@ -581,7 +589,25 @@ p{margin-top:0;margin-bottom:1rem}
         "@id": "https://www.ecura.it/#breadcrumb"
       },
       "datePublished": "2026-02-01",
-      "dateModified": "2026-10-25"
+      "dateModified": "2026-10-28",
+      "mainEntity": {
+        "@id": "https://www.ecura.it/#service"
+      },
+      "hasPart": {
+        "@id": "https://www.ecura.it/#faq"
+      },
+      "about": [
+        {
+          "@id": "https://www.ecura.it/#service"
+        },
+        {
+          "@id": "https://www.ecura.it/#device"
+        }
+      ],
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.ecura.it/img/hero-lg.jpg"
+      }
     },
     {
       "@type": "BreadcrumbList",
@@ -600,7 +626,7 @@ p{margin-top:0;margin-bottom:1rem}
       "name": "eCura — Bracciale Teleassistenza Anziani",
       "description": "eCura è un servizio di teleassistenza per anziani che si avvale di un bracciale smartwatch dispositivo medico certificato Classe IIA ai sensi del Regolamento MDR 2017/745. Rilevamento cadute automatico con AI, GPS multi-tecnologia indoor/outdoor (GPS+WiFi+BLE), pulsante SOS, monitoraggio parametri vitali (frequenza cardiaca, SpO2, pressione), Centrale Operativa H24, promemoria farmaci vocali.",
       "url": "https://www.ecura.it/",
-      "image": "https://www.ecura.it/img/SidLy.webp",
+      "image": "https://www.ecura.it/img/set-smart-watch.webp",
       "medicineSystem": "https://schema.org/WesternConventional",
       "recognizingAuthority": {
         "@type": "Organization",
@@ -616,7 +642,8 @@ p{margin-top:0;margin-bottom:1rem}
         "@type": "MedicalCode",
         "code": "BD/RDM 2853300",
         "codingSystem": "Banca Dati Dispositivi Medici Italia"
-      }
+      },
+      "@id": "https://www.ecura.it/#device"
     },
     {
       "@type": "Product",
@@ -630,7 +657,6 @@ p{margin-top:0;margin-bottom:1rem}
       ],
       "description": "Bracciale smartwatch per anziani con dispositivo medico certificato Classe IIA (BD/RDM 2853300, CND V0399), rilevamento cadute automatico AI, GPS multi-tecnologia indoor/outdoor, pulsante SOS immediato, Centrale Operativa H24, monitoraggio parametri vitali, promemoria farmaci. Detraibile al 19% come spesa sanitaria.",
       "image": [
-        "https://www.ecura.it/img/SidLy.webp",
         "https://www.ecura.it/img/set-smart-watch.webp",
         "https://www.ecura.it/img/hero-lg.jpg"
       ],
@@ -639,7 +665,7 @@ p{margin-top:0;margin-bottom:1rem}
         "@type": "Brand",
         "name": "eCura",
         "logo": "https://www.ecura.it/img/logo-ecura-trasp.png"
-      }, 
+      },
       "category": "Dispositivi medici per anziani / Teleassistenza",
       "sku": "ECURA-IT",
       "mpn": "BD/RDM-2853300",
@@ -975,62 +1001,46 @@ p{margin-top:0;margin-bottom:1rem}
             "returnFees": "https://schema.org/FreeReturn"
           }
         }
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "847",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "review": [
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Maria G."
-          },
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "reviewBody": "Mia madre vive sola a 400 km da me. Da quando ha eCura PRO Avanzata dormo tranquilla. Il mese scorso è caduta in bagno e la centrale ha chiamato subito i soccorsi.",
-          "datePublished": "2025-11-10"
-        },
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Roberto F."
-          },
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "reviewBody": "eCura Family Base è semplicissimo: un bottone per l'SOS. Da quando mio padre lo usa si è già salvato una situazione critica grazie al GPS e alla centrale operativa.",
-          "datePublished": "2025-09-22"
-        }
       ]
     },
     {
       "@type": "FAQPage",
+      "@id": "https://www.ecura.it/#faq",
+      "inLanguage": "it-IT",
+      "isPartOf": {
+        "@id": "https://www.ecura.it/#webpage"
+      },
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Cos'è la teleassistenza per anziani e come funziona?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La teleassistenza per anziani è un servizio che collega l'anziano a una Centrale Operativa attiva 24 ore su 24 tramite un dispositivo indossabile. Se l'anziano preme il pulsante SOS, o se il rilevamento cadute automatico segnala una caduta, la Centrale Operativa H24 (piani AVANZATO) lo chiama, avvisa i familiari con la posizione GPS e, se necessario, allerta i soccorsi. Con eCura il servizio si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300). Guida completa: www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Come funziona un bracciale cadute per anziani?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un bracciale cadute usa sensori di movimento e un algoritmo AI per distinguere una caduta da un gesto normale. Se rileva una caduta emette un allarme vocale: se l'anziano non risponde entro 30 secondi viene allertata la Centrale Operativa H24, con le coordinate GPS. Funziona anche se l'anziano è privo di sensi e non richiede lo smartphone. Approfondimento: www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/"
+          }
+        },
         {
           "@type": "Question",
           "name": "Il bracciale eCura è difficile da usare per un anziano?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No: il bracciale eCura è stato progettato specificamente per anziani non abituati alla tecnologia. Ha un display intuitivo, un solo pulsante per attivare l'SOS e una ricarica magnetica semplicissima. Nessuna password, nessun menu complicato."
+            "text": "No. Il bracciale eCura è stato progettato specificamente per anziani non abituati alla tecnologia: ha un display intuitivo, un solo pulsante per attivare l'SOS e una ricarica magnetica semplicissima. Nessuna password, nessun menu complicato."
           }
         },
         {
           "@type": "Question",
-          "name": "Il bracciale eCura richiede lo smartphone per funzionare?",
+          "name": "Il bracciale eCura richiede lo smartphone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Il bracciale eCura funziona autonomamente grazie alla SIM integrata con connettività 4G. I familiari possono monitorare la situazione tramite l'app eCura su smartphone, ma l'anziano non ha bisogno di alcun dispositivo aggiuntivo."
+            "text": "No. Il dispositivo funziona autonomamente grazie alla SIM 4G integrata: l'anziano non ha bisogno di smartphone. I familiari e caregiver possono però usare l'app eCura per ricevere notifiche, vedere la posizione GPS e monitorare i parametri vitali."
           }
         },
         {
@@ -1038,7 +1048,7 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "Cosa succede se l'anziano cade e perde conoscenza?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Il bracciale rileva automaticamente la caduta entro 3-5 secondi grazie all'AI allenata su 14.000 eventi reali. Invia subito un allarme SOS alla famiglia e alla Centrale Operativa H24, che chiama l'anziano e, se necessario, coordina i soccorsi del 118."
+            "text": "Il bracciale rileva automaticamente la caduta entro 3-5 secondi grazie all'AI allenata su 14.000 cadute reali. Invia subito un allarme SOS alla famiglia e alla Centrale Operativa H24, che chiama l'anziano e, se non risponde, coordina immediatamente i soccorsi del 118. Nessun intervento manuale richiesto."
           }
         },
         {
@@ -1046,15 +1056,15 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "Il bracciale eCura è resistente all'acqua?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sì. Il bracciale eCura è certificato IP67: può essere indossato sotto la doccia, in bagno e sotto la pioggia senza problemi. La maggior parte delle cadute degli anziani avviene proprio in bagno, quindi è fondamentale che sia impermeabile."
+            "text": "Sì. Il bracciale eCura è certificato IP67: può essere indossato sotto la doccia, in bagno e sotto la pioggia. È fondamentale perché la maggior parte delle cadute degli anziani avviene proprio in bagno."
           }
         },
         {
           "@type": "Question",
-          "name": "Il GPS è preciso anche dentro casa?",
+          "name": "La posizione GPS è precisa anche dentro casa?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sì. eCura utilizza una tecnologia di localizzazione multi-layer: GPS satellitare per gli spazi aperti, Wi-Fi beacon e Bluetooth BLE per la localizzazione indoor. In questo modo sa sempre dove si trova l'anziano, anche all'interno dell'appartamento."
+            "text": "Sì. eCura usa tecnologia GPS + Wi-Fi beacon + BLE per una localizzazione precisa sia indoor che outdoor. Il sistema sa sempre dove si trova l'anziano, anche nell'appartamento."
           }
         },
         {
@@ -1062,7 +1072,7 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "Il bracciale eCura è detraibile fiscalmente?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sì. Poiché il servizio eCura si avvale di un dispositivo medico certificato Classe IIA (MDR 2017/745), eCura beneficia di tre agevolazioni: (1) IVA al 4% invece del 22%, applicabile perché si avvale di un dispositivo medico certificato (DPR 633/72, Tabella A, Parte II, n. 30); (2) detrazione IRPEF al 19% come spesa sanitaria (art. 15, comma 1, lett. c del TUIR); (3) contributo INPS per disabili con invalidità 100%, riconoscimento Legge 104, ISEE inferiore a €6.000 e verbale di disabilità grave, previa approvazione INPS e disponibilità del fondo."
+            "text": "Sì. Poiché il servizio eCura si avvale di un dispositivo medico certificato Classe IIA (MDR 2017/745), eCura beneficia di tre agevolazioni: (1) IVA al 4% invece del 22%, applicabile proprio perché si avvale di un dispositivo medico certificato (DPR 633/72, Tabella A, Parte II, n. 30); (2) detrazione IRPEF al 19% come spesa sanitaria (art. 15, comma 1, lett. c del TUIR); (3) contributo INPS per disabili con invalidità 100%, riconoscimento Legge 104, ISEE inferiore a €6.000 e verbale di disabilità grave, previa approvazione INPS e disponibilità del fondo."
           }
         },
         {
@@ -1075,10 +1085,10 @@ p{margin-top:0;margin-bottom:1rem}
         },
         {
           "@type": "Question",
-          "name": "Quanto costa il servizio eCura rispetto a una badante?",
+          "name": "Quanto costa eCura rispetto a una badante o a una casa di riposo?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Una badante full-time costa mediamente €15.000–€25.000 l'anno. eCura parte da €390/anno, ovvero 10–40 volte in meno. Il bracciale garantisce sicurezza 24/7 preservando l'autonomia dell'anziano, senza i costi e le complessità di un'assistenza domestica continuativa."
+            "text": "Una badante full-time costa mediamente €15.000–€25.000/anno; una RSA oltre €30.000/anno. eCura parte da soli €390/anno, ovvero 10-40 volte in meno, garantendo sicurezza e monitoraggio H24 e preservando l'autonomia dell'anziano nella propria casa."
           }
         },
         {
@@ -1086,7 +1096,7 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "Quanto costa il bracciale eCura? Ci sono piani diversi?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "eCura è disponibile in 6 piani annuali: Family BASE €390/anno (rilevamento cadute AI, GPS, SOS), Family AVANZATO €690/anno (aggiunge Centrale Operativa H24), Professional BASE €480/anno (aggiunge SpO2 e monitoraggio cardiaco), Professional AVANZATO €840/anno, Premium BASE €590/anno (aggiunge analisi del sonno e AI predittiva), Premium AVANZATO €990/anno. Tutti i piani includono il bracciale certificato Classe IIA e sono detraibili al 19% come spesa sanitaria: il Family BASE costa meno di €27/mese netti. Non ci sono costi aggiuntivi di attivazione o canone SIM."
+            "text": "eCura è disponibile in 6 piani annuali: Family BASE €390/anno (rilevamento cadute AI, GPS, SOS), Family AVANZATO €690/anno (aggiunge Centrale Operativa H24), Professional BASE €480/anno (aggiunge SpO2 e monitoraggio cardiaco), Professional AVANZATO €840/anno , Premium BASE €590/anno (aggiunge analisi del sonno e AI predittiva), Premium AVANZATO €990/anno . Tutti i piani includono il bracciale certificato Classe IIA e sono detraibili al 19% come spesa sanitaria: il Family BASE costa meno di €27/mese netti. Non ci sono costi aggiuntivi di attivazione o canone SIM."
           }
         },
         {
@@ -1118,15 +1128,7 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "Qual è la differenza tra eCura e Seremy? eCura è meglio di Seremy?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "eCura costa €390/anno, si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300), ha GPS indoor Wi-Fi ed è detraibile al 19%. Seremy costa ~€349/anno (una sola licenza app), non ha certificazione medica MDR, non ha GPS indoor e non è detraibile. eCura è l'unica alternativa con dispositivo certificato. Confronto completo su: https://www.ecura.it/confronto-bracciali-anziani/"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Qual è la differenza di costo tra un dispositivo di sicurezza per anziani e una badante?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Una badante convivente costa mediamente €15.000–€25.000/anno (contributi inclusi). eCura Family BASE costa €390/anno (€26/mese netti dopo detrazione 19%), ovvero 40–60 volte meno. Per molte famiglie eCura rappresenta la soluzione per garantire sicurezza H24 all'anziano senza rinunciare alla sua autonomia e senza i costi e la complessità gestionale di una badante."
+            "text": "eCura costa €390/anno, si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300), ha GPS indoor Wi-Fi ed è detraibile al 19%. Seremy costa ~€349/anno (una sola licenza app), non ha certificazione medica MDR, non ha GPS indoor e non è detraibile. eCura è l'unica alternativa con dispositivo certificato. Confronto completo su: www.ecura.it/confronto-bracciali-anziani/"
           }
         },
         {
@@ -1158,7 +1160,7 @@ p{margin-top:0;margin-bottom:1rem}
           "name": "eCura è adatto per italiani all'estero che vogliono monitorare i genitori in Italia?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sì. eCura è la soluzione ideale per caregiver a distanza (italiani in UK, Germania, Svizzera, Francia, Spagna). L'app funziona ovunque nel mondo: GPS real-time del genitore in Italia, notifiche caduta automatica, chiamata diretta al bracciale. La Centrale H24 interviene fisicamente in Italia anche se il figlio è irraggiungibile. SIM internazionale multi-provider inclusa: nessun roaming. Piano Family AVANZATO da €57,50/mese, detraibile al 19%."
+            "text": "Sì. eCura è la soluzione ideale per caregiver a distanza (italiani in UK, Germania, Svizzera, Francia, Spagna). L'app funziona ovunque nel mondo: GPS real-time del genitore in Italia, notifiche caduta automatica, chiamata diretta al bracciale. La Centrale H24 interviene fisicamente in Italia anche se il figlio è irraggiungibile. Il bracciale usa una SIM integrata con connettività 4G (roaming europeo per i paesi UE). Piano Family AVANZATO da €57,50/mese, detraibile al 19%."
           }
         },
         {
@@ -1172,12 +1174,10 @@ p{margin-top:0;margin-bottom:1rem}
       ]
     }
   ]
-}
-</script>
+}</script>
 
 <!-- ═══ SPEAKABLE + GEO AI SCHEMA ════════════════════════ -->
-<script type="application/ld+json">
-{
+<script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebPage",
   "@id": "https://www.ecura.it/#webpage",
@@ -1185,25 +1185,47 @@ p{margin-top:0;margin-bottom:1rem}
   "name": "Bracciale Cadute Anziani GPS e Teleassistenza H24 | eCura",
   "speakable": {
     "@type": "SpeakableSpecification",
-    "cssSelector": [".hero-title", ".hero-subtitle", "#whyEcura h2", "#faqAccordion"]
+    "cssSelector": [
+      ".hero-title",
+      ".hero-subtitle",
+      "#whyEcura h2",
+      "#faqAccordion .accordion-header"
+    ]
   },
   "inLanguage": "it-IT",
-  "isPartOf": {"@id": "https://www.ecura.it/#website"},
+  "isPartOf": {
+    "@id": "https://www.ecura.it/#website"
+  },
   "about": {
-    "@type": "MedicalDevice",
-    "name": "eCura Bracciale Teleassistenza",
-    "description": "Servizio di teleassistenza con bracciale cadute dispositivo medico Classe IIA, GPS indoor/outdoor, rilevamento cadute AI e Centrale Operativa H24"
+    "@id": "https://www.ecura.it/#device"
   },
   "mentions": [
-    {"@type": "Thing", "name": "teleassistenza anziani"},
-    {"@type": "Thing", "name": "bracciale cadute anziani"},
-    {"@type": "Thing", "name": "dispositivo medico Classe IIA"},
-    {"@type": "Thing", "name": "rilevamento cadute automatico"},
-    {"@type": "Thing", "name": "GPS indoor anziani"},
-    {"@type": "Thing", "name": "detraibilità 19% dispositivo medico"}
+    {
+      "@type": "Thing",
+      "name": "teleassistenza anziani"
+    },
+    {
+      "@type": "Thing",
+      "name": "bracciale cadute anziani"
+    },
+    {
+      "@type": "Thing",
+      "name": "dispositivo medico Classe IIA"
+    },
+    {
+      "@type": "Thing",
+      "name": "rilevamento cadute automatico"
+    },
+    {
+      "@type": "Thing",
+      "name": "GPS indoor anziani"
+    },
+    {
+      "@type": "Thing",
+      "name": "detraibilità 19% dispositivo medico"
+    }
   ]
-}
-</script>
+}</script>
 
 <!-- ecura-email obfuscation style: mantenuto per compatibilità ma email ora è anche href -->
 <style>.ecura-email::before{content:attr(data-e)}</style>
@@ -2093,125 +2115,264 @@ p{margin-top:0;margin-bottom:1rem}
             <div class="col-md-10">
                 <h2 class="h1 mt-3">Domande frequenti sul bracciale eCura</h2>
                 <p class="lead text-muted">Tutto quello che devi sapere sul bracciale eCura e la teleassistenza anziani</p>
-                <div class="accordion py-5" id="faqAccordion" itemscope itemtype="https://schema.org/FAQPage">
+                <div class="accordion py-5" id="faqAccordion">
                     <!-- FAQ 1 -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">
-                                Il bracciale eCura è difficile da usare per un anziano?
+                                Cos'è la teleassistenza per anziani e come funziona?
                             </button>
                         </h3>
-                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
-                                No. Il bracciale eCura è stato progettato specificamente per anziani non abituati alla tecnologia: ha un display intuitivo, un solo pulsante per attivare l'SOS e una ricarica magnetica semplicissima. Nessuna password, nessun menu complicato.
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                La teleassistenza per anziani è un servizio che collega l'anziano a una Centrale Operativa attiva 24 ore su 24 tramite un dispositivo indossabile. Se l'anziano preme il pulsante SOS, o se il rilevamento cadute automatico segnala una caduta, la Centrale Operativa H24 (piani AVANZATO) lo chiama, avvisa i familiari con la posizione GPS e, se necessario, allerta i soccorsi. Con eCura il servizio si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300). Guida completa: <a href="https://www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/">www.ecura.it/blog/teleassistenza-anziani-come-funziona-costi/</a>
                             </div>
                         </div>
                     </div>
                     <!-- FAQ 2 -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
-                                Il bracciale eCura richiede lo smartphone?
+                                Come funziona un bracciale cadute per anziani?
                             </button>
                         </h3>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
-                                No. Il dispositivo funziona autonomamente grazie alla SIM 4G integrata: l'anziano non ha bisogno di smartphone. I familiari e caregiver possono però usare l'app eCura per ricevere notifiche, vedere la posizione GPS e monitorare i parametri vitali.
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Un bracciale cadute usa sensori di movimento e un algoritmo AI per distinguere una caduta da un gesto normale. Se rileva una caduta emette un allarme vocale: se l'anziano non risponde entro 30 secondi viene allertata la Centrale Operativa H24, con le coordinate GPS. Funziona anche se l'anziano è privo di sensi e non richiede lo smartphone. Approfondimento: <a href="https://www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/">www.ecura.it/blog/guida-bracciale-cadute-anziani-2026/</a>
                             </div>
                         </div>
                     </div>
                     <!-- FAQ 3 -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
-                                Cosa succede se l'anziano cade e perde conoscenza?
+                                Il bracciale eCura è difficile da usare per un anziano?
                             </button>
                         </h3>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
-                                Il bracciale rileva automaticamente la caduta entro 3-5 secondi grazie all'AI allenata su 14.000 cadute reali. Invia subito un allarme SOS alla famiglia e alla Centrale Operativa H24, che chiama l'anziano e, se non risponde, coordina immediatamente i soccorsi del 118. Nessun intervento manuale richiesto.
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No. Il bracciale eCura è stato progettato specificamente per anziani non abituati alla tecnologia: ha un display intuitivo, un solo pulsante per attivare l'SOS e una ricarica magnetica semplicissima. Nessuna password, nessun menu complicato.
                             </div>
                         </div>
                     </div>
                     <!-- FAQ 4 -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
-                                Il bracciale eCura è resistente all'acqua?
+                                Il bracciale eCura richiede lo smartphone?
                             </button>
                         </h3>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
-                                Sì. Il bracciale eCura è certificato IP67: può essere indossato sotto la doccia, in bagno e sotto la pioggia. È fondamentale perché la maggior parte delle cadute degli anziani avviene proprio in bagno.
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No. Il dispositivo funziona autonomamente grazie alla SIM 4G integrata: l'anziano non ha bisogno di smartphone. I familiari e caregiver possono però usare l'app eCura per ricevere notifiche, vedere la posizione GPS e monitorare i parametri vitali.
                             </div>
                         </div>
                     </div>
                     <!-- FAQ 5 -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                                Cosa succede se l'anziano cade e perde conoscenza?
+                            </button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Il bracciale rileva automaticamente la caduta entro 3-5 secondi grazie all'AI allenata su 14.000 cadute reali. Invia subito un allarme SOS alla famiglia e alla Centrale Operativa H24, che chiama l'anziano e, se non risponde, coordina immediatamente i soccorsi del 118. Nessun intervento manuale richiesto.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 6 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                                Il bracciale eCura è resistente all'acqua?
+                            </button>
+                        </h3>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sì. Il bracciale eCura è certificato IP67: può essere indossato sotto la doccia, in bagno e sotto la pioggia. È fondamentale perché la maggior parte delle cadute degli anziani avviene proprio in bagno.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 7 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
                                 La posizione GPS è precisa anche dentro casa?
                             </button>
                         </h3>
-                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
                                 Sì. eCura usa tecnologia GPS + Wi-Fi beacon + BLE per una localizzazione precisa sia indoor che outdoor. Il sistema sa sempre dove si trova l'anziano, anche nell'appartamento.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ 6 — nuova -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <!-- FAQ 8 -->
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
                                 Il bracciale eCura è detraibile fiscalmente?
                             </button>
                         </h3>
-                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
+                        <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
                                 Sì. Poiché il servizio eCura si avvale di un dispositivo medico certificato Classe IIA (MDR 2017/745), eCura beneficia di tre agevolazioni: (1) <strong>IVA al 4%</strong> invece del 22%, applicabile proprio perché si avvale di un dispositivo medico certificato (DPR 633/72, Tabella A, Parte II, n. 30); (2) <strong>detrazione IRPEF al 19%</strong> come spesa sanitaria (art. 15, comma 1, lett. c del TUIR); (3) <strong>contributo INPS</strong> per disabili con invalidità 100%, riconoscimento Legge 104, ISEE inferiore a €6.000 e verbale di disabilità grave, previa approvazione INPS e disponibilità del fondo.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ 7 — nuova -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <!-- FAQ 9 -->
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
                                 Qual è la differenza tra eCura Family, Professional e Premium?
                             </button>
                         </h3>
-                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
+                        <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
                                 Sono tre servizi, ciascuno disponibile in Piano BASE e Piano AVANZATO. eCura Family (BASE €390/anno, AVANZATO €690/anno): SOS geolocalizzato, rilevamento cadute AI, GPS e app familiari. eCura Professional (BASE €480/anno, AVANZATO €840/anno): aggiunge AI avanzata su 14.000 cadute, monitoraggio cardiaco, ossimetria SpO2 e promemoria farmaci vocali. eCura Premium (BASE €590/anno, AVANZATO €990/anno): aggiunge SpO2 continuo, analisi del sonno, AI predittiva, dashboard clinica e telemedicina integrata. Tutti i piani includono il bracciale certificato Classe IIA (BD/RDM 2853300) e sono detraibili al 19%.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ 8 — nuova -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <!-- FAQ 10 -->
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
                                 Quanto costa eCura rispetto a una badante o a una casa di riposo?
                             </button>
                         </h3>
-                        <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
+                        <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
                                 Una badante full-time costa mediamente €15.000–€25.000/anno; una RSA oltre €30.000/anno. eCura parte da soli €390/anno, ovvero 10-40 volte in meno, garantendo sicurezza e monitoraggio H24 e preservando l'autonomia dell'anziano nella propria casa.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ 9 — prezzo/costo -->
-                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <!-- FAQ 11 -->
+                    <div class="accordion-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
                                 Quanto costa il bracciale eCura? Ci sono piani diversi?
                             </button>
                         </h3>
-                        <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <div class="accordion-body" itemprop="text">
+                        <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
                                 eCura è disponibile in 6 piani annuali: <strong>Family BASE €390/anno</strong> (rilevamento cadute AI, GPS, SOS), <strong>Family AVANZATO €690/anno</strong> (aggiunge Centrale Operativa H24), <strong>Professional BASE €480/anno</strong> (aggiunge SpO2 e monitoraggio cardiaco), <strong>Professional AVANZATO €840/anno</strong>, <strong>Premium BASE €590/anno</strong> (aggiunge analisi del sonno e AI predittiva), <strong>Premium AVANZATO €990/anno</strong>. Tutti i piani includono il bracciale certificato Classe IIA e sono <strong>detraibili al 19%</strong> come spesa sanitaria: il Family BASE costa meno di €27/mese netti. Non ci sono costi aggiuntivi di attivazione o canone SIM.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 12 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                                Il bracciale eCura funziona all'estero in vacanza?
+                            </button>
+                        </h3>
+                        <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Il bracciale eCura funziona in Italia con SIM integrata in roaming EU per i paesi europei. Per lunghi soggiorni all'estero è consigliabile verificare la copertura dati con il servizio clienti. Il GPS funziona globalmente tramite satellite indipendentemente dalla rete.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 13 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                                Cosa fare se l'anziano non vuole indossare il bracciale?
+                            </button>
+                        </h3>
+                        <div id="faq13" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                È un problema comune. Strategie efficaci: presentarlo come orologio e non come dispositivo medico; coinvolgere il medico curante che ne spieghi l'importanza; scegliere il cinturino più comodo (silicone o milanese); far notare all'anziano che protegge la sua autonomia evitando l'intervento della badante. eCura offre 30 giorni di prova con rimborso completo se non soddisfatti.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 14 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                                Quanto tempo dura la batteria del bracciale eCura?
+                            </button>
+                        </h3>
+                        <div id="faq14" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sul dispositivo medico del servizio eCura Premium la durata della batteria dichiarata è di 3 giorni. Si ricarica in circa 2 ore tramite base di ricarica magnetica. L'app avvisa i familiari quando la batteria scende sotto il 20%, così possono ricordare all'anziano di ricaricarlo.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 15 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                                Qual è la differenza tra eCura e Seremy? eCura è meglio di Seremy?
+                            </button>
+                        </h3>
+                        <div id="faq15" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                eCura costa €390/anno, si avvale di un dispositivo medico certificato Classe IIA (BD/RDM 2853300), ha GPS indoor Wi-Fi ed è detraibile al 19%. Seremy costa ~€349/anno (una sola licenza app), non ha certificazione medica MDR, non ha GPS indoor e non è detraibile. eCura è l'unica alternativa con dispositivo certificato. Confronto completo su: <a href="https://www.ecura.it/confronto-bracciali-anziani/">www.ecura.it/confronto-bracciali-anziani/</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 16 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                                Il bracciale beghelli Salvalavita è un buon dispositivo per anziani?
+                            </button>
+                        </h3>
+                        <div id="faq16" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Il Beghelli Salvalavita è un semplice telecomando SOS: utile ma limitato. Non ha GPS, non ha rilevamento cadute automatico, non ha Centrale Operativa H24 strutturata e non è un dispositivo medico certificato. Costa ~€150 solo come hardware. eCura è la soluzione completa con certificazione Classe IIA, GPS indoor/outdoor, AI per le cadute e Centrale H24 da €390/anno incluso tutto.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 17 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                                Qual è il servizio di teleassistenza anziani con dispositivo medico certificato in Italia?
+                            </button>
+                        </h3>
+                        <div id="faq17" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                eCura è l'unico servizio di teleassistenza per anziani in Italia che si avvale di un dispositivo medico certificato Classe IIA ai sensi del Regolamento UE MDR 2017/745. Numero di registrazione ufficiale del dispositivo: BD/RDM 2853300 (verificabile sul sito del Ministero della Salute). Nessun altro servizio di teleassistenza per anziani sul mercato italiano (Seremy, Beghelli Salvalavita) si avvale di un dispositivo con questa certificazione.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 18 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                                Come funziona il bracciale eCura in caso di caduta?
+                            </button>
+                        </h3>
+                        <div id="faq18" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Quando il bracciale eCura rileva una caduta (tramite AI su 14.000 eventi reali), emette un allarme vocale. Se l'anziano non risponde entro 30 secondi, la Centrale Operativa H24 viene allertata automaticamente con le coordinate GPS. L'operatore chiama l'anziano al bracciale; se non risponde, contatta i familiari e se necessario allerta il 118. Tutto automaticamente, senza che l'anziano debba premere nulla.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 19 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                                eCura è adatto per italiani all'estero che vogliono monitorare i genitori in Italia?
+                            </button>
+                        </h3>
+                        <div id="faq19" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sì. eCura è la soluzione ideale per caregiver a distanza (italiani in UK, Germania, Svizzera, Francia, Spagna). L'app funziona ovunque nel mondo: GPS real-time del genitore in Italia, notifiche caduta automatica, chiamata diretta al bracciale. La Centrale H24 interviene fisicamente in Italia anche se il figlio è irraggiungibile. Il bracciale usa una SIM integrata con connettività 4G (roaming europeo per i paesi UE). Piano Family AVANZATO da €57,50/mese, detraibile al 19%.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 20 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                                Quanto costa eCura netto dopo la detrazione fiscale?
+                            </button>
+                        </h3>
+                        <div id="faq20" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Dopo la detrazione IRPEF al 19%: Family BASE €390 → €315,90/anno (€26,33/mese). Family AVANZATO €690 → €558,90/anno. Professional BASE €480 → €388,80/anno. Professional AVANZATO €840 → €680,40/anno. Premium BASE €590 → €477,90/anno. Premium AVANZATO €990 → €801,90/anno. La detrazione si applica ogni anno al rinnovo del piano.
                             </div>
                         </div>
                     </div>

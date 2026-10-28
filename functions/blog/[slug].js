@@ -123,7 +123,9 @@ function renderArticle(a) {
   const cat     = decodeEntities(a.category || '');
   const color   = a.tag_color || '#068D86';
   const author  = decodeEntities(a.author || 'Redazione eCura');
+  const isEditorial = /^redazione/i.test(author) || /^team ecura/i.test(author);
   const date    = fmtDate(a.date_published);
+  const modDate = fmtDate(a.date_modified || a.updated_at);
   const read    = decodeEntities(a.read_time || '');
   const slug    = a.slug || '';
   const canonical = `https://www.ecura.it/blog/${slug}/`;
@@ -131,7 +133,7 @@ function renderArticle(a) {
   // ── Schema.org extras: FAQPage + HowTo + SpeakableSpec + AggregateRating ──
   // Estratti direttamente dall'HTML del content, senza colonne D1 aggiuntive.
 
-  let faqSchemaBlock = '';
+  let faqNode = null;
   try {
     // Pattern 1: blocchi .faq-item con <strong>domanda</strong> + <p>risposta</p>
     const faqMatches = [...content.matchAll(/<div[^>]*class="faq-item"[^>]*>[\s\S]*?<strong>([\s\S]*?)<\/strong>[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/gi)];
@@ -156,14 +158,14 @@ function renderArticle(a) {
     if (allFaqs.length > 0) {
       const qas = allFaqs.map(f => ({
         '@type': 'Question',
-        'name': f.q.replace(/<[^>]+>/g,'').trim(),
-        'acceptedAnswer': { '@type': 'Answer', 'text': f.a.replace(/<[^>]+>/g,'').trim() }
+        'name': decodeEntities(f.q.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()),
+        'acceptedAnswer': { '@type': 'Answer', 'text': decodeEntities(f.a.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()) }
       }));
-      faqSchemaBlock = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': qas });
+      faqNode = { '@type': 'FAQPage', '@id': `${canonical}#faq`, 'inLanguage': 'it-IT', 'isPartOf': { '@id': canonical }, 'mainEntity': qas };
     }
   } catch(e) { /* skip */ }
 
-  let howtoSchemaBlock = '';
+  let howtoNode = null;
   try {
     // HowTo: solo per articoli con pattern "N. Titolo: testo" in <li><strong>
     const howtoMatches = [...content.matchAll(/<li[^>]*>[\s\S]*?<strong>(\d+\.\s[^<]+)<\/strong>:?\s*([\s\S]*?)<\/li>/gi)];
@@ -174,49 +176,42 @@ function renderArticle(a) {
         'name': m[1].replace(/^\d+\.\s*/,'').trim(),
         'text': m[2].replace(/<[^>]+>/g,'').trim()
       }));
-      howtoSchemaBlock = JSON.stringify({
-        '@context': 'https://schema.org',
+      howtoNode = {
         '@type': 'HowTo',
+        '@id': `${canonical}#howto`,
         'name': title,
         'description': desc,
         'step': steps
-      });
+      };
     }
   } catch(e) { /* skip */ }
 
-  // ── SpeakableSpecification — selettori CSS per voice search / AI assistants ──
-  const speakableBlock = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': canonical,
-    'speakable': {
-      '@type': 'SpeakableSpecification',
-      'cssSelector': ['h1', '.article-meta', 'h2', 'h3', '.article-body > p:first-of-type']
-    }
-  });
+  // Nota E-E-A-T/policy Google: il Product con aggregateRating NON viene più emesso sulle pagine
+  // articolo (le recensioni non sono visibili in pagina). Il prodotto è collegato via @id alla home.
 
-  // ── AggregateRating su Product eCura (segnale E-E-A-T per AI engines) ───────
-  const productRatingBlock = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    'name': 'Bracciale eCura — Teleassistenza Anziani',
-    'url': 'https://www.ecura.it/',
-    'image': {
-      '@type': 'ImageObject',
-      'url': 'https://www.ecura.it/img/blog/dispositivo-medico-iia.jpg',
-      'width': 1200,
-      'height': 630
-    },
-    'brand': { '@type': 'Brand', 'name': 'eCura' },
-    'description': 'Bracciale cadute anziani con GPS indoor/outdoor, rilevamento automatico cadute, centrale operativa H24. Dispositivo medico certificato Classe IIA.',
-    'aggregateRating': {
-      '@type': 'AggregateRating',
-      'ratingValue': '4.9',
-      'reviewCount': '847',
-      'bestRating': '5',
-      'worstRating': '1'
+  // Fonti istituzionali: solo link presenti in un blocco visibile class="fonti" del contenuto
+  let citations = [];
+  try {
+    const fm = rawContent.match(/<(div|p|ul)[^>]*class="fonti"[^>]*>([\s\S]*?)<\/\1>/i);
+    if (fm) {
+      citations = [...fm[2].matchAll(/<a[^>]*href="(https?:\/\/[^"]+)"[^>]*>([\s\S]*?)<\/a>/gi)]
+        .map(m => ({ '@type': 'CreativeWork', 'name': decodeEntities(m[2].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()), 'url': m[1] }));
     }
-  });
+  } catch(e) { /* skip */ }
+
+  // Parole chiave/entità trattate dall'articolo (solo se effettivamente presenti nel testo)
+  const plain = decodeEntities(rawContent.replace(/<[^>]+>/g,' ')).toLowerCase();
+  const topicMap = [
+    ['teleassistenza anziani', 'Teleassistenza per anziani'],
+    ['bracciale', 'Bracciale cadute anziani'],
+    ['rilevamento cadute', 'Rilevamento automatico cadute'],
+    ['classe iia', 'Dispositivo medico Classe IIA'],
+    ['centrale operativa', 'Centrale operativa H24'],
+    ['gps', 'Localizzazione GPS indoor/outdoor'],
+    ['detraibil', 'Detrazione IRPEF 19% dispositivi medici'],
+    ['badante', 'Assistenza domiciliare anziani']
+  ];
+  const mentions = topicMap.filter(([k]) => plain.includes(k)).map(([, n]) => ({ '@type': 'Thing', 'name': n }));
 
   // ── VideoObject — estratto da iframe YouTube nel content ────────────────────
   let videoSchemaBlock = '';
@@ -332,7 +327,7 @@ ${(a.date_modified || a.updated_at) ? `<meta property="article:modified_time" co
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${esc(hero)}">
-<!-- ═══ Schema.org NewsArticle — snippet ricchi Google/Bing ══════════
+<!-- ═══ Schema.org BlogPosting — snippet ricchi Google/Bing ══════════
      Aggiunge: headline, image, datePublished, dateModified, author,
      publisher con logo, wordCount stimato, articleSection.
      Potenzia l'eligibilità per Top Stories, rich snippets e AI Overviews.
@@ -342,18 +337,26 @@ ${JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "NewsArticle",
+      "@type": "BlogPosting",
       "@id": `${canonical}#article`,
       "headline": title.substring(0, 110),
       "description": desc,
       "url": canonical,
       "datePublished": a.date_published || a.created_at || new Date().toISOString(),
       "dateModified": a.date_modified || a.updated_at || a.date_published || new Date().toISOString(),
-      "author": {
-        "@type": "Person",
-        "name": author,
-        "url": "https://www.ecura.it/"
-      },
+      "author": isEditorial
+        ? { "@type": "Organization", "@id": "https://www.ecura.it/#organization", "name": "Redazione eCura (Medica GB S.r.l.)", "url": "https://www.ecura.it/" }
+        : { "@type": "Person", "name": author, "url": "https://www.ecura.it/", "worksFor": { "@id": "https://www.ecura.it/#organization" } },
+      "about": [
+        { "@id": "https://www.ecura.it/#service" },
+        { "@type": "Thing", "name": "teleassistenza anziani" },
+        { "@type": "Thing", "name": "bracciale cadute anziani" }
+      ],
+      "mentions": mentions,
+      "citation": citations.length ? citations : undefined,
+      "keywords": "teleassistenza anziani, bracciale cadute anziani, rilevamento cadute, dispositivo medico Classe IIA",
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".article-body > p:first-of-type", ".callout"] },
+      "hasPart": faqNode ? { "@id": faqNode['@id'] } : undefined,
       "publisher": {
         "@type": "Organization",
         "@id": "https://www.ecura.it/#organization",
@@ -398,9 +401,11 @@ ${JSON.stringify({
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.ecura.it/blog/"},
         {"@type": "ListItem", "position": 3, "name": title, "item": canonical}
       ]
-    }
+    },
+    ...(faqNode ? [faqNode] : []),
+    ...(howtoNode ? [howtoNode] : [])
   ]
-})}
+}).replace(/</g,'\\u003c')}
 </script>
 <link rel="preload" href="/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/fonts.css?v=1">
@@ -461,10 +466,6 @@ ${JSON.stringify({
 <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
 <link rel="apple-touch-icon" href="/img/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/img/favicon/site.webmanifest">
-${faqSchemaBlock ? `<script type="application/ld+json">${faqSchemaBlock}</script>` : ''}
-${howtoSchemaBlock ? `<script type="application/ld+json">${howtoSchemaBlock}</script>` : ''}
-<script type="application/ld+json">${speakableBlock}</script>
-<script type="application/ld+json">${productRatingBlock}</script>
 ${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</script>` : ''}
 <script src="/js/ecura-consent.js?v=1" defer></script>
 </head>
@@ -526,7 +527,7 @@ ${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</sc
       <div style="font-size:.8rem;color:#068D86;font-weight:600;margin-bottom:8px">Team eCura &mdash; Medica GB Srl</div>
       <p style="font-size:.84rem;color:#555;margin:0;line-height:1.6">Il contenuto di questo articolo è redatto e revisionato dal team eCura, composto da esperti di teleassistenza, dispositivi medici certificati (MDR Classe IIA) e sicurezza domestica per anziani. Medica GB Srl distribuisce il servizio di teleassistenza eCura (dispositivo medico Classe IIA, Centrale Operativa H24, assistenza tecnica e formazione), con esperienza diretta nel settore assistenza anziani. Per approfondimenti scrivici a <a class="ecura-email" data-e="info@ecura.it" href="#" data-email="info" data-domain="ecura.it" onclick="this.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return true;" style="color:#068D86"></a>.</p>
       <div style="margin-top:10px;font-size:.78rem;color:#888">
-        <span>&#x1F4C5; Pubblicato: ${date || '—'}</span>
+        <span>&#x1F4C5; Pubblicato: ${date || '—'}</span>${modDate && modDate !== date ? `&nbsp;&middot;&nbsp;<span>&#x1F504; Aggiornato: ${modDate}</span>` : ''}
         ${read ? `&nbsp;&middot;&nbsp;<span>&#9201; ${esc(read)}</span>` : ''}
         &nbsp;&middot;&nbsp;<span>&#x2714; Verificato dal team eCura</span>
       </div>
