@@ -150,6 +150,20 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const now = new Date()
   const dataOra = now.toLocaleString('it-IT', { timeZone: 'Europe/Rome' })
 
+  // ── Click ID Google Ads (solo se il browser li ha inviati: richiede consenso marketing) ──
+  // Validati lato server: formato ammesso e click_ts entro la finestra di 90 giorni
+  const CLICK_ID_RE = /^[A-Za-z0-9_\-]{5,255}$/
+  const cleanId = (v) => (typeof v === 'string' && CLICK_ID_RE.test(v)) ? v : null
+  const clickTsRaw = Number(body.click_ts)
+  const clickTs = (Number.isFinite(clickTsRaw) && clickTsRaw > 0 && clickTsRaw <= Date.now() + 60000 &&
+                   Date.now() - clickTsRaw <= 90 * 864e5) ? Math.floor(clickTsRaw) : null
+  const gclid  = cleanId(body.gclid)
+  const gbraid = cleanId(body.gbraid)
+  const wbraid = cleanId(body.wbraid)
+  const hasClickId = !!(gclid || gbraid || wbraid)
+  const landingPage = (hasClickId && typeof body.landing_page === 'string')
+    ? body.landing_page.slice(0, 500) : null
+
   // ── Payload CRM ───────────────────────────────
   const crmPayload = {
     nomeRichiedente,
@@ -183,6 +197,13 @@ export async function onRequestPost({ request, env, waitUntil }) {
     page_url:     body.page_url     || null,
     referrer:     body.referrer     || null,
     landing_variant: body.landing_variant || 'main',
+
+    // Attribuzione Google Ads (null se assenti o senza consenso marketing)
+    gclid,
+    gbraid,
+    wbraid,
+    click_ts:     hasClickId ? clickTs : null,
+    landing_page: landingPage,
   }
 
   // ── Payload Google Sheet ──────────────────────

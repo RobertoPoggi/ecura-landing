@@ -60,6 +60,103 @@ function loadTurnstile() {
     sessionStorage.setItem('ecura_referrer', document.referrer);
 })();
 
+/* ──────────────────────────────────────────────────────────────
+   1b. Attribuzione Google Ads (gclid / gbraid / wbraid) + Enhanced Conversions
+   - il click ID viene letto dall'URL e tenuto in memoria
+   - viene salvato in localStorage (90 giorni) e inviato al CRM SOLO se
+     l'utente ha dato il consenso "marketing" (stesso criterio di ad_user_data)
+   - i dati utente per le Enhanced Conversions vanno nel dataLayer (GTM li hasha
+     in SHA-256 lato client) SOLO con consenso marketing
+─────────────────────────────────────────────────────────────── */
+var ecuraAds = (function () {
+  var STORE_KEY = 'ecura_click_attrib';
+  var MAX_AGE_MS = 90 * 864e5;           /* oltre 90 giorni Google non accetta l'upload offline */
+  var ID_RE = /^[A-Za-z0-9_\-]{5,255}$/;
+  var memory = null;
+
+  function hasMarketing() {
+    return !!(window.ecuraConsent && window.ecuraConsent.has && window.ecuraConsent.has('marketing'));
+  }
+
+  function fromUrl() {
+    var q = new URLSearchParams(window.location.search), o = {};
+    ['gclid', 'gbraid', 'wbraid'].forEach(function (k) {
+      var v = q.get(k);
+      if (v && ID_RE.test(v)) o[k] = v;
+    });
+    if (!o.gclid && !o.gbraid && !o.wbraid) return null;
+    o.click_ts = Date.now();
+    o.landing_page = window.location.pathname + window.location.search;
+    return o;
+  }
+
+  function persist() {
+    if (memory && hasMarketing()) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(memory)); } catch (e) {}
+    }
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      if (!o || Date.now() - (o.click_ts || 0) > MAX_AGE_MS) { localStorage.removeItem(STORE_KEY); return null; }
+      return o;
+    } catch (e) { return null; }
+  }
+
+  function clear() { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+
+  /* cattura al primo atterraggio; un nuovo click ID sovrascrive il precedente (last click) */
+  memory = fromUrl();
+  if (window.ecuraConsent && window.ecuraConsent.when) window.ecuraConsent.when('marketing', persist);
+  /* revoca del consenso marketing: il click ID salvato va cancellato */
+  window.addEventListener('ecura:consent', function (ev) {
+    if (!ev.detail || !ev.detail.marketing) clear();
+  });
+
+  /* numero in formato E.164 (richiesto da Google); numeri italiani senza prefisso -> +39 */
+  function e164(raw) {
+    var d = String(raw || '').replace(/[^\d+]/g, '');
+    if (!d) return '';
+    if (d.indexOf('00') === 0) d = '+' + d.slice(2);
+    if (d.charAt(0) !== '+') d = '+39' + d.replace(/^0+(?=3\d{8,9}$)/, '');
+    return /^\+\d{8,15}$/.test(d) ? d : '';
+  }
+
+  return {
+    /* campi da aggiungere al payload di /api/submit-lead (vuoto senza consenso marketing) */
+    fields: function () {
+      if (!hasMarketing()) return {};
+      var a = memory || load();
+      if (!a) return {};
+      var o = {};
+      ['gclid', 'gbraid', 'wbraid', 'click_ts', 'landing_page'].forEach(function (k) { if (a[k]) o[k] = a[k]; });
+      return o;
+    },
+    /* da chiamare subito PRIMA di gtag('event','generate_lead'): espone i dati utente
+       alle variabili del livello dati di GTM (tag Google Ads con Enhanced Conversions) */
+    pushUserData: function (u) {
+      if (!hasMarketing()) return false;
+      var d = {}, parts;
+      u = u || {};
+      if (u.email) d.email = String(u.email).trim().toLowerCase();
+      var tel = e164(u.phone); if (tel) d.telefono = tel;
+      parts = String(u.fullName || '').trim().split(/\s+/);
+      if (parts[0]) d.nome = parts[0].toLowerCase();
+      if (parts.length > 1) d.cognome = parts.slice(1).join(' ').toLowerCase();
+      var a = memory || load();
+      if (a && a.gclid) d.gclid = a.gclid;
+      if (!d.email && !d.telefono) return false;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(d);
+      return true;
+    },
+    e164: e164
+  };
+})();
+
 function getUTM(name) { return sessionStorage.getItem('ecura_' + name) || ''; }
 
 function fillUTM(prefix) {
@@ -217,6 +314,7 @@ function handleForm(formId, errorId, successId) {
       utm_term:     form.querySelector('[name="utm_term"]').value,
       'cf-turnstile-response': (form.querySelector('[name="cf-turnstile-response"]')?.value || '')
     };
+    Object.assign(data, ecuraAds.fields());
 
     if (!data.full_name || !data.phone || !data.email) {
       errEl.textContent = 'Compila tutti i campi obbligatori.';
@@ -258,6 +356,7 @@ function handleForm(formId, errorId, successId) {
       clearInterval(stepTimer);
 
       if (res.ok && json.success) {
+        ecuraAds.pushUserData({ email: data.email, phone: data.phone, fullName: data.full_name });
         if (typeof gtag === 'function') gtag('event', 'generate_lead', {
           currency: 'EUR', value: 29.90, form_id: formId
         });
@@ -438,7 +537,7 @@ function initExitIntent() {
       var res  = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           full_name: name, phone: phone, email: exitEmail, privacy_consent: true,
           'cf-turnstile-response': tsToken,
           utm_source:   sessionStorage.getItem('ecura_utm_source') || '',
@@ -449,10 +548,12 @@ function initExitIntent() {
           page_url:     sessionStorage.getItem('ecura_page_url') || window.location.href,
           referrer:     sessionStorage.getItem('ecura_referrer') || document.referrer,
           message:      '🔔 RICHIESTA RICHIAMATA URGENTE — lead da popup exit-intent. Richiamare entro 4 ore.'
-        })
+        }, ecuraAds.fields()))
       });
       var json = await res.json();
       if (res.ok && json.success) {
+        /* email del popup e' fittizia (@popup.ecura.it): per le Enhanced Conversions si usano solo nome e telefono */
+        ecuraAds.pushUserData({ phone: phone, fullName: name });
         if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
         window.location.href = '/grazie/';
       } else {
