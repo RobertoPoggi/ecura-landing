@@ -197,8 +197,8 @@ tbody tr:nth-child(even){background:#fcfcfb}
     <h1>Informativa privacy e cookie</h1>
     <p>Questa informativa riguarda il sito <strong style="color:#fff">www.ecura.it</strong>. &Egrave; resa ai sensi degli articoli 13 e 14 del Regolamento (UE) 2016/679 (GDPR) e del D.Lgs. 196/2003, come modificato dal D.Lgs. 101/2018.</p>
     <div class="meta">
-      <span>Versione <strong>1.0</strong></span>
-      <span>Aggiornata al <strong>28 ottobre 2026</strong></span>
+      <span>Versione <strong>1.1</strong></span>
+      <span>Aggiornata al <strong>30 ottobre 2026</strong></span>
       <span>Titolare: <strong>Medica GB S.r.l.</strong></span>
     </div>
   </div>
@@ -277,7 +277,8 @@ tbody tr:nth-child(even){background:#fcfcfb}
       <h3>3.2 Dati raccolti insieme alla richiesta</h3>
       <ul>
         <li>pagina di provenienza, eventuali parametri di campagna (<em>utm_*</em>), data e ora dell'invio, <strong>esito del controllo anti-bot</strong> del modulo;</li>
-        <li>l'indirizzo IP, trattato da Cloudflare per il controllo anti-bot e la sicurezza.</li>
+        <li>l'indirizzo IP, trattato da Cloudflare per il controllo anti-bot e la sicurezza;</li>
+        <li><strong>solo se hai accettato i cookie «Marketing»</strong> e arrivi da un annuncio Google: l'<strong>identificativo del clic</strong> sull'annuncio (<em>gclid, gbraid o wbraid</em>), la data e l'ora del clic e la pagina di atterraggio. Restano nel tuo browser per un massimo di 90 giorni e, se invii il modulo, vengono associati alla tua richiesta.</li>
       </ul>
       <h3>3.3 Dati di navigazione</h3>
       <p>Come ogni sito, i server che lo ospitano registrano dati tecnici (indirizzo IP, tipo di browser, pagina richiesta). Se acconsenti, gli strumenti di statistica descritti alla sezione 14 raccolgono anche informazioni sull'uso delle pagine.</p>
@@ -322,7 +323,7 @@ tbody tr:nth-child(even){background:#fcfcfb}
             <td>Facoltativo, revocabile</td>
           </tr>
           <tr>
-            <td>Misurazione delle campagne pubblicitarie (Google Ads)</td>
+            <td>Misurazione e attribuzione delle conversioni delle campagne pubblicitarie (Google Ads): contare le richieste arrivate da un annuncio, anche con la trasmissione a Google di dati di contatto in forma di hash («conversioni avanzate»), e, se la richiesta si conclude con un contratto, comunicare a Google l'identificativo del clic, la data e il valore, senza dati di contatto</td>
             <td>Art. 6, par. 1, lett. a) GDPR e art. 122 Codice privacy — consenso (cookie «Marketing»)</td>
             <td>Facoltativo, revocabile</td>
           </tr>
@@ -366,7 +367,7 @@ tbody tr:nth-child(even){background:#fcfcfb}
         <tbody>
           <tr><td>Cloudflare, Inc.</td><td>Hosting delle pagine, rete di distribuzione, sicurezza; verifica anti-bot dei moduli (Turnstile)</td><td>Indirizzo IP, dati tecnici della connessione, esito della verifica</td></tr>
           <tr><td>Google Ireland Ltd / Google LLC</td><td>Google Apps Script e Google Sheets: ricezione e archiviazione delle richieste inviate dai moduli</td><td>Dati inseriti nel modulo (nome, email, telefono, note, dati di campagna)</td></tr>
-          <tr><td>Google Ireland Ltd / Google LLC — <em>solo con consenso</em></td><td>Google Tag Manager, Google Analytics 4 (statistiche) e Google Ads (misurazione delle campagne)</td><td>Indirizzo IP, identificativi dei cookie, pagine visitate, interazioni, conversioni</td></tr>
+          <tr><td>Google Ireland Ltd / Google LLC — <em>solo con consenso</em></td><td>Google Tag Manager, Google Analytics 4 (statistiche) e Google Ads (misurazione delle campagne)</td><td>Indirizzo IP, identificativi dei cookie, pagine visitate, interazioni, conversioni; con le conversioni avanzate, email, telefono, nome e cognome inseriti nel modulo, trasformati in hash (SHA-256) sul tuo dispositivo prima dell'invio</td></tr>
           <tr><td>Ahrefs Pte. Ltd. — <em>solo con consenso</em></td><td>Ahrefs Web Analytics: statistiche aggregate sulle visite</td><td>Indirizzo IP, pagina visitata, pagina di provenienza</td></tr>
           <tr><td>Resend, Inc.</td><td>Invio di email di servizio relative alle richieste</td><td>Indirizzo email, nome, contenuto del messaggio</td></tr>
           <tr><td>Register.it S.p.A.</td><td>Posta elettronica e infrastruttura del dominio</td><td>Indirizzo email, metadati delle comunicazioni</td></tr>
@@ -389,6 +390,8 @@ tbody tr:nth-child(even){background:#fcfcfb}
           <tr><td>Candidature di partner non seguite da un accordo</td><td>24 mesi dall'ultimo contatto</td></tr>
           <tr><td>Dati di un contratto concluso</td><td>Secondo l'informativa fornita all'attivazione e per i termini di legge fiscali e contabili</td></tr>
           <tr><td>Registri tecnici e di sicurezza del sito</td><td>Fino a 12 mesi, salvo accertamento di abusi</td></tr>
+          <tr><td>Identificativo del clic sull'annuncio nel browser (solo con consenso «Marketing»)</td><td>Fino a 90 giorni; cancellato se revochi il consenso</td></tr>
+          <tr><td>Identificativo del clic salvato insieme alla richiesta</td><td>Come la richiesta a cui è associato</td></tr>
           <tr><td>Cookie «ecura_consent» con la tua scelta</td><td>180 giorni</td></tr>
           <tr><td>Cookie di statistica e di marketing (solo con consenso)</td><td>Durata indicata nella tabella della sezione 14</td></tr>
         </tbody>
@@ -456,8 +459,10 @@ tbody tr:nth-child(even){background:#fcfcfb}
         <tbody>
           <tr><td>_gcl_au, _gcl_aw</td><td>Google Ads</td><td>Fino a 90 giorni</td><td>Misurare le conversioni delle campagne pubblicitarie</td></tr>
           <tr><td>IDE, test_cookie</td><td>Google (doubleclick.net)</td><td>Fino a 13 mesi / 15 minuti</td><td>Misurazione della pubblicità e verifica del supporto ai cookie</td></tr>
+          <tr><td>ecura_click_attrib (memoria locale del browser, non è un cookie)</td><td>eCura (prima parte)</td><td>Fino a 90 giorni</td><td>Ricorda da quale annuncio Google sei arrivato (identificativo del clic) per collegare l'eventuale richiesta all'annuncio. Viene salvato solo con il consenso «Marketing» e cancellato se lo revochi</td></tr>
         </tbody>
       </table>
+      <p><strong>Conversioni avanzate.</strong> Se hai accettato la categoria «Marketing» e invii il modulo, il tag di Google riceve email, numero di telefono, nome e cognome già trasformati in hash (SHA-256) sul tuo dispositivo e li usa per collegare la richiesta all'annuncio che hai visto. Senza il consenso «Marketing», o dopo averlo revocato, il sito non salva l'identificativo del clic e non invia né questo codice né i dati di contatto a Google per questa finalità: la tua richiesta viene gestita normalmente.</p>
       <p>Per il funzionamento di Google Tag Manager, Google riceve l'indirizzo IP e informazioni tecniche del browser ogni volta che lo strumento viene caricato. Il sito <strong>non carica Google Tag Manager prima della tua scelta</strong>; i cookie pubblicitari sono impostati solo se accetti la categoria «Marketing».</p>
 
       <h3>14.4 Come cambiare o revocare la scelta</h3>
@@ -476,6 +481,7 @@ tbody tr:nth-child(even){background:#fcfcfb}
     <section id="modifiche">
       <h2>16. Modifiche all'informativa</h2>
       <p>Questa informativa può essere aggiornata per modifiche normative, nuovi servizi o variazioni dei fornitori. La versione in vigore è sempre quella pubblicata su questa pagina, con data di aggiornamento e numero di versione.</p>
+      <p><strong>Versione 1.1 (30 ottobre 2026):</strong> aggiunte le informazioni sull'identificativo del clic degli annunci Google e sulle conversioni avanzate di Google Ads.</p>
       <h3>Riferimenti normativi</h3>
       <ul>
         <li>Regolamento (UE) 2016/679 — Regolamento generale sulla protezione dei dati (GDPR);</li>
