@@ -68,7 +68,32 @@ function loadTurnstile() {
    - i dati utente per le Enhanced Conversions vanno nel dataLayer (GTM li hasha
      in SHA-256 lato client) SOLO con consenso marketing
 ─────────────────────────────────────────────────────────────── */
-var ecuraAds = (function () {
+  /* Invio conversione + redirect a /grazie/ senza perdere l'hit.
+     - GTM caricato (consenso dato): il redirect parte da event_callback, cioe' quando l'hit e' stato inviato;
+       event_timeout (2 s) sblocca comunque gtag, setTimeout a 2,5 s e' la rete di sicurezza (adblock, rete lenta).
+     - GTM non caricato (consenso negato / bloccato): l'evento non viene inviato, quindi si va subito a /grazie/.
+     _redirectFatto impedisce il doppio redirect (e un doppio conteggio della pagina /grazie/). */
+  function ecuraLeadAndRedirect(params) {
+    var _redirectFatto = false;
+    function vaiAlGrazie() {
+      if (_redirectFatto) return;
+      _redirectFatto = true;
+      window.location.href = '/grazie/';
+    }
+    /* stesso segnale usato dal wrapper gtag di ecura-consent.js: GTM autorizzato = evento 'gtm.js' in dataLayer */
+    var gtmAttivo = !!window.google_tag_manager || (window.dataLayer || []).some(function (e) { return e && e.event === 'gtm.js'; });
+    if (typeof gtag === 'function' && gtmAttivo) {
+      params.event_callback = vaiAlGrazie;
+      params.event_timeout = 2000;
+      gtag('event', 'generate_lead', params);
+      setTimeout(vaiAlGrazie, 2500);
+    } else {
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', params);
+      vaiAlGrazie();
+    }
+  }
+
+  var ecuraAds = (function () {
   var STORE_KEY = 'ecura_click_attrib';
   var MAX_AGE_MS = 90 * 864e5;           /* oltre 90 giorni Google non accetta l'upload offline */
   var ID_RE = /^[A-Za-z0-9_\-]{5,255}$/;
@@ -357,10 +382,7 @@ function handleForm(formId, errorId, successId) {
 
       if (res.ok && json.success) {
         ecuraAds.pushUserData({ email: data.email, phone: data.phone, fullName: data.full_name });
-        if (typeof gtag === 'function') gtag('event', 'generate_lead', {
-          currency: 'EUR', value: 29.90, form_id: formId
-        });
-        setTimeout(function(){ window.location.href = '/grazie/'; }, 300);
+        ecuraLeadAndRedirect({ currency: 'EUR', value: 29.90, form_id: formId });
       } else {
         errEl.textContent = json.error || 'Errore durante l\'invio. Riprova.';
         errEl.style.display = 'block';
@@ -554,8 +576,7 @@ function initExitIntent() {
       if (res.ok && json.success) {
         /* email del popup e' fittizia (@popup.ecura.it): per le Enhanced Conversions si usano solo nome e telefono */
         ecuraAds.pushUserData({ phone: phone, fullName: name });
-        if (typeof gtag === 'function') gtag('event', 'generate_lead', { currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
-        window.location.href = '/grazie/';
+        ecuraLeadAndRedirect({ currency: 'EUR', value: 29.90, form_id: 'exit_popup' });
       } else {
         errEl.textContent = json.error || 'Errore. Riprova.';
         errEl.style.display = 'block';
