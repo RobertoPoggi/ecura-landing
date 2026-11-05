@@ -1,150 +1,175 @@
 #!/usr/bin/env node
 /**
- * ping-indexnow.js — Script post-deploy eCura
+ * ping-indexnow.js — notifica IndexNow SELETTIVA (eCura)
  *
- * Notifica aggiornamenti a TUTTI i motori/agenti disponibili:
+ * Notifica SOLO le URL passate da riga di comando: una pagina nuova non deve
+ * essere diluita insieme a decine di URL invariate.
  *
- *  1. IndexNow batch  → Bing, Yandex, Seznam, Naver, Yep (api.indexnow.org relay)
- *  2. Google Sitemap ping → google.com/ping?sitemap=  (spinge Googlebot a recrawlare)
- *  3. Google News/Discover ping → news.google.com/ping  (stesso sitemap)
+ *   IndexNow (api.indexnow.org = relay verso tutti i partner; Bing diretto)
+ *   → Bing, Yandex, Seznam, Naver, Yep.
  *
- * Agenti AI (GPTBot/ChatGPT, ClaudeBot, PerplexityBot, Gemini, Grok, DuckDuckBot…)
- * NON espongono un endpoint di ping pubblico: scoprono i contenuti autonomamente
- * leggendo sitemap.xml e llms.txt — entrambi presenti su ecura.it.
- * Il ping Google sopra accelera anche questi bot perché molti si basano
- * sull'indice Google come fonte secondaria di discovery.
+ * Google: il ping HTTP (google.com/ping?sitemap=) è DEPRECATO e risponde 404.
+ *   L'unica via programmatica è la Search Console API (OAuth 2.0). Per una singola
+ *   pagina bastano 30 secondi manuali: GSC → Ispezione URL → "Richiedi indicizzazione".
+ * Agenti AI (GPTBot, ClaudeBot, PerplexityBot, Gemini, Grok…): nessun endpoint di ping
+ *   pubblico; leggono sitemap.xml, llms.txt e ai.txt con la propria cadenza.
  *
- * Uso: node ping-indexnow.js
- *      INDEXNOW_KEY=xxx node ping-indexnow.js
+ * Uso:  node ping-indexnow.js <url> [url2 ...] [--dry-run]
+ *       node ping-indexnow.js --all [--dry-run]     (solo casi eccezionali, es. migrazione)
+ *
+ * Da eseguire DOPO il deploy: ogni URL deve già rispondere 200, altrimenti lo script si ferma.
  */
 
-const KEY     = process.env.INDEXNOW_KEY || '60d8edebf9f2486d9f8d08e6d776215d';
-const HOST    = 'www.ecura.it';
+const KEY      = process.env.INDEXNOW_KEY || '60d8edebf9f2486d9f8d08e6d776215d';
+const HOST     = 'www.ecura.it';
+const ORIGIN   = `https://${HOST}/`;
+const KEY_URL  = `https://${HOST}/${KEY}.txt`;
+const SITEMAP  = `https://${HOST}/sitemap.xml`;
+const TIMEOUT  = 15000;
 
-// ─── URL da notificare via IndexNow ────────────────────────────────────────
-const URLS = [
-  // Pagine principali
-  `https://${HOST}/`,
-  `https://${HOST}/confronto-bracciali-anziani/`,
-  `https://${HOST}/bracciale-anziani-detraibile/`,
-  `https://${HOST}/come-funziona-bracciale-ecura/`,
-  `https://${HOST}/guida-cadute-anziani/`,
-  `https://${HOST}/guida-dispositivi-medici-teleassistenza/`,
-  `https://${HOST}/statistiche-cadute-anziani-italia/`,
-  `https://${HOST}/partner/`,
-  `https://${HOST}/recensioni-ecura-seremy-beghelli/`,
-  // Blog
-  `https://${HOST}/blog/`,
-  `https://${HOST}/blog/demenza-wandering-anziano-esce-di-casa/`,
-  `https://${HOST}/blog/convincere-genitore-anziano-bracciale/`,
-  `https://${HOST}/blog/cadute-post-dimissione-ospedale-prevenzione/`,
-  `https://${HOST}/blog/bonus-agevolazioni-anziani-2026/`,
-  `https://${HOST}/blog/cadute-in-bagno-anziani-prevenzione/`,
-  `https://${HOST}/blog/polifarmacia-anziani-promemoria-farmaci/`,
-  `https://${HOST}/blog/regalo-genitore-anziano-natale/`,
-  `https://${HOST}/blog/ai-predittiva-sicurezza-anziani/`,
-  `https://${HOST}/blog/analisi-report-servizio-premium/`,
-  `https://${HOST}/blog/teleassistenza-rsa-residenze-protette-centri-alzheimer/`,
-  `https://${HOST}/blog/come-scegliere-servizio-teleassistenza/`,
-  `https://${HOST}/blog/guida-bracciale-cadute-anziani-2026/`,
-  `https://${HOST}/blog/teleassistenza-anziani-come-funziona-costi/`,
-  `https://${HOST}/blog/ecura-vs-seremy-confronto-2026/`,
-  `https://${HOST}/blog/bracciale-anziani-detraibile-19-percento/`,
-  `https://${HOST}/blog/cadute-casa-anziani-statistiche-prevenzione/`,
-  `https://${HOST}/blog/dispositivo-medico-classe-iia-anziani/`,
-  `https://${HOST}/blog/badante-vs-teleassistenza-costi-2026/`,
-  `https://${HOST}/blog/gps-anziani-indoor-come-funziona/`,
-  `https://${HOST}/blog/prevenzione-cadute-anziani-10-consigli/`,
-  `https://${HOST}/blog/anziano-solo-casa-soluzioni-sicurezza/`,
-  `https://${HOST}/blog/centrale-operativa-h24-teleassistenza/`,
-  `https://${HOST}/blog/caregiver-distanza-genitori-anziani-estero/`,
-];
+// Path vietati da robots.txt: non si notificano mai
+const EXCLUDED_PATHS = ['/admin', '/strategia-seo-link-building', '/api'];
 
-// ─── IndexNow endpoints (Bing, Yandex, Seznam + relay → tutti gli altri) ───
+// ─── IndexNow endpoints ─────────────────────────────────────────────────────
 const INDEXNOW_ENDPOINTS = [
-  'https://api.indexnow.org/indexnow',   // relay → tutti i partner IndexNow
-  'https://www.bing.com/indexnow',        // Bing diretto
-  'https://yandex.com/indexnow',          // Yandex diretto
-  'https://search.seznam.cz/indexnow',    // Seznam diretto
+  'https://api.indexnow.org/indexnow',   // relay → tutti i partner IndexNow (Yandex, Seznam, Naver, Yep…)
+  'https://www.bing.com/indexnow',       // Bing diretto
 ];
 
-// ─── Google ─────────────────────────────────────────────────────────────────
-// Google ha DEPRECATO il ping HTTP (google.com/ping?sitemap — restituisce 404).
-// L'unica API programmatica è la Search Console API (OAuth 2.0 richiesto).
-// Per notificare Google manualmente: Search Console → Ispezione URL → "Richiedi indicizzazione".
-// Agenti AI (GPTBot, ClaudeBot, PerplexityBot, Gemini, Grok…) non hanno endpoint
-// di ping pubblici: scoprono i contenuti da sitemap.xml e llms.txt autonomamente.
+const USAGE = `Uso: node ping-indexnow.js <url> [url2 ...] [--dry-run]
+Esempio: node ping-indexnow.js https://www.ecura.it/blog/nuovo-articolo/
+         node ping-indexnow.js --all [--dry-run]   (intero sitemap: solo casi eccezionali)`;
 
-// ─── IndexNow batch payload ─────────────────────────────────────────────────
-const indexnowPayload = JSON.stringify({
-  host:        HOST,
-  key:         KEY,
-  keyLocation: `https://${HOST}/${KEY}.txt`,
-  urlList:     URLS,
-});
+function fail(msg) { console.error(`✗ ${msg}`); process.exit(1); }
 
-// ─── Helpers ────────────────────────────────────────────────────────────────
-async function pingIndexNow() {
-  console.log(`\n━━━ 1/2  IndexNow — ${URLS.length} URL → ${INDEXNOW_ENDPOINTS.length} motori ━━━\n`);
-  console.log(`  Motori coperti: Bing, Yandex, Seznam, Naver, Yep (via relay)\n`);
+// ─── Argomenti ──────────────────────────────────────────────────────────────
+function parseArgs(argv) {
+  const flags = new Set(), urls = [];
+  for (const a of argv) {
+    if (a.startsWith('--')) flags.add(a); else urls.push(a);
+  }
+  for (const f of flags) if (f !== '--dry-run' && f !== '--all') fail(`Opzione sconosciuta: ${f}\n${USAGE}`);
+  return { dry: flags.has('--dry-run'), all: flags.has('--all'), urls };
+}
 
+// ─── Validazioni ────────────────────────────────────────────────────────────
+function validateShape(u) {
+  if (!u.startsWith(ORIGIN)) fail(`Host non valido: ${u} (atteso ${ORIGIN}…)`);
+  let p;
+  try { p = new URL(u); } catch { fail(`URL non valida: ${u}`); }
+  if (p.hostname !== HOST) fail(`Host non valido: ${u} (atteso ${HOST})`);
+  for (const ex of EXCLUDED_PATHS) {
+    if (p.pathname === ex || p.pathname.startsWith(ex + '/')) fail(`URL vietata da robots.txt (${ex}/): ${u}`);
+  }
+}
+
+// redirect: 'manual' → un 301/302 non viene seguito e quindi non passa per 200
+async function httpStatus(url) {
+  try {
+    const res = await fetch(url, { method: 'GET', redirect: 'manual', signal: AbortSignal.timeout(TIMEOUT) });
+    const body = await res.text().catch(() => '');
+    return { status: res.status, body };
+  } catch (e) {
+    return { status: 0, body: '', error: e.name === 'TimeoutError' ? `timeout ${TIMEOUT / 1000}s` : e.message };
+  }
+}
+
+async function validateLive(urls) {
+  const results = await Promise.all(urls.map(async u => ({ u, ...(await httpStatus(u)) })));
+  let bad = 0;
+  for (const r of results) {
+    if (r.status === 200) console.log(`✓ 200  ${r.u}`);
+    else { bad++; console.error(`✗ ${r.u} risponde ${r.status || 'errore'}${r.error ? ' (' + r.error + ')' : ''} — non pingare un URL che non è 200`); }
+  }
+  if (bad) fail(`${bad} URL non valide: nessun invio.`);
+}
+
+async function validateKeyFile() {
+  const { status, body, error } = await httpStatus(KEY_URL);
+  if (status !== 200) fail(`Key file non raggiungibile: ${KEY_URL} → ${status || error}. IndexNow risponderebbe 403.`);
+  if (body.trim() !== KEY) fail(`Key file non valido: il contenuto di ${KEY_URL} non coincide con la chiave. IndexNow risponderebbe 403.`);
+  console.log('✓ key file OK');
+}
+
+// ─── --all: URL ricavate da sitemap.xml (nessun elenco duplicato nel codice) ─
+async function urlsFromSitemap() {
+  const { status, body, error } = await httpStatus(SITEMAP);
+  if (status !== 200) fail(`sitemap.xml non raggiungibile: ${status || error}`);
+  // <loc> delle pagine; <image:loc> non corrisponde a questo pattern
+  const urls = [...body.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map(m => m[1]);
+  if (!urls.length) fail('sitemap.xml senza <loc>');
+  return urls;
+}
+
+// ─── Invio ──────────────────────────────────────────────────────────────────
+const EXPLAIN = {
+  400: 'payload malformato',
+  403: 'key file non valido o non raggiungibile',
+  422: 'URL o host non corrispondono alla chiave',
+  429: 'troppe richieste: hai pingato troppo spesso — non ripetere ora',
+};
+
+async function pingIndexNow(payload) {
   const results = await Promise.allSettled(
     INDEXNOW_ENDPOINTS.map(async (endpoint) => {
       const res  = await fetch(endpoint, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body:    indexnowPayload,
+        body:    payload,
+        signal:  AbortSignal.timeout(20000),
       });
       const text = await res.text().catch(() => '').then(t => t.trim());
-      const ok   = res.ok || res.status === 202;
-      console.log(`  ${ok ? '✅' : '❌'} ${endpoint.replace('https://', '')} → HTTP ${res.status}${text ? ' — ' + text.substring(0, 60) : ''}`);
+      const ok   = res.status === 200 || res.status === 202;
+      const why  = !ok && EXPLAIN[res.status] ? ` (${EXPLAIN[res.status]})` : '';
+      const tail = !ok && text ? ` — ${text.substring(0, 120)}` : '';
+      console.log(`  ${ok ? '✅' : '❌'} ${endpoint.replace('https://', '')} → HTTP ${res.status}${why}${tail}`);
       return { ok };
     })
   );
-
+  results.forEach((r, i) => { if (r.status === 'rejected') console.log(`  ❌ ${INDEXNOW_ENDPOINTS[i].replace('https://', '')} → errore di rete: ${r.reason?.message || r.reason}`); });
   return results.filter(r => r.status === 'fulfilled' && r.value.ok).length;
 }
 
-async function pingGoogle() {
-  console.log(`\n━━━ 2/2  Google ━━━\n`);
-  console.log(`  ⚠️  Google ha deprecato il ping HTTP (google.com/ping?sitemap → 404).`);
-  console.log(`  Per notificare Google usa Search Console manualmente:`);
-  console.log(`  → https://search.google.com/search-console → Ispezione URL → "Richiedi indicizzazione"`);
-  console.log(`  oppure invia il sitemap aggiornato nella sezione Sitemap di GSC.\n`);
-  console.log(`  Gli agenti AI (GPTBot, ClaudeBot, PerplexityBot, Gemini, Grok…)`);
-  console.log(`  non hanno endpoint di ping: scoprono i contenuti da sitemap.xml`);
-  console.log(`  e llms.txt leggendo autonomamente in base alla propria cadenza.\n`);
-  return 0; // nessun ping automatico possibile
+function printGoogleNote() {
+  console.log(`\n  Google: nessun ping automatico (google.com/ping?sitemap → 404, deprecato).`);
+  console.log(`  L'unica via programmatica è la Search Console API (OAuth 2.0).`);
+  console.log(`  Per una singola pagina: GSC → Ispezione URL → "Richiedi indicizzazione" (30 secondi).`);
+  console.log(`  Gli agenti AI (GPTBot, ClaudeBot, PerplexityBot, Gemini, Grok…) non hanno endpoint di ping:`);
+  console.log(`  leggono sitemap.xml, llms.txt e ai.txt con la propria cadenza.\n`);
 }
 
-// ─── Main ────────────────────────────────────────────────────────────────────
+// ─── Main ───────────────────────────────────────────────────────────────────
 async function main() {
-  console.log(`\n🚀  eCura — Full Search Ping  |  ${new Date().toLocaleString('it-IT')}`);
-  console.log(`    Host: ${HOST}  |  ${URLS.length} URL\n`);
+  const { dry, all, urls: cli } = parseArgs(process.argv.slice(2));
 
-  const inOk = await pingIndexNow();
-  await pingGoogle();
+  if (!all && cli.length === 0) { console.error(USAGE); process.exit(1); }
 
-  console.log(`\n${'─'.repeat(60)}`);
-  console.log(`  IndexNow : ${inOk}/${INDEXNOW_ENDPOINTS.length} endpoint OK`);
-  console.log(`  Google   : manuale via Search Console (ping API deprecato)`);
-  console.log(`\n  Motori/agenti notificati AUTOMATICAMENTE:`);
-  console.log(`    ✅ Bing           (IndexNow diretto)`);
-  console.log(`    ✅ Yandex         (IndexNow diretto)`);
-  console.log(`    ✅ Seznam         (IndexNow diretto)`);
-  console.log(`    ✅ Naver, Yep     (via api.indexnow.org relay)`);
-  console.log(`\n  Motori/agenti da notificare MANUALMENTE:`);
-  console.log(`    ⚠️  Google Search  → GSC: Ispezione URL → "Richiedi indicizzazione"`);
-  console.log(`                        oppure GSC → Sitemap → aggiorna sitemap.xml`);
-  console.log(`\n  Agenti AI (nessun ping disponibile, crawl autonomo):`);
-  console.log(`    ⏳ GPTBot/ChatGPT (legge sitemap.xml e llms.txt)`);
-  console.log(`    ⏳ ClaudeBot      (legge sitemap.xml e llms.txt)`);
-  console.log(`    ⏳ PerplexityBot  (legge sitemap.xml e llms.txt)`);
-  console.log(`    ⏳ Gemini-Crawl   (legge sitemap.xml e llms.txt)`);
-  console.log(`    ⏳ Grok / xAI     (legge sitemap.xml e llms.txt)`);
-  console.log(`${'─'.repeat(60)}\n`);
+  cli.forEach(validateShape);                          // fallisce presto, prima di qualsiasi rete
+  let urls = cli;
+  if (all) urls = [...cli, ...(await urlsFromSitemap())];
+  urls = [...new Set(urls)];
+  urls.forEach(validateShape);
 
-  process.exit((inOk > 0 || gOk > 0) ? 0 : 1);
+  console.log(`\n🚀  eCura — IndexNow selettivo  |  ${new Date().toLocaleString('it-IT')}`);
+  console.log(`    Host: ${HOST}  |  ${urls.length} URL${all ? '  (--all da sitemap.xml)' : ''}${dry ? '  |  DRY-RUN' : ''}\n`);
+
+  await validateLive(urls);
+  await validateKeyFile();
+
+  const payload = JSON.stringify({ host: HOST, key: KEY, keyLocation: KEY_URL, urlList: urls });
+
+  if (dry) {
+    console.log('\n--- payload (dry-run, nessun invio) ---');
+    console.log(payload);
+    process.exit(0);
+  }
+
+  console.log(`\n━━━ IndexNow — ${urls.length} URL → ${INDEXNOW_ENDPOINTS.length} endpoint ━━━\n`);
+  console.log(`  Payload: ${payload}\n`);
+  const ok = await pingIndexNow(payload);
+  printGoogleNote();
+  console.log(`  IndexNow : ${ok}/${INDEXNOW_ENDPOINTS.length} endpoint OK\n`);
+  process.exit(ok > 0 ? 0 : 1);
 }
 
 main().catch(err => { console.error('Errore:', err); process.exit(1); });
