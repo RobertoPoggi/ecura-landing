@@ -39,7 +39,3 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler d1 migrations apply ecura-landing-db --remote
         continue-on-error: false
-
-      - name: Ping IndexNow (notifica motori di ricerca)
-        run: node ping-indexnow.js
-        continue-on-error: true

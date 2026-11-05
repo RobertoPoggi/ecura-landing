@@ -5,8 +5,10 @@
  */
 
 import { getSession, json } from '../../_lib/admin-auth.js';
+import { pingOnPublish, articleUrl } from '../../_lib/indexnow.js';
 
-export async function onRequest({ request, env }) {
+export async function onRequest(context) {
+  const { request, env } = context;
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
 
   const db = env.DB;
@@ -63,6 +65,12 @@ export async function onRequest({ request, env }) {
         related_2_slug || null, related_2_title || null, related_2_excerpt || null, related_2_tag || null,
         related_3_slug || null, related_3_title || null, related_3_excerpt || null, related_3_tag || null
       ).run();
+
+      // L'articolo e' gia' scritto su D1 ed e' pubblico: notifica IndexNow con UNA sola URL.
+      // pingOnPublish non lancia mai, usa waitUntil se disponibile e ha un timeout di 5 s:
+      // un esito negativo del ping non cambia la risposta (201) ne' annulla la pubblicazione.
+      await pingOnPublish(context, [articleUrl(slug)]);
+
       return new Response(JSON.stringify({ ok: true, slug }), { status: 201 });
     } catch (e) {
       if (e.message && e.message.includes('UNIQUE')) {

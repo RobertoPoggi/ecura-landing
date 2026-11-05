@@ -1,7 +1,6 @@
 {
   "scripts": {
     "deploy": "wrangler pages deploy public --project-name ecura-landing",
-    "deploy:ping": "wrangler pages deploy public --project-name ecura-landing && node ping-indexnow.js",
     "ping": "node ping-indexnow.js",
     "ping:all": "node ping-indexnow.js --all"
   },

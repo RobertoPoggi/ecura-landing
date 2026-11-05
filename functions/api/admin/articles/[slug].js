@@ -6,8 +6,10 @@
  */
 
 import { getSession, json } from '../../../_lib/admin-auth.js';
+import { pingOnPublish, articleUrl } from '../../../_lib/indexnow.js';
 
-export async function onRequest({ request, env, params }) {
+export async function onRequest(context) {
+  const { request, env, params } = context;
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
 
   const db = env.DB;
@@ -48,7 +50,24 @@ export async function onRequest({ request, env, params }) {
     updates.push('updated_at = datetime("now")');
     values.push(slug);
 
+    // stato prima dell'UPDATE (serve a decidere il ping); se la lettura fallisce non si pinga e non si blocca nulla
+    let wasPublished = false;
+    try {
+      const prev = await db.prepare('SELECT status FROM blog_articles WHERE slug = ?').bind(slug).first();
+      wasPublished = !!prev && prev.status === 'published';
+    } catch (e) { console.error('[IndexNow] lettura stato precedente fallita', e); }
+
     await db.prepare(`UPDATE blog_articles SET ${updates.join(', ')} WHERE slug = ?`).bind(...values).run();
+
+    // IndexNow: solo se dopo l'UPDATE l'articolo e' pubblico e il contenuto e' cambiato / appena pubblicato.
+    //  - status nel body = 'published'           -> ping
+    //  - status nel body diverso (es. 'draft')   -> nessun ping
+    //  - status non nel body, era gia' pubblicato -> ping (contenuto visibile cambiato)
+    //  - status non nel body, era una bozza       -> nessun ping
+    // Non puo' cambiare la risposta: pingOnPublish non lancia mai (try/catch, waitUntil, timeout 5 s).
+    const shouldPing = body.status !== undefined ? body.status === 'published' : wasPublished;
+    if (shouldPing) await pingOnPublish(context, [articleUrl(slug)]);
+
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
 
