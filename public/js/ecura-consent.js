@@ -130,6 +130,7 @@
     'border-top:1px solid #dfe5e4;box-shadow:0 -2px 14px rgba(0,0,0,.07);font:400 13px/1.5 Arial,Helvetica,sans-serif}' +
     '#ecck,#ecck *{font-family:Arial,Helvetica,sans-serif;font-weight:400}#ecck h2,#ecck button,#ecck strong{font-weight:700}' +
     '#ecck *{box-sizing:border-box}' +
+    '#ecck [hidden]{display:none!important}' +
     '#ecck .ecck-in{max-width:1100px;margin:0 auto;padding:12px 18px}' +
     '#ecck h2{font-size:14px;line-height:1.3;color:#3a4a49;margin:0 0 4px}' +
     '#ecck p{margin:0 0 10px;font-size:13px}' +
@@ -148,8 +149,23 @@
     '.ecck-prefs{text-align:center;font-size:.8rem;margin:10px 0 0;padding:0 12px}' +
     '.ecck-prefs a{color:inherit;text-decoration:underline;opacity:.85}' +
     '@media(max-width:640px){#ecck .ecck-in{padding:10px 14px}#ecck .ecck-btns{flex-wrap:nowrap;gap:6px}#ecck button{flex:1 1 0;padding:10px 6px;font-size:12.5px}#ecck .ecck-cus{flex:0 0 auto;padding:10px 8px}}';
+  /* true se il foglio /css/style.css (già attivo, non più media="print") contiene le regole del banner */
+  function siteCssHasBanner() {
+    try {
+      for (var i = 0; i < document.styleSheets.length; i++) {
+        var sh = document.styleSheets[i];
+        if (!sh.href || sh.href.indexOf('/css/style.css') < 0) continue;
+        if (sh.media && sh.media.mediaText === 'print') continue;   /* ancora in caricamento (media trick) */
+        var rules = sh.cssRules;
+        for (var j = 0; j < rules.length; j++) if (rules[j].selectorText === '#ecck') return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+  /* FALLBACK: le regole stanno in /css/style.css; il <style> runtime serve solo se quel foglio
+     non è ancora attivo (caricamento asincrono) o non contiene il banner (pagine con cache vecchia). */
   function addStyle() {
-    if (document.getElementById('ecck-style')) return;
+    if (document.getElementById('ecck-style') || siteCssHasBanner()) return;
     var st = document.createElement('style'); st.id = 'ecck-style'; st.textContent = CSS;
     document.head.appendChild(st);
   }
@@ -160,6 +176,9 @@
     banner.id = 'ecck';
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Preferenze cookie');
+    /* stili critici inline: il primo frame coincide con quello finale (fixed dal primo istante, nessun CLS) */
+    banner.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;color:#4a4a4a;' +
+      'font:400 13px/1.5 Arial,Helvetica,sans-serif';
     var c = current || { statistics: false, marketing: false };
     banner.innerHTML =
       '<div class="ecck-in">' +
@@ -243,9 +262,31 @@
   var saved = parse();
   if (saved) apply(saved, null);
 
+  /* Il banner va creato a layout assestato. Sulla home i CSS non critici (Bootstrap, style.css) si attivano
+     in async (media="print" → "all"): finché non sono attivi la pagina trabocca in orizzontale e il viewport di
+     layout dei telefoni è più largo di quello finale. Un elemento position:fixed;bottom:0 inserito in quel momento
+     "salta" quando i CSS arrivano (CLS ≈ 0,29). Si attende quindi che i fogli di stile async siano attivi. */
+  function stylesPending() { return !!document.querySelector('link[rel="stylesheet"][media="print"]'); }
+  function whenLayoutSettled(cb) {
+    var done = false, timer = null;
+    function go() {
+      if (done) return; done = true;
+      clearTimeout(timer);
+      document.removeEventListener('load', onAny, true);
+      window.removeEventListener('load', onAny);
+      /* un frame dopo, così il ricalcolo del layout dovuto ai CSS è già stato dipinto */
+      (window.requestAnimationFrame || function (f) { setTimeout(f, 16); })(function () { cb(); });
+    }
+    function onAny() { if (document.readyState === 'complete' || !stylesPending()) go(); }
+    if (!stylesPending() && document.readyState !== 'loading') return go();
+    document.addEventListener('load', onAny, true);   /* 'load' dei <link> (non fa bubbling: capture) */
+    window.addEventListener('load', onAny);
+    timer = setTimeout(go, 6000);                      /* rete molto lenta: non si lascia mai la pagina senza banner */
+  }
+
   function ready() {
     addFooterLink();
-    if (!saved) showBanner(false);
+    if (!saved) whenLayoutSettled(function () { if (!current) showBanner(false); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
   else ready();

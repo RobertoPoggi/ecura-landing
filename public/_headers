@@ -54,6 +54,10 @@
   Cache-Control: public, max-age=86400
   Content-Type: application/json; charset=UTF-8
 
+/.well-known/ai-catalog.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/json; charset=UTF-8
+
 # Sitemap — cache 6 ore
 /sitemap.xml
   Cache-Control: public, max-age=21600
