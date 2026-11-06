@@ -332,6 +332,7 @@ function handleForm(formId, errorId, successId) {
       privacy_consent: form.querySelector('[name="privacy_consent"]').checked,
       page_url:     form.querySelector('[name="page_url"]').value,
       referrer:     form.querySelector('[name="referrer"]').value,
+      first_referrer: (window.ecuraFirstReferrer ? window.ecuraFirstReferrer() : ''),
       utm_source:   form.querySelector('[name="utm_source"]').value,
       utm_medium:   form.querySelector('[name="utm_medium"]').value,
       utm_campaign: form.querySelector('[name="utm_campaign"]').value,
@@ -569,6 +570,7 @@ function initExitIntent() {
           utm_term:     sessionStorage.getItem('ecura_utm_term') || '',
           page_url:     sessionStorage.getItem('ecura_page_url') || window.location.href,
           referrer:     sessionStorage.getItem('ecura_referrer') || document.referrer,
+          first_referrer: (window.ecuraFirstReferrer ? window.ecuraFirstReferrer() : ''),
           message:      '🔔 RICHIESTA RICHIAMATA URGENTE — lead da popup exit-intent. Richiamare entro 4 ore.'
         }, ecuraAds.fields()))
       });

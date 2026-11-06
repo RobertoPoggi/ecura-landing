@@ -467,7 +467,7 @@ ${JSON.stringify({
 <link rel="apple-touch-icon" href="/img/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/img/favicon/site.webmanifest">
 ${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</script>` : ''}
-<script src="/js/ecura-consent.js?v=5" defer></script>
+<script src="/js/ecura-consent.js?v=6" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Salta al contenuto</a>

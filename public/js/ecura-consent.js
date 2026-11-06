@@ -7,6 +7,29 @@
    - Cookie di scelta: ecura_consent, 180 giorni, formato 1.s{0|1}.m{0|1}.{unix}
    - Revoca: link "Preferenze cookie" nel footer o window.ecuraConsent.open()
    ═══════════════════════════════════════════════════════════════════════ */
+/* first-touch:start
+   Prima sorgente ESTERNA della visita. Il referrer di una pagina interna è una pagina di ecura.it, quindi chi arriva
+   da un assistente AI sul blog e poi apre un'altra pagina prima del modulo perderebbe l'origine. Si salva solo nella
+   memoria di sessione del browser (sessionStorage, tecnica, svuotata alla chiusura della scheda), una volta sola.
+   Al modulo viaggia SOLO il dominio (ecuraFirstReferrer): nessun URL, nessun IP, nessuno user agent. */
+(function () {
+  try {
+    var KEY = 'ecura_first_touch';
+    if (!sessionStorage.getItem(KEY) && document.referrer) {
+      var h = new URL(document.referrer).hostname.toLowerCase();
+      var own = location.hostname.toLowerCase();
+      var internal = h === own || h.slice(-8) === '.ecura.it' || h === 'ecura.it';
+      if (!internal) sessionStorage.setItem(KEY, JSON.stringify({ referrer: document.referrer, landing_url: location.href }));
+    }
+  } catch (e) { /* sessionStorage o URL non disponibili: nessuna cattura, il modulo parte comunque */ }
+  window.ecuraFirstReferrer = function () {
+    try {
+      var v = JSON.parse(sessionStorage.getItem('ecura_first_touch') || 'null');
+      return v && v.referrer ? new URL(v.referrer).hostname.toLowerCase().replace(/^www\./, '') : '';
+    } catch (e) { return ''; }
+  };
+})();
+/* first-touch:end */
 (function () {
   'use strict';
 

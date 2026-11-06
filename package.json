@@ -2,7 +2,8 @@
   "scripts": {
     "deploy": "wrangler pages deploy public --project-name ecura-landing",
     "ping": "node ping-indexnow.js",
-    "ping:all": "node ping-indexnow.js --all"
+    "ping:all": "node ping-indexnow.js --all",
+    "test": "node tests/submit-lead.test.mjs"
   },
   "dependencies": {
     "wrangler": "^4.119.0"

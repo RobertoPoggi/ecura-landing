@@ -276,7 +276,7 @@ tbody tr:nth-child(even){background:#fcfcfb}
       <p>I campi nome, telefono ed email sono necessari per poterti ricontattare. Senza di essi non possiamo gestire la richiesta.</p>
       <h3>3.2 Dati raccolti insieme alla richiesta</h3>
       <ul>
-        <li>pagina di provenienza, eventuali parametri di campagna (<em>utm_*</em>), data e ora dell'invio, <strong>esito del controllo anti-bot</strong> del modulo;</li>
+        <li>pagina di provenienza, <strong>dominio del sito da cui sei arrivato la prima volta</strong> (ad esempio un motore di ricerca o un assistente di intelligenza artificiale: solo il nome del sito, mai l'indirizzo completo), eventuali parametri di campagna (<em>utm_*</em>), data e ora dell'invio, <strong>esito del controllo anti-bot</strong> del modulo;</li>
         <li>l'indirizzo IP, trattato da Cloudflare per il controllo anti-bot e la sicurezza;</li>
         <li><strong>solo se hai accettato i cookie «Marketing»</strong> e arrivi da un annuncio Google: l'<strong>identificativo del clic</strong> sull'annuncio (<em>gclid, gbraid o wbraid</em>), la data e l'ora del clic e la pagina di atterraggio. Restano nel tuo browser per un massimo di 90 giorni e, se invii il modulo, vengono associati alla tua richiesta.</li>
       </ul>
@@ -440,7 +440,7 @@ tbody tr:nth-child(even){background:#fcfcfb}
         <tbody>
           <tr><td>ecura_consent</td><td>eCura (prima parte)</td><td>180 giorni</td><td>Ricorda la scelta fatta sul banner, per non riproporla a ogni visita</td></tr>
           <tr><td>__cf_bm</td><td>Cloudflare</td><td>30 minuti</td><td>Distingue le persone dal traffico automatizzato e protegge i moduli</td></tr>
-          <tr><td>Memoria di sessione del browser</td><td>eCura (prima parte)</td><td>Fino alla chiusura della scheda</td><td>Ricorda la pagina di provenienza e i parametri di campagna, che vengono inviati con il modulo solo se lo compili, e se hai già visto il messaggio di uscita</td></tr>
+          <tr><td>Memoria di sessione del browser</td><td>eCura (prima parte)</td><td>Fino alla chiusura della scheda</td><td>Ricorda la pagina di provenienza, il sito da cui sei arrivato la prima volta e i parametri di campagna, che vengono inviati con il modulo solo se lo compili, e se hai già visto il messaggio di uscita</td></tr>
         </tbody>
       </table>
 
@@ -505,6 +505,6 @@ tbody tr:nth-child(even){background:#fcfcfb}
   </div>
 </footer>
 
-<script src="/js/ecura-consent.js?v=5" defer></script>
+<script src="/js/ecura-consent.js?v=6" defer></script>
 </body>
 </html>

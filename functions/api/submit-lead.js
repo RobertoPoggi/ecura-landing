@@ -144,7 +144,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   // ── Rilevamento canale/fonte ──────────────────
   // Priorità: parametri UTM espliciti → referrer HTTP → fallback diretto
-  const canaleFonte = resolveCanale(body.utm_source, body.utm_medium, body.referrer)
+  // first_referrer = SOLO il dominio della prima sorgente esterna della visita (catturata dal browser all'arrivo):
+  // serve a non perdere l'origine quando il visitatore naviga tra pagine interne prima di compilare il form.
+  const firstReferrer = domainOnly(body.first_referrer)
+  const canaleFonte = resolveCanale(body.utm_source, body.utm_medium, body.referrer, firstReferrer)
 
   // ── Timestamp italiano ────────────────────────
   const now = new Date()
@@ -196,6 +199,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     utm_term:     body.utm_term     || null,
     page_url:     body.page_url     || null,
     referrer:     body.referrer     || null,
+    first_referrer: firstReferrer,
     landing_variant: body.landing_variant || 'main',
 
     // Attribuzione Google Ads (null se assenti o senza consenso marketing)
@@ -403,23 +407,42 @@ export async function onRequestOptions({ env }) {
  * Logica (in ordine di priorità):
  *   1. utm_medium = 'cpc' / 'paid'  → Google Ads o Meta Ads
  *   2. utm_source esplicito          → mappa al canale corrispondente
- *   3. referrer da motore di ricerca → ORGANICO
- *   4. referrer da social            → SOCIAL
- *   5. nessun referrer               → DIRETTO
- *   6. altro referrer                → REFERRAL
+ *   3. referrer da assistente AI      → AI  (prima dei motori di ricerca: gemini.google.com contiene «google.»)
+ *   4. referrer da motore di ricerca → ORGANICO
+ *   5. referrer da social            → SOCIAL
+ *   6. nessun referrer               → DIRETTO
+ *   7. altro referrer                → REFERRAL
+ *
+ * Il referrer considerato è `firstReferrer || referrer`: la prima sorgente esterna della visita, non l'ultima pagina
+ * vista (che dopo una navigazione interna è una pagina di ecura.it). Se c'è un UTM, l'UTM vince sempre sul referrer.
  *
  * @param {string} utmSource
  * @param {string} utmMedium
  * @param {string} referrer
+ * @param {string} [firstReferrer]  dominio della prima sorgente esterna (opzionale)
  * @returns {{ canale: string, fonte: string }}
  */
-function resolveCanale(utmSource, utmMedium, referrer) {
+// Domini degli assistenti AI. Si confronta con l'HOSTNAME (non con l'intero URL): una query «?q=chatgpt.com» non conta.
+const AI_HOST_RE = /(^|\.)(chatgpt\.com|chat\.openai\.com|openai\.com|perplexity\.ai|gemini\.google\.com|bard\.google\.com|copilot\.microsoft\.com|claude\.ai)$/
+
+/** Solo il dominio (minuscolo, senza schema/percorso/query/«www.»/porta). Da un valore non valido → ''. Nessun dato personale. */
+function hostOf(v) {
+  let t = String(v || '').trim().toLowerCase()
+  if (!t) return ''
+  if (!/^[a-z][a-z0-9+.-]*:\/\//.test(t) && t.includes('@')) return ''
+  t = t.replace(/^[a-z][a-z0-9+.-]*:\/\//, '').split(/[\/?#]/)[0].replace(/^[^@]*@/, '').replace(/:\d+$/, '').replace(/^www\./, '')
+  return /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/.test(t) && t.length <= 100 ? t : ''
+}
+function domainOnly(v) { return hostOf(v) || null }
+
+function resolveCanale(utmSource, utmMedium, referrer, firstReferrer) {
   const src = (utmSource  || '').toLowerCase().trim()
   const med = (utmMedium  || '').toLowerCase().trim()
-  const ref = (referrer   || '').toLowerCase().trim()
+  const ref = (firstReferrer || referrer || '').toLowerCase().trim()
 
   // ── 1. UTM espliciti (campagne a pagamento) ──
   if (src || med) {
+    // L'UTM vince sempre sul referrer (anche se first_referrer è un assistente AI): i rami sotto non guardano `ref`.
     // Meta / Facebook / Instagram
     if (src.includes('meta') || src.includes('facebook') || src.includes('fb') || src.includes('instagram')) {
       const isPaid = med === 'cpc' || med === 'paid' || med === 'paidsocial' || med === 'social'
@@ -444,6 +467,9 @@ function resolveCanale(utmSource, utmMedium, referrer) {
 
   // ── 2. Inferenza da referrer (traffico non UTM-taggato) ──
   if (ref) {
+    // Assistenti AI → AI. DEVE stare prima dei motori di ricerca: gemini.google.com / bard.google.com contengono «google.».
+    const refHost = hostOf(ref)
+    if (AI_HOST_RE.test(refHost)) return { canale: 'AI', fonte: refHost }
     // Motori di ricerca → organico
     if (ref.includes('google.')   || ref.includes('bing.')  ||
         ref.includes('yahoo.')    || ref.includes('duckduckgo.') ||
