@@ -97,7 +97,7 @@
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
      NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
-<style id="critical-css">
+<style id="critical-css">.wa-fab{visibility:hidden}.wa-fab.on{visibility:visible}
 .cf-turnstile{min-height:65px}:root{--activeColor:#057A74;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
 
 
@@ -2922,7 +2922,7 @@ a.cta-standard{display:block;padding:7px 20px}
   <!-- ═══ WhatsApp CTA button fisso ════════════════════════════════════════ -->
   <a href="https://wa.me/393357301206?text=Salve%2C%20vorrei%20informazioni%20sul%20bracciale%20eCura%20per%20anziani"
      target="_blank" rel="noopener noreferrer"
-     aria-label="Scrivici su WhatsApp, apre una nuova scheda"
+     aria-label="Scrivici su WhatsApp, apre una nuova scheda" class="wa-fab" id="wa-fab"
      style="position:fixed;bottom:24px;right:24px;z-index:9999;
             background:#25D366;color:#0b1f1c;border-radius:50px;
             padding:12px 20px;font-size:.95rem;font-weight:700;
@@ -2935,6 +2935,10 @@ a.cta-standard{display:block;padding:7px 20px}
     </svg>
     Scrivici su WhatsApp
   </a>
+  <noscript><style>.wa-fab{visibility:visible}</style></noscript>
+  <script>(function(){var a=document.getElementById('wa-fab');if(!a)return;var d=0;function s(){if(d)return;d=1;a.classList.add('on')}
+  function w(){setTimeout(function(){requestAnimationFrame(function(){requestAnimationFrame(s)})},400)}
+  if(document.readyState==='complete')w();else addEventListener('load',w);setTimeout(s,6000)})();</script>
 
   </body>
 </html>
