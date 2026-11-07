@@ -63,6 +63,28 @@ function passThrough(request, env) {
 }
 
 /** Decodifica entità HTML come &#39; → ' per mostrare il testo correttamente */
+// a11y: colore del tag categoria. Il colore arriva dal DB (hex o nome CSS):
+// se il bianco non raggiunge 4.5:1 si usa testo scuro; colore non riconosciuto -> verde AA.
+const NAMED_TAG_COLORS = {
+  orange:'#ffa500', indigo:'#4b0082', teal:'#008080', green:'#008000', blue:'#0000ff', red:'#ff0000',
+  purple:'#800080', navy:'#000080', crimson:'#dc143c', gold:'#ffd700', coral:'#ff7f50', tomato:'#ff6347',
+  darkorange:'#ff8c00', orangered:'#ff4500', seagreen:'#2e8b57', slateblue:'#6a5acd', darkcyan:'#008b8b',
+  darkgreen:'#006400', darkblue:'#00008b', darkred:'#8b0000', brown:'#a52a2a', maroon:'#800000', black:'#000000'
+};
+function tagColors(input) {
+  let c = String(input || '').trim().toLowerCase();
+  if (NAMED_TAG_COLORS[c]) c = NAMED_TAG_COLORS[c];
+  const m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/.exec(c);
+  if (!m) return { bg: '#057A74', fg: '#fff' };
+  let h = m[1]; if (h.length === 3) h = h.split('').map(x => x + x).join('');
+  if (h === '068d86') return { bg: '#057A74', fg: '#fff' };
+  const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  const L = 0.2126 * lin(parseInt(h.slice(0, 2), 16)) + 0.7152 * lin(parseInt(h.slice(2, 4), 16)) + 0.0722 * lin(parseInt(h.slice(4, 6), 16));
+  const bg = '#' + h;
+  if (1.05 / (L + 0.05) >= 4.5) return { bg, fg: '#fff' };
+  return { bg, fg: '#0b1f1c' };
+}
+
 function decodeEntities(str) {
   if (!str) return '';
   return str
@@ -117,11 +139,14 @@ function renderArticle(a) {
   rawContent = rawContent.replace(/<figure[^>]*class="[^"]*article-hero[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, '');
   // Rimuove <img> con class article-hero-img (già mostrata nell'header)
   rawContent = rawContent.replace(/<img[^>]*class="[^"]*article-hero-img[^"]*"[^>]*>/gi, '');
+  // a11y: il verde brand storico #068D86 non raggiunge 4.5:1 come colore del testo
+  rawContent = rawContent.replace(/(color\s*:\s*)#068d86/gi, '$1#057A74');
   const content = rawContent;
   const hero    = a.hero_image || '/img/blog/default.jpg';
   const heroAlt = decodeEntities(a.hero_image_alt || title);
   const cat     = decodeEntities(a.category || '');
-  const color   = a.tag_color || '#068D86';
+  const color   = a.tag_color || '#057A74';
+  const tagStyle = tagColors(color);
   const author  = decodeEntities(a.author || 'Redazione eCura');
   const isEditorial = /^redazione/i.test(author) || /^team ecura/i.test(author);
   const date    = fmtDate(a.date_published);
@@ -278,7 +303,7 @@ function renderArticle(a) {
        style="display:inline-block;background:#057A74;color:#fff;text-decoration:none;
               border-radius:30px;padding:10px 22px;font-size:.9rem;font-weight:700;
               box-shadow:0 3px 10px rgba(6,141,134,.25);transition:background .2s"
-       onmouseover="this.style.background='#05B1A8'" onmouseout="this.style.background='#068D86'">
+       onmouseover="this.style.background='#05B1A8'" onmouseout="this.style.background='#057A74'">
       Richiedi informazioni gratuite &rarr;
     </a>
   </div>
@@ -289,7 +314,15 @@ function renderArticle(a) {
   try {
     const parts = content.split(/(?<=<\/(?:p|li|h[2-6]|blockquote|div)>)/i);
     if (parts.length >= 4) {
-      const midIdx = Math.max(2, Math.floor(parts.length * 0.40));
+      let midIdx = Math.max(2, Math.floor(parts.length * 0.40));
+      // a11y: la CTA non deve finire dentro <ul>/<ol> (figli diretti ammessi: solo <li>)
+      const listDepthAt = (n) => {
+        const before = parts.slice(0, n).join('');
+        const opens = (before.match(/<(?:ul|ol)[\s>]/gi) || []).length;
+        const closes = (before.match(/<\/(?:ul|ol)>/gi) || []).length;
+        return opens - closes;
+      };
+      while (midIdx < parts.length && listDepthAt(midIdx) > 0) midIdx++;
       parts.splice(midIdx, 0, MID_CTA_HTML);
       bodyWithCta = parts.join('');
     }
@@ -501,7 +534,7 @@ ${videoSchemaBlock ? `<script type="application/ld+json">${videoSchemaBlock}</sc
   <li>${esc(title)}</li>
 </ol></div></div>
 <article class="article-wrap">
-  <span class="tag" style="background:${esc(color)};color:#fff;padding:3px 12px;border-radius:20px;font-size:.8rem">${esc(cat)}</span>
+  <span class="tag" style="background:${esc(tagStyle.bg)};color:${tagStyle.fg};padding:3px 12px;border-radius:20px;font-size:.8rem">${esc(cat)}</span>
   <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin:16px 0 10px;color:#080E49">${esc(title)}</h1>
   <div class="article-meta">
     ${date ? `<span>&#128197; ${date}</span>` : ''}
