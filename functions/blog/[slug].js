@@ -440,7 +440,7 @@ ${JSON.stringify({
   ]
 }).replace(/</g,'\\u003c')}
 </script>
-<link rel="preload" href="/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/roboto-latin-v2.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/fonts.css?v=1">
 <link rel="stylesheet" href="/vendor/bootstrap-5.3.3/bootstrap.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/vendor/bootstrap-5.3.3/bootstrap.min.css"></noscript>

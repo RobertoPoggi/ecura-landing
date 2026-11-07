@@ -74,7 +74,7 @@
 <!-- ═══ FONT — preload latin + latin-ext subset per CLS ════════
      Preloading il subset latin (400 e 700) fa scaricare il font
      PRIMA del primo paint → niente layout shift (CLS 0)         ══ -->
-<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/roboto-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/roboto-latin-v2.woff2">
 <!-- Google Fonts CSS rimosso: usava font-display:swap internamente → FOUT → CLS.
      I @font-face con font-display:optional sono già nel critical-css (preload gstatic woff2). -->
 
@@ -88,9 +88,11 @@
 <meta name="theme-color" content="#068D86">
 
 <!-- ═══ PRELOAD LCP IMAGES ════════════════════════════════ -->
-<!-- hero-lg.webp è LCP desktop, SidLy.webp è LCP mobile → preload entrambi -->
-<link rel="preload" as="image" href="img/hero-lg.webp" fetchpriority="high" type="image/webp">
-<link rel="preload" as="image" href="img/SidLy.webp" fetchpriority="high" type="image/webp" media="(max-width: 767px)">
+<!-- LCP = immagine hero (img.hero-img-lcp). Preload AVIF responsive: stesso srcset/sizes dell'<img>, così il browser
+     scarica la variante giusta per il viewport. SidLy.webp è sotto il fold: nessun preload (toglieva banda alla hero). -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high"
+      imagesrcset="img/hero-lg-640.avif 640w, img/hero-lg-960.avif 960w, img/hero-lg-1200.avif 1200w"
+      imagesizes="(min-width: 992px) 67vw, 100vw">
 
 <!-- ═══ CRITICAL CSS — inline, zero render-blocking ════════
      Contiene: body, nav, hero, form, cookie banner, grid subset
@@ -232,8 +234,10 @@ a:hover{color:#05B1A8}
 
 picture{display:block}
 /* Override protezione-anziani.jpg nel critical CSS: il browser legge questo
-   PRIMA di css.css (async) → non inizia mai a scaricare il JPG da 1.3MB */
-.protectionBan .banner{background:url(img/protezione-anziani.webp) no-repeat center center!important;background-size:cover!important}
+   PRIMA di css.css (async) → non inizia mai a scaricare il JPG da 1.3MB.
+   PERF: il WebP (75 KB, sotto il fold) parte solo con .bg-on (aggiunta da ecura-main.js a ~900px dal viewport) */
+.protectionBan .banner{background:#000!important}
+.protectionBan .banner.bg-on{background:url(img/protezione-anziani.webp) no-repeat center center!important;background-size:cover!important}
 /* ═══ FIX ANIMAZIONI NON COMPOSITE ════════════════════════════════════════
    css.css usa transition:all su 28 selettori → PageSpeed "Evita animazioni
    non composite" (25 elementi). Override globale: solo proprietà GPU-only.
@@ -310,7 +314,7 @@ a.cta-standard{display:block;padding:7px 20px}
    Fix: dichiarare le altezze qui nel critical CSS (sync, inline) → zero shift.
    ════════════════════════════════════════════════════════════════════════ */
 .protectionBan{background:#000;color:#fff;border-radius:80px;overflow:hidden;contain:layout style}
-.protectionBan .banner{height:700px;border-radius:80px;background:url(img/protezione-anziani.webp) no-repeat center center;background-size:cover}
+.protectionBan .banner{height:700px;border-radius:80px;background:#000}
 .focusBan{background:#000;color:#fff;border-radius:80px;overflow:hidden;contain:layout style}
 .focusBan .banner{min-height:700px;border-radius:80px}
 @media(max-width:992px){.protectionBan .banner{height:500px}.focusBan .banner{min-height:500px}}
@@ -318,7 +322,7 @@ a.cta-standard{display:block;padding:7px 20px}
 @media(max-width:576px){.protectionBan .banner{height:280px}.focusBan .banner{min-height:280px}}
 
 /* CLS FIX FONT: font-display:optional → nessun layout shift dopo il primo paint. */
-@font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:optional;src:url(/fonts/roboto-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:300 800;font-display:optional;src:url(/fonts/roboto-latin-v2.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:optional;src:url(/fonts/roboto-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
 /* Fix accordion Bootstrap border-*-color → composite-only */
 .accordion-button{transition:background-color .3s,color .3s,box-shadow .3s!important}
@@ -339,15 +343,16 @@ a.cta-standard{display:block;padding:7px 20px}
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css?v=2" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2" media="print" onload="this.media='all'">
 <link href="css/css.css?v=20261107" rel="stylesheet" media="print" onload="this.media='all'">
-<link href="css/style.css?v=20261107" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/style.css?v=20261108" rel="stylesheet" media="print" onload="this.media='all'">
 <!-- AOS CSS rimosso: [data-aos] ora visibili via CSS diretto (no forced reflow) -->
 <!-- noscript fallback: carica tutto se JS disabilitato -->
 <noscript>
+<style>.protectionBan .banner{background:url(img/protezione-anziani.webp) no-repeat center center!important;background-size:cover!important}.focusBan-bg{background:url(img/perche-ci-scelgono.webp) no-repeat center center!important;background-size:cover!important}</style>
 <link rel="stylesheet" href="/vendor/bootstrap-5.3.1/bootstrap.min.css">
 <link rel="stylesheet" href="css/owl.carousel.min.css?v=2">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2">
 <link href="css/css.css?v=20261107" rel="stylesheet">
-<link href="css/style.css?v=20261107" rel="stylesheet">
+<link href="css/style.css?v=20261108" rel="stylesheet">
 </noscript>
 
 <!-- GSAP rimosso — 0 utilizzi rilevati, risparmio ~50KB render-blocking -->
@@ -1318,18 +1323,26 @@ a.cta-standard{display:block;padding:7px 20px}
                      immediatamente come risorsa prioritaria (vs CSS background-image ignorata
                      dal preloader). Posizionata absolute per coprire il container come cover.
                      decoding=async evita blocchi nel main thread dopo il download. -->
-                <img
-                  src="img/hero-lg.webp"
-                  alt=""
-                  fetchpriority="high"
-                  loading="eager"
-                  decoding="async"
-                  width="1200"
-                  height="776"
-                  class="hero-img-lcp"
-                  aria-hidden="true"
-                  role="presentation"
-                >
+                <picture>
+                  <source type="image/avif"
+                          srcset="img/hero-lg-640.avif 640w, img/hero-lg-960.avif 960w, img/hero-lg-1200.avif 1200w"
+                          sizes="(min-width: 992px) 67vw, 100vw">
+                  <source type="image/webp"
+                          srcset="img/hero-lg-640.webp 640w, img/hero-lg-960.webp 960w, img/hero-lg-1200.webp 1200w"
+                          sizes="(min-width: 992px) 67vw, 100vw">
+                  <img
+                    src="img/hero-lg-1200.webp"
+                    alt=""
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="async"
+                    width="1200"
+                    height="776"
+                    class="hero-img-lcp"
+                    aria-hidden="true"
+                    role="presentation"
+                  >
+                </picture>
                 <div class="heroContent">
                     <div class="textOverlay">
                         <div class="container">
@@ -1586,8 +1599,7 @@ a.cta-standard{display:block;padding:7px 20px}
                          alt="Bracciale eCura in azione — dispositivo medico teleassistenza anziani"
                          class="img-fluid"
                          width="400" height="400"
-                         loading="eager"
-                         fetchpriority="high"
+                         loading="lazy"
                          decoding="async">
                     <a href="#contattaci" class="cta-standard-black mt-3 mb-3" aria-label="Richiedi informazioni gratuite su eCura">Richiedi informazioni gratuite</a>
                   </div>
@@ -2784,12 +2796,30 @@ a.cta-standard{display:block;padding:7px 20px}
 </footer>
 
 <!-- ═══ SCRIPTS ════════════════════════════════════════════ -->
-<script src="/vendor/jquery/jquery-3.6.0.min.js" defer></script>
-<script src="/vendor/bootstrap-5.3.1/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+<!-- PERF: jQuery, Owl Carousel e Bootstrap JS servono solo ad accordion e caroselli (sotto il fold):
+     si caricano dopo il load, in idle, o al primo scroll/tocco/tasto. Fuori dal percorso critico dell'LCP. -->
+<script>
+(function () {
+  var started = false, missed = null;
+  function add(src, cb) { var s = document.createElement('script'); s.src = src; if (cb) s.onload = cb; document.head.appendChild(s); }
+  /* un tap su accordion prima che Bootstrap sia pronto non va perso: si ripete appena caricato */
+  document.addEventListener('click', function (e) {
+    if (window.bootstrap || !e.target.closest) return;
+    var t = e.target.closest('[data-bs-toggle]'); if (t) missed = t;
+  }, true);
+  function go() {
+    if (started) return; started = true;
+    add('/vendor/jquery/jquery-3.6.0.min.js', function () { add('/js/owl.carousel.min.js?v=2'); });
+    add('/vendor/bootstrap-5.3.1/bootstrap.bundle.min.js', function () { if (missed) { var m = missed; missed = null; m.click(); } });
+  }
+  function idle() { (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(go, { timeout: 1500 }); }
+  if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
+  ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (e) { window.addEventListener(e, go, { once: true, passive: true }); });
+})();
+</script>
 <!-- AOS JS rimosso: inizializzazione via CSS, nessun forced reflow -->
-<script type="text/javascript" src="js/owl.carousel.min.js?v=2" defer></script>
 <!-- GSAP rimosso (0 utilizzi, ~50KB risparmio) -->
-<script src="js/ecura-main.js?v=8" defer></script>
+<script src="js/ecura-main.js?v=9" defer></script>
 
 
 

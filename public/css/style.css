@@ -504,14 +504,16 @@ picture { display: block; }
 /* ── PERF: WebP overrides for CSS background images ──
    Usiamo background shorthand con !important per sovrascrivere
    css.css che usa background: url(...) shorthand (stessa specificità) */
-.protectionBan .banner {
+.protectionBan .banner.bg-on {
   background: url('../img/protezione-anziani.webp') no-repeat center center !important;
   background-size: cover !important;
 }
 
-.focusBan-bg {
+.focusBan-bg.bg-on {
   background: url('../img/perche-ci-scelgono.webp') no-repeat center center !important;
   background-size: cover !important;
+}
+.focusBan-bg {
   height: 700px;
   border-radius: 80px;
 }

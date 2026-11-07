@@ -221,11 +221,36 @@ function initHamburger() {
 }
 
 /* ──────────────────────────────────────────────────────────────
+   PERF: background sotto il fold (protezione-anziani, perche-ci-scelgono) scaricati solo quando
+   si è a ~900px dal viewport. Nessun CLS: i box hanno altezza fissa e sfondo nero.
+─────────────────────────────────────────────────────────────── */
+function initLazyBackgrounds() {
+  var els = document.querySelectorAll('.protectionBan .banner, .focusBan-bg');
+  if (!els.length) return;
+  function on(el) { el.classList.add('bg-on'); }
+  if (!('IntersectionObserver' in window)) { for (var i = 0; i < els.length; i++) on(els[i]); return; }
+  var io = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) {
+      if (entries[k].isIntersecting) { on(entries[k].target); io.unobserve(entries[k].target); }
+    }
+  }, { rootMargin: '900px 0px' });
+  for (var n = 0; n < els.length; n++) io.observe(els[n]);
+}
+/* si parte dopo il load: a CSS async attivi il layout è quello finale (prima le posizioni sono falsate) */
+if (document.readyState === 'complete') initLazyBackgrounds();
+else window.addEventListener('load', initLazyBackgrounds);
+
+/* ──────────────────────────────────────────────────────────────
    3. Owl Carousel init — ritardato con requestIdleCallback
       per evitare forced reflow durante LCP
 ─────────────────────────────────────────────────────────────── */
+var ecuraCarouselTries = 0;
 function initCarousels() {
-  if (typeof $ === 'undefined') return;
+  /* jQuery/Owl sono caricati dopo il load (vedi index.html): se non ci sono ancora, si riprova */
+  if (typeof $ === 'undefined' || !$.fn || !$.fn.owlCarousel) {
+    if (ecuraCarouselTries++ < 40) setTimeout(initCarousels, 300);
+    return;
+  }
 
   /* A11Y FIX: navElement di default usa role="presentation" su <button>
      (non appropriato per un elemento interattivo). Sovrascriviamo globalmente
