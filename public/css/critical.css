@@ -5,7 +5,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* CSS Variables */
-:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+:root{--activeColor:#057A74;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
 
 /* Box model */
 *{box-sizing:border-box}
@@ -17,11 +17,11 @@ body{background:#fff;font-family:"Roboto",sans-serif;font-weight:300;font-size:1
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-weight:600;color:#000}
 
 /* Links */
-a{color:#068D86;text-decoration:none;transition:color .3s}
+a{color:#057A74;text-decoration:none;transition:color .3s}
 a:hover{color:#05B1A8}
 
 /* Skip link */
-.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#068D86;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
+.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#057A74;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
 .skip-link:focus{top:0}
 
 /* Nav */
@@ -29,7 +29,7 @@ a:hover{color:#05B1A8}
 .full_top_nav_wrapper{padding:12px 20px}
 .top_Menu{margin:0;padding:0;list-style:none;display:flex;gap:24px}
 .top_Menu a{color:#000;font-weight:400;font-size:15px;transition:color .3s;text-decoration:none}
-.top_Menu a:hover,.top_Menu a.active{color:#068D86}
+.top_Menu a:hover,.top_Menu a.active{color:#057A74}
 #hamburgerWrap{cursor:pointer;padding:8px}
 #hamburger{display:flex;flex-direction:column;gap:5px}
 #hamburger .line{width:24px;height:2px;background:#000;border-radius:2px;transition:transform .3s,opacity .3s}
@@ -48,11 +48,11 @@ a:hover{color:#05B1A8}
 /* CTA Buttons */
 .cta-standard,.cta-standard-green,.cta-standard-white,.cta-standard-black{display:inline-block;font-weight:400;font-size:16px;padding:8px 22px;border:0;border-radius:30px;cursor:pointer;transition:background .3s ease,color .3s ease,box-shadow .3s ease;text-decoration:none;width:max-content}
 .cta-standard{background:#000;color:#fff}
-.cta-standard:hover{background:#068D86;color:#fff}
-.cta-standard-green{background:#068D86;color:#fff}
+.cta-standard:hover{background:#057A74;color:#fff}
+.cta-standard-green{background:#057A74;color:#fff}
 .cta-standard-green:hover{background:#05B1A8;color:#fff}
 .cta-standard-white{background:#fff;color:#000}
-.cta-standard-white:hover{background:#068D86;color:#fff}
+.cta-standard-white:hover{background:#057A74;color:#fff}
 .cta-standard.long,.cta-standard-green.long{width:100%;text-align:center}
 .cta-standard-green.big,.cta-standard.big{font-size:20px;padding:12px 28px}
 
@@ -64,12 +64,13 @@ a:hover{color:#05B1A8}
 .ecura-form .privacy-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
 .ecura-form .privacy-row input[type=checkbox]{width:auto;margin-top:3px;flex-shrink:0}
 .ecura-form .privacy-row label{font-size:13px;color:#555;margin:0}
+.ecura-form .privacy-row label a{text-decoration:underline;text-underline-offset:2px}
 .ecura-form .form-success{background:#e9f7d9;border:1px solid #39b43d;border-radius:10px;padding:16px;text-align:center;color:#1a6b1a;font-weight:500;display:none}
 .ecura-form .form-error{background:#ffeaea;border:1px solid #ff0033;border-radius:10px;padding:12px;text-align:center;color:#cc0000;font-size:14px;display:none;margin-bottom:10px}
-.ecura-form button[type=submit]{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
+.ecura-form button[type=submit]{width:100%;background:#057A74;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
 .ecura-form button[type=submit]:hover{background:#05B1A8}
 .ecura-form button[type=submit]:disabled{opacity:.6;cursor:not-allowed}
-.ecura-form .ecura-step-btn{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px}
+.ecura-form .ecura-step-btn{width:100%;background:#057A74;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s;margin-top:4px}
 .ecura-form .ecura-step-btn:hover{background:#05B1A8}
 
 /* Cookie banner (above fold fixed element) */

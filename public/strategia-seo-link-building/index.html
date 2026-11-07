@@ -15,7 +15,7 @@ body{font-family:'Roboto',sans-serif;background:#f8f9fa;color:#3D3C3B}
 .doc-header .badge{background:rgba(255,255,255,.15);padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:400}
 .section-card{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .section-card h2{font-size:1.2rem;color:#080E49;border-bottom:2px solid #068D86;padding-bottom:8px;margin-bottom:18px}
-.section-card h3{font-size:1rem;color:#068D86;margin:20px 0 8px}
+.section-card h3{font-size:1rem;color:#057A74;margin:20px 0 8px}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:16px 0}
 .kpi-box{background:#f7f4ef;border-radius:8px;padding:16px;text-align:center}
 .kpi-box .num{font-size:1.6rem;font-weight:700;color:#080E49}
@@ -27,8 +27,8 @@ table th{background:#080E49;color:#fff;font-size:.88rem;padding:10px 14px}
 table td{padding:9px 14px;font-size:.87rem;border-bottom:1px solid #f0ece8}
 table tr:nth-child(even) td{background:#fafaf8}
 .tag-pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
-.tag-free{background:#e6f9f7;color:#068D86;border:1px solid #c3ece9}
-.tag-effort{background:#fff8e6;color:#b36200;border:1px solid #f0d88a}
+.tag-free{background:#e6f9f7;color:#057A74;border:1px solid #c3ece9}
+.tag-effort{background:#fff8e6;color:#8a4b00;border:1px solid #f0d88a}
 .tag-paid{background:#fef0f0;color:#cc2200;border:1px solid #f5b8b8}
 </style>
 </head>
@@ -41,7 +41,7 @@ table tr:nth-child(even) td{background:#fafaf8}
     <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin:0">Aggiornato: Agosto 2026 · Versione 1.0</p>
   </div>
 </div>
-<div class="container" style="max-width:900px">
+<div class="container" role="main" style="max-width:900px">
 
   <!-- Executive Summary -->
   <div class="section-card">
@@ -61,7 +61,7 @@ table tr:nth-child(even) td{background:#fafaf8}
     <p>Il modello hub-and-spoke organizza i contenuti attorno a 3 pillar page che fungono da guide definitive. Ogni articolo del cluster linka alla pillar e viceversa con anchor text descrittivi.</p>
 
     <h3>Cluster 1 — Cadute anziani e prevenzione</h3>
-    <div class="priority-high"><strong>Pillar:</strong> <code>/guida-cadute-anziani/</code> — "Cadute Anziani: Guida Completa a Rischi, Prevenzione e Teleassistenza"</div>
+    <div class="priority-high"><strong>Pillar:</strong> <code style="color:#b02a6b">/guida-cadute-anziani/</code> — "Cadute Anziani: Guida Completa a Rischi, Prevenzione e Teleassistenza"</div>
     <ul style="margin-top:10px;font-size:.9rem">
       <li>↳ <a href="/blog/cadute-casa-anziani-statistiche-prevenzione/">/blog/cadute-casa-anziani-statistiche-prevenzione/</a></li>
       <li>↳ <a href="/blog/prevenzione-cadute-anziani-10-consigli/">/blog/prevenzione-cadute-anziani-10-consigli/</a></li>
@@ -73,7 +73,7 @@ table tr:nth-child(even) td{background:#fafaf8}
     </ul>
 
     <h3>Cluster 2 — Dispositivi medici, certificazioni e detrazioni</h3>
-    <div class="priority-high"><strong>Pillar:</strong> <code>/guida-dispositivi-medici-teleassistenza/</code> — "Dispositivi Medici per Teleassistenza: Certificazioni MDR, Detrazioni e Scelta"</div>
+    <div class="priority-high"><strong>Pillar:</strong> <code style="color:#b02a6b">/guida-dispositivi-medici-teleassistenza/</code> — "Dispositivi Medici per Teleassistenza: Certificazioni MDR, Detrazioni e Scelta"</div>
     <ul style="margin-top:10px;font-size:.9rem">
       <li>↳ <a href="/blog/dispositivo-medico-classe-iia-anziani/">/blog/dispositivo-medico-classe-iia-anziani/</a></li>
       <li>↳ <a href="/blog/bracciale-anziani-detraibile-19-percento/">/blog/bracciale-anziani-detraibile-19-percento/</a></li>
@@ -83,7 +83,7 @@ table tr:nth-child(even) td{background:#fafaf8}
     </ul>
 
     <h3>Cluster 3 — Tecnologia eCura: GPS, AI, parametri vitali</h3>
-    <div class="priority-high"><strong>Pillar:</strong> <code>/come-funziona-bracciale-ecura/</code> — "Come Funziona il Bracciale eCura: GPS, AI Cadute, Centrale H24"</div>
+    <div class="priority-high"><strong>Pillar:</strong> <code style="color:#b02a6b">/come-funziona-bracciale-ecura/</code> — "Come Funziona il Bracciale eCura: GPS, AI Cadute, Centrale H24"</div>
     <ul style="margin-top:10px;font-size:.9rem">
       <li>↳ <a href="/blog/gps-anziani-indoor-come-funziona/">/blog/gps-anziani-indoor-come-funziona/</a></li>
       <li>↳ <a href="/blog/centrale-operativa-h24-teleassistenza/">/blog/centrale-operativa-h24-teleassistenza/</a></li>
@@ -165,9 +165,9 @@ table tr:nth-child(even) td{background:#fafaf8}
     <h3>2.4 Recupero menzioni non linkate</h3>
     <p style="font-size:.9rem">Cerca su Google le query seguenti per trovare menzioni esistenti di eCura senza link:</p>
     <ul style="font-size:.87rem">
-      <li><code>"eCura" teleassistenza -site:ecura.it</code></li>
-      <li><code>"Medica GB" bracciale anziani</code></li>
-      <li><code>"ecura.it" -site:ecura.it</code></li>
+      <li><code style="color:#b02a6b">"eCura" teleassistenza -site:ecura.it</code></li>
+      <li><code style="color:#b02a6b">"Medica GB" bracciale anziani</code></li>
+      <li><code style="color:#b02a6b">"ecura.it" -site:ecura.it</code></li>
     </ul>
     <p style="font-size:.87rem">Per ogni menzione senza link: contatta gentilmente il webmaster chiedendo di aggiungere un link contestuale alla pagina più rilevante.</p>
   </div>
@@ -221,17 +221,17 @@ table tr:nth-child(even) td{background:#fafaf8}
         <tr>
           <td>Checklist PDF "Sicurezza domestica per anziani soli" — scaricabile gratis</td>
           <td>Lead magnet PDF</td>
-          <td><span class="tag-pill" style="background:#fff8e6;color:#b36200;border:1px solid">Media</span></td>
+          <td><span class="tag-pill" style="background:#fff8e6;color:#8a4b00;border:1px solid">Media</span></td>
         </tr>
         <tr>
           <td>Mappa interattiva "Dove acquistare assistenza domiciliare in Italia" o comparativa regionale</td>
           <td>Pagina dati</td>
-          <td><span class="tag-pill" style="background:#fff8e6;color:#b36200;border:1px solid">Media</span></td>
+          <td><span class="tag-pill" style="background:#fff8e6;color:#8a4b00;border:1px solid">Media</span></td>
         </tr>
         <tr>
           <td>Glossario "Teleassistenza: tutti i termini spiegati" (MDR, Classe IIA, beacon, fall detection, ecc.)</td>
           <td>Pagina glossario</td>
-          <td><span class="tag-pill" style="background:#e6f9f7;color:#068D86;border:1px solid">Bassa</span></td>
+          <td><span class="tag-pill" style="background:#e6f9f7;color:#057A74;border:1px solid">Bassa</span></td>
         </tr>
       </tbody>
     </table>
@@ -275,7 +275,7 @@ table tr:nth-child(even) td{background:#fafaf8}
     </p>
   </div>
 
-  <p style="text-align:center;color:#999;font-size:.8rem;margin:32px 0">Documento interno eCura · Medica GB Srl · info@ecura.it · Agosto 2026</p>
+  <p style="text-align:center;color:#6b6b6b;font-size:.8rem;margin:32px 0">Documento interno eCura · Medica GB Srl · info@ecura.it · Agosto 2026</p>
 </div>
 </body>
 </html>

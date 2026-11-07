@@ -3,7 +3,7 @@
 :root {
   --body-font-size:16px;
   --font1: "Roboto", sans-serif;
-  --activeColor:#068D86;
+  --activeColor:#057A74;
   --activeColorHover:#05B1A8;
   --white:#FFF;
   --white50:rgb(255 255 255 /50%);
@@ -1497,7 +1497,7 @@ ul.nobullets li{
   font-size: 12px;
   font-weight: 400;
   color: var(--white);
-  background: var(--activeColorHover);
+  background: var(--activeColor);
   border-radius: 20px;
   padding: 4px 10px;
   display: block;

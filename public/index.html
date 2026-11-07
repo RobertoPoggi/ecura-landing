@@ -96,7 +96,7 @@
      Contiene: body, nav, hero, form, cookie banner, grid subset
      NON-critical CSS caricato async dopo DOMContentLoaded    ══ -->
 <style id="critical-css">
-.cf-turnstile{min-height:65px}:root{--activeColor:#068D86;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
+.cf-turnstile{min-height:65px}:root{--activeColor:#057A74;--activeColorHover:#05B1A8;--white:#FFF;--beige:#f7f4ef;--black:#000;--darkblue:#080E49;--antracite:#3D3C3B;--brandgrey:#E3DFDD;--lightgrey:#F5F5F5;--linegrey:#f0f0f0;--grey:#666;--green:#068D86;--red:#ff0033;--blu:#0059c7;--font1:"Roboto",sans-serif}
 
 
 *{box-sizing:border-box}
@@ -108,11 +108,11 @@ body{background:#fff;font-family:"Roboto",sans-serif;font-weight:300;font-size:1
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-weight:600;color:#000}
 
 
-a{color:#068D86;text-decoration:none;transition:color .3s}
+a{color:#057A74;text-decoration:none;transition:color .3s}
 a:hover{color:#05B1A8}
 
 
-.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#068D86;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
+.skip-link{position:absolute;top:-40px;left:6px;z-index:9999;background:#057A74;color:#fff;padding:8px 12px;border-radius:0 0 4px 4px;font-size:14px;font-weight:600;transition:top .2s}
 .skip-link:focus{top:0}
 
 
@@ -135,7 +135,7 @@ a:hover{color:#05B1A8}
 .ctaWdgt a{display:inline-block;padding:7px 20px;background:#055F5A;color:#fff;border-radius:30px;font-size:16px;font-weight:400;text-decoration:none;white-space:nowrap}
 .top_Menu{margin:0;padding:0;list-style:none;display:flex;gap:24px}
 .top_Menu a{color:#000;font-weight:400;font-size:15px;transition:color .3s;text-decoration:none}
-.top_Menu a:hover,.top_Menu a.active{color:#068D86}
+.top_Menu a:hover,.top_Menu a.active{color:#057A74}
 /* CLS FIX hamburger: display:none base (css.css finale), display:block su mobile */
 #hamburgerWrap{display:none;cursor:pointer;padding:8px;margin-left:20px}
 #hamburger{display:flex;flex-direction:column;gap:5px;width:24px}
@@ -164,11 +164,11 @@ a:hover{color:#05B1A8}
 
 .cta-standard,.cta-standard-green,.cta-standard-white,.cta-standard-black{display:inline-block;font-weight:400;font-size:16px;padding:8px 22px;border:0;border-radius:30px;cursor:pointer;transition:background .3s ease,color .3s ease,box-shadow .3s ease;text-decoration:none;width:max-content}
 .cta-standard{background:#000;color:#fff}
-.cta-standard:hover{background:#068D86;color:#fff}
+.cta-standard:hover{background:#057A74;color:#fff}
 .cta-standard-green{background:#055F5A;color:#fff}
 .cta-standard-green:hover{background:#05B1A8;color:#fff}
 .cta-standard-white{background:#fff;color:#000}
-.cta-standard-white:hover{background:#068D86;color:#fff}
+.cta-standard-white:hover{background:#057A74;color:#fff}
 .cta-standard.long,.cta-standard-green.long{width:100%;text-align:center}
 .cta-standard-green.big,.cta-standard.big{font-size:20px;padding:12px 28px}
 
@@ -179,15 +179,15 @@ a:hover{color:#05B1A8}
 .ecura-form textarea{resize:vertical;min-height:80px}
 .ecura-form .privacy-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
 .ecura-form .privacy-row input[type=checkbox]{width:auto;margin-top:3px;flex-shrink:0}
-.ecura-form .privacy-row label{font-size:13px;color:#555;margin:0}
+.ecura-form .privacy-row label{font-size:13px;color:#555;margin:0}.ecura-form .privacy-row label a{text-decoration:underline;text-underline-offset:2px}
 .ecura-form .form-success{background:#e9f7d9;border:1px solid #39b43d;border-radius:10px;padding:16px;text-align:center;color:#1a6b1a;font-weight:500;display:none}
 .ecura-form .form-error{background:#ffeaea;border:1px solid #ff0033;border-radius:10px;padding:12px;text-align:center;color:#cc0000;font-size:14px;display:none;margin-bottom:10px}
-.ecura-form button[type=submit]{width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
+.ecura-form button[type=submit]{width:100%;background:#057A74;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;transition:background .3s}
 .ecura-form button[type=submit]:hover{background:#05B1A8}
 .ecura-form button[type=submit]:disabled{opacity:.6;cursor:not-allowed}
 /* A11Y: #055F5A su #fff = 5.1:1 ratio (AA pass), era #068D86 = 3.5:1 (fail) */
 .ecura-form .ecura-step-btn{width:100%;background:#055F5A;color:#fff;border:0;border-radius:30px;padding:12px 20px;font-size:16px;font-weight:600;cursor:pointer;transition:background .3s;margin-top:4px}
-.ecura-form .ecura-step-btn:hover{background:#068D86}
+.ecura-form .ecura-step-btn:hover{background:#057A74}
 
 
 #ecura-cookie-btn-accept{background:#22c55e;color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:700;cursor:pointer;white-space:nowrap}
@@ -338,16 +338,16 @@ a.cta-standard{display:block;padding:7px 20px}
 <link rel="stylesheet" href="/vendor/bootstrap-5.3.1/bootstrap.min.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css?v=2" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2" media="print" onload="this.media='all'">
-<link href="css/css.css?v=14" rel="stylesheet" media="print" onload="this.media='all'">
-<link href="css/style.css?v=14" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/css.css?v=20261107" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="css/style.css?v=20261107" rel="stylesheet" media="print" onload="this.media='all'">
 <!-- AOS CSS rimosso: [data-aos] ora visibili via CSS diretto (no forced reflow) -->
 <!-- noscript fallback: carica tutto se JS disabilitato -->
 <noscript>
 <link rel="stylesheet" href="/vendor/bootstrap-5.3.1/bootstrap.min.css">
 <link rel="stylesheet" href="css/owl.carousel.min.css?v=2">
 <link rel="stylesheet" href="css/owl.theme.default.min.css?v=2">
-<link href="css/css.css?v=10" rel="stylesheet">
-<link href="css/style.css?v=10" rel="stylesheet">
+<link href="css/css.css?v=20261107" rel="stylesheet">
+<link href="css/style.css?v=20261107" rel="stylesheet">
 </noscript>
 
 <!-- GSAP rimosso — 0 utilizzi rilevati, risparmio ~50KB render-blocking -->
@@ -1278,9 +1278,9 @@ a.cta-standard{display:block;padding:7px 20px}
 			</nav>
 				<div class="utility">
 				<!-- FIX 10 — Numero tel cliccabile (desktop) -->
-				<div class="d-none d-lg-flex align-items-center me-2" style="font-size:.85rem;font-weight:600;color:#068D86">
+				<div class="d-none d-lg-flex align-items-center me-2" style="font-size:.85rem;font-weight:600;color:#057A74">
 				  <a href="tel:+393357301206" id="nav-tel-link"
-				     style="color:#068D86;text-decoration:none;display:flex;align-items:center;gap:5px"
+				     style="color:#057A74;text-decoration:none;display:flex;align-items:center;gap:5px"
 				     aria-label="Chiamaci al 335 730 1206">
 				    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#068D86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.29 10.7 19.79 19.79 0 01.22 2.1 2 2 0 012.2 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
 				    335 730 1206
@@ -1365,7 +1365,7 @@ a.cta-standard{display:block;padding:7px 20px}
 
                 <!-- Barra di avanzamento step -->
                 <div style="display:flex;gap:6px;margin-bottom:18px" id="hero-step-bar" aria-hidden="true">
-                  <div class="ecura-step-dot active" id="hero-dot-1" style="flex:1;height:4px;border-radius:4px;background:#068D86;transition:background .3s"></div>
+                  <div class="ecura-step-dot active" id="hero-dot-1" style="flex:1;height:4px;border-radius:4px;background:#057A74;transition:background .3s"></div>
                   <div class="ecura-step-dot" id="hero-dot-2" style="flex:1;height:4px;border-radius:4px;background:#ddd;transition:background .3s"></div>
                   <div class="ecura-step-dot" id="hero-dot-3" style="flex:1;height:4px;border-radius:4px;background:#ddd;transition:background .3s"></div>
                 </div>
@@ -1422,7 +1422,7 @@ a.cta-standard{display:block;padding:7px 20px}
                     <label for="hero_email">✉️ Email *</label>
                     <input type="email" id="hero_email" name="email" placeholder="Es. mario@email.it" required autocomplete="email">
 
-                    <label for="hero_message" style="margin-top:4px">Note <span style="font-weight:400;color:#888">(opzionale)</span></label>
+                    <label for="hero_message" style="margin-top:4px">Note <span style="font-weight:400;color:#6b6b6b">(opzionale)</span></label>
                     <textarea id="hero_message" name="message" rows="2" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni..."></textarea>
 <small class="ecura-note-warn" style="display:block;font-size:12px;color:#666;margin:2px 0 8px">Non inserire dati sulla salute: servono solo i recapiti per ricontattarti.</small>
 
@@ -1445,7 +1445,7 @@ a.cta-standard{display:block;padding:7px 20px}
                       ✅ Richiesta inviata! Ti contatteremo entro 24 ore.
                     </div>
 
-                    <button type="submit" aria-label="Invia richiesta di informazioni gratuite">Ricevi informazioni gratuite →</button>
+                    <button type="submit">Ricevi informazioni gratuite →</button>
 
                     <!-- FIX 6 — Micro-copy urgency hero -->
                     <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
@@ -2461,7 +2461,7 @@ a.cta-standard{display:block;padding:7px 20px}
                                 subito i soccorsi. Senza eCura sarebbe rimasta a terra per ore."
                             </p>
                             <div class="testimonial-author">
-                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Maria G." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">MG</span>
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Maria G." style="display:inline-flex;align-items:center;justify-content:center;background:#057A74;color:#fff;font-weight:700;flex-shrink:0">MG</span>
                                 <div class="testimonial-info">
                                     <strong>Maria G., Bologna</strong>
                                     <span class="testimonial-plan">eCura PRO Avanzata</span>
@@ -2482,7 +2482,7 @@ a.cta-standard{display:block;padding:7px 20px}
                                 è semplicissimo: un bottone per l'SOS. Da quando mio padre lo usa si è già salvato una situazione critica grazie al GPS e alla centrale operativa."
                             </p>
                             <div class="testimonial-author">
-                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Roberto F." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">RF</span>
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Roberto F." style="display:inline-flex;align-items:center;justify-content:center;background:#057A74;color:#fff;font-weight:700;flex-shrink:0">RF</span>
                                 <div class="testimonial-info">
                                     <strong>Roberto F., Torino</strong>
                                     <span class="testimonial-plan">eCura Family Base</span>
@@ -2504,7 +2504,7 @@ a.cta-standard{display:block;padding:7px 20px}
                                 Mia nonna non si è nemmeno accorta che indossava un bracciale medico — lo trova comodissimo."
                             </p>
                             <div class="testimonial-author">
-                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Laura M." style="display:inline-flex;align-items:center;justify-content:center;background:#068d86;color:#fff;font-weight:700;flex-shrink:0">LM</span>
+                                <span class="testimonial-avatar" role="img" aria-label="Iniziali di Laura M." style="display:inline-flex;align-items:center;justify-content:center;background:#057A74;color:#fff;font-weight:700;flex-shrink:0">LM</span>
                                 <div class="testimonial-info">
                                     <strong>Laura M., Roma</strong>
                                     <span class="testimonial-plan">eCura PRO Base</span>
@@ -2562,7 +2562,7 @@ a.cta-standard{display:block;padding:7px 20px}
                     <option value="PREMIUM_AVANZATO">Premium Avanzato — €990/anno</option>
                   </select>
 
-                  <label for="main_message">Note / Messaggio <span style="font-weight:400;color:#888">(opzionale)</span></label>
+                  <label for="main_message">Note / Messaggio <span style="font-weight:400;color:#6b6b6b">(opzionale)</span></label>
                   <textarea id="main_message" name="message" rows="3" placeholder="Es. Cerco un dispositivo per mia madre di 82 anni che vive sola..."></textarea>
 <small class="ecura-note-warn" style="display:block;font-size:12px;color:#666;margin:2px 0 8px">Non inserire dati sulla salute: servono solo i recapiti per ricontattarti.</small>
 
@@ -2585,7 +2585,7 @@ a.cta-standard{display:block;padding:7px 20px}
                   <!-- Cloudflare Turnstile widget -->
                   <div class="cf-turnstile" data-sitekey="0x4AAAAAAD4s8GfJyHm0PUf1" data-theme="light" data-refresh-expired="auto" data-retry="auto" style="margin-bottom:12px;"></div>
 
-                  <button type="submit" aria-label="Invia richiesta di informazioni gratuite">Ricevi informazioni gratuite →</button>
+                  <button type="submit">Ricevi informazioni gratuite →</button>
 
                   <!-- FIX 6 — Micro-copy urgency main -->
                   <div style="text-align:center;margin-top:8px;font-size:.78rem;color:#666;">
@@ -2604,7 +2604,7 @@ a.cta-standard{display:block;padding:7px 20px}
   <div class="container">
     <div class="row mb-4">
       <div class="col-md-12 text-center">
-        <span style="background:#068D86;color:#fff;padding:4px 16px;border-radius:20px;font-size:.85rem;display:inline-block;margin-bottom:12px">Guide e Approfondimenti</span>
+        <span style="background:#057A74;color:#fff;padding:4px 16px;border-radius:20px;font-size:.85rem;display:inline-block;margin-bottom:12px">Guide e Approfondimenti</span>
         <h2 class="h2">Tutto quello che devi sapere sul bracciale anziani</h2>
         <p class="lead" style="color:#555">Articoli scritti dai nostri esperti per aiutarti a scegliere la soluzione giusta</p>
       </div>
@@ -2613,10 +2613,10 @@ a.cta-standard{display:block;padding:7px 20px}
     <div class="row g-3">
       <div class="col-md-4">
         <a href="/blog/guida-bracciale-cadute-anziani-2026/" style="display:block;background:#fff;border-radius:12px;padding:24px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .3s;height:100%" onmouseover="this.style.boxShadow='0 4px 18px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-          <span style="background:#068D86;color:#fff;padding:2px 10px;border-radius:20px;font-size:.75rem">Guida</span>
+          <span style="background:#057A74;color:#fff;padding:2px 10px;border-radius:20px;font-size:.75rem">Guida</span>
           <h3 style="font-size:1rem;color:#080E49;margin:10px 0 8px">Guida ai Bracciali Cadute Anziani 2026: come scegliere il migliore</h3>
           <p style="font-size:.85rem;color:#555;margin:0 0 12px">GPS, SOS automatico, Classe IIA, prezzi: tutto per scegliere il dispositivo giusto.</p>
-          <span style="font-size:.85rem;color:#068D86;font-weight:600">Leggi la guida &rarr;</span>
+          <span style="font-size:.85rem;color:#057A74;font-weight:600">Leggi la guida &rarr;</span>
         </a>
       </div>
       <div class="col-md-4">
@@ -2624,85 +2624,85 @@ a.cta-standard{display:block;padding:7px 20px}
           <span style="background:#080E49;color:#fff;padding:2px 10px;border-radius:20px;font-size:.75rem">Confronto</span>
           <h3 style="font-size:1rem;color:#080E49;margin:10px 0 8px">eCura vs Seremy vs Beghelli: confronto completo 2026</h3>
           <p style="font-size:.85rem;color:#555;margin:0 0 12px">Tabella completa con GPS, certificazioni, costi e detraibilità.</p>
-          <span style="font-size:.85rem;color:#068D86;font-weight:600">Vedi il confronto &rarr;</span>
+          <span style="font-size:.85rem;color:#057A74;font-weight:600">Vedi il confronto &rarr;</span>
         </a>
       </div>
       <div class="col-md-4">
         <a href="/bracciale-anziani-detraibile/" style="display:block;background:#fff;border-radius:12px;padding:24px;border:2px solid #068D86;text-decoration:none;transition:box-shadow .3s;height:100%" onmouseover="this.style.boxShadow='0 4px 18px rgba(6,141,134,0.2)'" onmouseout="this.style.boxShadow='none'">
-          <span style="background:#068D86;color:#fff;padding:2px 10px;border-radius:20px;font-size:.75rem">Fiscale</span>
+          <span style="background:#057A74;color:#fff;padding:2px 10px;border-radius:20px;font-size:.75rem">Fiscale</span>
           <h3 style="font-size:1rem;color:#080E49;margin:10px 0 8px">Bracciale Anziani Detraibile al 19%: guida fiscale completa</h3>
           <p style="font-size:.85rem;color:#555;margin:0 0 12px">Come detrarre il bracciale eCura nella dichiarazione dei redditi. Normativa, codici, istruzioni.</p>
-          <span style="font-size:.85rem;color:#068D86;font-weight:600">Scopri come risparmiare &rarr;</span>
+          <span style="font-size:.85rem;color:#057A74;font-weight:600">Scopri come risparmiare &rarr;</span>
         </a>
       </div>
     </div>
     <!-- Riga 2: tutti gli articoli del blog — link building interno completo -->
     <div class="row g-2 mt-3">
-      <div class="col-12"><p style="font-size:.8rem;color:#999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Tutti gli articoli</p></div>
+      <div class="col-12"><p style="font-size:.8rem;color:#6b6b6b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Tutti gli articoli</p></div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/cadute-casa-anziani-statistiche-prevenzione/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">🏠</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Cadute anziani in casa: statistiche e rischi</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Prevenzione</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Cadute anziani in casa: statistiche e rischi</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Prevenzione</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/prevenzione-cadute-anziani-10-consigli/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">✅</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">10 consigli pratici per prevenire le cadute</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Prevenzione</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">10 consigli pratici per prevenire le cadute</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Prevenzione</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/anziano-solo-casa-soluzioni-sicurezza/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">👴</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Anziano solo in casa: soluzioni di sicurezza</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Sicurezza</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Anziano solo in casa: soluzioni di sicurezza</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Sicurezza</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/badante-vs-teleassistenza-costi-2026/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">💶</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Badante vs teleassistenza: costi a confronto</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Costi</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Badante vs teleassistenza: costi a confronto</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Costi</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/bracciale-anziani-detraibile-19-percento/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">🧾</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Bracciale anziani detraibile al 19%: come fare</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Fiscale</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Bracciale anziani detraibile al 19%: come fare</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Fiscale</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/centrale-operativa-h24-teleassistenza/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">📞</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Centrale operativa H24: come funziona</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Servizio</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Centrale operativa H24: come funziona</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Servizio</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/dispositivo-medico-classe-iia-anziani/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">🏥</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Dispositivo medico Classe IIA: cosa significa</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Certificazione</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Dispositivo medico Classe IIA: cosa significa</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Certificazione</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/ecura-vs-seremy-confronto-2026/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">⚖️</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">eCura vs Seremy e Beghelli: confronto 2026</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Confronto</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">eCura vs Seremy e Beghelli: confronto 2026</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Confronto</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/gps-anziani-indoor-come-funziona/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">📍</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">GPS anziani indoor: come funziona la localizzazione</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Tecnologia</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">GPS anziani indoor: come funziona la localizzazione</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Tecnologia</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/blog/teleassistenza-anziani-come-funziona-costi/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e3dfdd;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">📡</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Teleassistenza anziani: come funziona e quanto costa</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Costi</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Teleassistenza anziani: come funziona e quanto costa</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Costi</div></div>
         </a>
       </div>
       <div class="col-md-4 col-sm-6">
         <a href="/come-funziona-bracciale-ecura/" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #068D86;text-decoration:none;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 3px 12px rgba(6,141,134,0.15)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.2rem;flex-shrink:0">⌚</span>
-          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Come funziona il bracciale eCura: guida completa</div><div style="font-size:.75rem;color:#068D86;margin-top:2px">Prodotto eCura</div></div>
+          <div><div style="font-size:.85rem;font-weight:600;color:#080E49;line-height:1.3">Come funziona il bracciale eCura: guida completa</div><div style="font-size:.75rem;color:#057A74;margin-top:2px">Prodotto eCura</div></div>
         </a>
       </div>
     </div>
@@ -2814,7 +2814,7 @@ a.cta-standard{display:block;padding:7px 20px}
     <!-- Close button -->
     <button id="ecura-exit-close" aria-label="Chiudi"
       style="position:absolute;top:12px;right:14px;background:none;border:none;
-             font-size:1.5rem;cursor:pointer;color:#888;line-height:1;z-index:1">×</button>
+             font-size:1.5rem;cursor:pointer;color:#6b6b6b;line-height:1;z-index:1">×</button>
 
     <!-- Header strip -->
     <div style="background:linear-gradient(135deg,#068D86 0%,#05B1A8 100%);padding:24px 28px 20px;text-align:center">
@@ -2847,7 +2847,7 @@ a.cta-standard{display:block;padding:7px 20px}
             style="width:auto;margin-top:3px;flex-shrink:0"
             onchange="document.getElementById('exit_privacy_hidden').value=this.checked?'true':''">
           <label for="exit_privacy" style="font-size:12px;color:#555;cursor:pointer">
-            Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#068D86">informativa privacy</a> e acconsento a essere richiamato *
+            Ho letto l'<a href="/privacy-policy/" target="_blank" rel="noopener noreferrer" style="color:#057A74">informativa privacy</a> e acconsento a essere richiamato *
           </label>
         </div>
 
@@ -2857,13 +2857,13 @@ a.cta-standard{display:block;padding:7px 20px}
         <div id="ecura-exit-error" style="color:#cc0000;font-size:13px;margin-bottom:8px;display:none"></div>
 
         <button type="submit" id="ecura-exit-btn" aria-label="Richiedi una chiamata gratuita da eCura"
-          style="width:100%;background:#068D86;color:#fff;border:0;border-radius:30px;
+          style="width:100%;background:#057A74;color:#fff;border:0;border-radius:30px;
                  padding:13px 20px;font-size:1rem;font-weight:700;cursor:pointer;
                  transition:background .3s">
           Richiedi una chiamata gratuita →
         </button>
 
-        <p style="text-align:center;font-size:.75rem;color:#999;margin-top:10px">
+        <p style="text-align:center;font-size:.75rem;color:#6b6b6b;margin-top:10px">
           Nessun impegno. Solo informazioni. Risposta entro 4 ore.
         </p>
       </form>
@@ -2881,7 +2881,7 @@ a.cta-standard{display:block;padding:7px 20px}
      JS la rende visibile solo dopo DOMContentLoaded + rAF. -->
 <div id="ecura-sticky-mobile" aria-label="CTA mobile fisso" style="
   visibility:hidden;position:fixed;bottom:0;left:0;right:0;z-index:9990;
-  background:#068D86;color:#fff;text-align:center;
+  background:#057A74;color:#fff;text-align:center;
   padding:14px 16px;box-shadow:0 -2px 16px rgba(0,0,0,.18)">
   <a href="#contattaci" aria-label="Proteggi i tuoi cari — richiedi informazioni gratuite su eCura" style="color:#fff;text-decoration:none;font-weight:700;font-size:1rem;display:block">
     🛡️ Proteggi i tuoi cari → Richiedi informazioni gratuite
@@ -2892,15 +2892,15 @@ a.cta-standard{display:block;padding:7px 20px}
   <!-- ═══ WhatsApp CTA button fisso ════════════════════════════════════════ -->
   <a href="https://wa.me/393357301206?text=Salve%2C%20vorrei%20informazioni%20sul%20bracciale%20eCura%20per%20anziani"
      target="_blank" rel="noopener noreferrer"
-     aria-label="Contattaci su WhatsApp"
+     aria-label="Scrivici su WhatsApp, apre una nuova scheda"
      style="position:fixed;bottom:24px;right:24px;z-index:9999;
-            background:#25D366;color:#fff;border-radius:50px;
+            background:#25D366;color:#0b1f1c;border-radius:50px;
             padding:12px 20px;font-size:.95rem;font-weight:700;
             box-shadow:0 4px 16px rgba(37,211,102,.45);
             display:flex;align-items:center;gap:8px;
             text-decoration:none;transition:transform .2s"
      onmouseover="this.style.transform='scale(1.07)'" onmouseout="this.style.transform='scale(1)'">
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#0b1f1c" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
     Scrivici su WhatsApp

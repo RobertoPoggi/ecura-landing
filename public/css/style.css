@@ -4,7 +4,7 @@
 ════════════════════════════════════════════════ */
 
 :root {
-  --activeColor: #068D86;
+  --activeColor: #057A74;
   --activeColorHover: #05B1A8;
   --white: #FFF;
   --beige: #f7f4ef;
@@ -560,13 +560,13 @@ a.cta-standard-green {
 input[type="submit"].cta-standard-green:hover,
 button.cta-standard-green:hover,
 a.cta-standard-green:hover {
-  background: #068D86 !important;
+  background: #057A74 !important;
 }
 /* Link distinguibili (contrasto colore per ipovedenti) */
 .ecura-email,
 a.text-decoration-none[href^="http"],
-a[style*="color:#068D86"],
-a[style*="color: #068D86"] {
+a[style*="color:#057A74"],
+a[style*="color: #057A74"] {
   text-decoration: underline !important;
   text-underline-offset: 2px;
 }

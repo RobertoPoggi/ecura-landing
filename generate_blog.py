@@ -59,8 +59,8 @@ def head_common(title, desc, canonical, jsonld=""):
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"></noscript>
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/blog.css">
+<link rel="stylesheet" href="/css/style.css?v=20261107">
+<link rel="stylesheet" href="/css/blog.css?v=20261107">
 <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
 <link rel="apple-touch-icon" href="/img/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/img/favicon/site.webmanifest">
@@ -77,18 +77,18 @@ def foot_html():
         <p style="font-size:.85rem;color:rgba(255,255,255,.7);margin-top:12px">Bracciale cadute anziani con GPS e teleassistenza H24.<br>Dispositivo medico certificato Classe IIA.</p>
       </div>
       <div class="col-md-4">
-        <h4 style="font-size:.95rem;color:#fff;margin-bottom:12px">Pagine utili</h4>
+        <h3 style="font-size:.95rem;color:#fff;margin-bottom:12px">Pagine utili</h3>
         <ul style="list-style:none;padding:0;font-size:.85rem;">
-          <li><a href="/" style="color:rgba(255,255,255,.7)">Home</a></li>
-          <li><a href="/blog/" style="color:rgba(255,255,255,.7)">Blog eCura</a></li>
-          <li><a href="/confronto-bracciali-anziani/" style="color:rgba(255,255,255,.7)">Confronto bracciali anziani</a></li>
-          <li><a href="/bracciale-anziani-detraibile/" style="color:rgba(255,255,255,.7)">Bracciale anziani detraibile</a></li>
-          <li><a href="/#faqAccordion" style="color:rgba(255,255,255,.7)">FAQ</a></li>
+          <li><a href="/" style="color:rgba(255,255,255,.7);display:inline-block;padding:4px 0">Home</a></li>
+          <li><a href="/blog/" style="color:rgba(255,255,255,.7);display:inline-block;padding:4px 0">Blog eCura</a></li>
+          <li><a href="/confronto-bracciali-anziani/" style="color:rgba(255,255,255,.7);display:inline-block;padding:4px 0">Confronto bracciali anziani</a></li>
+          <li><a href="/bracciale-anziani-detraibile/" style="color:rgba(255,255,255,.7);display:inline-block;padding:4px 0">Bracciale anziani detraibile</a></li>
+          <li><a href="/#faqAccordion" style="color:rgba(255,255,255,.7);display:inline-block;padding:4px 0">FAQ</a></li>
         </ul>
       </div>
       <div class="col-md-4">
-        <h4 style="font-size:.95rem;color:#fff;margin-bottom:12px">Contatti</h4>
-        <p style="font-size:.85rem;color:rgba(255,255,255,.7)">Medica GB Srl<br>Via Molino delle Armi 4/A, 20123 Milano<br><a href="tel:+390200658458" style="color:#068D86">02 0065 8458</a><br><a href="mailto:info@ecura.it" style="color:#068D86">info@ecura.it</a></p>
+        <h3 style="font-size:.95rem;color:#fff;margin-bottom:12px">Contatti</h3>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.7)">Medica GB Srl<br>Via Molino delle Armi 4/A, 20123 Milano<br><a href="tel:+390200658458" style="color:#057A74">02 0065 8458</a><br><a href="mailto:info@ecura.it" style="color:#057A74">info@ecura.it</a></p>
       </div>
     </div>
     <hr style="border-color:rgba(255,255,255,.15);margin:28px 0 16px">
@@ -189,7 +189,7 @@ cards_html = ""
 for a in blog_articles_meta:
     cards_html += (
         '<article class="blog-card">'
-        '<div class="blog-card-img" aria-label="Immagine articolo"></div>'
+        '<div class="blog-card-img" aria-hidden="true"></div>'
         '<div class="blog-card-body">'
         '<span class="tag">' + a['tag'] + '</span>'
         '<p class="blog-card-meta">&#128197; ' + a['date'] + ' &middot; 8 min lettura</p>'
@@ -277,7 +277,7 @@ art1 = (head_common(
 <div class="article-with-toc">
 <article class="article-wrap">
   <header>
-    <span class="tag" style="background:#068D86;color:#fff;padding:3px 12px;border-radius:20px;font-size:.8rem">Guida</span>
+    <span class="tag" style="background:#057A74;color:#fff;padding:3px 12px;border-radius:20px;font-size:.8rem">Guida</span>
     <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin:16px 0 10px;color:#080E49">Guida ai Bracciali Cadute Anziani 2026: come scegliere il migliore</h1>
     <div class="article-meta">
       <span>&#128197; 15 gennaio 2026</span>
@@ -325,7 +325,7 @@ art1 = (head_common(
       <tr><td>Costo annuale base</td><td class="best">EUR 390/anno</td><td>~EUR 420/anno</td><td>~EUR 180/anno*</td></tr>
     </tbody>
   </table>
-  <p style="font-size:.82rem;color:#888">*Beghelli: costo basso ma no GPS outdoor, no app familiare avanzata.</p>
+  <p style="font-size:.82rem;color:#6b6b6b">*Beghelli: costo basso ma no GPS outdoor, no app familiare avanzata.</p>
 
   <h2 id="come-scegliere">5 domande da farsi prima di scegliere</h2>
   <ol>
@@ -386,7 +386,7 @@ def build_article(slug, title, tag, date_str, desc, url, pub_date, tldr_html, se
         + '\n  <li>' + title + '</li>'
         + '\n</ol></div></div>'
         + '\n<article class="article-wrap">'
-        + '\n  <span class="tag" style="background:#068D86;color:#fff;padding:3px 12px;border-radius:20px;font-size:.8rem">' + tag + '</span>'
+        + '\n  <span class="tag" style="background:#057A74;color:#fff;padding:3px 12px;border-radius:20px;font-size:.8rem">' + tag + '</span>'
         + '\n  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin:16px 0 10px;color:#080E49">' + title + '</h1>'
         + '\n  <div class="article-meta">'
         + '\n    <span>&#128197; ' + date_str + '</span><span>&#9201; 8 min lettura</span><span>&#9999; Redazione eCura</span>'
