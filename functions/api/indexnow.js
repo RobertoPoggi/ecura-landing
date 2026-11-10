@@ -15,15 +15,16 @@
  *   - nessun path in /admin/, /api/, /strategia-seo-link-building/ (esclusi da robots.txt)
  *
  * AUTENTICAZIONE: 401 su ENTRAMBI i metodi se il secret manca o e' errato.
+ *   La chiave IndexNow e' PUBBLICA (servita in chiaro da /<chiave>.txt) e serve solo a IndexNow per verificare
+ *   il sito: NON e' la credenziale di questo endpoint. Qui vale solo INDEXNOW_SECRET.
+ *   Se INDEXNOW_SECRET non e' configurato l'endpoint e' DISABILITATO (503): nessun ripiego sulla chiave pubblica.
+ *   Il ping automatico alla pubblicazione degli articoli non passa da qui (chiama direttamente IndexNow).
  *
  * ENV (Cloudflare Pages → Settings → Variables and Secrets)
- *   INDEXNOW_SECRET — secret di accesso a questo endpoint. DA IMPOSTARE.
- *     Se non e' configurato si ricade sul default storico, che pero' coincide con la chiave IndexNow,
- *     la quale e' PUBBLICA (e' servita in chiaro da /<chiave>.txt): in quel caso l'endpoint
- *     NON e' realmente protetto.
+ *   INDEXNOW_SECRET — secret di accesso a questo endpoint (obbligatorio).
  */
 
-import { INDEXNOW_KEY, INDEXNOW_ENDPOINTS, validateUrls, sendIndexNow } from '../_lib/indexnow.js';
+import { INDEXNOW_ENDPOINTS, validateUrls, sendIndexNow } from '../_lib/indexnow.js';
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 const reply = (obj, status = 200) =>
@@ -34,7 +35,8 @@ export async function onRequest({ request, env }) {
     return reply({ error: 'Method not allowed' }, 405);
   }
 
-  const expected = env.INDEXNOW_SECRET || INDEXNOW_KEY;   // default solo se la variabile non e' configurata
+  const expected = env && env.INDEXNOW_SECRET;
+  if (!expected) return reply({ error: 'INDEXNOW_SECRET non configurato: endpoint disabilitato' }, 503);
   const reqUrl = new URL(request.url);
 
   let supplied = null;

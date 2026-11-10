@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # serve a calcolare le pagine modificate tra il commit precedente e questo (IndexNow)
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,3 +41,23 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler d1 migrations apply ecura-landing-db --remote
         continue-on-error: false
+
+      # IndexNow automatico: dopo il deploy notifica SOLO le pagine HTML indicizzabili (presenti in sitemap.xml)
+      # modificate dal push. Non e' mai una precondizione del deploy: se fallisce il deploy resta verde.
+      # Gli articoli del blog gestiti da D1 si notificano da soli alla pubblicazione (functions/api/admin/articles*).
+      - name: IndexNow - notifica le pagine HTML modificate
+        if: ${{ github.event_name == 'push' }}
+        continue-on-error: true
+        env:
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          URLS=$(node scripts/changed-urls.mjs "$BEFORE" "$SHA")
+          if [ -z "$URLS" ]; then echo "Nessuna pagina HTML indicizzabile modificata: nessun ping"; exit 0; fi
+          echo "Pagine da notificare:"; echo "$URLS"
+          for ATTEMPT in 1 2 3; do
+            sleep 25   # propagazione del deploy: ogni URL deve rispondere 200 prima del ping
+            if node ping-indexnow.js $URLS; then exit 0; fi
+            echo "Tentativo $ATTEMPT non riuscito"
+          done
+          echo "IndexNow non notificato (non blocca il deploy)"; exit 1
