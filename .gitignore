@@ -3,3 +3,7 @@ node_modules/
 .env.local
 .wrangler/
 dist/
+
+# Claim DM: sorgenti riservati (matrice regolatoria, seed) - il repo e pubblico
+docs/claim-dm/_private/
+*claim_matrix*
