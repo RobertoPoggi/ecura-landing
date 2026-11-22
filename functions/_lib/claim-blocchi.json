@@ -1,5 +1,5 @@
 {
-  "_nota": "PROPOSTA generata da scripts/claim-dm/genera-blocchi.mjs - da confermare",
+  "_nota": "Generato da scripts/claim-dm/genera-blocchi.mjs. Mappatura confermata dal committente il 22/11 (niente pagine /blog/*).",
   "blocchi": {
     "EC-01": {
       "titolo": "Homepage — hero / claim principale",
@@ -35,16 +35,7 @@
     "EC-04": {
       "titolo": "Confronti nominativi (Seremy, Beghelli)",
       "pagine": [
-        "/",
-        "/blog/",
-        "/blog/come-scegliere-servizio-teleassistenza/",
-        "/blog/convincere-genitore-anziano-bracciale/",
-        "/blog/ecura-vs-seremy-confronto-2026/",
-        "/bracciale-anziani-detraibile/",
-        "/confronto-bracciali-anziani/",
-        "/guida-cadute-anziani/",
-        "/guida-dispositivi-medici-teleassistenza/",
-        "/recensioni-ecura-seremy-beghelli/"
+        "/confronto-bracciali-anziani/"
       ]
     },
     "EC-05": {
@@ -58,9 +49,6 @@
       "titolo": "Meta, title, alt, OG",
       "pagine": [
         "/",
-        "/blog/bracciale-anziani-detraibile-19-percento/",
-        "/blog/dispositivo-medico-classe-iia-anziani/",
-        "/blog/ecura-vs-seremy-confronto-2026/",
         "/bracciale-anziani-detraibile/",
         "/come-funziona-bracciale-ecura/",
         "/confronto-bracciali-anziani/",
@@ -73,9 +61,8 @@
       ]
     },
     "EC-12": {
-      "titolo": "Pagine confronto e guida dispositivi (rilevate live 22/11)",
+      "titolo": "Guida dispositivi medici (rilevata live 22/11)",
       "pagine": [
-        "/confronto-bracciali-anziani/",
         "/guida-dispositivi-medici-teleassistenza/"
       ]
     }

@@ -68,7 +68,9 @@ export function riferimentoAutorizzazione(row, formato) {
   if (!nonVuoto(formato) || !nonVuoto(row.numero_provvedimento) || !nonVuoto(row.data_autorizzazione)) return '';
   const [y, m, d] = String(row.data_autorizzazione).trim().split('-');
   const dataIt = y && m && d ? `${d}/${m}/${y}` : String(row.data_autorizzazione).trim();
-  return formato.replaceAll('{numero}', row.numero_provvedimento.trim()).replaceAll('{data}', dataIt);
+  const numero = row.numero_provvedimento.trim();
+  return formato.replaceAll('{numero_provvedimento}', numero).replaceAll('{data_autorizzazione}', dataIt)
+    .replaceAll('{numero}', numero).replaceAll('{data}', dataIt);
 }
 
 /**
@@ -98,13 +100,16 @@ export function risolviBlocco(row, now = new Date(), cfg = {}) {
   }
   let testo = '';
   let riferimento = '';
-  if (effettivo === 'ORIGINALE') testo = row.versione_originale || '';
+  if (effettivo === 'ORIGINALE') testo = nonVuoto(row.versione_originale) ? row.versione_originale : '';
   else if (effettivo === 'TRANSITORIA') testo = nonVuoto(row.versione_transitoria) ? row.versione_transitoria : '';
   else if (effettivo === 'AUTORIZZATA') {
     testo = row.versione_autorizzata;
     riferimento = riferimentoAutorizzazione(row, cfg.formatoRiferimento);
   }
-  return { block_id: row.block_id, stato_dichiarato: dichiarato, stato_effettivo: effettivo, testo, riferimento, motivo_fallback: motivo };
+  // ORIGINALE senza testo in D1 (blocco non mappato, es. EC-02): il blocco NON sostituisce nulla, resta il contenuto statico del
+  // template. Una pagina non perde mai contenuto per un blocco non mappato. (Diverso da TRANSITORIA vuota: li' non si emette nulla.)
+  const statico = effettivo === 'ORIGINALE' && !nonVuoto(row.versione_originale);
+  return { block_id: row.block_id, stato_dichiarato: dichiarato, stato_effettivo: effettivo, testo, riferimento, motivo_fallback: motivo, statico };
 }
 
 /** Legge tutti i blocchi da D1 e li risolve. Se D1 non risponde LANCIA: il chiamante gestisce (stale-if-error o pagina di errore). */
