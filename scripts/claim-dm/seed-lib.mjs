@@ -22,25 +22,29 @@ function sezione(html, apertura) {
   while ((m = re.exec(html))) { depth += m[0] === '</section>' ? -1 : 1; if (depth === 0) return html.slice(i, m.index + m[0].length); }
   return null;
 }
-const jsonLdCon = (html, tipi) => [...html.matchAll(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g)].map(m => m[0]).filter(b => tipi.some(t => b.includes(`"${t}"`)));
 const righe = (html, re) => html.split('\n').filter(l => re.test(l));
 
-const mainDi = h => { const i = h.indexOf('<main id="main-content">'); const j = h.indexOf('</main>', i); return i >= 0 && j > i ? h.slice(i, j + 7) : null; };
 
 /**
- * Regioni estratte automaticamente dallo snapshot (leggi(file) -> html). Blocchi non elencati => ORIGINALE vuota e SEGNALATA:
- * non si inventa nulla. EC-02 (richiami al dispositivo sparsi su 8 pagine, senza una regione unica) resta da mappare a mano.
+ * Regioni dei blocchi nei template: per ogni blocco, il file (nome dello snapshot) e come trovare [inizio, fine) nell'HTML.
+ * Le STESSE regioni servono a (1) estrarre la versione ORIGINALE dallo snapshot, (2) inserire i marker nei template
+ * (scripts/claim-dm/inserisci-marker.mjs). Mappatura del 22/11: EC-04 = solo pagina confronto, EC-12 = solo guida dispositivi.
+ * Blocchi non elencati (EC-02: richiami sparsi, EC-06: meta/title multi-riga) => nessuna regione: ORIGINALE vuota e SEGNALATA,
+ * il blocco resta inerte (contenuto statico del template). Non si inventa nulla.
  */
+// Le regioni sono SOLO il contenuto interno: il wrapper (tag <main>/<section>, classi, aria, H1 dove previsto) resta nel template.
+const trovaMain = h => { const a = '<main id="main-content">'; const i = h.indexOf(a); const j = h.indexOf('</main>', i); return i >= 0 && j > i ? [i + a.length, j] : null; };
+const trovaSezione = (h, apertura) => { const s = sezione(h, apertura); if (!s) return null; const i = h.indexOf(s); return [h.indexOf('>', i) + 1, i + s.length - '</section>'.length]; };
+export const REGIONI = {
+  'EC-01': { file: 'home.html', trova: h => { const i = h.indexOf('<h1>Bracciale Cadute Anziani'); const j = h.indexOf('</p>', h.indexOf('class="lead"', i)); return i >= 0 && j > i ? [i, j + 4] : null; } },
+  'EC-03': { file: 'home.html', trova: h => trovaSezione(h, '<section class="mb-5" id="pricingPlan"') },
+  'EC-04': { file: 'confronto-bracciali-anziani.html', trova: trovaMain },
+  'EC-05': { file: 'home.html', trova: h => trovaSezione(h, '<section id="recensioni"') },
+  'EC-12': { file: 'guida-dispositivi-medici-teleassistenza.html', trova: trovaMain },
+};
 export const ESTRATTORI = {
-  'EC-01': l => { const h = l('home.html'); if (!h) return null; const i = h.indexOf('<h1>Bracciale Cadute Anziani'); const j = h.indexOf('</p>', h.indexOf('class="lead"', i)); return i >= 0 && j > i ? h.slice(i, j + 4) : null; },
-  'EC-03': l => { const h = l('home.html'); if (!h) return null; const s = sezione(h, '<section class="mb-5" id="pricingPlan"'); return s ? [s, ...jsonLdCon(h, ['MedicalDevice', 'Product'])].join('\n') : null; },
-  'EC-04': l => { const h = l('home.html'); return h ? sezione(h, '<section class="mt-5 py-5" id="confronto-bracciali"') : null; },
-  'EC-05': l => { const h = l('home.html'); return h ? sezione(h, '<section id="recensioni"') : null; },
+  ...Object.fromEntries(Object.entries(REGIONI).map(([id, r]) => [id, l => { const h = l(r.file); if (!h) return null; const reg = r.trova(h); return reg ? h.slice(reg[0], reg[1]) : null; }])),
   'EC-06': l => { const h = l('home.html'); if (!h) return null; const r = righe(h, /<title>|<meta (?:name="description"|property="og:(?:title|description)"|name="twitter:(?:title|description)")/); return r.length ? r.join('\n') : null; },
-  'EC-12': l => {
-    const parti = ['confronto-bracciali-anziani.html', 'guida-dispositivi-medici-teleassistenza.html'].map(f => { const h = l(f); return h ? `<!-- ${f} -->\n${mainDi(h)}` : null; });
-    return parti.every(p => p && !p.endsWith('null')) ? parti.join('\n') : null;
-  },
 };
 
 export function estraiOriginali(snapshotDir) {
