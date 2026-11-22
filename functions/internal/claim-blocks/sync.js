@@ -4,7 +4,7 @@
  * Replica lo stato su D1 (stato_replicato / stato_replicato_at) e invalida la cache delle pagine che renderizzano il blocco.
  * Autenticazione: Authorization: Bearer <CLAIM_SYNC_TOKEN>. Mai esposto al browser.
  */
-import { checkServerToken, applicaStato, purgeUrls } from '../../_lib/claim-blocks.js';
+import { checkServerToken, applicaStato, purgeGestito, purgePending } from '../../_lib/claim-blocks.js';
 import { internalJson } from '../../_lib/claim-http.js';
 
 export async function onRequest({ request, env, waitUntil }) {
@@ -19,8 +19,10 @@ export async function onRequest({ request, env, waitUntil }) {
     const r = await applicaStato(env.DB, body, 'webhook');
     if (!r.ok) return internalJson({ error: r.error }, r.status);
     // il purge e' best effort e non cambia l'esito della replica; si fa solo se lo stato e' cambiato
-    const purge = r.cambiato ? await purgeUrls(env, r.pagine) : { purged: false, motivo: 'stato_invariato' };
-    return internalJson({ ok: true, esito: r.esito, purge });
+    // purge se lo stato e' cambiato O se un purge precedente e' rimasto in sospeso (il CRM puo' ritentare con lo stesso evento)
+    const pendente = await purgePending(env.DB);
+    const purge = (r.cambiato || pendente) ? await purgeGestito(env.DB, env, r.pagine) : { purged: false, motivo: 'stato_invariato', pending: false };
+    return internalJson({ ok: true, esito: r.esito, purge, purge_ok: !purge.pending });
   } catch (e) {
     console.error('[claim-dm] sync fallito', e && e.message);
     return internalJson({ error: 'Errore interno' }, 500);

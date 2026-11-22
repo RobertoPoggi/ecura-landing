@@ -3,7 +3,7 @@
  * Body: { block_ids?: ["EC-01"], paths?: ["/"] }  - senza argomenti invalida le pagine di TUTTI i blocchi.
  * Pulsante "Invalida cache landing" del CRM. Autenticazione: Bearer CLAIM_SYNC_TOKEN.
  */
-import { checkServerToken, purgeUrls } from '../../_lib/claim-blocks.js';
+import { checkServerToken, purgeGestito } from '../../_lib/claim-blocks.js';
 import { internalJson } from '../../_lib/claim-http.js';
 
 export async function onRequest({ request, env }) {
@@ -19,7 +19,7 @@ export async function onRequest({ request, env }) {
     // solo i path censiti nei blocchi: l'endpoint non puo' invalidare URL arbitrari
     const censiti = (results || []).filter(r => !ids || ids.includes(r.block_id)).flatMap(r => JSON.parse(r.pagine || '[]'));
     const richiesti = Array.isArray(body.paths) ? body.paths.filter(p => censiti.includes(p)) : censiti;
-    return internalJson({ ok: true, purge: await purgeUrls(env, richiesti) });
+    return internalJson({ ok: true, purge: await purgeGestito(env.DB, env, richiesti) });
   } catch (e) {
     console.error('[claim-dm] purge fallito', e && e.message);
     return internalJson({ error: 'Errore interno' }, 500);

@@ -44,6 +44,9 @@ CREATE TABLE IF NOT EXISTS claim_config (
 );
 INSERT OR IGNORE INTO claim_config (chiave, valore) VALUES
   ('require_provvedimento_for_autorizzata', 'false'),
+  ('stale_max_ore', '24'),               -- oltre questa eta' la pagina in cache NON si serve piu' in stale-if-error
+  ('purge_pending', '0'),                -- 1 = un purge e' fallito/non configurato: il prossimo invalida tutto; health in allarme
+  ('formato_riferimento_autorizzazione', ''),  -- vuoto = nessun riferimento mai emesso; segnaposti {numero} e {data}
   ('freschezza_ore', '24'),
   ('riconciliazione_minuti', '15');
 

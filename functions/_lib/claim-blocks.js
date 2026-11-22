@@ -48,6 +48,7 @@ export async function leggiConfig(db) {
   return {
     requireProvvedimento: String(cfg.require_provvedimento_for_autorizzata || 'false').toLowerCase() === 'true',
     freschezzaOre: Number(cfg.freschezza_ore) > 0 ? Number(cfg.freschezza_ore) : FRESCHEZZA_ORE_DEFAULT,
+    staleMaxOre: Number(cfg.stale_max_ore) > 0 ? Number(cfg.stale_max_ore) : 24,
     formatoRiferimento: cfg.formato_riferimento_autorizzazione || '',
     raw: cfg,
   };
@@ -89,6 +90,11 @@ export function risolviBlocco(row, now = new Date(), cfg = {}) {
   if (effettivo === 'AUTORIZZATA' && !nonVuoto(row.versione_autorizzata)) {
     effettivo = 'TRANSITORIA';
     motivo = 'autorizzata_non_disponibile';
+  } else if (effettivo === 'AUTORIZZATA' && controllaPubblicabilita(row.versione_autorizzata, 'versione_autorizzata').some(a => a === 'segnaposto' || a === 'istruzione_non_testo')) {
+    // la matrice contiene, per AUTORIZZATA, anche istruzioni ("Versione statica autorizzata con...") e segnaposti ("provv. n. ___"):
+    // non sono testo pubblicabile. Si ricade sulla TRANSITORIA, come se l'autorizzata non fosse ancora disponibile.
+    effettivo = 'TRANSITORIA';
+    motivo = 'autorizzata_non_pubblicabile';
   }
   let testo = '';
   let riferimento = '';
@@ -206,7 +212,7 @@ export async function applicaStato(db, evento, origine, now = new Date()) {
 // ---------------------------------------------------------------------------
 export async function calcolaHealth(db, now = new Date()) {
   const cfg = await leggiConfig(db);
-  const { results } = await db.prepare('SELECT block_id, stato_replicato, stato_replicato_at FROM claim_blocks ORDER BY block_id').all();
+  const { results } = await db.prepare('SELECT block_id, stato_replicato, stato_replicato_at, versione_transitoria, versione_autorizzata, length(versione_originale) > 0 AS ha_originale FROM claim_blocks ORDER BY block_id').all();
   const blocchi = results || [];
   const mai = blocchi.filter(b => !b.stato_replicato).map(b => b.block_id);
   const ultimi = blocchi.map(b => b.stato_replicato_at).filter(isIso).sort();
@@ -214,8 +220,14 @@ export async function calcolaHealth(db, now = new Date()) {
   const minuti = ultimo ? Math.floor((now.getTime() - Date.parse(ultimo)) / 60000) : null;
   const staleOltreAlert = ultimo === null || minuti > SOGLIA_ALERT_MINUTI;
   const staleFreschezza = blocchi.filter(b => replicaStale(b, now, cfg.freschezzaOre)).map(b => b.block_id);
+  const pending = await purgePending(db);
+  const conAvvisi = blocchi.filter(b => Object.keys(avvisiBlocco(b)).length).map(b => b.block_id);
   return {
     stato: blocchi.length === 0 ? 'nessun_blocco' : staleOltreAlert ? 'stale' : 'fresh',
+    purge_pending: pending,
+    allarme: blocchi.length > 0 && (staleOltreAlert || pending),
+    blocchi_con_testi_non_pubblicabili: conAvvisi,
+    blocchi_senza_originale: blocchi.filter(b => !b.ha_originale).map(b => b.block_id),
     ultimo_webhook_at: ultimo,
     minuti_dall_ultimo: minuti,
     soglia_alert_minuti: SOGLIA_ALERT_MINUTI,
@@ -250,4 +262,104 @@ export async function purgeUrls(env, paths, fetchImpl = fetch) {
     console.error('[claim-dm] purge fallito', e && e.message);
     return { purged: false, motivo: 'errore_rete', pagine: uniche };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Purge "a prova di errore": un purge fallito o non configurato NON deve passare inosservato.
+// Lo stale-if-error e' sicuro per compliance SOLO se la cache e' sempre stata invalidata a ogni cambio:
+// se un purge fallisce si accende purge_pending (visibile in health) e il prossimo purge invalida TUTTE le pagine.
+// ---------------------------------------------------------------------------
+export async function tuttePagine(db) {
+  const { results } = await db.prepare('SELECT pagine FROM claim_blocks').all();
+  return [...new Set((results || []).flatMap(r => JSON.parse(r.pagine || '[]')))];
+}
+
+export async function purgePending(db) {
+  try { const r = await db.prepare("SELECT valore FROM claim_config WHERE chiave = 'purge_pending'").first(); return !!r && r.valore === '1'; }
+  catch { return false; }
+}
+
+export async function purgeGestito(db, env, paths, fetchImpl = fetch, now = new Date()) {
+  const pendente = await purgePending(db);
+  // con un purge in sospeso il prossimo tentativo invalida TUTTE le pagine censite
+  const daPurgare = pendente ? await tuttePagine(db) : paths;
+  const r = await purgeUrls(env, daPurgare, fetchImpl);
+  if (r.motivo === 'nessuna_pagina') return { ...r, pending: pendente };
+  const nuovo = r.purged === true ? false : true;   // riuscito: azzera (era totale se in sospeso); fallito: resta/diventa in sospeso
+  if (nuovo !== pendente) {
+    await db.prepare("INSERT INTO claim_config (chiave, valore, updated_at) VALUES ('purge_pending', ?, ?) ON CONFLICT(chiave) DO UPDATE SET valore = excluded.valore, updated_at = excluded.updated_at")
+      .bind(nuovo ? '1' : '0', now.toISOString()).run().catch(() => {});
+  }
+  return { ...r, pending: nuovo };
+}
+
+// ---------------------------------------------------------------------------
+// stale-if-error (render): D1 giu' -> ultima pagina buona in cache; nessuna cache -> pagina di errore neutra.
+// MAI un ripiego su contenuti ORIGINALE: in nessun ramo si legge versione_originale fuori dalla catena di render.
+// ---------------------------------------------------------------------------
+export const STALE_MAX_ORE_DEFAULT = 24;
+const HDR_CACHED_AT = 'x-claim-cached-at';
+
+export function paginaErrore() {
+  // Pagina volutamente generica: nessun riferimento a claim, sincronizzazione o stati.
+  return new Response(
+    '<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Servizio momentaneamente non disponibile</title></head>' +
+    '<body><h1>Servizio momentaneamente non disponibile</h1><p>Riprova tra qualche minuto.</p></body></html>',
+    { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Retry-After': '120', 'X-Robots-Tag': 'noindex' } }
+  );
+}
+
+/**
+ * render(): deve leggere D1 e restituire una Response; se D1 non risponde LANCIA.
+ * cache: interfaccia Cache API (match/put) con chiave = request.
+ * Ritorna { response, origine: 'fresh' | 'stale' | 'errore' } (origine serve ai test e ai log, non al pubblico).
+ */
+export async function renderConStale(request, { render, cache, now = new Date(), staleMaxOre = STALE_MAX_ORE_DEFAULT, waitUntil = () => {} }) {
+  try {
+    const res = await render();
+    if (res && res.status === 200 && cache) {
+      const copia = new Response(res.clone().body, res);
+      copia.headers.set(HDR_CACHED_AT, now.toISOString());
+      waitUntil(Promise.resolve(cache.put(request, copia)).catch(() => {}));
+    }
+    return { response: res, origine: 'fresh' };
+  } catch (e) {
+    console.error('[claim-dm] render fallito (D1?)', e && e.message);
+  }
+  try {
+    const hit = cache ? await cache.match(request) : null;
+    const quando = hit && hit.headers.get(HDR_CACHED_AT);
+    if (hit && isIso(quando) && now.getTime() - Date.parse(quando) <= staleMaxOre * 3600 * 1000) {
+      const out = new Response(hit.body, hit);
+      out.headers.delete(HDR_CACHED_AT);
+      return { response: out, origine: 'stale' };
+    }
+  } catch (e) { console.error('[claim-dm] lettura cache fallita', e && e.message); }
+  return { response: paginaErrore(), origine: 'errore' };
+}
+
+// ---------------------------------------------------------------------------
+// Controllo di pubblicabilita' dei testi (avvisi, non blocca il salvataggio ne' il render):
+// il seeding carica i testi della matrice cosi' come sono, ma alcuni sono istruzioni o note interne.
+// ---------------------------------------------------------------------------
+export function controllaPubblicabilita(testo, campo = 'versione_transitoria') {
+  const v = typeof testo === 'string' ? testo : '';
+  if (v.trim() === '') return [];
+  const avvisi = [];
+  if (/_{3,}/.test(v)) avvisi.push('segnaposto');
+  if (/\(SEO\s*:/i.test(v)) avvisi.push('nota_interna_seo');
+  if (/^[A-ZÀ-Ü0-9][A-ZÀ-Ü0-9 “”"'«»()\/\-]{3,}\s—\s/m.test(v)) avvisi.push('etichetta_di_struttura');
+  if (/JSON-LD|RIMOSSO a monte/i.test(v)) avvisi.push('nota_implementazione');
+  if (campo === 'versione_autorizzata' && /^(Versione|Markup|Confronto|Testimonial|Meta\/title|Solo versione|Purge|n\/a)\b/i.test(v.trim())) avvisi.push('istruzione_non_testo');
+  if (campo === 'versione_transitoria' && /^Riscrittura\b/i.test(v.trim())) avvisi.push('istruzione_non_testo');
+  return avvisi;
+}
+
+export function avvisiBlocco(row) {
+  const out = {};
+  for (const c of ['versione_transitoria', 'versione_autorizzata']) {
+    const a = controllaPubblicabilita(row[c], c);
+    if (a.length) out[c] = a;
+  }
+  return out;
 }
