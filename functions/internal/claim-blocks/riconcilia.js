@@ -4,7 +4,7 @@
  * recupera i webhook persi e rinfresca stato_replicato_at (alimenta l'health check).
  * Se il CRM non risponde NON modifica nulla: la replica invecchia e, oltre la freschezza, scatta il fail-closed.
  */
-import { checkServerToken, applicaStato, purgeUrls } from '../../_lib/claim-blocks.js';
+import { checkServerToken, applicaStato, purgeGestito, purgePending } from '../../_lib/claim-blocks.js';
 import { internalJson } from '../../_lib/claim-http.js';
 
 export async function onRequest({ request, env }) {
@@ -38,7 +38,7 @@ export async function onRequest({ request, env }) {
       esiti[r.ok ? r.esito : 'rifiutato']++;
       if (r.ok && r.cambiato) daPurgare.push(...r.pagine);
     }
-    const purge = daPurgare.length ? await purgeUrls(env, daPurgare) : null;
+    const purge = (daPurgare.length || await purgePending(env.DB)) ? await purgeGestito(env.DB, env, daPurgare) : null;
     return internalJson({ ok: true, crm_raggiungibile: true, esiti, purge });
   } catch (e) {
     console.error('[claim-dm] riconciliazione fallita', e && e.message);

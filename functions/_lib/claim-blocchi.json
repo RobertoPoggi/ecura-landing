@@ -1,0 +1,83 @@
+{
+  "_nota": "PROPOSTA generata da scripts/claim-dm/genera-blocchi.mjs - da confermare",
+  "blocchi": {
+    "EC-01": {
+      "titolo": "Homepage — hero / claim principale",
+      "pagine": [
+        "/"
+      ]
+    },
+    "EC-02": {
+      "titolo": "Schede dispositivo (classe, BD/RDM, CND)",
+      "pagine": [
+        "/",
+        "/bracciale-anziani-detraibile/",
+        "/come-funziona-bracciale-ecura/",
+        "/confronto-bracciali-anziani/",
+        "/guida-cadute-anziani/",
+        "/guida-dispositivi-medici-teleassistenza/",
+        "/recensioni-ecura-seremy-beghelli/",
+        "/statistiche-cadute-anziani-italia/"
+      ]
+    },
+    "EC-03": {
+      "titolo": "Prezzi + markup strutturale Product/MedicalDevice",
+      "pagine": [
+        "/",
+        "/bracciale-anziani-detraibile/",
+        "/come-funziona-bracciale-ecura/",
+        "/confronto-bracciali-anziani/",
+        "/guida-cadute-anziani/",
+        "/guida-dispositivi-medici-teleassistenza/",
+        "/partner/"
+      ]
+    },
+    "EC-04": {
+      "titolo": "Confronti nominativi (Seremy, Beghelli)",
+      "pagine": [
+        "/",
+        "/blog/",
+        "/blog/come-scegliere-servizio-teleassistenza/",
+        "/blog/convincere-genitore-anziano-bracciale/",
+        "/blog/ecura-vs-seremy-confronto-2026/",
+        "/bracciale-anziani-detraibile/",
+        "/confronto-bracciali-anziani/",
+        "/guida-cadute-anziani/",
+        "/guida-dispositivi-medici-teleassistenza/",
+        "/recensioni-ecura-seremy-beghelli/"
+      ]
+    },
+    "EC-05": {
+      "titolo": "Testimonial e valutazioni a stelle",
+      "pagine": [
+        "/",
+        "/recensioni-ecura-seremy-beghelli/"
+      ]
+    },
+    "EC-06": {
+      "titolo": "Meta, title, alt, OG",
+      "pagine": [
+        "/",
+        "/blog/bracciale-anziani-detraibile-19-percento/",
+        "/blog/dispositivo-medico-classe-iia-anziani/",
+        "/blog/ecura-vs-seremy-confronto-2026/",
+        "/bracciale-anziani-detraibile/",
+        "/come-funziona-bracciale-ecura/",
+        "/confronto-bracciali-anziani/",
+        "/guida-cadute-anziani/",
+        "/guida-dispositivi-medici-teleassistenza/",
+        "/partner/",
+        "/privacy-policy/",
+        "/recensioni-ecura-seremy-beghelli/",
+        "/statistiche-cadute-anziani-italia/"
+      ]
+    },
+    "EC-12": {
+      "titolo": "Pagine confronto e guida dispositivi (rilevate live 22/11)",
+      "pagine": [
+        "/confronto-bracciali-anziani/",
+        "/guida-dispositivi-medici-teleassistenza/"
+      ]
+    }
+  }
+}

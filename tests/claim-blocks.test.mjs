@@ -213,4 +213,181 @@ await t('codice di libreria ed endpoint: nessun testo di claim né di autorizzaz
   for (const f of files) { const s = fs.readFileSync(f, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, ''); assert.ok(!/Autorizzazione n|Ministero della Salute|provvedimento ministeriale|classe\s*IIa/i.test(s), f) }
 })
 
+
+// ---- test 15/16: stale-if-error (prompt integrativo §2) ----
+const cacheFinta = () => { const m = new Map(); return { m, match: async r => { const x = m.get(new URL(r.url).pathname); return x ? x.clone() : undefined }, put: async (r, res) => { m.set(new URL(r.url).pathname, res.clone()) } } }
+const req = new Request('https://www.ecura.it/')
+const paginaCorrente = () => new Response('<html>VERSIONE-TRANSITORIA-CORRENTE</html>', { status: 200, headers: { 'Content-Type': 'text/html' } })
+const d1Giu = async () => { throw new Error('D1 non raggiungibile') }
+await t('15: D1 giù MA cache presente → pagina servita stale (la versione corrente, non quella piu\' permissiva)', async () => {
+  const cache = cacheFinta(); const pend = []
+  const a = await L.renderConStale(req, { render: async () => paginaCorrente(), cache, now: NOW, waitUntil: p => pend.push(p) }); await Promise.all(pend)
+  assert.equal(a.origine, 'fresh')
+  const b = await L.renderConStale(req, { render: d1Giu, cache, now: new Date(NOW.getTime() + 3600000) })
+  assert.equal(b.origine, 'stale'); assert.equal(b.response.status, 200)
+  const html = await b.response.text(); assert.match(html, /VERSIONE-TRANSITORIA-CORRENTE/); assert.ok(!/ORIG/.test(html))
+  assert.equal(b.response.headers.get('x-claim-cached-at'), null)     // l'intestazione interna non esce mai
+})
+await t('15: con D1 giù scatta l\'allarme di health (replica non confermata) — nessun messaggio al pubblico', async () => {
+  const db = await nuovo(); await L.applicaStato(db, { block_id: 'EC-01', stato: 'TRANSITORIA', updated_at: ago(40) }, 'webhook', new Date(NOW.getTime() - 40 * 60000))
+  const h = await L.calcolaHealth(db, NOW); assert.equal(h.stato, 'stale'); assert.equal(h.allarme, true)
+  const cache = cacheFinta(); await cache.put(req, paginaCorrente())
+  const out = await L.renderConStale(req, { render: d1Giu, cache, now: NOW })
+  const pubblico = await out.response.text(); assert.ok(!/sincroniz|alert|CRM|fail|stale/i.test(pubblico))
+})
+await t('16: D1 giù e NESSUNA cache → pagina di errore gestita (503, neutra), mai ORIGINALE', async () => {
+  const out = await L.renderConStale(req, { render: d1Giu, cache: cacheFinta(), now: NOW })
+  assert.equal(out.origine, 'errore'); assert.equal(out.response.status, 503)
+  const html = await out.response.text()
+  assert.ok(!/ORIG|classe\s*IIa|bracciale|claim|sincroniz|CRM/i.test(html)); assert.match(out.response.headers.get('Cache-Control'), /no-store/); assert.match(out.response.headers.get('X-Robots-Tag'), /noindex/)
+})
+await t('16: cache assente (cache=null) → pagina di errore, non eccezione', async () => assert.equal((await L.renderConStale(req, { render: d1Giu, cache: null, now: NOW })).origine, 'errore'))
+await t('16: cache più vecchia della soglia (24 h) → non si serve: pagina di errore', async () => {
+  const cache = cacheFinta(); const pend = []
+  await L.renderConStale(req, { render: async () => paginaCorrente(), cache, now: NOW, waitUntil: p => pend.push(p) }); await Promise.all(pend)
+  assert.equal((await L.renderConStale(req, { render: d1Giu, cache, now: new Date(NOW.getTime() + 25 * 3600000) })).origine, 'errore')
+  assert.equal((await L.renderConStale(req, { render: d1Giu, cache, now: new Date(NOW.getTime() + 23 * 3600000) })).origine, 'stale')
+})
+await t('stale: le risposte non-200 non entrano mai in cache (una pagina d\'errore non diventa "ultima buona")', async () => {
+  const cache = cacheFinta(); const pend = []
+  await L.renderConStale(req, { render: async () => new Response('x', { status: 500 }), cache, now: NOW, waitUntil: p => pend.push(p) }); await Promise.all(pend)
+  assert.equal(cache.m.size, 0)
+})
+await t('stale: errore nella lettura della cache → pagina di errore, non eccezione', async () => {
+  const out = await L.renderConStale(req, { render: d1Giu, cache: { match: async () => { throw new Error('cache ko') }, put: async () => {} }, now: NOW }); assert.equal(out.origine, 'errore')
+})
+
+// ---- purge in sospeso: lo stale e' sicuro solo se la cache e' sempre stata invalidata ----
+await t('purge fallito → purge_pending=1, health in allarme; il purge successivo invalida TUTTE le pagine e azzera', async () => {
+  const db = await nuovo(); const env = { CF_ZONE_ID: 'z', CF_PURGE_TOKEN: 't' }
+  const r1 = await L.purgeGestito(db, env, ['/'], async () => ({ ok: false, status: 500 }), NOW)
+  assert.equal(r1.pending, true); assert.equal((await L.calcolaHealth(db, NOW)).purge_pending, true); assert.equal((await L.calcolaHealth(db, NOW)).allarme, true)
+  let files = null
+  const r2 = await L.purgeGestito(db, env, ['/'], async (u, init) => { files = JSON.parse(init.body).files; return { ok: true, status: 200 } }, NOW)
+  assert.equal(r2.pending, false); assert.ok(files.includes('https://www.ecura.it/guida-cadute-anziani/'))   // anche le pagine di altri blocchi
+  assert.equal((await L.calcolaHealth(db, NOW)).purge_pending, false)
+})
+await t('purge non configurato → resta in sospeso (non passa inosservato)', async () => {
+  const db = await nuovo(); const r = await L.purgeGestito(db, {}, ['/'], fetch, NOW); assert.equal(r.pending, true)
+})
+await t('purge riuscito al primo colpo → nessuno stato in sospeso', async () => {
+  const db = await nuovo(); const r = await L.purgeGestito(db, { CF_ZONE_ID: 'z', CF_PURGE_TOKEN: 't' }, ['/'], async () => ({ ok: true, status: 200 }), NOW); assert.equal(r.pending, false)
+})
+
+// ---- pubblicabilita' dei testi della matrice ----
+await t('controllaPubblicabilita: segnala note SEO, etichette, segnaposti e istruzioni; testo pulito → nessun avviso', () => {
+  assert.deepEqual(L.controllaPubblicabilita('Testo pulito per il pubblico.'), [])
+  assert.ok(L.controllaPubblicabilita('(SEO: nota interna)').includes('nota_interna_seo'))
+  assert.ok(L.controllaPubblicabilita('TEMA HERO — “Titolo”').includes('etichetta_di_struttura'))
+  assert.ok(L.controllaPubblicabilita('provv. n. ___', 'versione_autorizzata').includes('segnaposto'))
+  assert.ok(L.controllaPubblicabilita('Versione statica autorizzata con richiami', 'versione_autorizzata').includes('istruzione_non_testo'))
+  assert.deepEqual(L.controllaPubblicabilita('', 'versione_autorizzata'), []); assert.deepEqual(L.controllaPubblicabilita(null), [])
+})
+await t('AUTORIZZATA che e\' un\'ISTRUZIONE o contiene un SEGNAPOSTO non si pubblica → catena su TRANSITORIA', () => {
+  for (const aut of ['Versione statica autorizzata con i richiami obbligatori', 'Servizio autorizzato con provv. n. ___.']) {
+    const r = L.risolviBlocco(row({ stato_replicato: 'AUTORIZZATA', versione_autorizzata: aut }), NOW)
+    assert.equal(r.testo, 'TESTO-TRANS'); assert.equal(r.motivo_fallback, 'autorizzata_non_pubblicabile')
+  }
+  assert.equal(L.risolviBlocco(row({ stato_replicato: 'AUTORIZZATA', versione_autorizzata: 'Testo finale approvato.' }), NOW).testo, 'Testo finale approvato.')
+})
+await t('health: elenca i blocchi con testi non pubblicabili e quelli senza ORIGINALE', async () => {
+  const db = await nuovo(); await db.prepare("UPDATE claim_blocks SET versione_transitoria='(SEO: x)', versione_originale='' WHERE block_id='EC-03'").run()
+  const h = await L.calcolaHealth(db, NOW); assert.deepEqual(h.blocchi_con_testi_non_pubblicabili, ['EC-03']); assert.deepEqual(h.blocchi_senza_originale, ['EC-03'])
+})
+
+// ---- test 17: seeding (testo per testo, NULL, ORIGINALE da snapshot, idempotenza) ----
+import fs from 'node:fs'
+import { estraiOriginali, costruisciRighe, applicaSeed, generaSql, BLOCCHI_CON_TESTO } from '../scripts/claim-dm/seed-lib.mjs'
+const SNAP = 'docs/claim-dm/snapshot-live-2026-11-22'
+const mappa = JSON.parse(fs.readFileSync('functions/_lib/claim-blocchi.json', 'utf8'))
+// Fixture sintetica (il JSON reale e' gitignored: in CI non c'e'). Contiene apostrofi, virgolette, a-capo e unicode per provare l'escaping.
+const sintetico = { blocchi: [
+  ...BLOCCHI_CON_TESTO.map((id, i) => ({ block_id: id, versione_transitoria: `Transitoria ${id}: l'unico \"servizio\"\nriga 2 — è così ✓`, versione_autorizzata: i === 0 ? '' : `Autorizzata ${id}: testo 'x' \"y\"` })),
+  { block_id: 'EC-07', versione_transitoria: 'processo: non va importato', versione_autorizzata: 'processo' },
+] }
+const origSint = Object.fromEntries(BLOCCHI_CON_TESTO.map(id => [id, `ORIG-${id}`]))
+const righe = (js, orig) => costruisciRighe({ seedJson: js, blocchiMap: mappa, originali: orig, estrattoAt: '2026-11-22T00:00:00.000Z' })
+const dbVuoto = () => nuovoDb()
+const conta = async (db, sql) => (await db.prepare(sql).first()).c
+
+await t('17: seed — solo i blocchi con testo (EC-07..11 esclusi) e testi TRANSITORIA/AUTORIZZATA identici al JSON, testo per testo', async () => {
+  const rows = righe(sintetico, origSint); const db = dbVuoto()
+  assert.deepEqual(rows.map(r => r.block_id), BLOCCHI_CON_TESTO)
+  await applicaSeed(db, rows, NOW)
+  assert.equal(await conta(db, 'SELECT COUNT(*) c FROM claim_blocks'), BLOCCHI_CON_TESTO.length)
+  assert.equal(await conta(db, "SELECT COUNT(*) c FROM claim_blocks WHERE block_id IN ('EC-07','EC-08','EC-09','EC-10','EC-11')"), 0)
+  for (const b of sintetico.blocchi.filter(b => BLOCCHI_CON_TESTO.includes(b.block_id))) {
+    const r = await db.prepare('SELECT * FROM claim_blocks WHERE block_id = ?').bind(b.block_id).first()
+    assert.equal(r.versione_transitoria, b.versione_transitoria, 'transitoria ' + b.block_id)
+    assert.equal(r.versione_autorizzata, b.versione_autorizzata === '' ? null : b.versione_autorizzata, 'autorizzata ' + b.block_id)
+  }
+})
+await t('17: seed — numero_provvedimento e data_autorizzazione NULL, stato replicato NULL (fail-closed), ORIGINALE dall\'estratto', async () => {
+  const db = dbVuoto(); await applicaSeed(db, righe(sintetico, origSint), NOW)
+  const { results } = await db.prepare('SELECT * FROM claim_blocks').all()
+  for (const r of results) {
+    assert.equal(r.numero_provvedimento, null); assert.equal(r.data_autorizzazione, null); assert.equal(r.stato_replicato, null)
+    assert.equal(r.versione_originale, 'ORIG-' + r.block_id)
+    assert.equal(L.risolviBlocco(r, NOW).stato_effettivo, 'TRANSITORIA', 'senza replica: mai ORIGINALE')
+  }
+})
+await t('17: seed — una revisione di tipo seed per ogni campo non vuoto; AUTORIZZATA vuota non genera revisione', async () => {
+  const db = dbVuoto(); await applicaSeed(db, righe(sintetico, origSint), NOW)
+  const attese = BLOCCHI_CON_TESTO.length * 3 - 1 // EC-01 senza autorizzata
+  assert.equal(await conta(db, "SELECT COUNT(*) c FROM claim_blocks_revisions WHERE tipo='seed'"), attese)
+  assert.equal(await conta(db, "SELECT COUNT(*) c FROM claim_blocks_revisions WHERE block_id='EC-01' AND campo='versione_autorizzata'"), 0)
+})
+await t('17: re-seed idempotente — nessun blocco né revisione duplicati, modifiche fatte in admin non sovrascritte', async () => {
+  const db = dbVuoto(); const rows = righe(sintetico, origSint)
+  await applicaSeed(db, rows, NOW)
+  await L.salvaBlocco(db, 'EC-02', { versione_transitoria: 'MODIFICATA IN ADMIN', motivo: 'revisione consulente' }, 'mario', NOW)
+  const rev0 = await conta(db, 'SELECT COUNT(*) c FROM claim_blocks_revisions')
+  const esito = await applicaSeed(db, rows, NOW)
+  assert.deepEqual(esito.inseriti, []); assert.equal(esito.gia_presenti.length, BLOCCHI_CON_TESTO.length)
+  assert.equal(await conta(db, 'SELECT COUNT(*) c FROM claim_blocks_revisions'), rev0)
+  assert.equal((await db.prepare("SELECT versione_transitoria v FROM claim_blocks WHERE block_id='EC-02'").first()).v, 'MODIFICATA IN ADMIN')
+})
+await t('17: seed SQL generato — identico al seed applicativo, escaping corretto, eseguito due volte non duplica', async () => {
+  const rows = righe(sintetico, origSint); const sql = generaSql(rows, NOW)
+  const a = dbVuoto(); a.raw.exec(sql); a.raw.exec(sql)
+  assert.equal(await conta(a, 'SELECT COUNT(*) c FROM claim_blocks'), BLOCCHI_CON_TESTO.length)
+  assert.equal(await conta(a, 'SELECT COUNT(*) c FROM claim_blocks_revisions'), BLOCCHI_CON_TESTO.length * 3 - 1)
+  const b = dbVuoto(); await applicaSeed(b, rows, NOW)
+  const dump = async d => JSON.stringify((await d.prepare('SELECT block_id, titolo, pagine, stato_replicato, versione_originale, versione_transitoria, versione_autorizzata, numero_provvedimento, data_autorizzazione FROM claim_blocks ORDER BY block_id').all()).results)
+  assert.equal(await dump(a), await dump(b))
+  const r = await a.prepare("SELECT versione_transitoria v FROM claim_blocks WHERE block_id='EC-03'").first()
+  assert.equal(r.v, sintetico.blocchi.find(x => x.block_id === 'EC-03').versione_transitoria)
+})
+await t('17: ORIGINALE dallo snapshot live — estratta per i blocchi estraibili, mai da \"elemento_originale_rilevato\"', () => {
+  const o = estraiOriginali(SNAP)
+  for (const id of ['EC-01', 'EC-03', 'EC-04', 'EC-05', 'EC-06', 'EC-12']) assert.ok(o[id] && o[id].length > 100, 'ORIGINALE ' + id)
+  assert.ok(!o['EC-02'], 'EC-02: nessuna regione unica, da mappare a mano (resta vuota, non inventata)')
+  const js = { blocchi: BLOCCHI_CON_TESTO.map(id => ({ block_id: id, elemento_originale_rilevato: 'CITAZIONE-DA-NON-USARE', versione_transitoria: 't', versione_autorizzata: null })) }
+  for (const r of righe(js, o)) assert.ok(!r.versione_originale.includes('CITAZIONE-DA-NON-USARE'))
+})
+await t('17: mappatura blocchi→pagine coerente: blocchi con testo presenti, pagine esistenti in public/ o (articoli blog in D1) nello snapshot live', () => {
+  const manifest = fs.readFileSync(SNAP + '/MANIFEST.txt', 'utf8')
+  for (const id of BLOCCHI_CON_TESTO) {
+    const m = mappa.blocchi[id]; assert.ok(m && m.titolo && m.pagine.length > 0, id)
+    for (const p of m.pagine) {
+      const inPublic = fs.existsSync('public' + (p.endsWith('/') ? p + 'index.html' : p))
+      const inSnapshot = manifest.includes(' 200 ') && manifest.split('\n').some(l => l.endsWith('https://www.ecura.it' + p) && l.includes(' 200 '))
+      assert.ok(inPublic || inSnapshot, `${id}: pagina non trovata ne' in public/ ne' nello snapshot: ${p}`)
+    }
+  }
+})
+const PRIV = 'docs/claim-dm/_private/claim_matrix_seed.json'
+if (fs.existsSync(PRIV)) {
+  await t('17 (locale, JSON reale): TRANSITORIA/AUTORIZZATA nel D1 = testo per testo del file della matrice; provvedimento NULL', async () => {
+    const js = JSON.parse(fs.readFileSync(PRIV, 'utf8')); const db = dbVuoto()
+    await applicaSeed(db, righe(js, estraiOriginali(SNAP)), NOW)
+    for (const b of js.blocchi.filter(b => BLOCCHI_CON_TESTO.includes(b.block_id))) {
+      const r = await db.prepare('SELECT * FROM claim_blocks WHERE block_id = ?').bind(b.block_id).first()
+      assert.equal(r.versione_transitoria, b.versione_transitoria ?? ''); assert.equal(r.versione_autorizzata, b.versione_autorizzata || null)
+      assert.equal(r.numero_provvedimento, null); assert.equal(r.data_autorizzazione, null)
+    }
+    assert.equal(await conta(db, "SELECT COUNT(*) c FROM claim_blocks WHERE block_id IN ('EC-07','EC-08','EC-09','EC-10','EC-11')"), 0)
+  })
+} else console.log('--  17 (JSON reale) saltato: file privato assente (atteso in CI)')
+
 console.log(`\n${n} test OK`)

@@ -208,6 +208,7 @@
           <button data-tab="versione_autorizzata" class="claims-tab px-4 py-2 text-sm font-medium border-b-2">AUTORIZZATA</button>
         </div>
         <div id="claims-tab-hint" class="text-xs text-gray-500 mb-2"></div>
+        <div id="claims-warn" class="hidden mb-2 p-2 bg-amber-50 border border-amber-300 text-amber-900 rounded text-xs"></div>
         <textarea id="claims-text" rows="14" class="w-full border border-gray-300 rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#068D86]"></textarea>
         <div id="claims-prov" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           <div>
@@ -599,7 +600,8 @@ function showToast(msg, type = 'success') {
 
 // ── Claim pubblicitari DM ─────────────────────
 // Lo stato dei blocchi e' deciso nel CRM: qui e' solo letto. I testi vivono in D1 e si salvano con motivo + revisione.
-let claimCur = null, claimTab = 'versione_transitoria', claimBuf = {};
+let claimCur = null, claimTab = 'versione_transitoria', claimBuf = {}, claimWarn = {};
+const CLAIM_WARN_TXT = { segnaposto:'contiene un segnaposto (___)', nota_interna_seo:'contiene una nota interna "(SEO: ...)"', etichetta_di_struttura:'contiene etichette di struttura (es. "TEMA HERO —") da non pubblicare', nota_implementazione:'contiene una nota di implementazione', istruzione_non_testo:'e\' un\'istruzione, non un testo pubblicabile' };
 const CLAIM_HINT = {
   versione_originale: 'Snapshot del testo pubblicato prima dell\'intervento (rollback target). Modificare solo per correggere l\'estrazione.',
   versione_transitoria: 'Testo temporaneo compliant. Se lasciato vuoto il blocco non compare affatto in pagina.',
@@ -646,6 +648,7 @@ async function openClaim(id) {
   document.getElementById('claims-motivo').value = '';
   document.getElementById('claims-ed-title').textContent = id + ' — ' + (d.block.titolo || '');
   document.getElementById('claims-ed-meta').innerHTML = `Stato replicato dal CRM: ${claimBadge(d.block.stato_replicato)} · pagine: ${esc((d.block.pagine || []).join(', '))}`;
+  claimWarn = d.avvisi || {};
   renderClaimRevs(d.revisioni || []);
   selectClaimTab('versione_transitoria', false);
   const ed = document.getElementById('claims-editor');
@@ -657,6 +660,9 @@ function selectClaimTab(tab, keep = true) {
   document.getElementById('claims-text').value = claimBuf[tab] || '';
   document.getElementById('claims-tab-hint').textContent = CLAIM_HINT[tab];
   document.getElementById('claims-prov').classList.toggle('hidden', tab !== 'versione_autorizzata');
+  const w = document.getElementById('claims-warn'), av = (claimWarn || {})[tab] || [];
+  if (av.length) { w.classList.remove('hidden'); w.innerHTML = '<b>Da rivedere prima del go-live:</b> questo testo ' + av.map(x => esc(CLAIM_WARN_TXT[x] || x)).join('; ') + '. Se lo stato effettivo lo richiedesse, verrebbe pubblicato cosi\' com\'e\'.'; }
+  else w.classList.add('hidden');
   document.querySelectorAll('.claims-tab').forEach(b => {
     const on = b.dataset.tab === tab;
     b.classList.toggle('border-[#068D86]', on); b.classList.toggle('text-[#068D86]', on);
