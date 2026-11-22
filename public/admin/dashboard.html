@@ -87,6 +87,10 @@
         <i class="fas fa-newspaper w-4"></i> Articoli Blog
         <span id="nav-badge" class="ml-auto bg-white/20 text-white text-xs rounded-full px-2 py-0.5 hidden">0</span>
       </a>
+      <a href="#" data-section="claims" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium text-white/80 hover:text-white">
+        <i class="fas fa-scale-balanced w-4"></i> Claim pubblicitari DM
+        <span id="claims-badge" class="ml-auto bg-amber-500 text-white text-xs rounded-full px-2 py-0.5 hidden">!</span>
+      </a>
       <a href="#" data-section="settings" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm font-medium text-white/80 hover:text-white">
         <i class="fas fa-cog w-4"></i> Impostazioni
       </a>
@@ -176,6 +180,57 @@
       </div>
 
       <div id="articles-list" class="space-y-3"></div>
+    </section>
+
+    <!-- ── CLAIM PUBBLICITARI DM ── -->
+    <section id="section-claims" class="p-8 hidden">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-2xl font-bold text-gray-800">Claim pubblicitari DM</h2>
+        <button id="claims-purge-btn" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+          <i class="fas fa-broom"></i> Invalida cache landing
+        </button>
+      </div>
+      <p class="text-sm text-gray-500 mb-4">Qui si modificano i <b>testi</b> delle tre versioni. Lo <b>stato</b> (ORIGINALE / TRANSITORIA / AUTORIZZATA) si imposta solo nel CRM TeleMedCare: qui &egrave; mostrato in sola lettura.</p>
+      <div id="claims-alert" class="hidden mb-4 p-3 bg-amber-50 border border-amber-300 text-amber-900 rounded-lg text-sm"></div>
+      <div id="claims-list" class="space-y-3"></div>
+
+      <div id="claims-editor" class="hidden mt-6 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <h3 id="claims-ed-title" class="text-lg font-bold text-gray-800"></h3>
+            <div id="claims-ed-meta" class="text-xs text-gray-500 mt-1"></div>
+          </div>
+          <button onclick="closeClaimEditor()" class="text-gray-400 hover:text-gray-700 text-xl leading-none" aria-label="Chiudi">&times;</button>
+        </div>
+        <div class="flex gap-1 border-b border-gray-200 mb-3" id="claims-tabs">
+          <button data-tab="versione_originale" class="claims-tab px-4 py-2 text-sm font-medium border-b-2">ORIGINALE</button>
+          <button data-tab="versione_transitoria" class="claims-tab px-4 py-2 text-sm font-medium border-b-2">TRANSITORIA</button>
+          <button data-tab="versione_autorizzata" class="claims-tab px-4 py-2 text-sm font-medium border-b-2">AUTORIZZATA</button>
+        </div>
+        <div id="claims-tab-hint" class="text-xs text-gray-500 mb-2"></div>
+        <textarea id="claims-text" rows="14" class="w-full border border-gray-300 rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#068D86]"></textarea>
+        <div id="claims-prov" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Numero provvedimento (opzionale)</label>
+            <input id="claims-num" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Data autorizzazione (opzionale)</label>
+            <input id="claims-data" type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+          </div>
+          <div class="md:col-span-2 text-xs text-gray-500">Se entrambi i campi restano vuoti il sito non mostra nessun riferimento all'autorizzazione.</div>
+        </div>
+        <div class="mt-3">
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Motivo della modifica (obbligatorio)</label>
+          <input id="claims-motivo" type="text" maxlength="500" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Es. correzione del consulente regolatorio, memo del ...">
+        </div>
+        <div class="mt-4 flex gap-2">
+          <button id="claims-save" onclick="saveClaim()" class="bg-[#068D86] hover:bg-[#057a73] text-white px-5 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2"><i class="fas fa-save"></i> Salva testo</button>
+          <button onclick="closeClaimEditor()" class="px-5 py-2 rounded-lg text-sm border border-gray-300 hover:bg-gray-50">Chiudi</button>
+        </div>
+        <h4 class="font-semibold text-gray-700 mt-8 mb-2"><i class="fas fa-clock-rotate-left mr-2 text-[#068D86]"></i>Cronologia revisioni</h4>
+        <div id="claims-revs" class="space-y-2 text-sm"></div>
+      </div>
     </section>
 
     <!-- ── IMPOSTAZIONI ── -->
@@ -542,6 +597,127 @@ function showToast(msg, type = 'success') {
   setTimeout(() => { t.style.transition='opacity .3s'; t.style.opacity='0'; setTimeout(()=>t.remove(),350); }, 3500);
 }
 
+// ── Claim pubblicitari DM ─────────────────────
+// Lo stato dei blocchi e' deciso nel CRM: qui e' solo letto. I testi vivono in D1 e si salvano con motivo + revisione.
+let claimCur = null, claimTab = 'versione_transitoria', claimBuf = {};
+const CLAIM_HINT = {
+  versione_originale: 'Snapshot del testo pubblicato prima dell\'intervento (rollback target). Modificare solo per correggere l\'estrazione.',
+  versione_transitoria: 'Testo temporaneo compliant. Se lasciato vuoto il blocco non compare affatto in pagina.',
+  versione_autorizzata: 'Testo post-provvedimento. Finche\' e\' vuoto, in stato AUTORIZZATA il sito emette la versione TRANSITORIA.'
+};
+function claimBadge(st) {
+  const c = { ORIGINALE:'bg-gray-100 text-gray-700', TRANSITORIA:'bg-amber-100 text-amber-800', AUTORIZZATA:'bg-green-100 text-green-800' }[st] || 'bg-red-100 text-red-700';
+  return `<span class="px-2 py-0.5 rounded-full text-xs font-semibold ${c}">${esc(st || 'MAI SINCRONIZZATO')}</span>`;
+}
+async function loadClaims() {
+  const d = await apiCall('/claim-blocks');
+  const box = document.getElementById('claims-list');
+  if (d.error) { box.innerHTML = `<div class="p-3 bg-red-50 text-red-700 rounded-lg text-sm">${esc(d.error)}</div>`; return; }
+  const h = d.health || {};
+  const al = document.getElementById('claims-alert');
+  const problema = h.stato === 'stale';
+  document.getElementById('claims-badge').classList.toggle('hidden', !problema);
+  if (problema) {
+    al.classList.remove('hidden');
+    al.innerHTML = `<b>&#9888; Sincronizzazione con il CRM non confermata da ${h.minuti_dall_ultimo == null ? 'sempre' : esc(h.minuti_dall_ultimo) + ' minuti'}.</b> I blocchi sulla landing girano in versione TRANSITORIA (fail-closed) finch&eacute; lo stato non viene riconfermato. Nulla di questo avviso &egrave; visibile al pubblico.`;
+  } else al.classList.add('hidden');
+  const bl = d.blocchi || [];
+  box.innerHTML = bl.length ? bl.map(b => `
+    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:border-[#068D86]" onclick="openClaim('${esc(b.block_id)}')">
+      <div class="font-mono font-bold text-gray-700 w-16">${esc(b.block_id)}</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-medium text-gray-800 truncate">${esc(b.titolo || '—')}</div>
+        <div class="text-xs text-gray-500 truncate">${esc((b.pagine || []).join('  '))}</div>
+      </div>
+      <div class="text-right">
+        ${claimBadge(b.stato_replicato)}
+        ${b.stato_replicato && b.stato_effettivo !== b.stato_replicato ? `<div class="text-xs text-amber-700 mt-1">effettivo: ${esc(b.stato_effettivo)}</div>` : ''}
+        <div class="text-xs text-gray-400 mt-1">testi: ${esc(fmtDate(b.updated_at))}${b.updated_by ? ' · ' + esc(b.updated_by) : ''}</div>
+      </div>
+    </div>`).join('') : '<div class="p-4 text-sm text-gray-500 bg-white rounded-xl border border-gray-100">Nessun blocco censito. Il popolamento iniziale (seeding) non &egrave; ancora stato eseguito.</div>';
+}
+async function openClaim(id) {
+  const d = await apiCall('/claim-blocks/' + encodeURIComponent(id));
+  if (!d.block) { showToast(d.error || 'Blocco non trovato', 'error'); return; }
+  claimCur = d.block;
+  claimBuf = { versione_originale: d.block.versione_originale || '', versione_transitoria: d.block.versione_transitoria || '', versione_autorizzata: d.block.versione_autorizzata || '' };
+  document.getElementById('claims-num').value = d.block.numero_provvedimento || '';
+  document.getElementById('claims-data').value = d.block.data_autorizzazione || '';
+  document.getElementById('claims-motivo').value = '';
+  document.getElementById('claims-ed-title').textContent = id + ' — ' + (d.block.titolo || '');
+  document.getElementById('claims-ed-meta').innerHTML = `Stato replicato dal CRM: ${claimBadge(d.block.stato_replicato)} · pagine: ${esc((d.block.pagine || []).join(', '))}`;
+  renderClaimRevs(d.revisioni || []);
+  selectClaimTab('versione_transitoria', false);
+  const ed = document.getElementById('claims-editor');
+  ed.classList.remove('hidden'); ed.scrollIntoView({ behavior: 'smooth' });
+}
+function selectClaimTab(tab, keep = true) {
+  if (keep && claimCur) claimBuf[claimTab] = document.getElementById('claims-text').value;
+  claimTab = tab;
+  document.getElementById('claims-text').value = claimBuf[tab] || '';
+  document.getElementById('claims-tab-hint').textContent = CLAIM_HINT[tab];
+  document.getElementById('claims-prov').classList.toggle('hidden', tab !== 'versione_autorizzata');
+  document.querySelectorAll('.claims-tab').forEach(b => {
+    const on = b.dataset.tab === tab;
+    b.classList.toggle('border-[#068D86]', on); b.classList.toggle('text-[#068D86]', on);
+    b.classList.toggle('border-transparent', !on); b.classList.toggle('text-gray-500', !on);
+  });
+}
+document.getElementById('claims-tabs').addEventListener('click', e => { const t = e.target.closest('.claims-tab'); if (t) selectClaimTab(t.dataset.tab); });
+function closeClaimEditor() { document.getElementById('claims-editor').classList.add('hidden'); claimCur = null; }
+async function saveClaim() {
+  if (!claimCur) return;
+  claimBuf[claimTab] = document.getElementById('claims-text').value;
+  const motivo = document.getElementById('claims-motivo').value.trim();
+  if (!motivo) { showToast('Il motivo e\' obbligatorio', 'error'); document.getElementById('claims-motivo').focus(); return; }
+  const btn = document.getElementById('claims-save'); btn.disabled = true;
+  const body = {
+    versione_originale: claimBuf.versione_originale,
+    versione_transitoria: claimBuf.versione_transitoria,
+    versione_autorizzata: claimBuf.versione_autorizzata === '' ? null : claimBuf.versione_autorizzata,
+    numero_provvedimento: document.getElementById('claims-num').value.trim() || null,
+    data_autorizzazione: document.getElementById('claims-data').value || null,
+    motivo,
+  };
+  const r = await apiCall('/claim-blocks/' + encodeURIComponent(claimCur.block_id), { method: 'PUT', body: JSON.stringify(body) });
+  btn.disabled = false;
+  if (!r.ok) { showToast(r.error || 'Errore nel salvataggio', 'error'); return; }
+  showToast(r.cambiati && r.cambiati.length ? 'Salvato (' + r.cambiati.length + ' campo/i) — revisione creata' : 'Nessuna modifica da salvare');
+  loadClaims(); openClaim(claimCur.block_id);
+}
+function renderClaimRevs(revs) {
+  const box = document.getElementById('claims-revs');
+  if (!revs.length) { box.innerHTML = '<div class="text-gray-400">Nessuna revisione.</div>'; return; }
+  box.innerHTML = revs.map(r => `
+    <div class="border border-gray-200 rounded-lg p-3">
+      <div class="flex items-center justify-between gap-2">
+        <div class="text-xs text-gray-500"><b class="text-gray-700">#${esc(r.id)}</b> · ${esc(fmtDate(r.creato_at))} · ${esc(r.autore)} · <span class="font-mono">${esc(r.campo)}</span> · ${esc(r.tipo)}</div>
+        <button class="text-xs text-[#068D86] hover:underline whitespace-nowrap" onclick="restoreClaim(${Number(r.id)})">Ripristina il testo precedente</button>
+      </div>
+      <div class="text-xs mt-1"><i>Motivo:</i> ${esc(r.motivo)}</div>
+      <details class="mt-1"><summary class="text-xs text-gray-500 cursor-pointer">Vedi differenze</summary>
+        <div class="grid md:grid-cols-2 gap-2 mt-2">
+          <pre class="whitespace-pre-wrap text-xs bg-red-50 rounded p-2">${esc(r.testo_precedente == null ? '(vuoto)' : r.testo_precedente)}</pre>
+          <pre class="whitespace-pre-wrap text-xs bg-green-50 rounded p-2">${esc(r.testo_nuovo == null ? '(vuoto)' : r.testo_nuovo)}</pre>
+        </div>
+      </details>
+    </div>`).join('');
+}
+async function restoreClaim(revId) {
+  if (!claimCur) return;
+  const motivo = (prompt('Ripristino della revisione #' + revId + ': indica il motivo (obbligatorio)') || '').trim();
+  if (!motivo) { showToast('Ripristino annullato: motivo obbligatorio', 'error'); return; }
+  const r = await apiCall('/claim-blocks/' + encodeURIComponent(claimCur.block_id), { method: 'POST', body: JSON.stringify({ azione: 'ripristina', revisione_id: revId, motivo }) });
+  if (!r.ok) { showToast(r.error || 'Errore nel ripristino', 'error'); return; }
+  showToast('Ripristinato — creata una nuova revisione');
+  loadClaims(); openClaim(claimCur.block_id);
+}
+document.getElementById('claims-purge-btn').addEventListener('click', async () => {
+  const r = await apiCall('/claim-purge', { method: 'POST', body: '{}' });
+  const p = r.purge || {};
+  showToast(p.purged ? 'Cache invalidata' : 'Purge non eseguito: ' + (p.motivo || r.error || 'errore'), p.purged ? 'success' : 'error');
+});
+
 // ── Navigazione ──────────────────────────────
 function showSection(name) {
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
@@ -550,6 +726,7 @@ function showSection(name) {
   document.querySelector(`.sidebar-link[data-section="${name}"]`)?.classList.add('active');
   if (name === 'dashboard') loadDashboard();
   if (name === 'articles')  loadArticles();
+  if (name === 'claims')    loadClaims();
 }
 document.querySelectorAll('.sidebar-link').forEach(link => {
   link.addEventListener('click', e => { e.preventDefault(); showSection(link.dataset.section); });
