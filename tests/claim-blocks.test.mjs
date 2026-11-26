@@ -365,18 +365,26 @@ await t('17: ORIGINALE dallo snapshot live — estratta per i blocchi estraibili
   const js = { blocchi: BLOCCHI_CON_TESTO.map(id => ({ block_id: id, elemento_originale_rilevato: 'CITAZIONE-DA-NON-USARE', versione_transitoria: 't', versione_autorizzata: null })) }
   for (const r of righe(js, o)) assert.ok(!r.versione_originale.includes('CITAZIONE-DA-NON-USARE'))
 })
-await t('17: mappatura blocchi→pagine coerente: blocchi con testo presenti, pagine esistenti in public/ o (articoli blog in D1) nello snapshot live', () => {
-  const manifest = fs.readFileSync(SNAP + '/MANIFEST.txt', 'utf8')
+await t('17: mappatura blocchi→pagine (corretta 22/11): nessuna pagina /blog/*, EC-04 = solo confronto, EC-12 = solo guida dispositivi, pagine esistenti in public/', () => {
   for (const id of BLOCCHI_CON_TESTO) {
     const m = mappa.blocchi[id]; assert.ok(m && m.titolo && m.pagine.length > 0, id)
     for (const p of m.pagine) {
-      const inPublic = fs.existsSync('public' + (p.endsWith('/') ? p + 'index.html' : p))
-      const inSnapshot = manifest.includes(' 200 ') && manifest.split('\n').some(l => l.endsWith('https://www.ecura.it' + p) && l.includes(' 200 '))
-      assert.ok(inPublic || inSnapshot, `${id}: pagina non trovata ne' in public/ ne' nello snapshot: ${p}`)
+      assert.ok(!p.startsWith('/blog'), `${id}: gli articoli blog sono D1/admin, non blocchi claim (${p})`)
+      assert.ok(fs.existsSync('public' + (p.endsWith('/') ? p + 'index.html' : p)), `${id}: pagina inesistente in public/: ${p}`)
     }
+  }
+  assert.deepEqual(mappa.blocchi['EC-04'].pagine, ['/confronto-bracciali-anziani/'])
+  assert.deepEqual(mappa.blocchi['EC-12'].pagine, ['/guida-dispositivi-medici-teleassistenza/'])
+  // EC-03 (JSON-LD Product/MedicalDevice/Offer): deve coprire ogni pagina pubblica con quel markup, altrimenti il purge ne dimentica una
+  for (const p of mappa.blocchi['EC-03'].pagine.concat(['/'])) assert.ok(mappa.blocchi['EC-03'].pagine.includes(p))
+  const conMarkup = ['/', '/bracciale-anziani-detraibile/', '/come-funziona-bracciale-ecura/', '/confronto-bracciali-anziani/', '/guida-cadute-anziani/', '/guida-dispositivi-medici-teleassistenza/', '/recensioni-ecura-seremy-beghelli/']
+  for (const p of conMarkup) {
+    const h = fs.readFileSync('public' + (p.endsWith('/') ? p + 'index.html' : p), 'utf8')
+    if (/"@type":\s*"(?:Product|MedicalDevice)"/.test(h)) assert.ok(mappa.blocchi['EC-03'].pagine.includes(p), 'EC-03 deve includere ' + p)
   }
 })
 const PRIV = 'docs/claim-dm/_private/claim_matrix_seed.json'
+const PRIV_JSON = PRIV
 if (fs.existsSync(PRIV)) {
   await t('17 (locale, JSON reale): TRANSITORIA/AUTORIZZATA nel D1 = testo per testo del file della matrice; provvedimento NULL', async () => {
     const js = JSON.parse(fs.readFileSync(PRIV, 'utf8')); const db = dbVuoto()
@@ -389,5 +397,62 @@ if (fs.existsSync(PRIV)) {
     assert.equal(await conta(db, "SELECT COUNT(*) c FROM claim_blocks WHERE block_id IN ('EC-07','EC-08','EC-09','EC-10','EC-11')"), 0)
   })
 } else console.log('--  17 (JSON reale) saltato: file privato assente (atteso in CI)')
+
+// ---- regola 22/11: ORIGINALE con testo vuoto => il blocco non sostituisce nulla (contenuto statico del template intatto) ----
+await t('ORIGINALE con testo vuoto → contenuto statico intatto (statico=true, nessun testo, nessun riferimento)', () => {
+  for (const v of ['', '   \n']) {
+    const r = L.risolviBlocco(row({ block_id: 'EC-02', versione_originale: v }), NOW)
+    assert.equal(r.stato_effettivo, 'ORIGINALE'); assert.equal(r.statico, true); assert.equal(r.testo, ''); assert.equal(r.riferimento, '')
+  }
+})
+await t('ORIGINALE con testo → sostituisce (statico=false); TRANSITORIA vuota NON e\' statico (nessun output, non il vecchio contenuto)', () => {
+  assert.equal(L.risolviBlocco(row(), NOW).statico, false)
+  const r = L.risolviBlocco(row({ stato_replicato: 'TRANSITORIA', versione_transitoria: '', versione_originale: '' }), NOW)
+  assert.equal(r.statico, false); assert.equal(r.testo, '')
+})
+await t('ORIGINALE vuota + replica stale/assente → TRANSITORIA (mai statico = mai il contenuto originale per default)', () => {
+  for (const o of [{ stato_replicato: null, stato_replicato_at: null }, { stato_replicato_at: ago(24 * 60 + 1) }]) {
+    const r = L.risolviBlocco(row({ versione_originale: '', ...o }), NOW); assert.equal(r.stato_effettivo, 'TRANSITORIA'); assert.equal(r.statico, false); assert.equal(r.testo, 'TESTO-TRANS')
+  }
+})
+await t('EC-02 inerte: seed senza ORIGINALE → blocco statico finche\' non mappato; dopo la mappatura (admin) sostituisce', async () => {
+  const db = dbVuoto(); await applicaSeed(db, righe(sintetico, { ...origSint, 'EC-02': '' }), NOW)
+  await db.prepare("UPDATE claim_blocks SET stato_replicato='ORIGINALE', stato_replicato_at=?").bind(ago(1)).run()
+  const tutti = await L.risolviTutti(db, NOW)
+  assert.equal(tutti['EC-02'].statico, true); assert.equal(tutti['EC-02'].testo, '')
+  assert.equal(tutti['EC-03'].statico, false); assert.equal(tutti['EC-03'].testo, 'ORIG-EC-03')
+})
+
+// ---- riferimento all'autorizzazione: formato da claim_config (migrazione 0032), gg/mm/aaaa, solo con entrambi i campi ----
+const FMT_REALE = 'Autorizzato dal Ministero della Salute con provvedimento n. {numero_provvedimento} del {data_autorizzazione}'
+await t('0032: formato del riferimento in claim_config (valore di configurazione, non nel codice); non sovrascrive un valore gia\' impostato', async () => {
+  const db = nuovoDb(['migrations/0010_claim_blocks.sql', 'migrations/0032_claim_formato_riferimento.sql'])
+  assert.equal((await L.leggiConfig(db)).formatoRiferimento, FMT_REALE)
+  const db2 = nuovoDb(['migrations/0010_claim_blocks.sql']); await db2.prepare("UPDATE claim_config SET valore='MIO {numero}' WHERE chiave='formato_riferimento_autorizzazione'").run()
+  db2.raw.exec(fs.readFileSync('migrations/0032_claim_formato_riferimento.sql', 'utf8'))
+  assert.equal((await L.leggiConfig(db2)).formatoRiferimento, 'MIO {numero}')
+})
+await t('riferimento: segnaposti {numero_provvedimento}/{data_autorizzazione}, data gg/mm/aaaa, solo con ENTRAMBI i campi', () => {
+  const f = { formatoRiferimento: FMT_REALE }; const a = { stato_replicato: 'AUTORIZZATA', versione_autorizzata: 'AUT' }
+  assert.equal(L.risolviBlocco(row({ ...a, numero_provvedimento: '12345', data_autorizzazione: '2027-03-09' }), NOW, f).riferimento, 'Autorizzato dal Ministero della Salute con provvedimento n. 12345 del 09/03/2027')
+  for (const o of [{ numero_provvedimento: '12345' }, { data_autorizzazione: '2027-03-09' }, { numero_provvedimento: ' ', data_autorizzazione: '2027-03-09' }, {}]) assert.equal(L.risolviBlocco(row({ ...a, ...o }), NOW, f).riferimento, '', JSON.stringify(o))
+})
+
+// ---- EC-01 TRANSITORIA ripulita (voce 6 del 22/11): il seed resta fedele al JSON, la versione pulita si applica in admin ----
+const EC01_PULITA = 'docs/claim-dm/_private/EC-01_transitoria_ripulita.txt'
+if (fs.existsSync(EC01_PULITA)) {
+  await t('EC-01 TRANSITORIA ripulita (locale): nessun avviso di pubblicabilita\'; due paragrafi; applicata in admin registra la correzione come revisione', async () => {
+    const testo = fs.readFileSync(EC01_PULITA, 'utf8').trim()
+    assert.deepEqual(L.controllaPubblicabilita(testo, 'versione_transitoria'), [])
+    assert.equal(testo.split(/\n\s*\n/).length, 2)
+    const db = dbVuoto(); await applicaSeed(db, righe(JSON.parse(fs.readFileSync(PRIV_JSON, 'utf8')), estraiOriginali(SNAP)), NOW)
+    assert.ok(L.controllaPubblicabilita((await db.prepare("SELECT versione_transitoria v FROM claim_blocks WHERE block_id='EC-01'").first()).v).length > 0, 'prima della pulizia il seed e\' segnalato')
+    const r = await L.salvaBlocco(db, 'EC-01', { versione_transitoria: testo, motivo: 'Pulizia: rimosse etichette/note interne della matrix' }, 'mario', NOW)
+    assert.equal(r.ok, true)
+    const rev = await db.prepare("SELECT testo_precedente p, testo_nuovo n, tipo FROM claim_blocks_revisions WHERE block_id='EC-01' AND campo='versione_transitoria' ORDER BY id DESC LIMIT 1").first()
+    assert.equal(rev.tipo, 'modifica'); assert.equal(rev.n, testo); assert.ok(rev.p.includes('TEMA HERO'))
+    assert.equal(L.avvisiBlocco(await db.prepare("SELECT * FROM claim_blocks WHERE block_id='EC-01'").first()).versione_transitoria, undefined)
+  })
+}
 
 console.log(`\n${n} test OK`)
