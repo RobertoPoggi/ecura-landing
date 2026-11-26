@@ -213,8 +213,10 @@
           <div class="font-semibold text-slate-700 mb-1">Snapshot del testo pubblicato prima dell&#39;intervento</div>
           <div id="claims-leggibile-testo" class="whitespace-pre-wrap text-slate-700 max-h-40 overflow-auto"></div>
         </div>
-        <div id="claims-html-label" class="hidden text-xs text-gray-500 mb-1"><i class="fas fa-code mr-1"></i>HTML originale (sorgente delle revisioni)</div>
-        <textarea id="claims-text" rows="14" class="w-full border border-gray-300 rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#068D86]"></textarea>
+        <details id="claims-html-details" class="mb-1" open>
+          <summary id="claims-html-summary" class="hidden cursor-pointer select-none text-xs text-gray-500 py-1 hover:text-gray-700"><i class="fas fa-code mr-1"></i>HTML originale (sorgente delle revisioni) &mdash; clicca per aprire</summary>
+          <textarea id="claims-text" rows="14" class="w-full border border-gray-300 rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#068D86]"></textarea>
+        </details>
         <div id="claims-prov" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1">Numero provvedimento (opzionale)</label>
@@ -683,10 +685,14 @@ function selectClaimTab(tab, keep = true) {
   const w = document.getElementById('claims-warn'), av = (claimWarn || {})[tab] || [];
   if (av.length) { w.classList.remove('hidden'); w.innerHTML = '<b>Da rivedere prima del go-live:</b> questo testo ' + av.map(x => esc(CLAIM_WARN_TXT[x] || x)).join('; ') + '. Se lo stato effettivo lo richiedesse, verrebbe pubblicato cosi\' com\'e\'.'; }
   else w.classList.add('hidden');
-  const lab = document.getElementById('claims-html-label');
-  if (lab) lab.classList.toggle('hidden', !(tab === 'versione_originale' && claimLeggibile));
+  // ORIGINALE con snapshot leggibile: HTML chiuso in un <details> (raggiungibile, non invadente).
+  const det = document.getElementById('claims-html-details');
+  const sum = document.getElementById('claims-html-summary');
+  const soloLeggibile = (tab === 'versione_originale' && !!claimLeggibile);
+  if (det) { if (soloLeggibile) det.removeAttribute('open'); else det.setAttribute('open', ''); }
+  if (sum) sum.classList.toggle('hidden', !soloLeggibile);
   const ta = document.getElementById('claims-text');
-  if (ta) ta.rows = (tab === 'versione_originale' && claimLeggibile) ? 6 : 14;
+  if (ta) ta.rows = soloLeggibile ? 8 : 14;
   mostraClaimLeggibile();
   document.querySelectorAll('.claims-tab').forEach(b => {
     const on = b.dataset.tab === tab;
