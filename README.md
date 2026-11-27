@@ -45,6 +45,8 @@ Il JSON-LD `MedicalDevice` / `Product` / `offers` e' emesso solo se EC-03 emette
 
 **Endpoint interni** (Bearer `CLAIM_SYNC_TOKEN`): `POST /internal/claim-blocks/sync`, `GET /internal/claim-blocks/health`, `POST /internal/claim-blocks/purge`, `POST /internal/claim-blocks/riconcilia`.
 
+**Principio ORIGINALE ("al primo giro vince il sito, poi vince D1")**: `POST /internal/claim-blocks/capture-original` (Bearer `CLAIM_SYNC_TOKEN`, body opzionale `{block_ids:[...]}`) legge i template di bordo (regioni `<!--claim:EC-XX-->`), li confronta byte per byte con `versione_originale` e, solo dove differiscono, sovrascrive D1 con revisione (`sistema/sync-originale`, tipo `sync_originale`) e invalida le pagine. Esito per blocco: `invariato` | `aggiornato` | `non_mappato` (EC-02, EC-06) | `errore`. Idempotente: un secondo giro senza modifiche ai template non scrive nulla. Il CRM la chiama prima del sync quando lo stato salvato e' ORIGINALE; con TRANSITORIA/AUTORIZZATA non viene eseguita.
+
 **Seed e script** (`scripts/claim-dm/`): `seed.mjs` (tabella di controllo; con `--sql` scrive `docs/claim-dm/_private/seed.sql`, ignorato da git), `inserisci-marker.mjs`, `genera-blocchi.mjs`, `census.mjs`. ORIGINALE si estrae solo dallo snapshot live in `docs/claim-dm/snapshot-live-*`, mai dal campo `elemento_originale_rilevato` della matrice. Il seed e' idempotente: non tocca i blocchi gia' presenti. EC-02 e EC-06 non hanno ancora una regione mappata e restano inerti.
 
 Seed di produzione (dopo il merge e dopo aver impostato i secret): `npx wrangler d1 execute ecura-landing-db --remote --file docs/claim-dm/_private/seed.sql`.
